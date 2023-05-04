@@ -13,6 +13,7 @@ import { AiFillSetting, AiFillYoutube } from "react-icons/ai";
 import { FiMenu } from "react-icons/fi";
 import { BsFillHeartFill, BsSearch } from "react-icons/bs";
 import Logo from "@/components/Logo";
+import Link from "next/link";
 
 const Headerbar = () => {
   return (
@@ -145,10 +146,14 @@ const Headerbar = () => {
             </button>
           </form>
           <span className="flex items-center justify-between gap-6 text-gray-600">
-            <button type="button" className="flex items-center gap-2">
+            <Link
+              href={"register"}
+              type="button"
+              className="flex items-center gap-2"
+            >
               <FaUserAlt />
               <p className="text-gray-500 text-xs uppercase">login</p>
-            </button>
+            </Link>
             <button className="flex items-center gap-2">
               <BsFillHeartFill />
               <p className="text-gray-500 text-xs uppercase">1</p>
