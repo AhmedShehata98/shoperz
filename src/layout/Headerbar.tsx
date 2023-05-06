@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { FaUserAlt, FaShoppingCart } from "react-icons/fa";
 import { FiMenu } from "react-icons/fi";
 import { BsFillHeartFill, BsSearch } from "react-icons/bs";
@@ -6,10 +6,13 @@ import Logo from "@/components/Logo";
 import Link from "next/link";
 import HeaderUpperbar from "@/components/HeaderUpperbar";
 import HeaderCategorybar from "@/components/HeaderCategorybar";
+import CartDrawer from "./CartDrawer";
 
 const Headerbar = () => {
+  const [showCartDrawer, setShowCartDrawer] = useState(false);
   return (
     <header className="flex flex-col w-full h-fit bg-gray-100">
+      {showCartDrawer && <CartDrawer setShowDrower={setShowCartDrawer} />}
       <section className="container max-w-5xl mx-auto flex flex-col justify-between items-center gap-3">
         <HeaderUpperbar />
         <div className="w-full flex items-center justify-between px-2 pb-4">
@@ -75,7 +78,10 @@ const Headerbar = () => {
               <BsFillHeartFill />
               <p className="text-gray-500 text-xs uppercase">1</p>
             </button>
-            <button className="flex items-center gap-2">
+            <button
+              className="flex items-center gap-2"
+              onClick={() => setShowCartDrawer(true)}
+            >
               <FaShoppingCart />
               <p className="text-gray-500 text-xs uppercase"> 4</p>
             </button>

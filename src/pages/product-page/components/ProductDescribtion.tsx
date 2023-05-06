@@ -1,5 +1,6 @@
 import React from "react";
 import { AiFillStar, AiOutlineStar } from "react-icons/ai";
+import RatingStars from "./RatingStars";
 
 function ProductDescribtion() {
   return (
@@ -11,14 +12,7 @@ function ProductDescribtion() {
         Lorem ipsum dolor sit amet consectetur, adipisicing elit. Vel
         temporibus.
       </h4>
-      <span className="w-full flex items-center justify-start text-xl text-orange-500 mb-3">
-        <AiFillStar />
-        <AiFillStar />
-        <AiFillStar />
-        <AiFillStar />
-        <AiOutlineStar />
-        <p className="text-gray-500 ms-4">4.0 (Rate)</p>
-      </span>
+      <RatingStars />
       <ul className="flex gap-2 flex-col list-disc text-gray-700 my-3">
         <li className="ms-6 leading-4">
           <p>
