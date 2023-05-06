@@ -1,100 +1,20 @@
-import React from "react";
-import {
-  FaFacebookF,
-  FaInstagram,
-  FaTwitter,
-  FaShoppingBasket,
-  FaUserAlt,
-  FaShoppingCart,
-} from "react-icons/fa";
-import { IoLocation, IoLanguageOutline } from "react-icons/io5";
-import { ImEarth } from "react-icons/im";
-import { AiFillSetting, AiFillYoutube } from "react-icons/ai";
+import React, { useState } from "react";
+import { FaUserAlt, FaShoppingCart } from "react-icons/fa";
 import { FiMenu } from "react-icons/fi";
 import { BsFillHeartFill, BsSearch } from "react-icons/bs";
 import Logo from "@/components/Logo";
 import Link from "next/link";
+import HeaderUpperbar from "@/components/HeaderUpperbar";
+import HeaderCategorybar from "@/components/HeaderCategorybar";
+import CartDrawer from "./CartDrawer";
 
 const Headerbar = () => {
+  const [showCartDrawer, setShowCartDrawer] = useState(false);
   return (
     <header className="flex flex-col w-full h-fit bg-gray-100">
+      {showCartDrawer && <CartDrawer setShowDrower={setShowCartDrawer} />}
       <section className="container max-w-5xl mx-auto flex flex-col justify-between items-center gap-3">
-        <div className="w-full flex items-center justify-between">
-          <nav className="w-fit flex gap-3 py-2">
-            <label
-              htmlFor=""
-              className="flex gap-1 items-center justify-center text-gray-700 text-sm font-medium capitalize px-2"
-            >
-              <IoLanguageOutline />
-              <select
-                name="language-list"
-                id="language"
-                className="bg-gray-100 focus:outline-none"
-              >
-                <option value="ar">ar</option>
-                <option value="en">en</option>
-              </select>
-            </label>
-            <label
-              htmlFor=""
-              className="flex gap-1 items-center justify-center text-gray-700 text-sm font-medium capitalize px-2"
-            >
-              <ImEarth />
-              <select
-                name="country-list"
-                id="country"
-                className="bg-gray-100 focus:outline-none"
-              >
-                <option value="Egypt">Egypt</option>
-              </select>
-            </label>
-          </nav>
-          <div className="flex gap-7 py-2 divide-x-2 divide-gray-300">
-            <nav className="flex gap-4 text-lg text-gray-600">
-              <a href="#">
-                <FaFacebookF />
-              </a>
-              <a href="#">
-                <FaInstagram />
-              </a>
-              <a href="#">
-                <FaTwitter />
-              </a>
-              <a href="#">
-                <AiFillYoutube />
-              </a>
-            </nav>
-            <nav className="flex text-base gap-2 text-gray-600 px-2 divide-x-2 divide-gray-300">
-              <a
-                href="#"
-                className="flex items-center justify-center gap-2 px-2"
-              >
-                <IoLocation />
-                <p className="text-xs uppercase text-gray-500">track order</p>
-              </a>
-              <a
-                href="#"
-                className="flex items-center justify-center gap-2 px-2"
-              >
-                <FaShoppingBasket />
-                <p className="text-xs uppercase text-gray-500">shop</p>
-              </a>
-              <a
-                href="#"
-                className="flex items-center justify-center gap-2 px-2"
-              >
-                <AiFillSetting />
-                <p className="text-xs uppercase text-gray-500">settings</p>
-              </a>
-              <a
-                href="#"
-                className="flex items-center justify-center gap-2 px-2"
-              >
-                <p className="text-xs uppercase text-gray-500">faq</p>
-              </a>
-            </nav>
-          </div>
-        </div>
+        <HeaderUpperbar />
         <div className="w-full flex items-center justify-between px-2 pb-4">
           <span className="flex items-center justify-center gap-8">
             <button className="text-2xl text-gray-600">
@@ -158,13 +78,17 @@ const Headerbar = () => {
               <BsFillHeartFill />
               <p className="text-gray-500 text-xs uppercase">1</p>
             </button>
-            <button className="flex items-center gap-2">
+            <button
+              className="flex items-center gap-2"
+              onClick={() => setShowCartDrawer(true)}
+            >
               <FaShoppingCart />
               <p className="text-gray-500 text-xs uppercase"> 4</p>
             </button>
           </span>
         </div>
       </section>
+      <HeaderCategorybar />
     </header>
   );
 };
