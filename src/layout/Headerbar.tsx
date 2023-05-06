@@ -14,7 +14,6 @@ import { FiMenu } from "react-icons/fi";
 import { BsFillHeartFill, BsSearch } from "react-icons/bs";
 import Logo from "@/components/Logo";
 import Link from "next/link";
-import Button from "@/components/Button";
 
 const Headerbar = () => {
   return (
