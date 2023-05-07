@@ -7,64 +7,39 @@ import Link from "next/link";
 import HeaderUpperbar from "@/components/HeaderUpperbar";
 import HeaderCategorybar from "@/components/HeaderCategorybar";
 import CartDrawer from "./CartDrawer";
+import SlideMenu from "@/layout/SlideMenu";
+import InputField from "@/components/InputField";
+// interface MenuItem {
+//   label: string;
+//   href: string;
+// }
 
+// interface SlideableMenuProps {
+//   items: MenuItem[];
+// }
 const Headerbar = () => {
   const [showCartDrawer, setShowCartDrawer] = useState(false);
+  const [showMenu, setShowMenu] = useState(false);
   return (
     <header className="flex flex-col w-full h-fit bg-gray-100">
       {showCartDrawer && <CartDrawer setShowDrower={setShowCartDrawer} />}
+      {showMenu && <SlideMenu setShowMenu={setShowMenu} />}
+
       <section className="container max-w-5xl mx-auto flex flex-col justify-between items-center gap-3">
         <HeaderUpperbar />
-        <div className="w-full flex items-center justify-between px-2 pb-4">
+        <div className="w-full flex items-center  justify-between px-2 pb-4">
           <span className="flex items-center justify-center gap-8">
-            <button className="text-2xl text-gray-600">
+            <button
+              onClick={() => setShowMenu(true)}
+              className="text-2xl text-gray-600 lg:hidden"
+            >
               <FiMenu />
             </button>
             <Logo />
           </span>
-          <form
-            action=""
-            className="flex h-9 w-fit border-2 border-sky-600 rounded-full overflow-hidden"
-          >
-            <input
-              type="search"
-              name="search-for-products"
-              id="app-search-field"
-              placeholder="search for products .."
-              className="w-[70%] text-gray-600 bg-inherit h-full text-sm rounded-full px-3 focus:outline-none focus:bg-white"
-            />
-            <select
-              name="select-category"
-              id="categories"
-              value={"all categories"}
-              className="w-1/3 text-gray-500 uppercase text-sm bg-inherit accent-gray-700 focus:outline-none focus:border-sky-600"
-            >
-              <option value="all categories">all categories</option>
-              <option value="electronics">electronics</option>
-              <option value="ketchin">ketchin</option>
-              <option value="garden">garden</option>
-              <option value="sports">sports</option>
-              <option value="mens">mens</option>
-              <option value="womens">womens</option>
-              <option value="computers & accessories">
-                computers & accessories
-              </option>
-              <option value="mobiles & accessories">
-                mobiles & accessories
-              </option>
-              <option value="helthey">helthey</option>
-              <option value="gifts">gifts</option>
-              <option value="toys">toys</option>
-              <option value="TV & Audio">TV & Audio</option>
-            </select>
-            <button
-              type="submit"
-              id="search0btn"
-              className="w-14 bg-sky-600 px-4 hover:bg-sky-500"
-            >
-              <BsSearch />
-            </button>
-          </form>
+          <div className="max-lg:hidden">
+            <InputField />
+          </div>
           <span className="flex items-center justify-between gap-6 text-gray-600">
             <Link
               href={"register"}
@@ -88,7 +63,9 @@ const Headerbar = () => {
           </span>
         </div>
       </section>
-      <HeaderCategorybar />
+      <div className="max-lg:hidden">
+        <HeaderCategorybar />
+      </div>
     </header>
   );
 };
