@@ -2,9 +2,7 @@ import Headerbar from "@/layout/Headerbar";
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 import { useRouter } from "next/router";
-export const metadata: Metadata = {
-  title: "shoperz",
-};
+
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
 

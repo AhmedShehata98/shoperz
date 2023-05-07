@@ -96,7 +96,8 @@ module.exports = {
         },
       },
       fontFamily: {
-        sans: ["var(--font-roboto)", ...fontFamily.sans],
+        // sans: ["var(--font-roboto)", ...fontFamily.sans],
+        roboto: ["var(--font-roboto)"],
       },
     },
   },

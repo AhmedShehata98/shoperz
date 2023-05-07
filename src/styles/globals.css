@@ -1,4 +1,9 @@
 @tailwind base;
+@layer base {
+  body {
+    font-family: var(--font-roboto);
+  }
+}
 @tailwind components;
 @tailwind utilities;
 @layer components {

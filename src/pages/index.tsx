@@ -1,20 +1,23 @@
-import Image from "next/image";
 import { Inter } from "next/font/google";
 import { Roboto } from "next/font/google";
+import type { Metadata } from "next";
+import Head from "next/head";
 
-const inter = Inter({ subsets: ["latin"] });
-const roboto = Roboto({
+export const inter = Inter({ subsets: ["latin"], display: "swap" });
+export const roboto = Roboto({
   subsets: ["latin"],
-  variable: "--font-roboto",
+  // variable: "--font-roboto",
+  display: "swap",
   weight: ["400", "300", "500", "700"],
 });
+export const metadata: Metadata = {
+  title: "Shoperz | home",
+  description: "is a e-commerce website",
+};
 export default function Home() {
   return (
     <>
-      <head>
-        <title>Shoperz</title>
-      </head>
-      <main className={`${roboto.variable} font-sans`}></main>
+      <main className={`font-roboto`}></main>
     </>
   );
 }
