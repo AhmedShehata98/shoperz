@@ -68,7 +68,10 @@ function CartDrawer({ setShowDrower, cartItems = [] }: CartDrawerProps) {
           <div className="w-full px-2 flex flex-col">
             <ul className="w-full grid grid-flow-row-dense gap-4 mb-5 mt-2">
               {cartItems.map((item) => (
-                <li className="flex gap-3 items-center justify-between p-3 rounded-md hover:bg-gray-100">
+                <li
+                  key={item.price}
+                  className="flex gap-3 items-center justify-between p-3 rounded-md hover:bg-gray-100"
+                >
                   <figure className="w-16 rounded-md">
                     <img
                       src={item?.image}
