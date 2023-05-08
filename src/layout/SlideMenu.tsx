@@ -17,9 +17,18 @@ type Props = {
 };
 
 const SlideMenu = ({ setShowMenu }: Props) => {
+  const slideMenuVariant = {
+    hidden: { opacity: 0, translateX: "-25px" },
+    visible: { opacity: 1, translateX: "0px" },
+  };
   return (
     <div className="absolute z-20 bg-slate-700 inset-0 bg-opacity-60 flex flex-col md:flex-row items-start justify-start md:justify-start">
-      <article className="w-full md:w-2/5 lg:w-1/3 h-full min-h-screen flex flex-col items-center justify-start bg-white px-5 md:px-3 py-1 md:py-0 rounded-t-3xl md:rounded-none">
+      <motion.article
+        variants={slideMenuVariant}
+        initial={"hidden"}
+        animate={"visible"}
+        className="w-full md:w-2/5 lg:w-1/3 h-full min-h-screen flex flex-col items-center justify-start bg-white px-5 md:px-3 py-1 md:py-0 rounded-t-3xl md:rounded-none"
+      >
         <div className="py-4 flex justify-between items-center w-full">
           <Logo />
           <div className=" flex items-center justify-center px-3 py-1 md:hidden">
@@ -83,7 +92,7 @@ const SlideMenu = ({ setShowMenu }: Props) => {
             </a>
           </nav>
         </div>
-      </article>
+      </motion.article>
       <div className="w-full md:w-min md:h-full flex items-center justify-center px-3 my-2 md:my-0">
         <button
           className="bg-white p-3 rounded-full shadow-lg text-lg"
