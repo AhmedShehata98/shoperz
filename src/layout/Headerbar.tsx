@@ -97,9 +97,7 @@ const Headerbar = () => {
           </span>
         </div>
       </section>
-      <div className="max-lg:hidden">
-        <HeaderCategorybar />
-      </div>
+      <HeaderCategorybar />
     </header>
   );
 };
