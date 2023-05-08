@@ -11,7 +11,7 @@ import { AiFillSetting, AiFillYoutube } from "react-icons/ai";
 
 export default function HeaderUpperbar() {
   return (
-    // where we put language and country select
+    // where we need  to put language and country select
     <div className="w-full flex items-center justify-between max-lg:hidden">
       <nav className="w-fit flex gap-3 py-2 max-lg:justify-between max-lg:w-full">
         <label
