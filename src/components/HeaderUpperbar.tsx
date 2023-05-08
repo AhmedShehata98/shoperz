@@ -11,8 +11,9 @@ import { AiFillSetting, AiFillYoutube } from "react-icons/ai";
 
 export default function HeaderUpperbar() {
   return (
-    <div className="w-full flex items-center justify-between">
-      <nav className="w-fit flex gap-3 py-2">
+    // where we put language and country select
+    <div className="w-full flex items-center justify-between max-lg:hidden">
+      <nav className="w-fit flex gap-3 py-2 max-lg:justify-between max-lg:w-full">
         <label
           htmlFor=""
           className="flex gap-1 items-center justify-center text-gray-700 text-sm font-medium capitalize px-2"
@@ -41,8 +42,8 @@ export default function HeaderUpperbar() {
           </select>
         </label>
       </nav>
-      <div className="flex gap-7 py-2 divide-x-2 divide-gray-300">
-        <nav className="flex gap-4 text-lg text-gray-600">
+      <div className="flex gap-7 py-2 divide-x-2 max-lg:hidden divide-gray-300">
+        <nav className="flex gap-4 text-lg text-gray-600 ">
           <a href="#">
             <FaFacebookF />
           </a>

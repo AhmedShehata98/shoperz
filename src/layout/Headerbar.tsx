@@ -21,7 +21,7 @@ const Headerbar = () => {
   const [showCartDrawer, setShowCartDrawer] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
   return (
-    <header className="flex flex-col w-full h-fit bg-gray-100">
+    <header className="flex flex-col w-full h-fit bg-white">
       {showCartDrawer && (
         <CartDrawer
           setShowDrower={setShowCartDrawer}
@@ -61,7 +61,7 @@ const Headerbar = () => {
 
       <section className="container max-w-5xl mx-auto flex flex-col justify-between items-center gap-3">
         <HeaderUpperbar />
-        <div className="w-full flex items-center  justify-between px-2 pb-4">
+        <div className="w-full flex items-center  justify-between px-2 max-lg:pt-4 pb-4">
           <span className="flex items-center justify-center gap-8">
             <button
               onClick={() => setShowMenu(true)}
@@ -97,7 +97,9 @@ const Headerbar = () => {
           </span>
         </div>
       </section>
-      <HeaderCategorybar />
+      <div className="max-lg:hidden">
+        <HeaderCategorybar />
+      </div>
     </header>
   );
 };
