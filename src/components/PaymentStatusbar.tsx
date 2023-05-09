@@ -9,7 +9,7 @@ interface PaymentStatusbarProps {
 
 function PaymentStatusbar({ currentPage }: PaymentStatusbarProps) {
   return (
-    <header className="h-20 w-full flex items-center justify-center bg-Grey-200">
+    <header className="h-20 w-full flex items-center justify-center bg-Grey-100">
       <ul className="flex items-center justify-center gap-2">
         <li className="flex items-center justify-center gap-2 capitalize font-medium">
           {currentPage === "Shopping Cart" && (
