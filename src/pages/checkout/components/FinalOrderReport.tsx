@@ -12,7 +12,7 @@ interface OrderReportProps {
     quantity: number;
   }>;
 }
-function OrderReport({ orders }: OrderReportProps) {
+function FinalOrderReport({ orders }: OrderReportProps) {
   const [discount, setDiscount] = useState(0);
   const [total, setTotal] = useState(0);
   const [orderTotal, setOrderTotal] = useState(0);
@@ -32,12 +32,15 @@ function OrderReport({ orders }: OrderReportProps) {
     setTotal(calcTotal || 0);
     setOrderTotal(calcOrderTotal);
   }, [orders, total]);
-
   return (
-    <ul className="w-full md:w-1/3 border-2 border-Grey-100 rounded-md p-3 mt-6">
+    <ul className="w-full lg:w-1/3 border-2 border-Grey-100 rounded-md p-3 mt-6">
       <li className="flex items-center justify-between gap-4 capitalize mb-3">
         <p className="text-Grey-600 text-sm font-medium">sub-total </p>
         <b>L.E {total},00</b>
+      </li>
+      <li className="flex items-center justify-between gap-4 capitalize mb-3">
+        <p className="text-Grey-600 text-sm font-medium">shipping</p>
+        <b>alexsandria ,EG%</b>
       </li>
       <li className="flex items-center justify-between gap-4 capitalize mb-3">
         <p className="text-Grey-600 text-sm font-medium">discount</p>
@@ -57,14 +60,14 @@ function OrderReport({ orders }: OrderReportProps) {
           apply coupon
         </button>
       </form>
-      <span className="capitalize text-Grey-700 text-sm">
-        get free <b>shipping</b> for orders over{" "}
-        <mark className="bg-transparent text-red-500 font-medium">
-          L.E 1000
-        </mark>{" "}
-        <a href="/all-products" className="underline font-bold">
-          continue shopping
-        </a>
+      <span className="flex flex-col gap-3 p-3 capitalize text-Grey-700 text-sm">
+        <p className="leading-4">
+          I confirm that my address is 100% correct and WILL NOT hold Top Shelf
+          BC liable if this shipment is sent to an incorrect address. *
+        </p>
+        <p className="leading-4">
+          Sign me up to receive email updates and news (optional)
+        </p>
       </span>
       <button className="w-full flex items-center justify-center gap-4 px-4 py-3 rounded-full capitalize text-white bg-Primary-700 font-semibold mt-7 mb-3 hover:bg-Primary-600">
         <p>checkout </p> <i>|</i> <p>L.E-{orderTotal}</p>
@@ -83,4 +86,4 @@ function OrderReport({ orders }: OrderReportProps) {
   );
 }
 
-export default OrderReport;
+export default FinalOrderReport;
