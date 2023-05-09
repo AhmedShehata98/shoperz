@@ -16,7 +16,7 @@ interface CartProps {
 }
 export default function Cart({ cartItems = [] }: CartProps) {
   return (
-    <div className="w-3/5">
+    <div className="w-full md:w-3/5">
       <header className="w-full py-6 flex items-center justify-between border-b-2 border-Grey-400">
         <h3 className="capitalize font-semibold text-xl">your cart</h3>
         <p className="text-gray-500">({cartItems.length})</p>
@@ -34,7 +34,7 @@ export default function Cart({ cartItems = [] }: CartProps) {
       )}
       {cartItems.length > 0 && (
         <div className="w-full flex flex-col">
-          <ul className="w-full grid grid-flow-row-dense gap-4 mb-5 mt-2">
+          <ul className="w-full grid grid-flow-row-dense gap-4 mb-5 mt-2 divide-y">
             {cartItems.map((item) => (
               <li
                 key={item.price}

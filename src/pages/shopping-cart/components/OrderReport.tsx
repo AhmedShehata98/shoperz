@@ -1,4 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
+import visaLogo from "../../../assets/icons/visa.png";
+import mastercardLogo from "../../../assets/icons/mastercard.svg";
+import paypalLogo from "../../../assets/icons/paypal.svg";
 
 interface OrderReportProps {
   orders?: Array<{
@@ -20,13 +23,18 @@ function OrderReport({ orders }: OrderReportProps) {
     [orders]
   );
 
+  const calcOrderTotal = useMemo(
+    () => total + shippingCost,
+    [total, shippingCost]
+  );
+
   useEffect(() => {
     setTotal(calcTotal || 0);
-    setOrderTotal(total + shippingCost);
-  }, [orders]);
+    setOrderTotal(calcOrderTotal);
+  }, [orders, total]);
 
   return (
-    <ul className="w-1/3 border-2 border-Grey-100 rounded-md p-3 mt-6">
+    <ul className="w-full md:w-1/3 border-2 border-Grey-100 rounded-md p-3 mt-6">
       <li className="flex items-center justify-between gap-4 capitalize mb-3">
         <p className="text-Grey-600 text-sm font-medium">sub-total </p>
         <b>L.E {total},00</b>
@@ -61,6 +69,16 @@ function OrderReport({ orders }: OrderReportProps) {
       <button className="w-full flex items-center justify-center gap-4 px-4 py-3 rounded-full capitalize text-white bg-Primary-700 font-semibold mt-7 mb-3 hover:bg-Primary-600">
         <p>checkout </p> <i>|</i> <p>L.E-{orderTotal}</p>
       </button>
+      <div className="mt-8 mb-3">
+        <p className="text-gray-400 font-medium text-sm">
+          SECURE PAYMENTS PROVIDED BY
+        </p>
+        <span className="flex items-center gap-9 lg:gap-6">
+          <img src={visaLogo.src} alt="payments-logo" />
+          <img src={mastercardLogo.src} alt="payments-logo" />
+          <img src={paypalLogo.src} alt="payments-logo" />
+        </span>
+      </div>
     </ul>
   );
 }

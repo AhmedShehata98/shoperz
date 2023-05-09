@@ -6,6 +6,8 @@ import { AiOutlineCloseCircle } from "react-icons/ai";
 import { FaCcMastercard, FaCcVisa } from "react-icons/fa";
 import { MdPayment } from "react-icons/md";
 import { FaEquals } from "react-icons/fa";
+import Link from "next/link";
+import { routes } from "../constants/Routes";
 interface CartDrawerProps {
   setShowDrower: React.Dispatch<React.SetStateAction<boolean>>;
   cartItems?: Array<{
@@ -31,12 +33,7 @@ function CartDrawer({ setShowDrower, cartItems = [] }: CartDrawerProps) {
   }, [cartItems]);
 
   return (
-    <motion.div
-      variants={cartVariants}
-      initial={"hidden"}
-      animate={"visible"}
-      className="absolute z-20 bg-slate-700 inset-0 bg-opacity-60 flex flex-col md:flex-row items-start justify-start md:justify-end overflow-hidden"
-    >
+    <div className="absolute z-20 bg-slate-700 inset-0 bg-opacity-60 flex flex-col md:flex-row items-start justify-start md:justify-end overflow-hidden">
       <div className="w-full md:w-min md:h-full flex items-center justify-center px-3 my-2 md:my-0">
         <button
           className="bg-white p-3 rounded-full shadow-lg text-lg"
@@ -46,7 +43,12 @@ function CartDrawer({ setShowDrower, cartItems = [] }: CartDrawerProps) {
           <IoIosArrowForward />
         </button>
       </div>
-      <article className="w-full md:w-2/5 lg:w-1/3 h-full min-h-screen flex flex-col items-center justify-start bg-white px-5 md:px-3 py-1 md:py-0 rounded-t-3xl md:rounded-none">
+      <motion.article
+        variants={cartVariants}
+        initial={"hidden"}
+        animate={"visible"}
+        className="w-full md:w-2/5 lg:w-1/3 h-full min-h-screen flex flex-col items-center justify-start bg-white px-5 md:px-3 py-1 md:py-0 rounded-t-3xl md:rounded-none"
+      >
         <header className="w-full py-4 flex items-center justify-between">
           <h3 className="capitalize font-semibold text-lg">your cart</h3>
           <p className="text-gray-500">({cartItems.length})</p>
@@ -118,10 +120,21 @@ function CartDrawer({ setShowDrower, cartItems = [] }: CartDrawerProps) {
                 <p>EGP</p>
               </span>
             </span>
-            <span className="w-full flex items-center justify-stretch mt-6 mb-3">
-              <button className="w-1/2 flex items-center justify-center gap-3 px-3 py-2 bg-sky-600 capitalize text-gray-50 rounded-full hover:bg-sky-500">
+            <span className="w-full flex flex-col sm:flex-row items-center justify-stretch gap-3 mt-6 mb-3">
+              <Link
+                href={routes.checkout}
+                className="w-full sm:w-1/2 flex items-center justify-center gap-3 px-3 py-2 bg-sky-600 capitalize text-gray-50 rounded-full hover:bg-sky-500"
+                onClick={() => setShowDrower(false)}
+              >
                 <p>checkout</p>
-              </button>
+              </Link>
+              <Link
+                href={routes.shoppingCart}
+                className="w-full sm:w-1/2 flex items-center justify-center gap-3 px-3 py-2 capitalize bg-Grey-900 text-white rounded-full hover:bg-Grey-800"
+                onClick={() => setShowDrower(false)}
+              >
+                <p>shopping cart</p>
+              </Link>
             </span>
             <span className="w-full flex items-stretch justify-center flex-col gap-2 mt-6 mb-4">
               <p className="uppercase font-medium text-gray-500">
@@ -135,8 +148,8 @@ function CartDrawer({ setShowDrower, cartItems = [] }: CartDrawerProps) {
             </span>
           </div>
         )}
-      </article>
-    </motion.div>
+      </motion.article>
+    </div>
   );
 }
 
