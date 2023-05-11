@@ -12,17 +12,17 @@ import { AiFillSetting, AiFillYoutube } from "react-icons/ai";
 export default function HeaderUpperbar() {
   return (
     // where we need  to put language and country select
-    <div className="w-full flex items-center justify-between max-lg:hidden">
+    <div className="w-full flex items-center justify-between">
       <nav className="w-fit flex gap-3 py-2 max-lg:justify-between max-lg:w-full">
         <label
           htmlFor=""
-          className="flex gap-1 items-center justify-center text-gray-700 text-sm font-medium capitalize px-2"
+          className="flex gap-1 items-center justify-center bg-white text-sm font-medium capitalize px-2"
         >
           <IoLanguageOutline />
           <select
             name="language-list"
             id="language"
-            className="bg-gray-100 focus:outline-none"
+            className="bg-white focus:outline-none w-24 h-8"
           >
             <option value="ar">ar</option>
             <option value="en">en</option>
@@ -30,13 +30,13 @@ export default function HeaderUpperbar() {
         </label>
         <label
           htmlFor=""
-          className="flex gap-1 items-center justify-center text-gray-700 text-sm font-medium capitalize px-2"
+          className="flex gap-1 items-center text-center justify-center text-gray-700 text-sm font-medium capitalize px-2"
         >
           <ImEarth />
           <select
             name="country-list"
             id="country"
-            className="bg-gray-100 focus:outline-none"
+            className="bg-white focus:outline-none w-24 h-8"
           >
             <option value="Egypt">Egypt</option>
           </select>

@@ -62,14 +62,16 @@ const Headerbar = () => {
       <section className="container max-w-5xl mx-auto flex flex-col justify-between items-center gap-3">
         <HeaderUpperbar />
         <div className="w-full flex items-center  justify-between px-2 max-lg:pt-4 pb-4">
-          <span className="flex items-center justify-center gap-8">
+          <span className="flex items-center justify-center max-md:gap-4 gap-8">
             <button
               onClick={() => setShowMenu(true)}
               className="text-2xl text-gray-600 lg:hidden"
             >
               <FiMenu />
             </button>
-            <Logo />
+            <div className="">
+              <Logo />
+            </div>
           </span>
           <div className="max-lg:hidden">
             <InputField />

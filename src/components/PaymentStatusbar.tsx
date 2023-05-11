@@ -29,7 +29,7 @@ function PaymentStatusbar({ currentPage }: PaymentStatusbarProps) {
           )}
           {/*  */}
           {currentPage === "Shopping Cart" && (
-            <p className=" text-gray-950 text-sm md:text-base">shopping cart</p>
+            <p className="text-gray-950 text-sm md:text-base">shopping cart</p>
           )}
           {currentPage === "checkout" && (
             <p className="hidden sm:block text-Primary-800 text-sm md:text-base">
