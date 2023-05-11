@@ -1,6 +1,5 @@
 import React from "react";
 import controller from "../assets/sliders/ds4_controller1-slide.png";
-import Image from "next/image";
 import iphone from "../assets/sliders/iph1-slide.png";
 import Watches from "../assets/sliders/Watche1-slide.png";
 import { Swiper, SwiperSlide } from "swiper/react";
