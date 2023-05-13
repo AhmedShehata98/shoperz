@@ -1,4 +1,5 @@
 export const routes = {
   checkout: "/checkout",
-  shoppingCart: "/shopping-cart",
+  shoppingCart: "/order",
+  register: "/register",
 };

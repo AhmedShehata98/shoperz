@@ -1,46 +1,43 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import visaLogo from "../../../assets/icons/visa.png";
 import mastercardLogo from "../../../assets/icons/mastercard.svg";
 import paypalLogo from "../../../assets/icons/paypal.svg";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  changeCurrentOrderComponent,
+  handleGetOrderDataById,
+  handleMargefullOrderData,
+  selectAppState,
+} from "@/redux/slices/app.slice";
 
-interface OrderReportProps {
-  orders?: Array<{
-    currency: string;
-    image: string;
-    price: number;
-    productName: string;
-    quantity: number;
-  }>;
-}
-function FinalOrderReport({ orders }: OrderReportProps) {
+interface OrderReportProps {}
+function FinalOrderReport() {
+  const { orderData } = useSelector(selectAppState);
+  const dispatch = useDispatch();
   const [discount, setDiscount] = useState(0);
-  const [total, setTotal] = useState(0);
-  const [orderTotal, setOrderTotal] = useState(0);
+  const subPrice = orderData.getById("shopping-order")["sub-price"];
   const shippingCost = 50;
 
-  const calcTotal = useMemo(
-    () => orders?.reduce((prev, curr) => prev + curr.price, 0),
-    [orders]
-  );
+  const getNextPage = useCallback(() => {
+    dispatch(changeCurrentOrderComponent("order-complete"));
+    dispatch(handleMargefullOrderData("order-complete"));
+  }, []);
 
-  const calcOrderTotal = useMemo(
-    () => total + shippingCost,
-    [total, shippingCost]
-  );
-
-  useEffect(() => {
-    setTotal(calcTotal || 0);
-    setOrderTotal(calcOrderTotal);
-  }, [orders, total]);
   return (
     <ul className="w-full lg:w-1/3 border-2 border-Grey-100 rounded-md p-3 mt-6">
       <li className="flex items-center justify-between gap-4 capitalize mb-3">
         <p className="text-Grey-600 text-sm font-medium">sub-total </p>
-        <b>L.E {total},00</b>
+        <b>
+          L.E {subPrice}
+          ,00
+        </b>
       </li>
       <li className="flex items-center justify-between gap-4 capitalize mb-3">
         <p className="text-Grey-600 text-sm font-medium">shipping</p>
-        <b>alexsandria ,EG%</b>
+        <b>
+          {/* {address.city} ,{address.country} */}
+          alexsandria - EG
+        </b>
       </li>
       <li className="flex items-center justify-between gap-4 capitalize mb-3">
         <p className="text-Grey-600 text-sm font-medium">discount</p>
@@ -69,8 +66,11 @@ function FinalOrderReport({ orders }: OrderReportProps) {
           Sign me up to receive email updates and news (optional)
         </p>
       </span>
-      <button className="w-full flex items-center justify-center gap-4 px-4 py-3 rounded-full capitalize text-white bg-Primary-700 font-semibold mt-7 mb-3 hover:bg-Primary-600">
-        <p>checkout </p> <i>|</i> <p>L.E-{orderTotal}</p>
+      <button
+        className="w-full flex items-center justify-center gap-4 px-4 py-3 rounded-full capitalize text-white bg-Primary-700 font-semibold mt-7 mb-3 hover:bg-Primary-600"
+        onClick={() => getNextPage()}
+      >
+        <p>checkout </p> <i>|</i> <p>L.E-{subPrice}</p>
       </button>
       <div className="mt-8 mb-3">
         <p className="text-gray-400 font-medium text-sm">

@@ -1,43 +1,86 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState, useCallback } from "react";
 import visaLogo from "../../../assets/icons/visa.png";
 import mastercardLogo from "../../../assets/icons/mastercard.svg";
 import paypalLogo from "../../../assets/icons/paypal.svg";
+import { useRouter } from "next/router";
+import { SinglyLinkedList } from "@/utils/SinglyLinkedList";
+import { useDispatch } from "react-redux";
+import {
+  changeCurrentOrderComponent,
+  handleAddToOrderData,
+  handleUpdateOrderData,
+} from "@/redux/slices/app.slice";
+
+/**
+ *
+ * Need Optimaize
+ *
+ */
 
 interface OrderReportProps {
   orders?: Array<{
-    currency: string;
-    image: string;
+    id: number;
+    title: string;
+    description: string;
     price: number;
-    productName: string;
-    quantity: number;
+    discountPercentage: number;
+    rating: number;
+    stock: number;
+    totalPrice: number;
+    brand: string;
+    category: string;
+    thumbnail: string;
+    images: Array<string>;
   }>;
+  loggedin: boolean;
+  setShowConfirmIsUser: React.Dispatch<React.SetStateAction<boolean>>;
+  // setPathname: React.Dispatch<
+  //   React.SetStateAction<"shopping-cart" | "checkout" | "order-complete">
+  // >;
+  // linkedlist: SinglyLinkedList;
 }
-function OrderReport({ orders }: OrderReportProps) {
+function OrderReport({
+  orders,
+  loggedin,
+  setShowConfirmIsUser,
+}: OrderReportProps) {
+  const dispatch = useDispatch();
   const [discount, setDiscount] = useState(0);
-  const [total, setTotal] = useState(0);
+  const [subTotal, setSubTotal] = useState(0);
   const [orderTotal, setOrderTotal] = useState(0);
   const shippingCost = 50;
 
-  const calcTotal = useMemo(
-    () => orders?.reduce((prev, curr) => prev + curr.price, 0),
-    [orders]
-  );
-
-  const calcOrderTotal = useMemo(
-    () => total + shippingCost,
-    [total, shippingCost]
-  );
-
   useEffect(() => {
-    setTotal(calcTotal || 0);
-    setOrderTotal(calcOrderTotal);
-  }, [orders, total]);
+    const subTotal =
+      orders?.reduce((prev, curr) => prev + curr.totalPrice, 0) || 0;
+    const orderTotal = subTotal + shippingCost;
+    setSubTotal(subTotal);
+    setOrderTotal(orderTotal);
+  }, [orders]);
+
+  const getNextPage = () => {
+    if (loggedin) {
+      let fullOrderData = {
+        id: "shopping-order",
+        cartItems: orders,
+        "sub-total": subTotal,
+        discount,
+        shippingCost,
+        total: orderTotal,
+      };
+
+      dispatch(changeCurrentOrderComponent("checkout"));
+      dispatch(handleAddToOrderData(fullOrderData));
+    } else {
+      setShowConfirmIsUser(true);
+    }
+  };
 
   return (
     <ul className="w-full md:w-1/3 border-2 border-Grey-100 rounded-md p-3 mt-6">
       <li className="flex items-center justify-between gap-4 capitalize mb-3">
         <p className="text-Grey-600 text-sm font-medium">sub-total </p>
-        <b>L.E {total},00</b>
+        <b>L.E {subTotal},00</b>
       </li>
       <li className="flex items-center justify-between gap-4 capitalize mb-3">
         <p className="text-Grey-600 text-sm font-medium">discount</p>
@@ -66,10 +109,13 @@ function OrderReport({ orders }: OrderReportProps) {
           continue shopping
         </a>
       </span>
-      <button className="w-full flex items-center justify-center gap-4 px-4 py-3 rounded-full capitalize text-white bg-Primary-700 font-semibold mt-7 mb-3 hover:bg-Primary-600">
-        <p>checkout </p> <i>|</i> <p>L.E-{orderTotal}</p>
+      <button
+        className="w-full flex items-center justify-center gap-4 px-4 py-3 rounded-full capitalize text-white bg-Primary-700 font-semibold mt-7 mb-3 hover:bg-Primary-600"
+        onClick={getNextPage}
+      >
+        <p>checkout </p> <i>|</i> <p>L.E {orderTotal},00</p>
       </button>
-      <div className="mt-8 mb-3">
+      <div className="flex flex-col max-lg:items-center mt-8 mb-3">
         <p className="text-gray-400 font-medium text-sm">
           SECURE PAYMENTS PROVIDED BY
         </p>

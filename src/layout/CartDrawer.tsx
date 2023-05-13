@@ -122,15 +122,8 @@ function CartDrawer({ setShowDrower, cartItems = [] }: CartDrawerProps) {
             </span>
             <span className="w-full flex flex-col sm:flex-row items-center justify-stretch gap-3 mt-6 mb-3">
               <Link
-                href={routes.checkout}
-                className="w-full sm:w-1/2 flex items-center justify-center gap-3 px-3 py-2 bg-sky-600 capitalize text-gray-50 rounded-full hover:bg-sky-500"
-                onClick={() => setShowDrower(false)}
-              >
-                <p>checkout</p>
-              </Link>
-              <Link
                 href={routes.shoppingCart}
-                className="w-full sm:w-1/2 flex items-center justify-center gap-3 px-3 py-2 capitalize bg-Grey-900 text-white rounded-full hover:bg-Grey-800"
+                className="w-full sm:w-1/2 flex items-center justify-center gap-3 px-3 py-2 capitalize bg-Primary-700 text-white rounded-full hover:bg-Primary-600"
                 onClick={() => setShowDrower(false)}
               >
                 <p>shopping cart</p>
