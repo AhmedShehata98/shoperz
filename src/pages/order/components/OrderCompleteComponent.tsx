@@ -40,7 +40,7 @@ function OrderCompleteComponent() {
         </span>
       </span>
       <ul className="w-full divide-y">
-        {printTail?.data.cartItems.map((item) => {
+        {printTail?.data.cartItems.map((item: any) => {
           return <ProductCard product={item} />;
         })}
       </ul>

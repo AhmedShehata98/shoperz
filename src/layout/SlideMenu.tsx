@@ -22,7 +22,7 @@ const SlideMenu = ({ setShowMenu }: Props) => {
     visible: { opacity: 1, translateX: "0px" },
   };
   return (
-    <div className="absolute z-20 bg-slate-700 inset-0 bg-opacity-60 flex flex-col md:flex-row items-start justify-start md:justify-start">
+    <div className="absolute lg:hidden z-20 bg-slate-700 inset-0 bg-opacity-60 flex flex-col md:flex-row items-start justify-start md:justify-start">
       <motion.article
         variants={slideMenuVariant}
         initial={"hidden"}
