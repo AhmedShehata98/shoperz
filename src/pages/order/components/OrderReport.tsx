@@ -10,6 +10,7 @@ import {
   handleAddToOrderData,
   handleUpdateOrderData,
 } from "@/redux/slices/app.slice";
+import { IApiCallState } from "@/models/shopperz.model";
 
 /**
  *
@@ -34,15 +35,13 @@ interface OrderReportProps {
   }>;
   loggedin: boolean;
   setShowConfirmIsUser: React.Dispatch<React.SetStateAction<boolean>>;
-  // setPathname: React.Dispatch<
-  //   React.SetStateAction<"shopping-cart" | "checkout" | "order-complete">
-  // >;
-  // linkedlist: SinglyLinkedList;
+  apiCallState: IApiCallState;
 }
 function OrderReport({
   orders,
   loggedin,
   setShowConfirmIsUser,
+  apiCallState,
 }: OrderReportProps) {
   const dispatch = useDispatch();
   const [discount, setDiscount] = useState(0);
@@ -113,7 +112,17 @@ function OrderReport({
         className="w-full flex items-center justify-center gap-4 px-4 py-3 rounded-full capitalize text-white bg-Primary-700 font-semibold mt-7 mb-3 hover:bg-Primary-600"
         onClick={getNextPage}
       >
-        <p>checkout </p> <i>|</i> <p>L.E {orderTotal},00</p>
+        {apiCallState.isLoading && (
+          <>
+            <span className="w-6 h-6 border-2 border-Gray-100 border-l-transparent rounded-full animate-spin"></span>
+            loading...
+          </>
+        )}
+        {!apiCallState.isLoading && (
+          <>
+            <p>checkout </p> <i>|</i> <p>L.E {orderTotal},00</p>
+          </>
+        )}
       </button>
       <div className="flex flex-col max-lg:items-center mt-8 mb-3">
         <p className="text-gray-400 font-medium text-sm">

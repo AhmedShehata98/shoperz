@@ -1,3 +1,4 @@
+import { IApiCallState } from "@/models/shopperz.model";
 import { SinglyLinkedList } from "@/utils/SinglyLinkedList";
 import React, { useMemo } from "react";
 import { AiOutlineCloseCircle } from "react-icons/ai";
@@ -23,9 +24,10 @@ interface CartProps {
     quantity: number;
     images: Array<string>;
   }>;
+  apiCallState: IApiCallState;
   // linkedlist: SinglyLinkedList;
 }
-export default function Cart({ cartItems = [] }: CartProps) {
+export default function Cart({ cartItems = [], apiCallState }: CartProps) {
   return (
     <div className="w-full md:w-3/5">
       <header className="w-full py-6 flex items-center justify-between border-b-2 border-Grey-400">
@@ -33,7 +35,7 @@ export default function Cart({ cartItems = [] }: CartProps) {
         <p className="text-gray-500">( {cartItems.length} )</p>
       </header>
       {cartItems?.length < 1 && (
-        <div className="w-full h-1/2 flex flex-col justify-center items-center my-auto">
+        <div className="w-full h-max flex flex-col justify-center items-center my-8">
           <span className="flex bg-sky-100 text-6xl text-sky-700 rounded-full shadow p-7">
             <HiOutlineShoppingBag />
           </span>
@@ -41,6 +43,11 @@ export default function Cart({ cartItems = [] }: CartProps) {
           <button className="bg-sky-500 text-white px-5 py-2 rounded-full shadow-md hover:bg-sky-600 mt-12">
             show products
           </button>
+        </div>
+      )}
+      {apiCallState.isLoading && (
+        <div className="flex flex-col items-center justify-center w-full h-48">
+          <span className="w-10 h-10 border-4 border-blue-700 rounded-full border-l-transparent animate-spin"></span>
         </div>
       )}
       {cartItems.length > 0 && (

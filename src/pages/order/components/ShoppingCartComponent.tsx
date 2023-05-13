@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import Portal from "../../../hooks/Protal";
 import { AiOutlineTransaction } from "react-icons/ai";
 import { BsBoxSeam } from "react-icons/bs";
@@ -6,32 +6,13 @@ import { MdOutlineLocalShipping } from "react-icons/md";
 import OrderReport from "./OrderReport";
 import Cart from "./Cart";
 import { motion } from "framer-motion";
-import { SinglyLinkedList } from "@/utils/SinglyLinkedList";
+import { useQuery } from "react-query";
 import AlertDialog from "./AlertDialog";
+import { getProducts } from "@/services/api/shoppers.api";
+import { ICart } from "@/models/shopperz.model";
 
-interface ShoppingCartComponentProps {
-  cartItems: {
-    id: number;
-    title: string;
-    description: string;
-    price: number;
-    discountPercentage: number;
-    rating: number;
-    stock: number;
-    brand: string;
-    category: string;
-    thumbnail: string;
-    totalPrice: number;
-    currency: string;
-    quantity: number;
-    images: Array<string>;
-  };
-  // linkedlist: SinglyLinkedList;
-  // setPathname: React.Dispatch<
-  //   React.SetStateAction<"shopping-cart" | "checkout" | "order-complete">
-  // >;
-}
-function ShoppingCartComponent({ cartItems }: ShoppingCartComponentProps) {
+interface ShoppingCartComponentProps {}
+function ShoppingCartComponent() {
   const [showConfirmIsUser, setShowConfirmIsUser] = useState(false);
 
   ////////////////////
@@ -41,6 +22,31 @@ function ShoppingCartComponent({ cartItems }: ShoppingCartComponentProps) {
   //
   //
   ////////////////////
+
+  const { data, isLoading, isFetched, isError } = useQuery<
+    ICart,
+    any,
+    void,
+    Array<string>
+  >({
+    queryKey: ["cart"],
+    queryFn: getProducts,
+  });
+
+  const memoziedData = useMemo(() => {
+    if (isFetched) {
+      let randomQuantity = Math.floor(Math.random() * 3);
+      let fakeData = data?.products.slice(5, 10).map((prev: any) => ({
+        ...prev,
+        quantity: randomQuantity,
+        currency: "L.E",
+        totalPrice: prev.price * randomQuantity,
+      }));
+      return fakeData;
+    } else {
+      return [];
+    }
+  }, [data, isLoading]);
 
   return (
     <motion.article
@@ -53,11 +59,15 @@ function ShoppingCartComponent({ cartItems }: ShoppingCartComponentProps) {
       className="w-full flex flex-col items-start justify-center gap-7"
     >
       <section className="container max-w-5xl mx-auto flex max-md:flex-col items-start justify-between gap-3 max-lg:px-3">
-        <Cart cartItems={cartItems} />
+        <Cart
+          cartItems={memoziedData}
+          apiCallState={{ isLoading, isFetched, isError }}
+        />
         <OrderReport
-          orders={cartItems}
+          orders={memoziedData}
           loggedin={loggedin}
           setShowConfirmIsUser={setShowConfirmIsUser}
+          apiCallState={{ isLoading, isFetched, isError }}
         />
         {showConfirmIsUser && (
           <Portal>

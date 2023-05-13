@@ -1,8 +1,9 @@
 import { createWrapper } from "next-redux-wrapper";
 import { appSlice } from "./slices/app.slice";
 import { Action, ThunkAction, configureStore } from "@reduxjs/toolkit";
+import { setupListeners } from "@reduxjs/toolkit/dist/query";
 
-const makeStore = () =>
+export const makeStore = () =>
   configureStore({
     reducer: {
       [appSlice.name]: appSlice.reducer,
@@ -21,3 +22,4 @@ export type AppThunk<ReturnType = void> = ThunkAction<
 export type appDispatch = ReturnType<AppStore["dispatch"]>;
 
 export const wrapper = createWrapper<AppStore>(makeStore);
+setupListeners(makeStore().dispatch);
