@@ -11,6 +11,7 @@ import {
   handleUpdateOrderData,
 } from "@/redux/slices/app.slice";
 import { IApiCallState } from "@/models/shopperz.model";
+import OrderBoxItem from "./OrderBoxItem";
 
 /**
  *
@@ -74,35 +75,66 @@ function OrderReport({
       setShowConfirmIsUser(true);
     }
   };
+  const applyCoupon = (e: React.MouseEvent) => {
+    const target = e.target as Element;
+    const input = target.closest("form")?.firstElementChild as HTMLInputElement;
+    const couponCode = input.value;
+  };
 
   return (
-    <ul className="w-full md:w-1/3 border-2 border-Grey-100 rounded-md p-3 mt-6">
-      <li className="flex items-center justify-between gap-4 capitalize mb-3">
-        <p className="text-Grey-600 text-sm font-medium">sub-total </p>
-        <b>L.E {subTotal},00</b>
-      </li>
-      <li className="flex items-center justify-between gap-4 capitalize mb-3">
-        <p className="text-Grey-600 text-sm font-medium">discount</p>
-        <b>{discount}%</b>
-      </li>
-      <li className="flex items-center justify-between gap-4 capitalize mb-3">
-        <p className="text-Grey-600 text-sm font-medium">shipping Cost </p>
-        <b>L.E {shippingCost}</b>
-      </li>
+    <ul className="order-report-box">
+      <OrderBoxItem
+        data={{
+          title: "sub-title ",
+          value: Intl.NumberFormat("en-EG", {
+            style: "currency",
+            currency: "EGP", // display price as country like => EGP , $
+            currencySign: "accounting",
+            notation: "standard", // displays price in title => 100K ,2M ,4B
+          }).format(subTotal),
+        }}
+      />
+      <OrderBoxItem
+        data={{
+          title: "discount",
+          value: Intl.NumberFormat("en-EG", {
+            style: "currency",
+            currency: "EGP", // display price as country like => EGP , $
+            currencySign: "accounting",
+            notation: "standard", // displays price in title => 100K ,2M ,4B
+          }).format(discount),
+        }}
+      />
+      <OrderBoxItem
+        data={{
+          title: "shipping Cost",
+          value: Intl.NumberFormat("en-EG", {
+            style: "currency",
+            currency: "EGP", // display price as country like => EGP , $
+            currencySign: "accounting",
+            notation: "standard", // displays price in title => 100K ,2M ,4B
+          }).format(shippingCost),
+        }}
+      />
+
       <form action="" className="flex items-center justify-between gap-2 my-5">
         <input
           type="text"
           placeholder="discount code"
-          className=" px-3 py-1.5 border w-3/5 focus:outline-none"
+          className="px-3 py-1 border w-3/5 focus:outline-none focus:border-Primary-600"
         />
-        <button className="bg-Success-100 text-Success-700 px-3 py-1.5 font-medium capitalize rounded-full text-sm">
+        <button
+          className="bg-gray-900 text-white px-3 py-1.5 font-medium capitalize rounded-full text-sm"
+          onClick={(e: React.MouseEvent) => applyCoupon(e)}
+          type="button"
+        >
           apply coupon
         </button>
       </form>
       <span className="capitalize text-Grey-700 text-sm">
         get free <b>shipping</b> for orders over{" "}
         <mark className="bg-transparent text-red-500 font-medium">
-          L.E 1000
+          EGP 1000
         </mark>{" "}
         <a href="/all-products" className="underline font-bold">
           continue shopping
@@ -120,7 +152,13 @@ function OrderReport({
         )}
         {!apiCallState.isLoading && (
           <>
-            <p>checkout </p> <i>|</i> <p>L.E {orderTotal},00</p>
+            <p>
+              checkout |{" "}
+              {Intl.NumberFormat("en-eg", {
+                style: "currency",
+                currency: "EGP",
+              }).format(orderTotal)}
+            </p>
           </>
         )}
       </button>

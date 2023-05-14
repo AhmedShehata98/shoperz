@@ -9,11 +9,6 @@ import { useAppSelector } from "@/hooks/reduxHooks";
 import { selectAppState } from "@/redux/slices/app.slice";
 import { useDispatch } from "react-redux";
 
-const getFakeProducts = async () => {
-  const res = await fetch("https://dummyjson.com/products");
-  return await res.json();
-};
-
 function ShoppingCart() {
   const appState = useAppSelector(selectAppState);
   const dispatch = useDispatch();
