@@ -5,17 +5,17 @@ import paypalLogo from "../../../assets/icons/paypal.svg";
 import { useDispatch, useSelector } from "react-redux";
 import {
   changeCurrentOrderComponent,
-  handleGetOrderDataById,
   handleMargefullOrderData,
   selectAppState,
 } from "@/redux/slices/app.slice";
+import OrderBoxItem from "./OrderBoxItem";
 
 interface OrderReportProps {}
 function FinalOrderReport() {
   const { orderData } = useSelector(selectAppState);
   const dispatch = useDispatch();
   const [discount, setDiscount] = useState(0);
-  const subPrice = orderData.getById("shopping-order")["sub-price"];
+  const subTotal = orderData.getById("shopping-order")["sub-price"];
   const shippingCost = 50;
 
   const getNextPage = useCallback(() => {
@@ -24,55 +24,71 @@ function FinalOrderReport() {
   }, []);
 
   return (
-    <ul className="w-full lg:w-1/3 border-2 border-Grey-100 rounded-md p-3 mt-6">
-      <li className="flex items-center justify-between gap-4 capitalize mb-3">
-        <p className="text-Grey-600 text-sm font-medium">sub-total </p>
-        <b>
-          L.E {subPrice}
-          ,00
-        </b>
-      </li>
-      <li className="flex items-center justify-between gap-4 capitalize mb-3">
-        <p className="text-Grey-600 text-sm font-medium">shipping</p>
-        <b>
-          {/* {address.city} ,{address.country} */}
-          alexsandria - EG
-        </b>
-      </li>
-      <li className="flex items-center justify-between gap-4 capitalize mb-3">
-        <p className="text-Grey-600 text-sm font-medium">discount</p>
-        <b>{discount}%</b>
-      </li>
-      <li className="flex items-center justify-between gap-4 capitalize mb-3">
-        <p className="text-Grey-600 text-sm font-medium">shipping Cost </p>
-        <b>L.E {shippingCost}</b>
-      </li>
-      <form action="" className="flex items-center justify-between gap-2 my-5">
-        <input
-          type="text"
-          placeholder="discount code"
-          className=" px-3 py-1.5 border w-3/5 focus:outline-none"
-        />
-        <button className="bg-Success-100 text-Success-700 px-3 py-1.5 font-medium capitalize rounded-full text-sm">
-          apply coupon
-        </button>
+    <ul className="order-report-box">
+      <OrderBoxItem
+        data={{
+          title: "sub-title ",
+          value: Intl.NumberFormat("en-EG", {
+            style: "currency",
+            currency: "EGP", // display price as country like => EGP , $
+            currencySign: "accounting",
+            notation: "standard", // displays price in title => 100K ,2M ,4B
+          }).format(subTotal || 0),
+        }}
+      />
+      <OrderBoxItem data={{ title: "shipping ", value: "alexsandria - EG" }} />
+      <OrderBoxItem data={{ title: "Discount ", value: discount }} />
+      <OrderBoxItem data={{ title: "Shipping Cost ", value: shippingCost }} />
+      <hr className="block my-4 py-2" />
+      <form
+        action=""
+        className="w-full flex flex-col items-start justify-center gap-3"
+      >
+        <span className="w-full flex items-start justify-center gap-4">
+          <input
+            type="checkbox"
+            name="confirmation"
+            required
+            id="confirmation"
+            className="accent-Primary-700"
+          />
+          <label
+            htmlFor="confirmation"
+            className="leading-4 capitalize text-Grey-700 text-sm cursor-pointer"
+          >
+            I confirm that my address is 100% correct and WILL NOT hold Top
+            Shelf BC liable if this shipment is sent to an incorrect address. *
+          </label>
+        </span>
+        <span className="w-full flex items-start justify-center gap-4">
+          <input
+            type="checkbox"
+            name="email-newsletter"
+            id="email-newsletter"
+            className="accent-Primary-700"
+          />
+          <label
+            htmlFor="email-newsletter"
+            className="leading-4 capitalize text-Grey-700 text-sm cursor-pointer"
+          >
+            Sign me up to receive email updates and news (optional)
+          </label>
+        </span>
       </form>
-      <span className="flex flex-col gap-3 p-3 capitalize text-Grey-700 text-sm">
-        <p className="leading-4">
-          I confirm that my address is 100% correct and WILL NOT hold Top Shelf
-          BC liable if this shipment is sent to an incorrect address. *
-        </p>
-        <p className="leading-4">
-          Sign me up to receive email updates and news (optional)
-        </p>
-      </span>
       <button
         className="w-full flex items-center justify-center gap-4 px-4 py-3 rounded-full capitalize text-white bg-Primary-700 font-semibold mt-7 mb-3 hover:bg-Primary-600"
         onClick={() => getNextPage()}
       >
-        <p>checkout </p> <i>|</i> <p>L.E-{subPrice}</p>
+        <p>
+          checkout
+          <i> - </i>
+          {Intl.NumberFormat("en-EG", {
+            style: "currency",
+            currency: "EGP",
+          }).format(subTotal || 0)}
+        </p>
       </button>
-      <div className="mt-8 mb-3">
+      <div className="flex flex-col max-lg:items-center mt-8 mb-3">
         <p className="text-gray-400 font-medium text-sm">
           SECURE PAYMENTS PROVIDED BY
         </p>

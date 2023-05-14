@@ -19,7 +19,7 @@ function CheckoutComponent() {
       }}
       initial={"hidden"}
       animate={"visible"}
-      className="container max-w-5xl mx-auto flex max-lg:flex-col items-start justify-start gap-3 max-lg:px-3"
+      className="checkout-component"
     >
       <div className="w-full lg:w-auto flex flex-col pt-5">
         <header className="w-full py-6 flex items-center justify-between border-b-2 border-Grey-400">
