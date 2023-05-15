@@ -10,13 +10,19 @@ import {
 } from "@/redux/slices/app.slice";
 import OrderBoxItem from "./OrderBoxItem";
 
-interface OrderReportProps {}
-function FinalOrderReport() {
-  const { orderData } = useSelector(selectAppState);
+interface OrderReportProps {
+  subTotal: number;
+  shippingCost: number;
+  discount: number;
+}
+function FinalOrderReport({
+  subTotal,
+  discount,
+  shippingCost,
+}: OrderReportProps) {
   const dispatch = useDispatch();
-  const [discount, setDiscount] = useState(0);
-  const subTotal = orderData.getById("shopping-order")["sub-price"];
-  const shippingCost = 50;
+
+  // const subTotal = orderData.getById("shopping-order")["sub-price"];
 
   const getNextPage = useCallback(() => {
     dispatch(changeCurrentOrderComponent("order-complete"));
@@ -24,7 +30,7 @@ function FinalOrderReport() {
   }, []);
 
   return (
-    <ul className="order-report-box">
+    <ul className="order-report-box w-full mt-1 mb-4">
       <OrderBoxItem
         data={{
           title: "sub-title ",
