@@ -2,34 +2,11 @@ import { handleAddToOrderData } from "@/redux/slices/app.slice";
 import React, { useCallback, useState } from "react";
 import { AiFillCloseSquare } from "react-icons/ai";
 import { useDispatch } from "react-redux";
-
+import { motion } from "framer-motion";
 interface AddressForm {
-  // setFormData: React.Dispatch<
-  //   React.SetStateAction<{
-  //     firstName: string;
-  //     lastName: string;
-  //     "country-or-regio": string;
-  //     "more-of-location": string;
-  //     city: string;
-  //     province: string;
-  //     postcode: string;
-  //     "phone-number": string;
-  //     email: string;
-  //   }>
-  // >;
-  // formData: {
-  //   firstName: string;
-  //   lastName: string;
-  //   "country-or-regio": string;
-  //   "more-of-location": string;
-  //   city: string;
-  //   province: string;
-  //   postcode: string;
-  //   "phone-number": string;
-  //   email: string;
-  // };
+  setIsShowing: (state: boolean) => void;
 }
-function UserAddressForm() {
+function UserAddressForm({ setIsShowing }: AddressForm) {
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     firstName: "",
@@ -77,13 +54,23 @@ function UserAddressForm() {
 
   return (
     <div className="absolute z-10 inset-0 flex items-start md:items-center justify-center bg-Grey-800 bg-opacity-60 overflow-y-auto">
-      <form
+      <motion.form
         action=""
+        variants={{
+          hidden: { opacity: 0, translateY: "20px" },
+          visible: { opacity: 1, translateY: "-0px" },
+        }}
+        initial={"hidden"}
+        animate={"visible"}
         className="flex flex-col items-stretch justify-start w-full md:w-3/5 bg-white p-3 rounded-md"
       >
         <header className="flex items-center justify-between pb-2 my-2 border-b-2 border-Primary-700">
           <h3 className="text-lg font-semibold uppercase">add new address :</h3>
-          <button className="text-rose-700 text-3xl m-3">
+          <button
+            className="text-rose-700 text-3xl m-3"
+            onClick={() => setIsShowing(false)}
+            type="button"
+          >
             <AiFillCloseSquare />
           </button>
         </header>
@@ -271,7 +258,7 @@ function UserAddressForm() {
             clear
           </button>
         </div>
-      </form>
+      </motion.form>
     </div>
   );
 }

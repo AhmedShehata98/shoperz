@@ -21,3 +21,12 @@ export interface IProduct {
   currency: string;
   images: Array<string>;
 }
+
+export interface ICreditCard {
+  "card-number": string;
+  "expire-date": {
+    asDate: Date;
+    asString: string;
+  };
+  cvv: string;
+}
