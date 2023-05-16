@@ -1,10 +1,11 @@
 import ProductCard from "@/pages/order/components/ProductCard";
-import React from "react";
+import React, { useMemo } from "react";
 import { MdOutlineLocalShipping } from "react-icons/md";
 import { motion } from "framer-motion";
 import { SinglyLinkedList } from "@/utils/SinglyLinkedList";
 import { useSelector } from "react-redux";
 import { selectAppState } from "@/redux/slices/app.slice";
+import { ICreditCard } from "@/models/shopperz.model";
 
 interface OrderProps {
   // linkedlist: SinglyLinkedList;
@@ -16,7 +17,12 @@ interface OrderProps {
 function OrderCompleteComponent() {
   const {
     orderData: { printTail },
+    paymentMethod,
   } = useSelector(selectAppState);
+
+  const transferMethod = useMemo(() => {
+    return paymentMethod.find((method) => method.value === true);
+  }, [paymentMethod]);
 
   return (
     <motion.section
@@ -60,7 +66,15 @@ function OrderCompleteComponent() {
             <p className="text-Grey-600 text-sm font-medium">
               mony transfer method
             </p>
-            <b>payment card</b>
+            <b>{transferMethod?.id.split("-").join(" ").toLocaleUpperCase()}</b>
+          </li>
+          <li className="flex items-center justify-between gap-4 capitalize mb-3">
+            <p className="text-Grey-600 text-sm font-medium">transfer info</p>
+            <b>
+              {`${"*".repeat(12)} ${transferMethod.paymentData[
+                "card-number"
+              ].slice(-4)}`}
+            </b>
           </li>
         </ul>
         <ul>

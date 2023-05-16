@@ -33,11 +33,6 @@ function CheckoutComponent() {
     discount = shoppingCart.discount,
     subTotal = shoppingCart["sub-total"];
 
-  const handleSelectAddess = (e: React.ChangeEvent) => {
-    let target = e.target as HTMLInputElement;
-    let listItem = target.closest("li") as HTMLLIElement;
-  };
-
   const showAddressFormModel = useCallback((state: boolean) => {
     setShowAddressForm(state);
   }, []);

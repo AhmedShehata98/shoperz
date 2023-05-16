@@ -29,4 +29,5 @@ export interface ICreditCard {
     asString: string;
   };
   cvv: string;
+  isCurrent: boolean;
 }

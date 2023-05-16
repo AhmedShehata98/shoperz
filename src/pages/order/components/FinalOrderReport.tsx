@@ -1,4 +1,10 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import visaLogo from "../../../assets/icons/visa.png";
 import mastercardLogo from "../../../assets/icons/mastercard.svg";
 import paypalLogo from "../../../assets/icons/paypal.svg";
@@ -21,13 +27,25 @@ function FinalOrderReport({
   shippingCost,
 }: OrderReportProps) {
   const dispatch = useDispatch();
-
-  // const subTotal = orderData.getById("shopping-order")["sub-price"];
+  const { paymentMethod } = useSelector(selectAppState);
+  const [isAgreement, setIsAgreement] = useState(false);
+  const confirmationLabel = useRef<HTMLLabelElement | null>(null);
 
   const getNextPage = useCallback(() => {
-    dispatch(changeCurrentOrderComponent("order-complete"));
-    dispatch(handleMargefullOrderData("order-complete"));
-  }, []);
+    if (isAgreement === false) {
+      confirmationLabel.current?.classList.add("text-red-700");
+    } else {
+      dispatch(changeCurrentOrderComponent("order-complete"));
+      dispatch(handleMargefullOrderData("order-complete"));
+    }
+    if (isAgreement) {
+      confirmationLabel.current?.classList.remove("text-red-700");
+    }
+  }, [isAgreement]);
+
+  const handleAgreementCheck = useCallback(() => {
+    setIsAgreement((prev) => !prev);
+  }, [isAgreement]);
 
   return (
     <ul className="order-report-box w-full mt-1 mb-4">
@@ -57,10 +75,13 @@ function FinalOrderReport({
             required
             id="confirmation"
             className="accent-Primary-700"
+            checked={isAgreement}
+            onChange={handleAgreementCheck}
           />
           <label
             htmlFor="confirmation"
             className="leading-4 capitalize text-Grey-700 text-sm cursor-pointer"
+            ref={confirmationLabel}
           >
             I confirm that my address is 100% correct and WILL NOT hold Top
             Shelf BC liable if this shipment is sent to an incorrect address. *

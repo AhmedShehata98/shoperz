@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { AppState, AppStore } from "../store";
 import { SinglyLinkedList } from "@/utils/SinglyLinkedList";
+import { ICreditCard } from "@/models/shopperz.model";
 
 interface AppStateProps {
   currentComponent: "shopping-cart" | "checkout" | "order-complete";
@@ -21,12 +22,27 @@ interface AppStateProps {
     quantity: number;
     images: Array<string>;
   }>;
+  paymentMethod: IPaymentMethod[];
+  creditCardsList: ICreditCard[];
 }
 
 const initialState: AppStateProps = {
   currentComponent: "shopping-cart",
   orderData: new SinglyLinkedList(),
   cart: [],
+  paymentMethod: [
+    {
+      id: "credit-card",
+      value: true,
+      paymentData: {},
+    },
+    {
+      id: "upon-receipt",
+      value: false,
+      paymentData: {},
+    },
+  ],
+  creditCardsList: [],
 };
 
 export const appSlice = createSlice({
@@ -55,6 +71,42 @@ export const appSlice = createSlice({
     addCartItems: (state, action) => {
       state.cart.push(...action.payload);
     },
+    selectPatmentMethod: (state, action) => {
+      let newPaymentMethod = state.paymentMethod.map((method) =>
+        method.id === action.payload
+          ? { ...method, value: !method.value }
+          : { ...method, value: false }
+      );
+      state.paymentMethod = newPaymentMethod;
+    },
+    addPaymentData: (state, action) => {
+      let newPaymentData = state.paymentMethod.map((data) =>
+        data.id === action.payload.id
+          ? { ...data, paymentData: action.payload.paymentData }
+          : { ...data }
+      );
+      state.paymentMethod = newPaymentData;
+    },
+    addToCreditCardsList: (state, action) => {
+      let newCreditCardsList = state.creditCardsList.map((card) => ({
+        ...card,
+        isCurrent: false,
+      }));
+      state.creditCardsList = [...newCreditCardsList, action.payload];
+    },
+    removeFromCreditCardsList: (state, action) => {
+      let listAfterRemove = state.creditCardsList.filter(
+        (cdt) => cdt["card-number"] !== action.payload.cardNumber
+      );
+      if (listAfterRemove.length > 1) {
+        listAfterRemove[listAfterRemove.length - 1].isCurrent = true;
+      }
+      if (listAfterRemove.length === 0) {
+        listAfterRemove[0].isCurrent = true;
+      }
+
+      state.creditCardsList = listAfterRemove;
+    },
   },
 });
 
@@ -66,4 +118,8 @@ export const {
   handleGetOrderDataById,
   handleMargefullOrderData,
   addCartItems,
+  addPaymentData,
+  selectPatmentMethod,
+  addToCreditCardsList,
+  removeFromCreditCardsList,
 } = appSlice.actions;

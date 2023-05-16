@@ -8,23 +8,23 @@ import DatePicker, { ReactDatePickerProps } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { GoCreditCard } from "react-icons/go";
 import { ICreditCard } from "@/models/shopperz.model";
+import { useDispatch } from "react-redux";
+import { addPaymentData, addToCreditCardsList } from "@/redux/slices/app.slice";
 
 interface CardDataFormProps {
-  onChange: Function;
   setIsShowing: (state: boolean) => void;
-  handleAddNewCardData: (cardData: ICreditCard) => void;
 }
-export default function CardDataForm({
-  onChange,
-  setIsShowing,
-  handleAddNewCardData,
-}: CardDataFormProps) {
+export default function CardDataForm({ setIsShowing }: CardDataFormProps) {
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState<ICreditCard>({
+    isCurrent: false,
     "card-number": "",
     "expire-date": { asDate: new Date(), asString: "" },
     cvv: "",
   });
-  const [cardProviderImage, setCardProviderImage] = useState<any>({ src: "" });
+  const [cardProviderImage, setCardProviderImage] = useState<any>({
+    src: creditCardLogo.src,
+  });
   const handleGetValue = (e: React.ChangeEvent) => {
     const target = e.target as HTMLInputElement;
     const name = target.name;
@@ -42,6 +42,17 @@ export default function CardDataForm({
         setCardProviderImage(creditCardLogo);
       }
     }
+  };
+
+  const handleAddCreditCard = () => {
+    const newFormData: ICreditCard = { ...formData, isCurrent: true };
+    dispatch(addToCreditCardsList(newFormData));
+    dispatch(
+      addPaymentData({
+        id: "credit-card",
+        paymentData: newFormData,
+      })
+    );
   };
 
   return (
@@ -148,7 +159,7 @@ export default function CardDataForm({
           <button
             className="rounded-md px-2 py-3 bg-Primary-600 text-white capitalize hover:bg-Primary-500"
             onClick={() => {
-              handleAddNewCardData(formData);
+              handleAddCreditCard();
               setIsShowing(false);
             }}
           >
