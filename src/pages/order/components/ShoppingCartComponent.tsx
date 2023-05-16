@@ -76,8 +76,8 @@ function ShoppingCartComponent() {
           </Portal>
         )}
       </section>
-      <section className="container max-w-5xl mx-auto flex flex-col items-start justify-start gap-3">
-        <header className="w-full grid grid-cols-2 capitalize text-Primary-800 text-lg font-medium py-3 max-lg:px-3">
+      <section className="w-full flex flex-col items-center justify-center bg-Grey-100 gap-3">
+        <header className="container max-w-5xl mx-auto grid grid-cols-2 capitalize text-Primary-800 text-lg font-medium py-3 max-lg:px-3">
           <p>delivery</p>
           <p> free returns</p>
         </header>

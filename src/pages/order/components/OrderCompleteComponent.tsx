@@ -5,15 +5,9 @@ import { motion } from "framer-motion";
 import { SinglyLinkedList } from "@/utils/SinglyLinkedList";
 import { useSelector } from "react-redux";
 import { selectAppState } from "@/redux/slices/app.slice";
-import { ICreditCard } from "@/models/shopperz.model";
 import { BsFillPatchCheckFill } from "react-icons/bs";
 
-interface OrderProps {
-  // linkedlist: SinglyLinkedList;
-  // setPathname: React.Dispatch<
-  //   React.SetStateAction<"shopping-cart" | "checkout" | "order-complete">
-  // >;
-}
+interface OrderProps {}
 
 function OrderCompleteComponent() {
   const {
