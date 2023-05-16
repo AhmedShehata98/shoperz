@@ -6,6 +6,7 @@ import { SinglyLinkedList } from "@/utils/SinglyLinkedList";
 import { useSelector } from "react-redux";
 import { selectAppState } from "@/redux/slices/app.slice";
 import { ICreditCard } from "@/models/shopperz.model";
+import { BsFillPatchCheckFill } from "react-icons/bs";
 
 interface OrderProps {
   // linkedlist: SinglyLinkedList;
@@ -40,10 +41,20 @@ function OrderCompleteComponent() {
           <BsFillPatchCheckFill />
           <p>paid</p>
         </span> */}
-        <span className="flex items-center gap-2 px-4 text-orange-600 text-xl font-medium">
-          <MdOutlineLocalShipping />
-          <p>upon receipt</p>
-        </span>
+        {transferMethod?.id.split("-").join(" ").toLocaleUpperCase() ===
+        "upon-receipt" ? (
+          <span className="flex items-center gap-2 px-4 text-orange-600 text-xl font-medium">
+            <MdOutlineLocalShipping />
+            <p>{transferMethod?.id.split("-").join(" ")}</p>
+          </span>
+        ) : null}
+        {transferMethod?.id.split("-").join(" ").toLocaleUpperCase() ===
+        "upon-receipt" ? (
+          <span className="flex items-center gap-2 px-4 text-Success-700 text-xl font-medium">
+            <BsFillPatchCheckFill />
+            <p>paid</p>
+          </span>
+        ) : null}
       </span>
       <ul className="w-full divide-y">
         {printTail?.data.cartItems.map((item: any) => {
