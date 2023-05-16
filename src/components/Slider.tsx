@@ -13,9 +13,6 @@ import Slide from "./Slide";
 type Props = {};
 
 const Slider = (props: Props) => {
-  const swiper = useSwiper();
-  console.log(swiper);
-
   return (
     <div>
       <Swiper
@@ -30,7 +27,7 @@ const Slider = (props: Props) => {
         }}
         onSlideChange={() => console.log("slide change")}
         onSwiper={(swiper) => console.log(swiper)}
-        className="w-full"
+        className=" w-full"
       >
         <SwiperSlide>
           <div className={`bg-gradient-to-r from-[#F1FFF8] to-[#C4F4FF]`}>

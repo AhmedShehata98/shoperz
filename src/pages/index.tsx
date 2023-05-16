@@ -10,6 +10,9 @@ export const metadata: Metadata = {
 export default function Home() {
   return (
     <>
+      <Head>
+        <title>Shoperz | home </title>
+      </Head>
       <main>
         <Slider />
         <ShopFeats />

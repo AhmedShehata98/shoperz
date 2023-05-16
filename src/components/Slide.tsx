@@ -3,30 +3,33 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import Image, { StaticImageData } from "next/image";
 type Props = {
   src: StaticImageData;
-  title: string;
+  title: React.ReactNode;
   name: string;
-  // style: { bg: string };
+  bg: string;
 };
 
-const Slide = ({ src, title, name }: Props) => {
+const Slide = ({ src, title, bg }: Props) => {
   return (
     <div
-      className={` mx-auto container !grid max-lg:!h-[30rem] md:grid-cols-2 text-center !gap-8 !h-[40rem] !justify-between !items-end bg-gradient-to-r `}
+      className={`max-w-full h-[30rem] max-md:h-[27rem] flex items-center justify-between ${bg} max-md:pt-6`}
     >
-      <div className="grid justify-center items-center text-center self-center">
-        <h3 className="text-6xl max-xl:text-4xl font-light">
-          NEW <span className="font-bold ">{name}</span>
-          <br></br> {title}
-        </h3>
-        <div>
-          <button className="bg-Primary-600 text-lg text-white max-lg:py-3 px-2 py-4 rounded-3xl w-fit h-fit mt-8">
+      <section className="container max-w-5xl mx-auto flex h-full max-md:flex-col justify-between items-center gap-4">
+        <div className="flex flex-col items-start justify-center gap-10 md:basis-1/2 lg:basis-2/5 max-md:w-full max-md:px-4 ">
+          <h2 className="text-start uppercase text-4xl max-xl:text-4xl font-thin max-md:text-3xl">
+            {title}
+          </h2>
+          <button className="bg-Primary-600 text-lg text-white py-2 px-6 rounded-3xl w-fit h-fit max-md:w-full">
             Find Out More
           </button>
         </div>
-      </div>
-      <div className=" overflow-hidden ">
-        <Image src={{ ...src }} alt="Landscape picture" className="" />
-      </div>
+        <figure className="md:basis-1/2 lg:basis-3/5 self-end flex items-center justify-center max-md:w-full max-md:px-4">
+          <Image
+            src={{ ...src }}
+            alt="Landscape picture"
+            className="block w-full"
+          />
+        </figure>
+      </section>
     </div>
   );
 };
