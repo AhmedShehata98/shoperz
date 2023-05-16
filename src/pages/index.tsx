@@ -1,7 +1,4 @@
-import { Inter } from "next/font/google";
-import { Roboto } from "next/font/google";
 import type { Metadata } from "next";
-import Head from "next/head";
 import Slider from "@/components/Slider";
 import ShopFeats from "@/components/ShopFeats";
 import FeaturedProducts from "@/components/FeaturedProducts";
@@ -16,7 +13,7 @@ export default function Home() {
       <main>
         <Slider />
         <ShopFeats />
-        <FeaturedProducts />
+        {/* <FeaturedProducts /> */}
       </main>
     </>
   );

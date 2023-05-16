@@ -2,7 +2,7 @@ import React from "react";
 import controller from "../assets/sliders/ds4_controller1-slide.png";
 import iphone from "../assets/sliders/iph1-slide.png";
 import Watches from "../assets/sliders/Watche1-slide.png";
-import { Swiper, SwiperSlide } from "swiper/react";
+import { Swiper, SwiperSlide, useSwiper } from "swiper/react";
 import { Navigation, Pagination, Autoplay, Scrollbar, A11y } from "swiper";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
@@ -13,6 +13,9 @@ import Slide from "./Slide";
 type Props = {};
 
 const Slider = (props: Props) => {
+  const swiper = useSwiper();
+  console.log(swiper);
+
   return (
     <div>
       <Swiper
@@ -27,7 +30,7 @@ const Slider = (props: Props) => {
         }}
         onSlideChange={() => console.log("slide change")}
         onSwiper={(swiper) => console.log(swiper)}
-        className=" w-full"
+        className="w-full"
       >
         <SwiperSlide>
           <div className={`bg-gradient-to-r from-[#F1FFF8] to-[#C4F4FF]`}>
