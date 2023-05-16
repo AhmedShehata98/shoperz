@@ -1,8 +1,17 @@
 import React from "react";
 import Product1 from "../assets/products/Product.png";
+import { HiOutlineArrowSmLeft, HiOutlineArrowSmRight } from "react-icons/hi";
 
 import Product from "./Product";
 import Headtitle from "./Headtitle";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination, Autoplay, Scrollbar, A11y } from "swiper";
+
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import "swiper/css/scrollbar";
+import "swiper/css";
+import SlidesProducts from "./SlidesProducts";
 
 type Props = {};
 
@@ -41,22 +50,10 @@ const FeaturedProducts = (props: Props) => {
   ];
   return (
     <div className="container py-10 mx-auto">
-      <div className="grid justify-center px-12 mx-auto">
-        <div className="py-8">
-          <Headtitle title="Featured Products " />
-        </div>
-        <div className="flex justify-center items-center gap-8 ">
-          {p.map((el, i) => {
-            return (
-              <Product
-                key={i}
-                src={el.src}
-                name={el.name}
-                price={el.price}
-                cate={el.cate}
-              />
-            );
-          })}
+      <div className="">
+        <div className="py-8 relative">
+          <div className=""></div>
+          <SlidesProducts />
         </div>
       </div>
     </div>

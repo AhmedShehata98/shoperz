@@ -13,65 +13,51 @@ import Slide from "./Slide";
 type Props = {};
 
 const Slider = (props: Props) => {
-  const swiper = useSwiper();
-
   return (
-    <Swiper
-      modules={[Navigation, Pagination, Scrollbar, A11y, Autoplay]}
-      spaceBetween={50}
-      slidesPerView={1}
-      autoplay={{
-        delay: 4000,
-      }}
-      pagination={{
-        el: ".custom-home-slideshow-paginition",
-        clickable: true,
-        renderBullet: (index, className) => {
-          return '<span class="' + className + '">' + "</span>";
-        },
-      }}
-      onSlideChange={() => console.log("slide change")}
-      onSwiper={(swiper) => console.log(swiper)}
-      className="w-full"
-    >
-      <div className="custom-home-slideshow-paginition"></div>
-      <SwiperSlide>
-        <Slide
-          bg={`bg-gradient-to-r from-[#F1FFF8] to-[#C4F4FF]`}
-          src={iphone}
-          title={
-            <>
-              new <b>Iphone 14 pro max </b> <br /> release this fall
-            </>
-          }
-          name="iphone 14 pro"
-        />
-      </SwiperSlide>
-      <SwiperSlide>
-        <Slide
-          bg={`bg-gradient-to-r from-[#FFFCF3] to-[#FFDFDF]`}
-          src={Watches}
-          title={
-            <>
-              <b>playbox </b> console <br /> x245-HD
-            </>
-          }
-          name="iphone 14 pro"
-        />
-      </SwiperSlide>
-      <SwiperSlide>
-        <Slide
-          bg={`!bg-gradient-to-r !from-[#FEF3FD] !to-[#CBCDFF]`}
-          src={controller}
-          title={
-            <>
-              keep your shape with all new <b>gadgates</b>
-            </>
-          }
-          name="iphone 14 pro"
-        />
-      </SwiperSlide>
-    </Swiper>
+    <div>
+      <Swiper
+        modules={[Navigation, Pagination, Scrollbar, A11y, Autoplay]}
+        spaceBetween={50}
+        slidesPerView={1}
+        autoplay={{
+          delay: 4000,
+        }}
+        pagination={{
+          clickable: true,
+        }}
+        onSlideChange={() => console.log("slide change")}
+        onSwiper={(swiper) => console.log(swiper)}
+        className=" w-full"
+      >
+        <SwiperSlide>
+          <div className={`bg-gradient-to-r from-[#F1FFF8] to-[#C4F4FF]`}>
+            <Slide
+              src={iphone}
+              title="NEW RELEASE THIS FALL"
+              name="iphone 14 pro"
+            />
+          </div>
+        </SwiperSlide>
+        <SwiperSlide>
+          <div className={`bg-gradient-to-r from-[#FFFCF3] to-[#FFDFDF]`}>
+            <Slide
+              src={Watches}
+              title="NEW RELEASE THIS FALL"
+              name="iphone 14 pro"
+            />
+          </div>
+        </SwiperSlide>
+        <SwiperSlide
+          className={"!bg-gradient-to-r !from-[#FEF3FD] !to-[#CBCDFF]"}
+        >
+          <Slide
+            src={controller}
+            title="NEW RELEASE THIS FALL"
+            name="iphone 14 pro"
+          />
+        </SwiperSlide>
+      </Swiper>
+    </div>
   );
 };
 

@@ -20,6 +20,7 @@ import InputField from "@/components/InputField";
 const Headerbar = () => {
   const [showCartDrawer, setShowCartDrawer] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
+
   return (
     <header className="flex flex-col w-full h-fit bg-white">
       {showCartDrawer && (
@@ -58,7 +59,6 @@ const Headerbar = () => {
         />
       )}
       {showMenu && <SlideMenu setShowMenu={setShowMenu} />}
-
       <section className="container max-w-5xl mx-auto flex flex-col justify-between items-center gap-3">
         <HeaderUpperbar />
         <div className="w-full flex items-center  justify-between px-2 max-lg:pt-4 pb-4">
@@ -94,7 +94,7 @@ const Headerbar = () => {
               onClick={() => setShowCartDrawer(true)}
             >
               <FaShoppingCart />
-              <p className="text-gray-500 text-xs uppercase"> 4</p>
+              <p className="text-gray-500 text-xs uppercase">4</p>
             </button>
           </span>
         </div>

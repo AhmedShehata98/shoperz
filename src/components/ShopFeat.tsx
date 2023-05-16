@@ -8,8 +8,6 @@ type Props = {
 };
 
 const ShopFeat = ({ src, fontTitle, lightTitle }: Props) => {
-  console.log(src.src);
-
   return (
     <div className="flex px-16 my-8 gap-x-2 text-center">
       <div>
