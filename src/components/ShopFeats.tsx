@@ -26,7 +26,7 @@ const ShopFeats = (props: Props) => {
   ];
   return (
     <div className="flex items-center justify-center ">
-      <div className="flex justify-between rounded-lg items-center divide-x-[1px] border-[1px] my-8">
+      <div className="flex justify-between rounded-lg items-center divide-x-[1px] border-[1px] my-8 mt-16">
         {feats.map((el, i) => {
           console.log(el);
           return (

@@ -3,7 +3,7 @@ import {
   BsFillArrowRightCircleFill,
   BsArrowLeftCircleFill,
 } from "react-icons/bs";
-import Product1 from "../assets/products/Product.png";
+import Product2 from "../assets/products/monitor.png";
 import { Swiper, SwiperSlide, useSwiper } from "swiper/react";
 import { Navigation, Pagination, Scrollbar, A11y } from "swiper";
 import "swiper/css/navigation";
@@ -15,64 +15,64 @@ import Headtitle from "./Headtitle";
 
 type Props = {};
 
-const SlidesProducts = (props: Props) => {
+const BigDeals = (props: Props) => {
   const p = [
     {
-      src: Product1,
+      src: Product2,
       name: "Appel iphone 14 pro,Ltop Super REtina xdr oled 6.1",
       price: 1200,
       cate: "Smartphones",
     },
     {
-      src: Product1,
+      src: Product2,
       name: "Appel iphone 14 pro,Ltop Super REtina xdr oled 6.1",
       price: 1200,
       cate: "Smartphones",
     },
     {
-      src: Product1,
+      src: Product2,
       name: "Appel iphone 14 pro,Ltop Super REtina xdr oled 6.1",
       price: 1200,
       cate: "Smartphones",
     },
     {
-      src: Product1,
+      src: Product2,
       name: "Appel iphone 14 pro,Ltop Super REtina xdr oled 6.1",
       price: 1200,
       cate: "Smartphones",
     },
     {
-      src: Product1,
+      src: Product2,
       name: "Appel iphone 14 pro,Ltop Super REtina xdr oled 6.1",
       price: 1200,
       cate: "Smartphones",
     },
     {
-      src: Product1,
+      src: Product2,
       name: "Appel iphone 14 pro,Ltop Super REtina xdr oled 6.1",
       price: 1200,
       cate: "Smartphones",
     },
     {
-      src: Product1,
+      src: Product2,
       name: "Appel iphone 14 pro,Ltop Super REtina xdr oled 6.1",
       price: 1200,
       cate: "Smartphones",
     },
     {
-      src: Product1,
+      src: Product2,
       name: "Appel iphone 14 pro,Ltop Super REtina xdr oled 6.1",
       price: 1200,
       cate: "Smartphones",
     },
     {
-      src: Product1,
+      src: Product2,
       name: "Appel iphone 14 pro,Ltop Super REtina xdr oled 6.1",
       price: 1200,
       cate: "Smartphones",
     },
     {
-      src: Product1,
+      src: Product2,
       name: "Appel iphone 14 pro,Ltop Super REtina xdr oled 6.1",
       price: 1200,
       cate: "Smartphones",
@@ -87,7 +87,7 @@ const SlidesProducts = (props: Props) => {
   return (
     <div className="container pb-10 mx-auto">
       <div className="flex justify-between items-center py-6">
-        <Headtitle title="Featured Products" />
+        <Headtitle title="Big Deals" />
         <div className="flex gap-x-10">
           <button className="swiper-prev">
             <svg
@@ -171,4 +171,4 @@ const SlidesProducts = (props: Props) => {
   );
 };
 
-export default SlidesProducts;
+export default BigDeals;

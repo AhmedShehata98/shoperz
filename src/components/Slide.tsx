@@ -10,7 +10,7 @@ type Props = {
 const Slide = ({ src, title }: Props) => {
   return (
     <div
-      className={`max-w-full h-[30rem] max-md:h-[27rem] flex items-center justify-between max-md:pt-6`}
+      className={`max-w-full h-[30rem] max-md:h-[28rem] flex items-center justify-between max-md:pt-6`}
     >
       <section className="container max-w-5xl mx-auto flex h-full max-md:flex-col justify-between items-center gap-4">
         <div className="flex flex-col items-start justify-center gap-10 md:basis-1/2 lg:basis-2/5 max-md:w-full max-md:px-4 ">

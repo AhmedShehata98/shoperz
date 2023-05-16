@@ -1,8 +1,12 @@
 import type { Metadata } from "next";
 import Slider from "@/components/Slider";
 import ShopFeats from "@/components/ShopFeats";
-import FeaturedProducts from "@/components/FeaturedProducts";
+import SlidesProducts from "@/components/SlidesProducts";
 import Head from "next/head";
+import Category from "@/components/Category";
+import BestSellers from "@/components/Bestsellers";
+import BigDeals from "@/components/BigDeals";
+import Banners from "@/components/Banners";
 
 export default function Home() {
   return (
@@ -10,10 +14,14 @@ export default function Home() {
       {/* <Head>
         <title>Shoperz | home </title>
       </Head> */}
-      <main>
+      <main className="">
         <Slider />
         <ShopFeats />
-        <FeaturedProducts />
+        <SlidesProducts />
+        <Category />
+        <BestSellers />
+        <Banners />
+        <BigDeals />
       </main>
     </>
   );
