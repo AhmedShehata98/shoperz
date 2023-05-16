@@ -2,11 +2,8 @@ import type { Metadata } from "next";
 import Slider from "@/components/Slider";
 import ShopFeats from "@/components/ShopFeats";
 import FeaturedProducts from "@/components/FeaturedProducts";
+import Head from "next/head";
 
-export const metadata: Metadata = {
-  title: "Shoperz | home",
-  description: "is a e-commerce website",
-};
 export default function Home() {
   return (
     <>
@@ -16,7 +13,7 @@ export default function Home() {
       <main>
         <Slider />
         <ShopFeats />
-        {/* <FeaturedProducts /> */}
+        <FeaturedProducts />
       </main>
     </>
   );
