@@ -1,10 +1,10 @@
 import React from "react";
 import ShopFeat from "./ShopFeat";
-import brand from "../assets/icons-feat/shield.svg";
-import card from "../assets/icons-feat/shield.svg";
-import payment from "../assets/icons-feat/shield.svg";
+import brand from "../assets/icons-feat/brand.svg";
+import card from "../assets/icons-feat/card.svg";
+import payment from "../assets/icons-feat/payment.svg";
+import shield from "../assets/icons-feat/shoping.svg";
 import secure from "../assets/icons-feat/shield.svg";
-import shield from "../assets/icons-feat/shield.svg";
 
 type Props = {};
 
@@ -26,7 +26,7 @@ const ShopFeats = (props: Props) => {
   ];
   return (
     <div className="flex items-center justify-center ">
-      <div className="flex container justify-center rounded-lg items-center divide-x-[1px] border-2 my-8">
+      <div className="flex justify-between rounded-lg items-center divide-x-[1px] border-[1px] my-8">
         {feats.map((el, i) => {
           console.log(el);
           return (

@@ -49,13 +49,8 @@ const FeaturedProducts = (props: Props) => {
     },
   ];
   return (
-    <div className="container py-10 mx-auto">
-      <div className="">
-        <div className="py-8 relative">
-          <div className=""></div>
-          <SlidesProducts />
-        </div>
-      </div>
+    <div className="container pb-10 mx-auto">
+      <SlidesProducts />
     </div>
   );
 };

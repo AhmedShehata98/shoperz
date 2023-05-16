@@ -133,6 +133,29 @@ const SlidesProducts = (props: Props) => {
         }}
         onReachEnd={() => setArrows({ right: true, left: false })}
         onRealIndexChange={() => setArrows({ right: false, left: true })}
+        className="!py-4"
+        breakpoints={{
+          0: {
+            slidesPerView: 1,
+            spaceBetween: 10,
+          },
+          480: {
+            slidesPerView: 2,
+            spaceBetween: 10,
+          },
+          768: {
+            slidesPerView: 3,
+            spaceBetween: 15,
+          },
+          1024: {
+            slidesPerView: 4,
+            spaceBetween: 15,
+          },
+          1280: {
+            slidesPerView: 5,
+            spaceBetween: 15,
+          },
+        }}
       >
         {p.map((el, i) => (
           <SwiperSlide key={i}>

@@ -5,13 +5,12 @@ type Props = {
   src: StaticImageData;
   title: React.ReactNode;
   name: string;
-  bg: string;
 };
 
-const Slide = ({ src, title, bg }: Props) => {
+const Slide = ({ src, title }: Props) => {
   return (
     <div
-      className={`max-w-full h-[30rem] max-md:h-[27rem] flex items-center justify-between ${bg} max-md:pt-6`}
+      className={`max-w-full h-[30rem] max-md:h-[27rem] flex items-center justify-between max-md:pt-6`}
     >
       <section className="container max-w-5xl mx-auto flex h-full max-md:flex-col justify-between items-center gap-4">
         <div className="flex flex-col items-start justify-center gap-10 md:basis-1/2 lg:basis-2/5 max-md:w-full max-md:px-4 ">
@@ -22,11 +21,11 @@ const Slide = ({ src, title, bg }: Props) => {
             Find Out More
           </button>
         </div>
-        <figure className="md:basis-1/2 lg:basis-3/5 self-end flex items-center justify-center max-md:w-full max-md:px-4">
+        <figure className="md:basis-1/2 lg:basis-3/5 object-cover h-full flex items-center justify-center max-md:w-full max-md:px-4">
           <Image
             src={{ ...src }}
             alt="Landscape picture"
-            className="block w-full"
+            className="block w-full h-full object-cover"
           />
         </figure>
       </section>
