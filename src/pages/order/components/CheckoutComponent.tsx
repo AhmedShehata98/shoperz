@@ -21,6 +21,7 @@ import {
 import OrdersPreviewListProps from "./OrdersPreviewList";
 import Portal from "@/hooks/Protal";
 import PaymentMethods from "./PaymentMethods";
+import UserAddress from "./UserAddress";
 
 interface CheckoutProps {}
 
@@ -52,25 +53,8 @@ function CheckoutComponent() {
           <h3 className="capitalize font-semibold text-xl">shipping</h3>
           <p className="text-gray-500">(4)</p>
         </header> */}
-        <div className=" mt-6">
-          <h3 className="mb-2 text-Grey-700 text-xl font-medium capitalize">
-            shopping address :
-          </h3>
-          <ul className="border border-Grey-200 p-2">
-            <li>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. In,
-              omnis?
-            </li>
-            <li>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. In,
-              omnis?
-            </li>
-            <li>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. In,
-              omnis?
-            </li>
-          </ul>
-        </div>
+
+        <UserAddress />
         <PaymentMethods />
         {showAddressForm ? (
           <Portal>
