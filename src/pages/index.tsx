@@ -7,9 +7,9 @@ import Head from "next/head";
 export default function Home() {
   return (
     <>
-      <Head>
+      {/* <Head>
         <title>Shoperz | home </title>
-      </Head>
+      </Head> */}
       <main>
         <Slider />
         <ShopFeats />

@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { AppState, AppStore } from "../store";
+import { AppState } from "../store";
 import { SinglyLinkedList } from "@/utils/SinglyLinkedList";
 import { ICreditCard } from "@/models/shopperz.model";
 
