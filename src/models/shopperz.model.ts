@@ -3,7 +3,7 @@ export interface ICart extends IProduct {
 }
 export interface IApiCallState {
   isLoading: boolean;
-  isFetched: Boolean;
+  isSuccess: Boolean;
   isError: boolean;
 }
 

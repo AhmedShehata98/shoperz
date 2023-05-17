@@ -5,8 +5,6 @@ import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 import { useRouter } from "next/router";
 import { Roboto } from "next/font/google";
-import { Hydrate, QueryClient, QueryClientProvider } from "react-query";
-import { useState } from "react";
 import { Provider } from "react-redux";
 
 export const roboto = Roboto({
@@ -17,20 +15,15 @@ export const roboto = Roboto({
 
 function App({ Component, pageProps }: AppProps) {
   const { store, props } = wrapper.useWrappedStore(pageProps);
-  const [queryClient] = useState(() => new QueryClient());
   const router = useRouter();
 
   return (
     <Provider store={store}>
-      <QueryClientProvider client={queryClient}>
-        <Hydrate state={pageProps.dehydratedState}>
-          <div className={roboto.className}>
-            {router.pathname !== "/register" && <Headerbar />}
-            <Component {...pageProps} />
-            {router.pathname !== "/register" && <Footer />}
-          </div>
-        </Hydrate>
-      </QueryClientProvider>
+      <div className={roboto.className}>
+        {router.pathname !== "/register" && <Headerbar />}
+        <Component {...pageProps} />
+        {router.pathname !== "/register" && <Footer />}
+      </div>
     </Provider>
   );
 }
