@@ -8,15 +8,20 @@ import {
 } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/dist/query";
 import { productsApi } from "@/services/products.service";
+import { shippingAddressApi } from "@/services/shippingAddress.service";
 
 export const makeStore = () =>
   configureStore({
     reducer: {
       [appSlice.name]: appSlice.reducer,
       [productsApi.reducerPath]: productsApi.reducer,
+      [shippingAddressApi.reducerPath]: shippingAddressApi.reducer,
     },
     middleware: (getDefaultMiddleware) =>
-      getDefaultMiddleware().concat(productsApi.middleware),
+      getDefaultMiddleware().concat(
+        productsApi.middleware,
+        shippingAddressApi.middleware
+      ),
     devTools: true,
   });
 export type AppStore = ReturnType<typeof makeStore>;

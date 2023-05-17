@@ -10,7 +10,7 @@ import { selectAppState } from "@/redux/slices/app.slice";
 import { useDispatch } from "react-redux";
 
 function ShoppingCart() {
-  const appState = useAppSelector(selectAppState);
+  const { currentComponent } = useAppSelector(selectAppState);
   const dispatch = useDispatch();
 
   return (
@@ -19,14 +19,10 @@ function ShoppingCart() {
         <title>order</title>
       </Head>
       <main className="w-full min-h-screen flex items-start justify-start flex-col">
-        <PaymentStatusbar currentPage={appState.currentComponent} />
-        {appState.currentComponent === "shopping-cart" && (
-          <ShoppingCartComponent />
-        )}
-        {appState.currentComponent === "checkout" && <CheckoutComponent />}
-        {appState.currentComponent === "order-complete" && (
-          <OrderCompleteComponent />
-        )}
+        <PaymentStatusbar currentPage={currentComponent} />
+        {currentComponent === "shopping-cart" && <ShoppingCartComponent />}
+        {currentComponent === "checkout" && <CheckoutComponent />}
+        {currentComponent === "order-complete" && <OrderCompleteComponent />}
       </main>
     </>
   );

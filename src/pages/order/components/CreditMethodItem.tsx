@@ -33,7 +33,7 @@ function CreditMethodItem({ value, selectPaymentMethod }: CreditMethodProps) {
   );
 
   return (
-    <li className="flex flex-col items-center rounded-md shadow hover:bg-Grey-100 p-1">
+    <li className="flex flex-col items-center rounded-md shadow border bg-white p-3">
       <div className="w-full flex">
         <input
           type="checkbox"
@@ -68,7 +68,7 @@ function CreditMethodItem({ value, selectPaymentMethod }: CreditMethodProps) {
         </ul>
         <button
           type="button"
-          className="block bg-Primary-600 text-white w-[99%] p-2 capitalize hover:bg-Primary-500 m-2"
+          className="block bg-Primary-600 text-white w-full p-2 capitalize hover:bg-Primary-500"
           onClick={() => setShowAddCartModal(true)}
         >
           add credit card
