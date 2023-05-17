@@ -8,7 +8,6 @@ export const makeStore = () =>
     reducer: {
       [appSlice.name]: appSlice.reducer,
     },
-
     devTools: true,
   });
 export type AppStore = ReturnType<typeof makeStore>;
