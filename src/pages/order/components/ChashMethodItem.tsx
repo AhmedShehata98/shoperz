@@ -18,7 +18,7 @@ function ChashMethodItem({ value, selectPaymentMethod }: ChashMethodProps) {
   };
 
   return (
-    <li className="flex flex-col items-center rounded-md shadow hover:bg-Grey-100 p-1">
+    <li className="flex flex-col items-center rounded-md border bg-white shadow p-3">
       <div className="w-full flex">
         <input
           type="checkbox"

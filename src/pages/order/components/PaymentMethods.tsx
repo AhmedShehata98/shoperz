@@ -15,11 +15,11 @@ export default function PaymentMethods() {
   }, []);
 
   return (
-    <div className=" mt-6">
+    <div className="mt-6">
       <h3 className="mb-2 text-Grey-700 text-xl font-medium capitalize">
         Payments :
       </h3>
-      <ul className="grid grid-flow-row gap-2 divide-y border border-Grey-200 shadow-md p-2">
+      <ul className="grid grid-flow-row gap-2 divide-y border border-Grey-200 bg-Grey-100 shadow-md p-2">
         <CreditMethodItem
           selectPaymentMethod={handleSelectPaymentMethod}
           value={paymentMethod[0].value}
