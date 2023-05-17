@@ -8,9 +8,9 @@ import Cart from "./Cart";
 import { motion } from "framer-motion";
 import { useQuery } from "react-query";
 import AlertDialog from "./AlertDialog";
-import { getProducts } from "@/services/api/shoppers.api";
 import { ICart } from "@/models/shopperz.model";
 import OfferItem from "./OfferItem";
+import { useGetProductsQuery } from "@/services/products.service";
 
 interface ShoppingCartComponentProps {}
 function ShoppingCartComponent() {
@@ -24,18 +24,10 @@ function ShoppingCartComponent() {
   //
   ////////////////////
 
-  const { data, isLoading, isFetched, isError } = useQuery<
-    void,
-    any,
-    { products: Array<ICart> },
-    Array<string>
-  >({
-    queryKey: ["cart"],
-    queryFn: getProducts,
-  });
+  const { data, isLoading, isError, isSuccess } = useGetProductsQuery("");
 
   const memoziedData = useMemo(() => {
-    if (isFetched) {
+    if (isSuccess) {
       let randomQuantity = Math.floor(Math.random() * 3);
       let fakeData = data?.products.slice(5, 10).map((prev: any) => ({
         ...prev,
@@ -62,13 +54,13 @@ function ShoppingCartComponent() {
       <section className="shopping-cart-details">
         <Cart
           cartItems={memoziedData}
-          apiCallState={{ isLoading, isFetched, isError }}
+          apiCallState={{ isLoading, isError, isSuccess }}
         />
         <OrderReport
           orders={memoziedData}
           loggedin={loggedin}
           setShowConfirmIsUser={setShowConfirmIsUser}
-          apiCallState={{ isLoading, isFetched, isError }}
+          apiCallState={{ isLoading, isError, isSuccess }}
         />
         {showConfirmIsUser && (
           <Portal>

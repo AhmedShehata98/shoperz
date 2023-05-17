@@ -1,21 +1,17 @@
 import axios from "axios";
 
-export const API_BASE_URL = "https://dummyjson.com/";
+export const API_BASE_URL = "https://shoperz.vercel.app/";
 export const ENDPOINTS = {
   products: "products",
   cart: "cart",
-  whishlist: "whishlist",
-  categories: "categories",
-  user: "user",
-  login: "login",
-  signup: "signup",
-};
-
-export const getProducts = async () => {
-  try {
-    const { data } = await axios.get(`${API_BASE_URL}${ENDPOINTS.products}`);
-    return data;
-  } catch (error: any) {
-    throw new Error(error.message);
-  }
+  categories: {
+    category: "categories",
+  },
+  upload: "upload/product",
+  auth: {
+    signup: "auth/signup",
+    login: "auth/login",
+    resetPassword: "auth/resetpassword",
+    verifyEmail: "auth/send-verify-email",
+  },
 };
