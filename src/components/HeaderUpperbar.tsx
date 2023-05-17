@@ -16,13 +16,13 @@ export default function HeaderUpperbar() {
       <nav className="w-fit flex gap-3 py-2 max-lg:justify-between max-lg:w-full">
         <label
           htmlFor=""
-          className="flex gap-1 items-center justify-center bg-white text-sm font-medium capitalize px-2"
+          className="flex  gap-1 items-center hover:text-Grey-600 text-gray-400 justify-center bg-white text-sm font-medium capitalize px-2"
         >
-          <IoLanguageOutline />
+          <IoLanguageOutline className="text-gray-800" />
           <select
             name="language-list"
             id="language"
-            className="bg-white focus:outline-none w-24 h-8"
+            className="bg-white text-gray-800 focus:outline-none w-24 h-8"
           >
             <option value="ar">ar</option>
             <option value="en">en</option>
@@ -30,7 +30,7 @@ export default function HeaderUpperbar() {
         </label>
         <label
           htmlFor=""
-          className="flex gap-1 items-center text-center justify-center text-gray-700 text-sm font-medium capitalize px-2"
+          className="flex gap-1  items-center text-center justify-center text-gray-500 text-sm font-medium capitalize px-2"
         >
           <ImEarth />
           <select
@@ -43,35 +43,55 @@ export default function HeaderUpperbar() {
         </label>
       </nav>
       <div className="flex gap-7 py-2 divide-x-2 max-lg:hidden divide-gray-300">
-        <nav className="flex gap-4 text-lg text-gray-600 ">
-          <a href="#">
+        <nav className="flex gap-4 text-lg  text-gray-400 ">
+          <a className="hover:text-Grey-700" href="#">
             <FaFacebookF />
           </a>
-          <a href="#">
+          <a className="hover:text-Grey-700" href="#">
             <FaInstagram />
           </a>
-          <a href="#">
+          <a className="hover:text-Grey-700" href="#">
             <FaTwitter />
           </a>
-          <a href="#">
+          <a className="hover:text-Grey-700" href="#">
             <AiFillYoutube />
           </a>
         </nav>
-        <nav className="flex text-base gap-2 text-gray-600 px-2 divide-x-2 divide-gray-300">
-          <a href="#" className="flex items-center justify-center gap-2 px-2">
-            <IoLocation />
-            <p className="text-xs uppercase text-gray-500">track order</p>
+        <nav className="flex  text-base gap-2 text-gray-400 px-2 divide-x-2 divide-gray-300">
+          <a
+            href="#"
+            className="flex group items-center  justify-center gap-2 px-2"
+          >
+            <IoLocation className="group-hover:text-Grey-700" />
+            <p className="text-xs uppercase group-hover:text-Grey-700   text-gray-400">
+              track order
+            </p>
           </a>
-          <a href="#" className="flex items-center justify-center gap-2 px-2">
-            <FaShoppingBasket />
-            <p className="text-xs uppercase text-gray-500">shop</p>
+          <a
+            href="#"
+            className="flex group hover:text-Grey-700 items-center justify-center gap-2 px-2"
+          >
+            <FaShoppingBasket className="group-hover:text-Grey-700" />
+            <p className="text-xs uppercase group-hover:text-Grey-700  text-gray-400">
+              shop
+            </p>
           </a>
-          <a href="#" className="flex items-center justify-center gap-2 px-2">
-            <AiFillSetting />
-            <p className="text-xs uppercase text-gray-500">settings</p>
+          <a
+            href="#"
+            className="flex group items-center justify-center gap-2 px-2"
+          >
+            <AiFillSetting className="group-hover:text-Grey-700" />
+            <p className="text-xs uppercase group-hover:text-Grey-700  text-gray-400">
+              settings
+            </p>
           </a>
-          <a href="#" className="flex items-center justify-center gap-2 px-2">
-            <p className="text-xs uppercase text-gray-500">faq</p>
+          <a
+            href="#"
+            className="flex group hover:text-Grey-700 items-center justify-center gap-2 px-2"
+          >
+            <p className="text-xs uppercase hover:text-Grey-700  text-gray-400">
+              faq
+            </p>
           </a>
         </nav>
       </div>

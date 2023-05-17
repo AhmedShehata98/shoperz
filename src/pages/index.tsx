@@ -7,6 +7,7 @@ import CategorySection from "@/components/CategorySection";
 import BestSellers from "@/components/Bestsellers";
 import BigDeals from "@/components/BigDeals";
 import Banners from "@/components/Banners";
+import ProductLists from "@/components/ProductLists";
 
 export default function Home() {
   return (
@@ -22,6 +23,7 @@ export default function Home() {
         <BestSellers />
         <Banners />
         <BigDeals />
+        <ProductLists />
       </main>
     </>
   );
