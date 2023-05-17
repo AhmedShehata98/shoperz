@@ -17,7 +17,7 @@ const Slide = ({ src, title }: Props) => {
           <h2 className="text-start uppercase text-4xl max-xl:text-4xl font-thin max-md:text-3xl">
             {title}
           </h2>
-          <button className="bg-Primary-600 text-lg text-white py-2 px-6 rounded-3xl w-fit h-fit max-md:w-full">
+          <button className="bg-Primary-600 hover:bg-Primary-800 text-base text-center text-white py-2 px-6 rounded-3xl w-fit h-fit max-md:w-full">
             Find Out More
           </button>
         </div>

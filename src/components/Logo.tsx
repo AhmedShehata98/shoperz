@@ -6,7 +6,7 @@ import Link from "next/link";
 function Logo() {
   return (
     <Link href="/">
-      <div className="relative px-2 flex items-center w-fit">
+      <div className="relative w-36 px-2 flex items-center">
         <img src={logo.src} alt="logo" />
         <sup className="absolute -right-1.5 -top-2">
           <img src={logoPattern.src} alt="logo-pattern" />

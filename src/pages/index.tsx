@@ -3,7 +3,7 @@ import Slider from "@/components/Slider";
 import ShopFeats from "@/components/ShopFeats";
 import SlidesProducts from "@/components/SlidesProducts";
 import Head from "next/head";
-import Category from "@/components/Category";
+import CategorySection from "@/components/CategorySection";
 import BestSellers from "@/components/Bestsellers";
 import BigDeals from "@/components/BigDeals";
 import Banners from "@/components/Banners";
@@ -18,7 +18,7 @@ export default function Home() {
         <Slider />
         <ShopFeats />
         <SlidesProducts />
-        <Category />
+        <CategorySection />
         <BestSellers />
         <Banners />
         <BigDeals />

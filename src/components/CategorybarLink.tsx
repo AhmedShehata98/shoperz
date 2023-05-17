@@ -10,7 +10,7 @@ export default function CategorybarLink({ title, href }: CategorybarLinkProps) {
   return (
     <Link
       href={href}
-      className="flex text-sm items-center justify-between gap-2 h-full px-3 py-2 overflow-hidden truncate transition-colors hover:bg-sky-600"
+      className="flex bg-Primary-600 text-sm items-center justify-between gap-2 h-full px-6 py-4 overflow-hidden truncate transition-colors "
     >
       <p>{title}</p>
       <MdOutlineKeyboardArrowDown className={"block text-white text-sm"} />
