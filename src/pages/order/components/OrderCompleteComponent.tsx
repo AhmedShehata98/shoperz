@@ -73,14 +73,16 @@ function OrderCompleteComponent() {
             </p>
             <b>{transferMethod?.id.split("-").join(" ").toLocaleUpperCase()}</b>
           </li>
-          <li className="flex items-center justify-between gap-4 capitalize mb-3">
-            <p className="text-Grey-600 text-sm font-medium">transfer info</p>
-            <b>
-              {`${"*".repeat(12)} ${transferMethod.paymentData[
-                "card-number"
-              ].slice(-4)}`}
-            </b>
-          </li>
+          {transferMethod.paymentData["card-number"] ? (
+            <li className="flex items-center justify-between gap-4 capitalize mb-3">
+              <p className="text-Grey-600 text-sm font-medium">transfer info</p>
+              <b>
+                {`${"*".repeat(12)} ${transferMethod.paymentData[
+                  "card-number"
+                ]?.slice(-4)}`}
+              </b>
+            </li>
+          ) : null}
         </ul>
         <ul>
           <li className="flex items-center justify-between gap-4 capitalize mb-3">

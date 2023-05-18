@@ -18,3 +18,16 @@ type ShippingAddress = {
   "phone-number": string;
   email: string;
 };
+
+type Signup = {
+  fullname: string;
+  phone: string;
+  email: string;
+  password: string;
+};
+
+type AlertComponent = {
+  show: boolean;
+  alertType: "error" | "success" | "warning";
+  message: string;
+};
