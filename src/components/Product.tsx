@@ -9,7 +9,7 @@ type Props = {
 
 const Product = ({ cate, name, src, price }: Props) => {
   return (
-    <div className=" p-4 border-Grey-200 group border-[1px] hover:border-transparent hover:shadow-md rounded">
+    <div className=" p-4 cursor-pointer border-Grey-200 group border-[1px] hover:border-transparent hover:shadow-md rounded">
       <h6 className="text-xs text-Grey-700 py-2">{cate}</h6>
       <h5 className="text-Primary-600 font-semibold text-sm py-2 items-center">
         {name}
