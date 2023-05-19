@@ -4,26 +4,28 @@ import ShopFeats from "@/components/ShopFeats";
 import SlidesProducts from "@/components/SlidesProducts";
 import Head from "next/head";
 import CategorySection from "@/components/CategorySection";
-import BestSellers from "@/components/Bestsellers";
+import BestSellers from "@/components/BestSellers";
 import BigDeals from "@/components/BigDeals";
 import Banners from "@/components/Banners";
 import ProductLists from "@/components/ProductLists";
+import Brands from "@/components/Brands";
 
 export default function Home() {
   return (
     <>
-      {/* <Head>
+      <Head>
         <title>Shoperz | home </title>
-      </Head> */}
+      </Head>
       <main className="">
         <Slider />
         <ShopFeats />
         <SlidesProducts />
-        <CategorySection />
-        <BestSellers />
-        <Banners />
-        <BigDeals />
-        <ProductLists />
+        {/* <CategorySection /> */}
+        {/* <BestSellers /> */}
+        {/* <Banners /> */}
+        {/* <BigDeals /> */}
+        {/* <Brands /> */}
+        {/* <ProductLists /> */}
       </main>
     </>
   );

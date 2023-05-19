@@ -8,6 +8,7 @@ import {
 import { IoLocation, IoLanguageOutline } from "react-icons/io5";
 import { ImEarth } from "react-icons/im";
 import { AiFillSetting, AiFillYoutube } from "react-icons/ai";
+import Link from "next/link";
 
 export default function HeaderUpperbar() {
   return (
@@ -67,15 +68,16 @@ export default function HeaderUpperbar() {
               track order
             </p>
           </a>
-          <a
-            href="#"
+          <Link
+            href="/shop"
             className="flex group hover:text-Grey-700 items-center justify-center gap-2 px-2"
           >
             <FaShoppingBasket className="group-hover:text-Grey-700" />
             <p className="text-xs uppercase group-hover:text-Grey-700  text-gray-400">
               shop
             </p>
-          </a>
+          </Link>
+
           <a
             href="#"
             className="flex group items-center justify-center gap-2 px-2"
