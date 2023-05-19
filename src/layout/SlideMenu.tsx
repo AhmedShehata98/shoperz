@@ -30,7 +30,7 @@ const SlideMenu = ({ setShowMenu }: Props) => {
         className="w-full md:w-2/5 lg:w-1/3 h-full min-h-screen flex flex-col items-center justify-start bg-white px-5 md:px-3 py-1 md:py-0 rounded-t-3xl md:rounded-none"
       >
         <div className="py-4 flex justify-between items-center w-full">
-          <Logo />
+          <h5 className="text-3xl font-medium">Welcome</h5>
           <div className=" flex items-center justify-center px-3 py-1 md:hidden">
             <button
               className="bg-white p-3 rounded-full shadow-lg text-lg"

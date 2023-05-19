@@ -9,7 +9,7 @@ type Props = {
 
 const ShopFeat = ({ src, fontTitle, lightTitle }: Props) => {
   return (
-    <div className="flex max-lg:flex-col py-1 max-lg:text-sm justify-between items-center max-lg:px-2  px-8 my-8 gap-x-2 text-center">
+    <div className="flex max-lg:flex-col py-1 max-lg:text-sm justify-between items-center max-lg:px-2 px-8 my-4 gap-x-2 text-center">
       <div>
         <Image
           height={src.height}
