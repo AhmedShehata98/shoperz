@@ -1,6 +1,3 @@
-export interface ICart extends IProduct {
-  quantity: number;
-}
 export interface IApiCallState {
   isLoading: boolean;
   isSuccess: Boolean;
@@ -10,8 +7,8 @@ export interface IApiCallState {
 export interface IProduct {
   id: number;
   title: string;
-  description: string;
   price: number;
+  description: string;
   discountPercentage: number;
   rating: number;
   stock: number;

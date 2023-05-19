@@ -1,4 +1,4 @@
-import { IApiCallState, ICart } from "@/models/shopperz.model";
+import { IApiCallState } from "@/models/shopperz.model";
 import { SinglyLinkedList } from "@/utils/SinglyLinkedList";
 import React, { useMemo } from "react";
 import { AiOutlineCloseCircle } from "react-icons/ai";
@@ -10,9 +10,8 @@ import CartItem from "./CartItem";
 import { nanoid } from "@reduxjs/toolkit";
 
 interface CartProps {
-  cartItems?: Array<ICart>;
+  cartItems: Array<CartProducts>;
   apiCallState: IApiCallState;
-  // linkedlist: SinglyLinkedList;
 }
 export default function Cart({ cartItems = [], apiCallState }: CartProps) {
   return (

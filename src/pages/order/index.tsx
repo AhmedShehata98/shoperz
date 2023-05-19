@@ -5,12 +5,11 @@ import React from "react";
 import CheckoutComponent from "./components/CheckoutComponent";
 import OrderCompleteComponent from "./components/OrderCompleteComponent";
 import ShoppingCartComponent from "./components/ShoppingCartComponent";
-import { useAppSelector } from "@/hooks/reduxHooks";
 import { selectAppState } from "@/redux/slices/app.slice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 function ShoppingCart() {
-  const { currentComponent } = useAppSelector(selectAppState);
+  const { currentComponent } = useSelector(selectAppState);
   const dispatch = useDispatch();
 
   return (

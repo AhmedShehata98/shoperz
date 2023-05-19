@@ -7,7 +7,7 @@ import {
   getDefaultMiddleware,
 } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/dist/query";
-import { productsApi } from "@/services/products.service";
+import { dummyjsonApi } from "@/services/dummyjson.service";
 import { shippingAddressApi } from "@/services/shippingAddress.service";
 import { userApi } from "@/services/user.service";
 
@@ -15,13 +15,13 @@ export const makeStore = () =>
   configureStore({
     reducer: {
       [appSlice.name]: appSlice.reducer,
-      [productsApi.reducerPath]: productsApi.reducer,
+      [dummyjsonApi.reducerPath]: dummyjsonApi.reducer,
       [userApi.reducerPath]: userApi.reducer,
       [shippingAddressApi.reducerPath]: shippingAddressApi.reducer,
     },
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware().concat(
-        productsApi.middleware,
+        dummyjsonApi.middleware,
         userApi.middleware,
         shippingAddressApi.middleware
       ),

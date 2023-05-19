@@ -3,21 +3,7 @@ import UserAddressForm from "@/pages/order/components/UserAddressForm";
 import React, { useState, useCallback } from "react";
 import { motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  changeCurrentOrderComponent,
-  handleAddToOrderData,
-  handleMargefullOrderData,
-  selectAppState,
-} from "@/redux/slices/app.slice";
-import CartItem from "./CartItem";
-import { ICart } from "@/models/shopperz.model";
-import { IoIosCheckboxOutline } from "react-icons/io";
-import { ImCheckboxUnchecked } from "react-icons/im";
-import {
-  RiCheckboxBlankFill,
-  RiCheckboxCircleFill,
-  RiCheckboxFill,
-} from "react-icons/ri";
+import { selectAppState } from "@/redux/slices/app.slice";
 import OrdersPreviewListProps from "./OrdersPreviewList";
 import Portal from "@/hooks/Protal";
 import PaymentMethods from "./PaymentMethods";

@@ -5,6 +5,8 @@ import Link from "next/link";
 import { useDispatch } from "react-redux";
 import { setShowAlert } from "@/redux/slices/app.slice";
 import { ToastContainer, toast } from "react-toastify";
+import { ResultTypeFrom } from "@reduxjs/toolkit/dist/query/endpointDefinitions";
+import { sendSignupData } from "@/services/api/shoppers.api";
 
 function Signup() {
   const dispatch = useDispatch();
@@ -26,21 +28,35 @@ function Signup() {
 
   const handleSendSingupData = (e: React.FormEvent) => {
     e.preventDefault();
+
+    // sendSignupData(formData)
+    //   .then((res) => {
+    //     toast.success(res.message);
+    //   })
+    //   .catch((e) => toast.warning(e));
     signupUser(formData)
-      .then((response) => {
-        if (signupResponse.isLoading) {
-          toast.loading("sending your data , please wait...");
-        }
-        if (signupResponse.isError) {
-          toast.error(response?.error.data.errors[0].error);
-        }
-        if (signupResponse.isSuccess) {
-          toast.success(JSON.stringify(response));
-        }
+      .unwrap()
+      .then((res) => {
         console.log(signupResponse);
+        console.log(signupResponse.isError);
+        console.log(signupResponse.isSuccess);
+        // if (signupResponse.isSuccess) {
+        //   toast.success(res);
+        // }
+        // if (signupResponse.isError) {
+        //   if (res.error) {
+        //     toast.warning(res.error.data.message);
+        //   }
+        //   if (res.data) {
+        //     toast.warning(res.data.errors[0].error);
+        //   }
+        // }
+        console.log(res);
+        toast.info(signupResponse.data || signupResponse.error);
       })
-      .catch((err: Error) => {
-        toast.error(JSON.stringify(err.message));
+      .catch((err) => {
+        console.log("error here");
+        toast.error(JSON.stringify("catch error , there's syntax error"));
       });
   };
 
