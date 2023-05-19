@@ -23,6 +23,7 @@ export default function HeaderUpperbar() {
           <select
             name="language-list"
             id="language"
+            placeholder="Currency"
             className="bg-white text-gray-800 focus:outline-none w-24 h-8"
           >
             <option value="ar">ar</option>
@@ -63,8 +64,8 @@ export default function HeaderUpperbar() {
             href="#"
             className="flex group items-center  justify-center gap-2 px-2"
           >
-            <IoLocation className="group-hover:text-Grey-700" />
-            <p className="text-xs uppercase group-hover:text-Grey-700   text-gray-400">
+            <IoLocation className="group-hover:text-Grey-800" />
+            <p className="text-xs uppercase group-hover:text-Grey-800   text-gray-400">
               track order
             </p>
           </a>
@@ -72,8 +73,8 @@ export default function HeaderUpperbar() {
             href="/shop"
             className="flex group hover:text-Grey-700 items-center justify-center gap-2 px-2"
           >
-            <FaShoppingBasket className="group-hover:text-Grey-700" />
-            <p className="text-xs uppercase group-hover:text-Grey-700  text-gray-400">
+            <FaShoppingBasket className="group-hover:text-Grey-800" />
+            <p className="text-xs uppercase group-hover:text-Grey-800  text-gray-400">
               shop
             </p>
           </Link>
@@ -82,8 +83,8 @@ export default function HeaderUpperbar() {
             href="#"
             className="flex group items-center justify-center gap-2 px-2"
           >
-            <AiFillSetting className="group-hover:text-Grey-700" />
-            <p className="text-xs uppercase group-hover:text-Grey-700  text-gray-400">
+            <AiFillSetting className="group-hover:text-Grey-800" />
+            <p className="text-xs uppercase group-hover:text-Grey-800  text-gray-400">
               settings
             </p>
           </a>
@@ -91,7 +92,7 @@ export default function HeaderUpperbar() {
             href="#"
             className="flex group hover:text-Grey-700 items-center justify-center gap-2 px-2"
           >
-            <p className="text-xs uppercase hover:text-Grey-700  text-gray-400">
+            <p className="text-xs uppercase hover:text-Grey-800 text-gray-400">
               faq
             </p>
           </a>

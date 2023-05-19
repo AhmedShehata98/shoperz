@@ -20,12 +20,12 @@ export default function Home() {
         <Slider />
         <ShopFeats />
         <SlidesProducts />
-        {/* <CategorySection /> */}
-        {/* <BestSellers /> */}
-        {/* <Banners /> */}
-        {/* <BigDeals /> */}
-        {/* <Brands /> */}
-        {/* <ProductLists /> */}
+        <CategorySection />
+        <BestSellers />
+        <Banners />
+        <BigDeals />
+        <Brands />
+        <ProductLists />
       </main>
     </>
   );
