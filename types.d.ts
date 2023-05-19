@@ -1,3 +1,27 @@
+interface ICart {
+  carts: Array<CartItems>;
+}
+
+type CartItems = {
+  id: number;
+  products: Array<CartProducts>;
+  total: number;
+  discountedTotal: number;
+  userId: number;
+  totalProducts: number;
+  totalQuantity: number;
+};
+
+type CartProducts = {
+  id: number;
+  title: "Spring and summershoes";
+  price: number;
+  quantity: number;
+  total: number;
+  discountPercentage: number;
+  discountedPrice: number;
+};
+
 type IPaymentMethod = {
   id: string;
   value: boolean;

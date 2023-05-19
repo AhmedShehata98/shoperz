@@ -8,12 +8,14 @@ import Cart from "./Cart";
 import { motion } from "framer-motion";
 import { useQuery } from "react-query";
 import AlertDialog from "./AlertDialog";
-import { ICart } from "@/models/shopperz.model";
 import OfferItem from "./OfferItem";
-import { useGetProductsQuery } from "@/services/products.service";
+import { useGetCartItemsQuery } from "@/services/dummyjson.service";
+import { useDispatch } from "react-redux";
+import { setCartLength } from "@/redux/slices/app.slice";
 
 interface ShoppingCartComponentProps {}
 function ShoppingCartComponent() {
+  const dispatch = useDispatch();
   const [showConfirmIsUser, setShowConfirmIsUser] = useState(false);
 
   ////////////////////
@@ -24,22 +26,24 @@ function ShoppingCartComponent() {
   //
   ////////////////////
 
-  const { data, isLoading, isError, isSuccess } = useGetProductsQuery("");
+  const { data, isLoading, isError, isSuccess } = useGetCartItemsQuery();
 
-  const memoziedData = useMemo(() => {
+  const memoziedCartItem = useMemo(() => {
     if (isSuccess) {
-      let randomQuantity = Math.floor(Math.random() * 3);
-      let fakeData = data?.products.slice(5, 10).map((prev: any) => ({
-        ...prev,
-        quantity: randomQuantity,
-        currency: "L.E",
-        totalPrice: prev.price * randomQuantity,
-      }));
-      return fakeData;
-    } else {
-      return [];
+      let randomCartItem: number = Math.floor(
+        Math.random() * data.carts.length - 1
+      );
+      if (randomCartItem > data.carts.length) {
+        dispatch(
+          setCartLength(data?.carts[randomCartItem - 1]?.products.length)
+        );
+        return data?.carts[randomCartItem - 1];
+      } else {
+        dispatch(setCartLength(data?.carts[randomCartItem]?.products.length));
+        return data?.carts[randomCartItem];
+      }
     }
-  }, [data, isLoading]);
+  }, [data, isLoading]) as CartItems;
 
   return (
     <motion.article
@@ -53,11 +57,11 @@ function ShoppingCartComponent() {
     >
       <section className="shopping-cart-details">
         <Cart
-          cartItems={memoziedData}
+          cartItems={memoziedCartItem?.products}
           apiCallState={{ isLoading, isError, isSuccess }}
         />
         <OrderReport
-          orders={memoziedData}
+          orders={memoziedCartItem}
           loggedin={loggedin}
           setShowConfirmIsUser={setShowConfirmIsUser}
           apiCallState={{ isLoading, isError, isSuccess }}

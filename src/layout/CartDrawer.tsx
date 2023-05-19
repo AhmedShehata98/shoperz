@@ -8,29 +8,53 @@ import { MdPayment } from "react-icons/md";
 import { FaEquals } from "react-icons/fa";
 import Link from "next/link";
 import { routes } from "../constants/Routes";
-interface CartDrawerProps {
-  setShowDrower: React.Dispatch<React.SetStateAction<boolean>>;
-  cartItems?: Array<{
-    currency: string;
-    image: string;
-    price: number;
-    productName: string;
-    quantity: number;
-  }>;
-}
-function CartDrawer({ setShowDrower, cartItems = [] }: CartDrawerProps) {
-  const [totalPrice, setTotalPrice] = useState(0);
+import { useGetCartItemsQuery } from "@/services/dummyjson.service";
+import { useDispatch } from "react-redux";
+import { setCartLength, setShowCartDrawer } from "@/redux/slices/app.slice";
+interface Props {}
+function CartDrawer() {
+  const dispatch = useDispatch();
+  // const [totalPrice, setTotalPrice] = useState(0);
   const cartVariants = {
     visible: { opacity: 1, translateX: "0px" },
     hidden: { opacity: 0, translateX: "-35px" },
   };
-  const total = useMemo(
-    () => cartItems.reduce((prev, curr) => prev + curr.price, 0),
-    [cartItems]
-  );
-  useEffect(() => {
-    setTotalPrice(total);
-  }, [cartItems]);
+
+  // useEffect(() => {
+  //   setTotalPrice(total);
+  // }, [cartItems]);
+
+  const {
+    data: cartItems,
+    isLoading,
+    isSuccess,
+    isError,
+  } = useGetCartItemsQuery();
+
+  const memoziedCartItem = useMemo(() => {
+    if (isSuccess) {
+      let randomCartItem: number = Math.floor(
+        Math.random() * cartItems.carts.length - 1
+      );
+
+      if (randomCartItem > cartItems.carts.length) {
+        dispatch(
+          setCartLength(cartItems?.carts[randomCartItem - 1]?.products.length)
+        );
+        return cartItems?.carts[randomCartItem - 1];
+      } else {
+        dispatch(
+          setCartLength(cartItems?.carts[randomCartItem]?.products.length)
+        );
+        return cartItems?.carts[randomCartItem];
+      }
+    }
+  }, [cartItems, isLoading]) as CartItems;
+
+  const handleHideCart = () => {
+    dispatch(setShowCartDrawer(false));
+  };
+  console.log(memoziedCartItem?.products);
 
   return (
     <div className="absolute z-20 bg-slate-700 inset-0 bg-opacity-60 flex flex-col md:flex-row items-start justify-start md:justify-end overflow-hidden">
@@ -38,7 +62,7 @@ function CartDrawer({ setShowDrower, cartItems = [] }: CartDrawerProps) {
         <button
           className="bg-white p-3 rounded-full shadow-lg text-lg"
           title="go back"
-          onClick={() => setShowDrower(false)}
+          onClick={() => handleHideCart()}
         >
           <IoIosArrowForward />
         </button>
@@ -51,9 +75,9 @@ function CartDrawer({ setShowDrower, cartItems = [] }: CartDrawerProps) {
       >
         <header className="w-full py-4 flex items-center justify-between">
           <h3 className="capitalize font-semibold text-lg">your cart</h3>
-          <p className="text-gray-500">({cartItems.length})</p>
+          <p className="text-gray-500">({memoziedCartItem?.products.length})</p>
         </header>
-        {cartItems?.length < 1 && (
+        {memoziedCartItem?.products?.length < 1 && (
           <div className="w-full h-3/4 flex flex-col justify-center items-center">
             <span className="flex bg-sky-100 text-6xl text-sky-700 rounded-full shadow p-7">
               <HiOutlineShoppingBag />
@@ -66,32 +90,34 @@ function CartDrawer({ setShowDrower, cartItems = [] }: CartDrawerProps) {
             </button>
           </div>
         )}
-        {cartItems.length > 0 && (
+        {memoziedCartItem?.products.length > 0 && (
           <div className="w-full px-2 flex flex-col">
             <ul className="w-full grid grid-flow-row-dense gap-4 mb-5 mt-2">
-              {cartItems.map((item) => (
+              {memoziedCartItem?.products.map((item) => (
                 <li
                   key={item.price}
                   className="flex gap-3 items-center justify-between p-3 rounded-md hover:bg-gray-100"
                 >
-                  <figure className="w-16 rounded-md">
+                  {/* <figure className="w-16 rounded-md">
                     <img
                       src={item?.image}
                       alt="cart-item-image"
                       className="w-full object-cover object-center"
                     />
-                  </figure>
+                  </figure> */}
                   <div className="w-2/3 flex flex-col items-start justify-start gap-1">
                     <p className="text-sky-700 font-semibold capitalize m-0">
-                      {item?.productName}
+                      {item?.title}
                     </p>
                     <span className="flex items-center justify-center gap-4">
                       <small className="text-gray-500">{item?.quantity}X</small>
                       <span className="flex items-center justify-center gap-1 text-gray-500">
-                        <small>{`${item.currency}`}</small>
-                        <small className="font-mono ">{`${
-                          item.price * item.quantity
-                        }`}</small>
+                        <small className="font-mono ">
+                          {Intl.NumberFormat("en-eg", {
+                            style: "currency",
+                            currency: "EGP",
+                          }).format(item.price)}
+                        </small>
                       </span>
                     </span>
                   </div>
@@ -100,13 +126,12 @@ function CartDrawer({ setShowDrower, cartItems = [] }: CartDrawerProps) {
                       <AiOutlineCloseCircle />
                     </button>
                     <span className="flex items-center justify-center gap-1">
-                      <small className="text-gray-400">
-                        {" "}
-                        {`${item.currency}`}
+                      <small className="font-mono ">
+                        {Intl.NumberFormat("en-eg", {
+                          style: "currency",
+                          currency: "EGP",
+                        }).format(item.total)}
                       </small>
-                      <small className="font-mono ">{`${
-                        item.price * item.quantity
-                      }`}</small>
                     </span>
                   </span>
                 </li>
@@ -116,15 +141,18 @@ function CartDrawer({ setShowDrower, cartItems = [] }: CartDrawerProps) {
               <p className="ps-20 font-medium">total</p>
               <FaEquals />
               <span className="flex gap-1 items-end pe-4">
-                <strong className="text-xl text-rose-600">{totalPrice}</strong>
-                <p>EGP</p>
+                <strong className="text-xl text-rose-600">
+                  {Intl.NumberFormat("en-eg", {
+                    style: "currency",
+                    currency: "EGP",
+                  }).format(memoziedCartItem.total)}
+                </strong>
               </span>
             </span>
             <span className="w-full flex flex-col sm:flex-row items-center justify-stretch gap-3 mt-6 mb-3">
               <Link
                 href={routes.shoppingCart}
                 className="w-full sm:w-1/2 flex items-center justify-center gap-3 px-3 py-2 capitalize bg-Primary-700 text-white rounded-full hover:bg-Primary-600"
-                onClick={() => setShowDrower(false)}
               >
                 <p>shopping cart</p>
               </Link>

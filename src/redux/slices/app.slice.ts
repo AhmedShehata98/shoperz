@@ -22,15 +22,19 @@ interface AppStateProps {
     quantity: number;
     images: Array<string>;
   }>;
+  showCartDrawer: boolean;
   paymentMethod: IPaymentMethod[];
   creditCardsList: ICreditCard[];
   alertContext: AlertComponent;
+  cartLength: number;
 }
 
 const initialState: AppStateProps = {
   currentComponent: "shopping-cart",
   orderData: new SinglyLinkedList(),
   cart: [],
+  cartLength: 0,
+  showCartDrawer: false,
   paymentMethod: [
     {
       id: "credit-card",
@@ -116,6 +120,12 @@ export const appSlice = createSlice({
     setShowAlert: (state, action) => {
       state.alertContext = { ...action.payload };
     },
+    setShowCartDrawer: (state, action) => {
+      state.showCartDrawer = action.payload;
+    },
+    setCartLength: (state, action) => {
+      state.cartLength = action.payload;
+    },
   },
 });
 
@@ -132,4 +142,6 @@ export const {
   addToCreditCardsList,
   removeFromCreditCardsList,
   setShowAlert,
+  setShowCartDrawer,
+  setCartLength,
 } = appSlice.actions;

@@ -20,20 +20,7 @@ import OrderBoxItem from "./OrderBoxItem";
  */
 
 interface OrderReportProps {
-  orders?: Array<{
-    id: number;
-    title: string;
-    description: string;
-    price: number;
-    discountPercentage: number;
-    rating: number;
-    stock: number;
-    totalPrice: number;
-    brand: string;
-    category: string;
-    thumbnail: string;
-    images: Array<string>;
-  }>;
+  orders: CartItems;
   loggedin: boolean;
   setShowConfirmIsUser: React.Dispatch<React.SetStateAction<boolean>>;
   apiCallState: IApiCallState;
@@ -50,23 +37,23 @@ function OrderReport({
   const [orderTotal, setOrderTotal] = useState(0);
   const shippingCost = 50;
 
-  useEffect(() => {
-    const subTotal =
-      orders?.reduce((prev, curr) => prev + curr.totalPrice, 0) || 0;
-    const orderTotal = subTotal + shippingCost;
-    setSubTotal(subTotal);
-    setOrderTotal(orderTotal);
-  }, [orders]);
+  // useEffect(() => {
+  //   const subTotal =
+  //     orders?.reduce((prev, curr) => prev + curr.totalPrice, 0) || 0;
+  //   const orderTotal = subTotal + shippingCost;
+  //   setSubTotal(subTotal);
+  //   setOrderTotal(orderTotal);
+  // }, [orders]);
 
   const getNextPage = () => {
     if (loggedin) {
       let fullOrderData = {
         id: "shopping-order",
-        cartItems: orders,
-        "sub-total": subTotal,
-        discount,
+        cartItems: orders.products,
+        "sub-total": orders.total,
+        discount: orders.total - orders.discountedTotal,
         shippingCost,
-        total: orderTotal,
+        total: orders.discountedTotal,
       };
 
       dispatch(changeCurrentOrderComponent("checkout"));
@@ -91,7 +78,7 @@ function OrderReport({
             currency: "EGP", // display price as country like => EGP , $
             currencySign: "accounting",
             notation: "standard", // displays price in title => 100K ,2M ,4B
-          }).format(subTotal),
+          }).format(orders?.discountedTotal || 0),
         }}
       />
       <OrderBoxItem
@@ -102,7 +89,7 @@ function OrderReport({
             currency: "EGP", // display price as country like => EGP , $
             currencySign: "accounting",
             notation: "standard", // displays price in title => 100K ,2M ,4B
-          }).format(discount),
+          }).format(orders?.discountedTotal - orders?.total || 0),
         }}
       />
       <OrderBoxItem
@@ -141,7 +128,7 @@ function OrderReport({
         </a>
       </span>
       <button
-        className="w-full flex items-center justify-center gap-4 px-4 py-3 rounded-full capitalize text-white bg-Primary-700 font-semibold mt-7 mb-3 hover:bg-Primary-600"
+        className="w-full flex items-center justify-center gap-4 px-4 py-3 rounded-md capitalize text-white bg-Primary-700 font-semibold mt-7 mb-3 hover:bg-Primary-600"
         onClick={getNextPage}
       >
         {apiCallState.isLoading && (
@@ -157,7 +144,7 @@ function OrderReport({
               {Intl.NumberFormat("en-eg", {
                 style: "currency",
                 currency: "EGP",
-              }).format(orderTotal)}
+              }).format(orders?.total || 0 + shippingCost)}
             </p>
           </>
         )}
