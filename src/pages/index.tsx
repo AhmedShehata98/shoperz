@@ -18,8 +18,10 @@ export default function Home() {
       </Head>
       <main className="">
         <Slider />
-        <ShopFeats />
-        <SlidesProducts />
+        <section className="container max-w-5xl mx-auto">
+          <ShopFeats />
+          <SlidesProducts />
+        </section>
         {/* <CategorySection /> */}
         {/* <BestSellers /> */}
         {/* <Banners /> */}
