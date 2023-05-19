@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, Action } from "@reduxjs/toolkit";
 import { AppState } from "../store";
 import { SinglyLinkedList } from "@/utils/SinglyLinkedList";
 import { ICreditCard } from "@/models/shopperz.model";
@@ -24,6 +24,7 @@ interface AppStateProps {
   }>;
   paymentMethod: IPaymentMethod[];
   creditCardsList: ICreditCard[];
+  alertContext: AlertComponent;
 }
 
 const initialState: AppStateProps = {
@@ -43,6 +44,11 @@ const initialState: AppStateProps = {
     },
   ],
   creditCardsList: [],
+  alertContext: {
+    alertType: "success",
+    message: "",
+    show: false,
+  },
 };
 
 export const appSlice = createSlice({
@@ -107,6 +113,9 @@ export const appSlice = createSlice({
 
       state.creditCardsList = listAfterRemove;
     },
+    setShowAlert: (state, action) => {
+      state.alertContext = { ...action.payload };
+    },
   },
 });
 
@@ -122,4 +131,5 @@ export const {
   selectPatmentMethod,
   addToCreditCardsList,
   removeFromCreditCardsList,
+  setShowAlert,
 } = appSlice.actions;
