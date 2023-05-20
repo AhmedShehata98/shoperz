@@ -18,7 +18,7 @@ function UserDropMenu() {
         className="relative flex flex-col items-start justify-center bg-white shadow-xl border border-Grey-400 rounded-md py-2 px-1.5 mt-3"
       >
         <Link
-          href={"register"}
+          href={"my-account"}
           className="w-full flex items-center justify-start gap-2 py-1.5 px-1 font-medium cursor-pointer capitalize text-sm hover:bg-Grey-100"
         >
           <span className="text-xl">
