@@ -1,3 +1,4 @@
+import InputField from "@/components/InputField";
 import React from "react";
 
 type Props = {
@@ -29,12 +30,12 @@ function ProfileSettings({ title }: Props) {
                 >
                   full name
                 </label>
-                <input
+
+                <InputField
                   type="text"
                   name="fullname"
                   id="fullname"
                   placeholder="full name"
-                  className="custom-input-field"
                 />
               </span>
               <span className="input-field-wrapper">
@@ -44,12 +45,11 @@ function ProfileSettings({ title }: Props) {
                 >
                   phone number
                 </label>
-                <input
+                <InputField
                   type="text"
                   name="phone-number"
                   id="phone-number"
                   placeholder="phone number"
-                  className="custom-input-field"
                 />
               </span>
               <span className="input-field-wrapper">
@@ -79,12 +79,11 @@ function ProfileSettings({ title }: Props) {
                 >
                   e-mail address
                 </label>
-                <input
+                <InputField
                   type="email"
                   name="email"
                   placeholder="example@email.com"
                   id="email"
-                  className="custom-input-field"
                 />
               </span>
               <span className="input-field-wrapper">
@@ -114,12 +113,11 @@ function ProfileSettings({ title }: Props) {
                 >
                   current password
                 </label>
-                <input
+                <InputField
                   type="current-password"
                   name="current-password"
                   placeholder="example@email.com"
                   id="current-password"
-                  className="custom-input-field"
                 />
               </span>
               <span className="input-field-wrapper mt-3">
@@ -129,12 +127,11 @@ function ProfileSettings({ title }: Props) {
                 >
                   new password
                 </label>
-                <input
+                <InputField
                   type="new-password"
                   name="new-password"
                   placeholder="example@email.com"
                   id="new-password"
-                  className="custom-input-field"
                 />
               </span>
               <span className="input-field-wrapper mt-3">
@@ -144,12 +141,11 @@ function ProfileSettings({ title }: Props) {
                 >
                   confirm password
                 </label>
-                <input
+                <InputField
                   type="confirm-password"
                   name="confirm-password"
                   placeholder="example@email.com"
                   id="confirm-password"
-                  className="custom-input-field"
                 />
               </span>
               <span className="input-field-wrapper mt-4">

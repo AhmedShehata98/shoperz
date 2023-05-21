@@ -8,22 +8,19 @@ import {
 } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/dist/query";
 import { dummyjsonApi } from "@/services/dummyjson.service";
-import { shippingAddressApi } from "@/services/shippingAddress.service";
-import { userApi } from "@/services/user.service";
+import { shoperzApi } from "@/services/shoperzApi.service";
 
 export const makeStore = () =>
   configureStore({
     reducer: {
       [appSlice.name]: appSlice.reducer,
       [dummyjsonApi.reducerPath]: dummyjsonApi.reducer,
-      [userApi.reducerPath]: userApi.reducer,
-      [shippingAddressApi.reducerPath]: shippingAddressApi.reducer,
+      [shoperzApi.reducerPath]: shoperzApi.reducer,
     },
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware().concat(
         dummyjsonApi.middleware,
-        userApi.middleware,
-        shippingAddressApi.middleware
+        shoperzApi.middleware
       ),
     devTools: true,
   });

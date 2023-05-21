@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/dist/query/react";
 import { API_BASE_URL, ENDPOINTS } from "./api/shoppers.api";
 
-export const userApi = createApi({
+export const shoperzApi = createApi({
   reducerPath: "user",
   baseQuery: fetchBaseQuery({ baseUrl: API_BASE_URL }),
   endpoints: (builder) => ({
@@ -32,4 +32,4 @@ export const userApi = createApi({
   }),
 });
 
-export const { useSignupUserMutation } = userApi;
+export const { useSignupUserMutation } = shoperzApi;

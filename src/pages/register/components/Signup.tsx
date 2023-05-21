@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { useSignupUserMutation } from "@/services/user.service";
+import { useSignupUserMutation } from "@/services/shoperzApi.service";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
