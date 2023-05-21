@@ -4,15 +4,26 @@ import Login from "./components/Login";
 import Signup from "./components/Signup";
 import registerImg from "../../assets/img/register.jpg";
 import Head from "next/head";
+import { useRouter } from "next/router";
+import { routes } from "@/constants/Routes";
 
 function Register() {
-  const [currentOperation, setCurrentOperation] = useState<
-    "login" | "signup" | "reset"
-  >("login");
+  const {
+    push,
+    query: { target },
+  } = useRouter();
+
+  const handleChangePage = (data: string) => {
+    push({
+      pathname: routes.register,
+      query: { target: data },
+    });
+  };
+
   return (
     <>
       <Head>
-        <title>{`Shoperz - ${currentOperation.toLocaleUpperCase()}`}</title>
+        <title>{`Shoperz - ${target || "login".toLocaleUpperCase()}`}</title>
       </Head>
       <main className="min-h-screen w-full flex items-center justify-center">
         <div className="hidden relative lg:flex w-1/2 h-screen p-5">
@@ -40,9 +51,9 @@ function Register() {
           <h3 className="font-semibold capitalize mb-5">welcome to shoperz</h3>
           <nav className="w-full lg:w-max flex items-center justify-between bg-sky-300 gap-2 rounded-full p-2 mb-3">
             <button
-              onClick={() => setCurrentOperation("signup")}
+              onClick={() => handleChangePage("signup")}
               className={
-                currentOperation === "signup"
+                target === "signup"
                   ? "register-navlink register-navlink-active"
                   : "register-navlink"
               }
@@ -50,19 +61,18 @@ function Register() {
               signup
             </button>
             <button
-              onClick={() => setCurrentOperation("login")}
+              onClick={() => handleChangePage("login")}
               className={
-                currentOperation === "login"
+                target === "login"
                   ? "register-navlink register-navlink-active"
                   : "register-navlink"
               }
-              // text-white bg-sky-600  shadow-md hover:bg-sky-600 hover:md
             >
               login
             </button>
           </nav>
-          {currentOperation === "login" && <Login />}
-          {currentOperation === "signup" && <Signup />}
+          {target === "login" && <Login />}
+          {target === "signup" && <Signup />}
         </div>
       </main>
     </>

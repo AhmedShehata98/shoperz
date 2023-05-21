@@ -70,6 +70,11 @@ type SignupSuccess = {
   error: null | string;
 };
 
+type Login = {
+  email: string;
+  password: string;
+};
+
 type AlertComponent = {
   show: boolean;
   alertType: "error" | "success" | "warning";

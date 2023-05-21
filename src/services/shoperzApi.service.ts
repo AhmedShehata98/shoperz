@@ -29,7 +29,17 @@ export const shoperzApi = createApi({
         },
       }),
     }),
+    loginUser: builder.mutation({
+      query: (payload: Login) => ({
+        url: ENDPOINTS.auth.login,
+        method: "POST",
+        body: payload,
+        headers: {
+          "Content-Type": "application/json ; charset=UTF-8",
+        },
+      }),
+    }),
   }),
 });
 
-export const { useSignupUserMutation } = shoperzApi;
+export const { useSignupUserMutation, useLoginUserMutation } = shoperzApi;

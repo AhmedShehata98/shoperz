@@ -80,7 +80,7 @@ function HeaderControlsActions() {
       </form>
       <span className="headerar-actionsbtns-wrapper">
         <UserBtn
-          isAuthenticated={true}
+          isAuthenticated={false}
           onClick={() => setShowUserMenu((show) => !show)}
         />
         {showUserMenu ? <UserDropMenu /> : null}

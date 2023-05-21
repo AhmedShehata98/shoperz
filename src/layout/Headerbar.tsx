@@ -24,37 +24,6 @@ const Headerbar = () => {
   const { showCartDrawer } = useSelector(selectAppState);
   const [showMenu, setShowMenu] = useState(false);
 
-  // cartItems={[
-  //   {
-  //     image: "https://picsum.photos/300",
-  //     productName: "kal;skdnvr iojfwioehf lhygf",
-  //     quantity: 3,
-  //     price: 400,
-  //     currency: "EGP",
-  //   },
-  //   {
-  //     image: "https://picsum.photos/301",
-  //     productName: "call be doing some is herfs",
-  //     quantity: 1,
-  //     price: 200,
-  //     currency: "EGP",
-  //   },
-  //   {
-  //     image: "https://picsum.photos/302",
-  //     productName: "qwc ougbvrm aafecwdasdfrefvs dcs",
-  //     quantity: 4,
-  //     price: 1400,
-  //     currency: "EGP",
-  //   },
-  //   {
-  //     image: "https://picsum.photos/303",
-  //     productName: "gft asdvnbmke yugf",
-  //     quantity: 2,
-  //     price: 2800,
-  //     currency: "EGP",
-  //   },
-  // ]}
-
   return (
     <header className="flex flex-col w-full h-fit bg-white">
       {showCartDrawer ? <CartDrawer /> : null}

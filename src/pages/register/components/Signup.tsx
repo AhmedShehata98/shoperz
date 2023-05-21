@@ -28,11 +28,15 @@ function Signup() {
       if (!signupResponse.isLoading) {
         //
         if (signupResponse.isError) {
-          toast.error(signupResponse.error?.errDetails.message);
+          toast.error(signupResponse.error?.errDetails.message, {
+            position: "bottom-center",
+            className: "w-max",
+          });
         }
         if (signupResponse.isSuccess) {
           toast.success(
-            "Congratulations, the account was successfully created"
+            "Congratulations, the account was successfully created",
+            { position: "bottom-center", className: "w-max" }
           );
         }
         //

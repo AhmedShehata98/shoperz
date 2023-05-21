@@ -1,3 +1,4 @@
+import { routes } from "@/constants/Routes";
 import Link from "next/link";
 import React from "react";
 import { FaUserAlt } from "react-icons/fa";
@@ -24,10 +25,13 @@ export default function UserBtn({ isAuthenticated, onClick }: Props) {
     );
   } else {
     return (
-      <Link href={"register"} className="flex items-center gap-2">
+      <Link
+        href={{ pathname: routes.register, query: { target: "login" } }}
+        className="flex items-center gap-2"
+      >
         <FaUserAlt className="text-lg pointer-events-none" />
         <p className="text-gray-500 text-xs uppercase pointer-events-none">
-          login / register
+          login
         </p>
       </Link>
     );
