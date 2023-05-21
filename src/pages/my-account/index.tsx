@@ -5,6 +5,7 @@ import AccountSidebarItem from "./components/AccountSidebarItem";
 import { BiMap } from "react-icons/bi";
 import { AiOutlineShopping } from "react-icons/ai";
 import ProfileSettings from "./components/ProfileSettings";
+import MyAddress from "./components/MyAddress";
 
 const MyAccount = () => {
   const [currentRenderedComponent, setCurrentRenderedComponent] =
@@ -59,7 +60,12 @@ const MyAccount = () => {
               onClick={(ev) => handleChangeRenderedComponent(ev, "my address")}
             />
           </ul>
-          <ProfileSettings title={currentRenderedComponent} />
+          {currentRenderedComponent === "profile settings" ? (
+            <ProfileSettings title={currentRenderedComponent} />
+          ) : null}
+          {currentRenderedComponent === "my address" ? (
+            <MyAddress title={currentRenderedComponent} />
+          ) : null}
         </section>
       </main>
     </>

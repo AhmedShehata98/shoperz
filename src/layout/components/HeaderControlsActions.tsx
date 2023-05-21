@@ -18,7 +18,8 @@ function HeaderControlsActions() {
   };
 
   const handleBodyClickEvent = (ev: MouseEvent) => {
-    if (ev.target?.id !== "user-btn") {
+    const clickArea = ev.target as HTMLElement;
+    if (clickArea.id !== "user-btn") {
       setShowUserMenu(false);
     }
   };
@@ -43,23 +44,19 @@ function HeaderControlsActions() {
           <Logo />
         </div>
       </span>
-
-      <form
-        action=""
-        className="flex h-9 w-fit border-2 max-lg:my-6 border-sky-600 rounded-full overflow-hidden max-lg:hidden"
-      >
+      <form action="" className="shoperz-search-bar">
         <input
           type="search"
           name="search-for-products"
           id="app-search-field"
           placeholder="search for products .."
-          className="w-[70%] text-gray-600 bg-inherit h-full text-sm rounded-full px-3 focus:outline-none focus:bg-white"
+          className="shoperz-searchbar-input "
         />
         <select
           name="select-category"
           id="categories"
           value={"all categories"}
-          className="w-1/3 text-gray-500 uppercase text-sm bg-inherit accent-gray-700 focus:outline-none focus:border-sky-600"
+          className="shoperz-searchbar-select"
         >
           <option value="all categories">all categories</option>
           <option value="electronics">electronics</option>
@@ -77,16 +74,15 @@ function HeaderControlsActions() {
           <option value="toys">toys</option>
           <option value="TV & Audio">TV & Audio</option>
         </select>
-        <button
-          type="submit"
-          id="search0btn"
-          className="w-14 bg-sky-600 px-4 hover:bg-sky-500"
-        >
+        <button type="submit" id="search0btn" className="shoperz-searchbar-btn">
           <BsSearch />
         </button>
       </form>
-      <span className="relative flex items-center justify-between gap-6 text-gray-600">
-        <UserBtn isAuthenticated={true} onClick={() => setShowUserMenu(true)} />
+      <span className="headerar-actionsbtns-wrapper">
+        <UserBtn
+          isAuthenticated={true}
+          onClick={() => setShowUserMenu((show) => !show)}
+        />
         {showUserMenu ? <UserDropMenu /> : null}
         <button type="button" className="flex items-center gap-2">
           <BsFillHeartFill />

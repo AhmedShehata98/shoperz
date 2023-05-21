@@ -1,12 +1,15 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { BsHouseDoor, BsTrash } from "react-icons/bs";
 import { IoIosPerson } from "react-icons/io";
 import AddressCardItem from "./AddressCardItem";
-import { useGetUserAddressQuery } from "@/services/shippingAddress.service";
+
 import Portal from "@/hooks/Protal";
-import UserAddressForm from "./UserAddressForm";
+import UserAddressForm from "@/components/UserAddressForm";
+import { handleAddToOrderData } from "@/redux/slices/app.slice";
+import { useDispatch } from "react-redux";
 
 function UserAddress() {
+  const dispatch = useDispatch();
   const {
     isLoading,
     isError,
@@ -14,6 +17,14 @@ function UserAddress() {
     data: addressList,
   } = useGetUserAddressQuery("");
   const [showAddressForm, setShowAddressForm] = useState(false);
+  const sendUserInformation = () => {
+    dispatch(
+      handleAddToOrderData({
+        id: "checkout",
+        userInformation: formData,
+      })
+    );
+  };
   return (
     <div className=" mt-3">
       <h3 className="mb-2 text-Grey-700 text-xl font-medium capitalize">
@@ -56,7 +67,10 @@ function UserAddress() {
       </button>
       {showAddressForm ? (
         <Portal>
-          <UserAddressForm setIsShowing={setShowAddressForm} />
+          <UserAddressForm
+            setIsShowing={setShowAddressForm}
+            handleSubmit={sendUserInformation}
+          />
         </Portal>
       ) : null}
     </div>

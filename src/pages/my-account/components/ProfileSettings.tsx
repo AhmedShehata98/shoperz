@@ -1,3 +1,4 @@
+import CustomButton from "@/components/CustomButton";
 import InputField from "@/components/InputField";
 import React from "react";
 
@@ -53,9 +54,7 @@ function ProfileSettings({ title }: Props) {
                 />
               </span>
               <span className="input-field-wrapper">
-                <button className="max-lg:w-full bg-Primary-700 text-white rounded shadow-md px-6 py-1 hover:bg-Primary-600 mt-5 self-center">
-                  save
-                </button>
+                <CustomButton type="submit">save</CustomButton>
               </span>
             </form>
           </div>
@@ -87,9 +86,7 @@ function ProfileSettings({ title }: Props) {
                 />
               </span>
               <span className="input-field-wrapper">
-                <button className="max-lg:w-full bg-Primary-700 text-white rounded shadow-md px-6 py-1 hover:bg-Primary-600 mt-5 self-center">
-                  save
-                </button>
+                <CustomButton type="submit">save</CustomButton>
               </span>
             </form>
           </div>
@@ -149,9 +146,7 @@ function ProfileSettings({ title }: Props) {
                 />
               </span>
               <span className="input-field-wrapper mt-4">
-                <button className="max-lg:w-full bg-Primary-700 text-white rounded shadow-md px-6 py-1 hover:bg-Primary-600 mt-5 self-center">
-                  save
-                </button>
+                <CustomButton type="submit">save</CustomButton>
               </span>
             </form>
           </div>
