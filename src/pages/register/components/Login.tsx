@@ -6,22 +6,19 @@ import { useRouter } from "next/router";
 import React, { useEffect } from "react";
 import { toast } from "react-toastify";
 import SubmitButton from "./SubmitButton";
+import FormInputWrapper from "@/components/FormInputWrapper";
 
 function Login() {
   const { push } = useRouter();
-  const { formData, handleInputFormData } = useFormData({
-    email: "",
-    password: "",
-    "remeber-me": false,
-  });
+
   const [fetchLoginUser, loginResponse] = useLoginUserMutation();
   function handleStartLogin(ev: React.FormEvent<HTMLFormElement>) {
     ev.preventDefault();
-    const { email, password } = formData;
-    // const data = new FormData(ev.currentTarget);
-
-    /////////
-    fetchLoginUser({ email, password })
+    const data = new FormData(ev.currentTarget);
+    fetchLoginUser({
+      email: data.get("email") as string,
+      password: data.get("password") as string,
+    })
       .unwrap()
       .then((response) => {
         const domain = document.location.hostname;
@@ -29,7 +26,7 @@ function Login() {
         const tomorrow = new Date();
         tomorrow.setDate(today.getDate() + 1);
 
-        if (formData["remeber-me"]) {
+        if (data.get("remeber-me") === "on") {
           document.cookie = `${domain}=${response.data.token}; expires=${tomorrow}`;
         } else {
           document.cookie = `${domain}=${response.data.token};`;
@@ -60,11 +57,11 @@ function Login() {
   }, [loginResponse]);
   return (
     <form action="" className="lg:w-4/5 mb-14" onSubmit={handleStartLogin}>
-      <p className="my-5 lg:my-8 pb-2 lg:pb-3">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate,
-        amet! Ab nobis consequatur corporis.
+      <p className="my-5 lg:my-8 pb-2 lg:pb-3 capitalize">
+        login with your account and start your shopping tour in your favorate
+        place .
       </p>
-      <div className="flex flex-col items-stretch justify-start gap-2 mb-5">
+      <FormInputWrapper dir="col">
         <label htmlFor="email" className="capitalize font-medium ms-2">
           email
         </label>
@@ -73,12 +70,10 @@ function Login() {
           id="email"
           name="email"
           placeholder="enter your email .."
-          value={formData.email}
           extraClassName={"py-2 rounded-full"}
-          onChange={handleInputFormData}
         />
-      </div>
-      <div className="flex flex-col items-stretch justify-start gap-2 mb-5">
+      </FormInputWrapper>
+      <FormInputWrapper dir="col">
         <label htmlFor="password" className="capitalize font-medium ms-2">
           password
         </label>
@@ -87,19 +82,15 @@ function Login() {
           id="password"
           name="password"
           placeholder="enter your password .."
-          value={formData.password}
-          onChange={handleInputFormData}
           extraClassName={"py-2 rounded-full"}
         />
-      </div>
+      </FormInputWrapper>
       <div className="flex items-stretch justify-between gap-2">
-        <span>
+        <FormInputWrapper dir="row">
           <input
             type="checkbox"
             name="remeber-me"
             id="remeber-me"
-            checked={formData["remeber-me"]}
-            onChange={handleInputFormData}
             className="w-4 accent-sky-700 mx-2"
           />
           <label
@@ -108,7 +99,7 @@ function Login() {
           >
             remeber me
           </label>
-        </span>
+        </FormInputWrapper>
         <Link
           href={{
             pathname: "reset-password",

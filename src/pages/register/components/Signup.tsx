@@ -10,12 +10,6 @@ import useFormData from "@/hooks/useFormData";
 
 function Signup() {
   const router = useRouter();
-  const { formData, handleInputFormData } = useFormData({
-    fullname: "",
-    phone: "",
-    email: "",
-    password: "",
-  });
 
   let timeoutRef = useRef(0);
   const [fetchSignupUser, signupResponse] = useSignupUserMutation();
@@ -64,8 +58,9 @@ function Signup() {
 
   return (
     <form action="" className="lg:w-4/5 mb-14" onSubmit={handleSendSingupData}>
-      <p className="mb-3 lg:my-8 pb-3 lg:pb-3">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas, totam.
+      <p className="mb-3 lg:my-8 pb-3 lg:pb-3 capitalize">
+        lets create new account in your favorate place and start your shopping
+        and create new order .
       </p>
       <div className="flex flex-col lg:flex-row items-stretch justify-between gap-2 lg:gap-5 mb-4">
         <FormInputWrapper dir="col" extraClassName="basis-1/2">
@@ -81,8 +76,6 @@ function Signup() {
             placeholder="enter your fullname .."
             className="input-field"
             name="fullname"
-            value={formData.fullname}
-            onChange={handleInputFormData}
           />
         </FormInputWrapper>
         <FormInputWrapper dir="col" extraClassName="basis-1/2">
@@ -100,8 +93,6 @@ function Signup() {
             max={11}
             className="input-field"
             name="phone"
-            value={formData.phone}
-            onChange={handleInputFormData}
           />
         </FormInputWrapper>
       </div>
@@ -118,8 +109,6 @@ function Signup() {
           placeholder="enter your email .."
           className="input-field"
           name="email"
-          value={formData.email}
-          onChange={handleInputFormData}
         />
       </FormInputWrapper>
       <FormInputWrapper
@@ -138,8 +127,6 @@ function Signup() {
           placeholder="enter your password .."
           className="input-field"
           name="password"
-          value={formData.password}
-          onChange={handleInputFormData}
         />
       </FormInputWrapper>
       <div className="flex items-stretch justify-end pt-3">
