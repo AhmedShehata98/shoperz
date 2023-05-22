@@ -1,7 +1,7 @@
 import React from "react";
 
 interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  extraClassName: string;
+  extraClassName?: string;
 }
 const CustomButton: React.FC<Props> = (props) => {
   return (

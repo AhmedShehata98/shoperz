@@ -110,5 +110,11 @@
   .form-input-wrapper {
     @apply flex flex-col items-stretch justify-start gap-2 mb-4;
   }
+  .user-dropmenu {
+    @apply w-48 relative flex flex-col items-start justify-center gap-1 divide-y bg-white shadow-xl border border-Grey-400 rounded p-1 mt-3;
+  }
+  .user-dropmenu-link {
+    @apply w-full flex items-center justify-start gap-3 py-2 px-3 font-medium cursor-pointer capitalize text-sm hover:bg-Grey-100;
+  }
 }
 @tailwind utilities;

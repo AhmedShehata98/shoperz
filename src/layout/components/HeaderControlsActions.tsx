@@ -86,7 +86,7 @@ function HeaderControlsActions({ setShowMenu }: Props) {
       </form>
       <span className="headerar-actionsbtns-wrapper">
         <UserBtn
-          isAuthenticated={false}
+          isAuthenticated={true}
           onClick={() => setShowUserMenu((show) => !show)}
         />
         {showUserMenu ? <UserDropMenu /> : null}

@@ -14,6 +14,9 @@ export const ENDPOINTS = {
     resetPassword: "auth/resetpassword",
     verifyEmail: "auth/send-verify-email",
   },
+  users: {
+    changePassword: "users/change-password",
+  },
 };
 
 export const sendSignupData = async (body: any) => {

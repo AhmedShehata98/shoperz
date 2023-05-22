@@ -11,4 +11,5 @@ export const routes = {
     myAddress: "my-address",
   },
   trackOrder: "/track-order",
+  logout: "/logout",
 };

@@ -39,7 +39,31 @@ export const shoperzApi = createApi({
         },
       }),
     }),
+    verifyEmailAddress: builder.mutation<void, VertifyPayload>({
+      query: ({ token, uid }) => ({
+        url: `${ENDPOINTS.auth.verifyEmail}?token=${token}&uid=${uid}`,
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json ; charset=UTF-8",
+        },
+      }),
+    }),
+    changeCurrentPassword: builder.mutation<void, ChangeUserPassword>({
+      query: (payload) => ({
+        url: ENDPOINTS.users.changePassword,
+        method: "PUT",
+        body: payload,
+        headers: {
+          "Content-Type": "application/json ; charset=UTF-8",
+        },
+      }),
+    }),
   }),
 });
 
-export const { useSignupUserMutation, useLoginUserMutation } = shoperzApi;
+export const {
+  useSignupUserMutation,
+  useLoginUserMutation,
+  useVerifyEmailAddressMutation,
+  useChangeCurrentPasswordMutation,
+} = shoperzApi;

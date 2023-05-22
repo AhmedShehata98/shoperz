@@ -1,17 +1,69 @@
 import CustomButton from "@/components/CustomButton";
+import FormInputWrapper from "@/components/FormInputWrapper";
 import InputField from "@/components/InputField";
+import useFormData from "@/hooks/useFormData";
+import {
+  useChangeCurrentPasswordMutation,
+  useVerifyEmailAddressMutation,
+} from "@/services/shoperzApi.service";
 import React from "react";
 
 type Props = {
   title: string;
 };
+
 function ProfileSettings({ title }: Props) {
+  const { formData, handleInputFormData } = useFormData({
+    fullname: "",
+    phone: "",
+    email: "",
+    "uid-code": "",
+    "current-password": "",
+    "new-password": "",
+    "confirm-password": "",
+  });
+  const [uidCode, setUidCode] = React.useState("");
+  const [fetchVerify, verifyResponse] = useVerifyEmailAddressMutation();
+  const [fetchChangePassword, chpwdResponse] =
+    useChangeCurrentPasswordMutation();
+  async function handleVerifyEmail() {
+    const token = document.cookie.split("=")[1];
+    const res = await fetchVerify({ token, uid: uidCode }).unwrap();
+    console.log(res);
+  }
+  async function handleChangePassword({
+    currentPassword,
+    newPassword,
+    confirmPassword,
+  }: ChangeUserPassword) {
+    const res = await fetchChangePassword({
+      currentPassword,
+      newPassword,
+      newPasswordRepeat: confirmPassword,
+    }).unwrap();
+
+    console.log(await res);
+  }
+  function handleSubmit(ev: React.FormEvent<HTMLFormElement>) {
+    ev.preventDefault();
+    const data = new FormData(ev.currentTarget);
+
+    handleChangePassword({
+      currentPassword: data.get("current-password") as string,
+      newPassword: data.get("new-password") as string,
+      confirmPassword: data.get("confirm-password") as string,
+    });
+  }
   return (
     <article className="porfile-setting">
       <h3 className="text-xl capitalize text-Grey-800 font-semibold mb-3 mt-4">
         {title}
       </h3>
-      <div className="profile-setting-wrapper">
+      <form
+        action=""
+        className="profile-setting-wrapper"
+        onSubmit={handleSubmit}
+      >
         <div className="setting-section">
           <h4 className="block w-full capitalize text-Grey-700 font-medium border-b border-Grey-400 pt-3 pb-3">
             profile information
@@ -23,8 +75,8 @@ function ProfileSettings({ title }: Props) {
                 platforms completely drive optimal markets .
               </small>
             </span>
-            <form className="settings-input-form">
-              <span className="input-field-wrapper">
+            <div className="settings-input-form">
+              <FormInputWrapper dir="col">
                 <label
                   htmlFor="fullname"
                   className="text-sm font-medium text-Grey-700 capitalize"
@@ -37,9 +89,11 @@ function ProfileSettings({ title }: Props) {
                   name="fullname"
                   id="fullname"
                   placeholder="full name"
+                  value={formData.fullname}
+                  onChange={handleInputFormData}
                 />
-              </span>
-              <span className="input-field-wrapper">
+              </FormInputWrapper>
+              <FormInputWrapper dir="col">
                 <label
                   htmlFor="phone-number"
                   className="text-sm font-medium text-Grey-700 capitalize"
@@ -48,15 +102,17 @@ function ProfileSettings({ title }: Props) {
                 </label>
                 <InputField
                   type="text"
-                  name="phone-number"
-                  id="phone-number"
+                  name="phone"
+                  id="phone"
                   placeholder="phone number"
+                  value={formData.phone}
+                  onChange={handleInputFormData}
                 />
-              </span>
+              </FormInputWrapper>
               <span className="input-field-wrapper">
                 <CustomButton type="submit">save</CustomButton>
               </span>
-            </form>
+            </div>
           </div>
         </div>
         <div className="setting-section">
@@ -70,8 +126,8 @@ function ProfileSettings({ title }: Props) {
                 platforms completely drive optimal markets .
               </small>
             </span>
-            <form className="settings-input-form">
-              <span className="input-field-wrapper">
+            <div className="settings-input-form">
+              <FormInputWrapper dir="col" extraClassName="mb-1">
                 <label
                   htmlFor="email"
                   className="text-sm font-medium text-Grey-700 capitalize"
@@ -83,12 +139,39 @@ function ProfileSettings({ title }: Props) {
                   name="email"
                   placeholder="example@email.com"
                   id="email"
+                  value={formData.email}
+                  onChange={handleInputFormData}
                 />
+              </FormInputWrapper>
+              <FormInputWrapper dir="col" extraClassName="mb-1">
+                <label
+                  htmlFor="email"
+                  className="text-sm font-medium text-Grey-700 capitalize"
+                >
+                  verify code
+                </label>
+                <InputField
+                  type="text"
+                  name="verify-code"
+                  placeholder="enter verify code .."
+                  id="verify-code"
+                  value={formData["uid-code"]}
+                  onChange={handleInputFormData}
+                />
+              </FormInputWrapper>
+              <span>
+                <CustomButton type="button" onClick={() => handleVerifyEmail()}>
+                  {verifyResponse.isLoading ? (
+                    <label className="flex items-center justify-around gap-3">
+                      <span className="spinner-loading w-6 h-6 border-white"></span>
+                      <small>wait a moment ..</small>
+                    </label>
+                  ) : (
+                    "send verify"
+                  )}
+                </CustomButton>
               </span>
-              <span className="input-field-wrapper">
-                <CustomButton type="submit">save</CustomButton>
-              </span>
-            </form>
+            </div>
           </div>
         </div>
         <div className="setting-section">
@@ -102,8 +185,8 @@ function ProfileSettings({ title }: Props) {
                 platforms completely drive optimal markets .
               </small>
             </span>
-            <form className="settings-input-form">
-              <span className="input-field-wrapper">
+            <div className="settings-input-form">
+              <FormInputWrapper dir="col">
                 <label
                   htmlFor="current-password"
                   className="text-sm font-medium text-Grey-700 capitalize"
@@ -111,13 +194,15 @@ function ProfileSettings({ title }: Props) {
                   current password
                 </label>
                 <InputField
-                  type="current-password"
+                  type="password"
                   name="current-password"
                   placeholder="example@email.com"
                   id="current-password"
+                  value={formData["current-password"]}
+                  onChange={handleInputFormData}
                 />
-              </span>
-              <span className="input-field-wrapper mt-3">
+              </FormInputWrapper>
+              <FormInputWrapper dir="col">
                 <label
                   htmlFor="new-password"
                   className="text-sm font-medium text-Grey-700 capitalize"
@@ -125,13 +210,15 @@ function ProfileSettings({ title }: Props) {
                   new password
                 </label>
                 <InputField
-                  type="new-password"
+                  type="password"
                   name="new-password"
                   placeholder="example@email.com"
                   id="new-password"
+                  value={formData["new-password"]}
+                  onChange={handleInputFormData}
                 />
-              </span>
-              <span className="input-field-wrapper mt-3">
+              </FormInputWrapper>
+              <FormInputWrapper dir="col">
                 <label
                   htmlFor="confirm-password"
                   className="text-sm font-medium text-Grey-700 capitalize"
@@ -139,19 +226,30 @@ function ProfileSettings({ title }: Props) {
                   confirm password
                 </label>
                 <InputField
-                  type="confirm-password"
+                  type="password"
                   name="confirm-password"
                   placeholder="example@email.com"
                   id="confirm-password"
+                  value={formData["confirm-password"]}
+                  onChange={handleInputFormData}
                 />
-              </span>
+              </FormInputWrapper>
               <span className="input-field-wrapper mt-4">
-                <CustomButton type="submit">save</CustomButton>
+                <CustomButton type="submit" extraClassName="bg-Danger-700">
+                  {chpwdResponse.isLoading ? (
+                    <label className="flex items-center justify-around gap-3">
+                      <span className="spinner-loading w-6 h-6 border-white"></span>
+                      <small>wait a moment ..</small>
+                    </label>
+                  ) : (
+                    "change password"
+                  )}
+                </CustomButton>
               </span>
-            </form>
+            </div>
           </div>
         </div>
-      </div>
+      </form>
     </article>
   );
 }

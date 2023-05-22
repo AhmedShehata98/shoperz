@@ -75,6 +75,17 @@ type Login = {
   password: string;
 };
 
+type VertifyPayload = {
+  token: string;
+  uid: string;
+};
+
+type ChangeUserPassword = {
+  currentPassword: string;
+  newPassword: string;
+  newPasswordRepeat: string;
+};
+
 type AlertComponent = {
   show: boolean;
   alertType: "error" | "success" | "warning";
