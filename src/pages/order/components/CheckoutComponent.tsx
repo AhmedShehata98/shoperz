@@ -1,5 +1,5 @@
 import FinalOrderReport from "@/pages/order/components/FinalOrderReport";
-import UserAddressForm from "@/pages/order/components/UserAddressForm";
+import UserAddressForm from "@/components/UserAddressForm";
 import React, { useState, useCallback } from "react";
 import { motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";

@@ -1,24 +1,21 @@
 import React, { useState, useRef, useEffect } from "react";
-import Logo from "@/components/Logo";
-import { useSignupUserMutation } from "@/services/user.service";
-import Link from "next/link";
+import { useSignupUserMutation } from "@/services/shoperzApi.service";
 import { useDispatch } from "react-redux";
-import { setShowAlert } from "@/redux/slices/app.slice";
-import { ToastContainer, toast } from "react-toastify";
-import { ResultTypeFrom } from "@reduxjs/toolkit/dist/query/endpointDefinitions";
-import { sendSignupData } from "@/services/api/shoppers.api";
+import { toast } from "react-toastify";
+import { useRouter } from "next/router";
 
 function Signup() {
   const dispatch = useDispatch();
+  const router = useRouter();
   const [formData, setFormData] = useState<Signup>({
     fullname: "",
     phone: "",
     email: "",
     password: "",
   });
+  let timeoutRef = useRef(0);
 
   const [signupUser, signupResponse] = useSignupUserMutation();
-
   const handleGetValue = (e: React.ChangeEvent) => {
     const target = e.target as HTMLInputElement;
     const name = target.name;
@@ -26,37 +23,37 @@ function Signup() {
     setFormData((data) => ({ ...data, [name]: value }));
   };
 
+  useEffect(
+    function () {
+      if (!signupResponse.isLoading) {
+        //
+        if (signupResponse.isError) {
+          toast.error(signupResponse.error?.errDetails.message);
+        }
+        if (signupResponse.isSuccess) {
+          toast.success(
+            "Congratulations, the account was successfully created"
+          );
+        }
+        //
+      }
+    },
+    [signupResponse]
+  );
+
   const handleSendSingupData = (e: React.FormEvent) => {
     e.preventDefault();
 
-    // sendSignupData(formData)
-    //   .then((res) => {
-    //     toast.success(res.message);
-    //   })
-    //   .catch((e) => toast.warning(e));
     signupUser(formData)
       .unwrap()
       .then((res) => {
-        console.log(signupResponse);
-        console.log(signupResponse.isError);
-        console.log(signupResponse.isSuccess);
-        // if (signupResponse.isSuccess) {
-        //   toast.success(res);
-        // }
-        // if (signupResponse.isError) {
-        //   if (res.error) {
-        //     toast.warning(res.error.data.message);
-        //   }
-        //   if (res.data) {
-        //     toast.warning(res.data.errors[0].error);
-        //   }
-        // }
-        console.log(res);
-        toast.info(signupResponse.data || signupResponse.error);
+        const domain = window.document.location.hostname;
+        document.cookie = `${domain}=${res.data.token}`;
       })
-      .catch((err) => {
-        console.log("error here");
-        toast.error(JSON.stringify("catch error , there's syntax error"));
+      .then(() => {
+        timeoutRef.current = +setTimeout(() => {
+          router.push("/");
+        }, 6000);
       });
   };
 

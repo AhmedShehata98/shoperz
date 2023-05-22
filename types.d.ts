@@ -50,6 +50,26 @@ type Signup = {
   password: string;
 };
 
+type SignupError = {
+  data: null | {};
+  error: Array<{
+    field: string;
+    error: Array<{
+      message: string;
+      context: { key: string; label: string; limit: number; value: string };
+      path: Array<string>;
+      type: string;
+    }>;
+  }>;
+  message: string;
+};
+
+type SignupSuccess = {
+  message: string;
+  data: { token: string };
+  error: null | string;
+};
+
 type AlertComponent = {
   show: boolean;
   alertType: "error" | "success" | "warning";

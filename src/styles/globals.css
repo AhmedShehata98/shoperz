@@ -65,5 +65,47 @@
   .spinner-loading {
     @apply block rounded-full border-4 !border-l-transparent animate-spin shadow-lg;
   }
+  .account-sidebar-item {
+    @apply flex items-center justify-start gap-3 px-4 py-2 rounded-md cursor-pointer border hover:text-Primary-700 hover:bg-Primary-200 hover:border-Primary-400;
+  }
+  .account-sidebar-item-active {
+    @apply !text-Primary-700 !bg-Primary-200 !border-Primary-400 hover:text-Primary-700 hover:bg-Primary-200 hover:border-Primary-400;
+  }
+  .porfile-setting {
+    @apply w-full lg:basis-3/4 bg-white p-4 border shadow mb-8;
+  }
+  .profile-setting-wrapper {
+    @apply w-full flex flex-col items-start px-2;
+  }
+  .setting-section {
+    @apply w-full flex flex-col items-start justify-start mt-6;
+  }
+  .settings-input-form {
+    @apply w-full lg:basis-1/2 flex flex-col items-start justify-between gap-3 flex-wrap mt-4;
+  }
+  .input-field-wrapper {
+    @apply max-lg:w-full lg:basis-1/3 flex flex-col items-start justify-center gap-2;
+  }
+  .custom-input-field {
+    @apply w-full bg-gray-50 border border-Primary-600 px-3 py-1 focus:outline-none focus:shadow focus:shadow-Grey-400 hover:border-Primary-700 placeholder:text-sm;
+  }
+  .shoperz-search-bar {
+    @apply flex items-center justify-center gap-2 w-fit border max-lg:my-6 border-Primary-700 rounded-full overflow-hidden max-lg:hidden;
+  }
+  .shoperz-searchbar-input {
+    @apply flex items-center justify-center w-3/5 text-Grey-800 bg-inherit h-full text-sm border border-transparent focus:border-Grey-200 rounded-full px-3 py-1 m-1 focus:outline-none focus:bg-Grey-100;
+  }
+  .shoperz-searchbar-select {
+    @apply w-1/3 text-Grey-500 uppercase text-sm bg-inherit rounded-full px-3 py-1 focus:outline-none focus:border-Primary-600 focus:text-Grey-900 focus:bg-Grey-100;
+  }
+  .shoperz-searchbar-btn {
+    @apply block h-full text-xl text-white bg-Primary-700 px-5 py-2 hover:bg-Primary-600;
+  }
+  .headerar-actionsbtns-wrapper {
+    @apply relative flex items-center justify-between gap-6 text-gray-600;
+  }
+  .custom-button {
+    @apply px-6 py-1.5 bg-Primary-700 text-white rounded-md shadow capitalize hover:bg-Primary-600 hover:shadow-Grey-400;
+  }
 }
 @tailwind utilities;

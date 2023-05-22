@@ -5,8 +5,9 @@ import { useDispatch } from "react-redux";
 import { motion } from "framer-motion";
 interface AddressForm {
   setIsShowing: (state: boolean) => void;
+  handleSubmit: React.FormEventHandler;
 }
-function UserAddressForm({ setIsShowing }: AddressForm) {
+function UserAddressForm({ setIsShowing, handleSubmit }: AddressForm) {
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     firstName: "",
@@ -28,15 +29,6 @@ function UserAddressForm({ setIsShowing }: AddressForm) {
   const setFieldValue = useCallback((name: string, value: string) => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   }, []);
-
-  const sendUserInformation = useCallback(() => {
-    dispatch(
-      handleAddToOrderData({
-        id: "checkout",
-        userInformation: formData,
-      })
-    );
-  }, [formData]);
 
   const resetAllInputFields = () => {
     setFormData({
@@ -74,7 +66,10 @@ function UserAddressForm({ setIsShowing }: AddressForm) {
             <AiFillCloseSquare />
           </button>
         </header>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 items-center justify-between mb-4 py-2 ">
+        <form
+          onSubmit={handleSubmit}
+          className="grid grid-cols-1 md:grid-cols-2 gap-3 items-center justify-between mb-4 py-2 "
+        >
           <span className="flex flex-col gap-2 capitalize">
             <label
               htmlFor="firstName"
@@ -113,7 +108,7 @@ function UserAddressForm({ setIsShowing }: AddressForm) {
               onChange={(e: React.ChangeEvent) => handleGetValue(e)}
             />
           </span>
-        </div>
+        </form>
         <div className="grid grid-cols-1  gap-3 items-center justify-between mb-4 py-2 ">
           <span className="flex flex-col gap-2 capitalize">
             <label
@@ -244,9 +239,8 @@ function UserAddressForm({ setIsShowing }: AddressForm) {
         </div>
         <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-3 items-center justify-between mb-4 py-2">
           <button
-            type="button"
+            type="submit"
             className="bg-Primary-600 py-2 px-3 rounded-full text-white capitalize hover:bg-Primary-500 font-medium"
-            onClick={sendUserInformation}
           >
             add address
           </button>
