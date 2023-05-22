@@ -5,7 +5,7 @@ import { BsFillHeartFill, BsSearch } from "react-icons/bs";
 import Logo from "@/components/Logo";
 import Link from "next/link";
 import HeaderUpperbar from "@/layout/components/HeaderUpperbar";
-import HeaderCategorybar from "@/components/HeaderCategorybar";
+import HeaderCategorybar from "@/layout/components/HeaderCategorybar";
 import CartDrawer from "./CartDrawer";
 import SlideMenu from "@/layout/SlideMenu";
 import InputField from "@/components/InputField";
@@ -61,7 +61,7 @@ const Headerbar = () => {
       {showMenu && <SlideMenu setShowMenu={setShowMenu} />}
       <section className="container max-w-5xl mx-auto flex flex-col justify-between items-center gap-3">
         <HeaderUpperbar />
-        <HeaderControlsActions />
+        <HeaderControlsActions setShowMenu={setShowMenu} />
       </section>
       <div className="max-lg:hidden">
         <HeaderCategorybar />

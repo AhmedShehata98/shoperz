@@ -27,7 +27,7 @@ const Product = ({ cate, name, src, price }: Props) => {
       <div className="flex justify-between items-center py-2">
         <span>{price}</span>
         <div className="">
-          {/* <button className="p-3 absolute right-4 bottom-4 group-hover:bg-Primary-600 transition-all duration-300 bg-slate-200 rounded-full">
+          <button className="p-3 absolute right-4 bottom-4 group-hover:bg-Primary-600 transition-all duration-300 bg-slate-200 rounded-full">
             <svg
               width="16"
               height="16"
@@ -75,7 +75,7 @@ const Product = ({ cate, name, src, price }: Props) => {
                 </svg>
               </button>
             </button>
-          </button> */}
+          </button>
         </div>
       </div>
     </div>
