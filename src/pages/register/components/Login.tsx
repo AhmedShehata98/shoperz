@@ -18,6 +18,8 @@ function Login() {
   function handleStartLogin(ev: React.FormEvent<HTMLFormElement>) {
     ev.preventDefault();
     const { email, password } = formData;
+    // const data = new FormData(ev.currentTarget);
+
     /////////
     fetchLoginUser({ email, password })
       .unwrap()
