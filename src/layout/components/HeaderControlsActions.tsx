@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { BsFillHeartFill } from "react-icons/bs";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { BsFillHeartFill, BsSearch } from "react-icons/bs";
 import { FaShoppingCart, FaUserAlt } from "react-icons/fa";
 import { FiMenu } from "react-icons/fi";
 import Logo from "../../components/Logo";
