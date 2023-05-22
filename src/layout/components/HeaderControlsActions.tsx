@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { BsFillHeartFill, BsSearch } from "react-icons/bs";
 import { FaShoppingCart, FaUserAlt } from "react-icons/fa";
 import { FiMenu } from "react-icons/fi";
@@ -9,7 +9,10 @@ import { selectAllCart } from "@/hooks/reduxHooks";
 import UserDropMenu from "./UserDropMenu";
 import UserBtn from "./UserBtn";
 
-function HeaderControlsActions() {
+type Props = {
+  setShowMenu: Dispatch<SetStateAction<boolean>>;
+};
+function HeaderControlsActions({ setShowMenu }: Props) {
   const { cartLength } = useSelector(selectAppState);
   const [showUserMenu, setShowUserMenu] = useState(false);
   const dispatch = useDispatch();
@@ -37,7 +40,10 @@ function HeaderControlsActions() {
   return (
     <div className="w-full flex items-center  justify-between px-2 max-lg:pt-4 pb-4">
       <span className="flex items-center justify-center max-md:gap-4 gap-8">
-        <button className="text-2xl text-gray-600 lg:hidden">
+        <button
+          onClick={() => setShowMenu((e: boolean) => !e)}
+          className="text-2xl text-gray-600 lg:hidden"
+        >
           <FiMenu />
         </button>
         <div className="">
