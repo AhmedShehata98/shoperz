@@ -6,18 +6,19 @@ import { BiMap } from "react-icons/bi";
 import { AiOutlineShopping } from "react-icons/ai";
 import ProfileSettings from "./components/ProfileSettings";
 import MyAddress from "./components/MyAddress";
+import { useRouter } from "next/router";
+import { routes } from "@/constants/Routes";
 
 const MyAccount = () => {
-  const [currentRenderedComponent, setCurrentRenderedComponent] =
-    React.useState<"profile settings" | "my address" | "my orders">(
-      "profile settings"
-    );
+  // const [currentRenderedComponent, setCurrentRenderedComponent] =
+  //   React.useState<"profile settings" | "my address" | "my orders">(
+  //     "profile settings"
+  //   );
+  const {
+    query: { section },
+  } = useRouter();
 
-  const handleChangeRenderedComponent = (
-    ev: React.MouseEvent,
-    data: typeof currentRenderedComponent
-  ) => {
-    setCurrentRenderedComponent(data);
+  const handleChangeRenderedComponent = (ev: React.MouseEvent) => {
     const target = ev.target as Element;
     const parentEl = target.closest("ul");
     Array.from(parentEl?.children!).forEach((el) =>
@@ -29,7 +30,7 @@ const MyAccount = () => {
   return (
     <>
       <Head>
-        <title>my account</title>
+        <title>My account</title>
       </Head>
       <main className="w-full min-h-screen bg-Grey-100 flex flex-col items-center justify-start gap-2">
         <section className="container max-w-5xl mx-auto flex flex-col items-start justify-start px-2">
@@ -45,26 +46,36 @@ const MyAccount = () => {
               Icon={<FaRegUserCircle />}
               title="profile settings"
               isActive={true}
-              onClick={(ev) =>
-                handleChangeRenderedComponent(ev, "profile settings")
-              }
+              herf={{
+                pathname: routes.myAccount.account,
+                query: { section: routes.myAccount.profile },
+              }}
+              onClick={(ev) => handleChangeRenderedComponent(ev)}
             />
             <AccountSidebarItem
               Icon={<AiOutlineShopping />}
               title="my orders"
-              onClick={(ev) => handleChangeRenderedComponent(ev, "my orders")}
+              herf={{
+                pathname: routes.myAccount.account,
+                query: { section: routes.myAccount.myOrders },
+              }}
+              onClick={(ev) => handleChangeRenderedComponent(ev)}
             />
             <AccountSidebarItem
               Icon={<BiMap />}
               title="my address"
-              onClick={(ev) => handleChangeRenderedComponent(ev, "my address")}
+              herf={{
+                pathname: routes.myAccount.account,
+                query: { section: routes.myAccount.myAddress },
+              }}
+              onClick={(ev) => handleChangeRenderedComponent(ev)}
             />
           </ul>
-          {currentRenderedComponent === "profile settings" ? (
-            <ProfileSettings title={currentRenderedComponent} />
+          {section === routes.myAccount.profile ? (
+            <ProfileSettings title={"profile settings"} />
           ) : null}
-          {currentRenderedComponent === "my address" ? (
-            <MyAddress title={currentRenderedComponent} />
+          {section === routes.myAccount.myAddress ? (
+            <MyAddress title={"my address"} />
           ) : null}
         </section>
       </main>

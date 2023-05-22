@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const API_BASE_URL = "https://shoperz.onrender.com/";
+export const API_BASE_URL = "https://shoperz-api.vercel.app/";
 export const ENDPOINTS = {
   products: "products",
   cart: "cart",
