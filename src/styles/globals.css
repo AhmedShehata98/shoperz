@@ -107,5 +107,8 @@
   .custom-button {
     @apply px-6 py-1.5 bg-Primary-700 text-white rounded-md shadow capitalize hover:bg-Primary-600 hover:shadow-Grey-400;
   }
+  .form-input-wrapper {
+    @apply flex flex-col items-stretch justify-start gap-2 mb-4;
+  }
 }
 @tailwind utilities;

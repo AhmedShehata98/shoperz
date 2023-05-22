@@ -1,11 +1,11 @@
 import InputField from "@/components/InputField";
-import Logo from "@/components/Logo";
 import useFormData from "@/hooks/useFormData";
 import { useLoginUserMutation } from "@/services/shoperzApi.service";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect } from "react";
 import { toast } from "react-toastify";
+import SubmitButton from "./SubmitButton";
 
 function Login() {
   const { push } = useRouter();
@@ -120,22 +120,7 @@ function Login() {
         </Link>
       </div>
       <div className="flex items-stretch justify-end pt-14">
-        <button
-          type="submit"
-          className="w-full lg:w-48 bg-sky-600 text-white uppercase px-4 py-3 rounded-full"
-        >
-          {loginResponse.isLoading ? (
-            <label
-              htmlFor=""
-              className="flex items-center justify-center gap-3"
-            >
-              <span className="spinner-loading w-7 h-7 border-black"></span>
-              <small>wait a moment ..</small>
-            </label>
-          ) : (
-            "login"
-          )}
-        </button>
+        <SubmitButton isLoading={loginResponse.isLoading} title="login" />
       </div>
     </form>
   );

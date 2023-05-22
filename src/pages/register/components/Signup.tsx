@@ -3,32 +3,28 @@ import { useSignupUserMutation } from "@/services/shoperzApi.service";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
+import SubmitButton from "./SubmitButton";
+import InputField from "@/components/InputField";
+import FormInputWrapper from "@/components/FormInputWrapper";
+import useFormData from "@/hooks/useFormData";
 
 function Signup() {
-  const dispatch = useDispatch();
   const router = useRouter();
-  const [formData, setFormData] = useState<Signup>({
+  const { formData, handleInputFormData } = useFormData({
     fullname: "",
     phone: "",
     email: "",
     password: "",
   });
+
   let timeoutRef = useRef(0);
-
-  const [signupUser, signupResponse] = useSignupUserMutation();
-  const handleGetValue = (e: React.ChangeEvent) => {
-    const target = e.target as HTMLInputElement;
-    const name = target.name;
-    const value = target.value;
-    setFormData((data) => ({ ...data, [name]: value }));
-  };
-
+  const [fetchSignupUser, signupResponse] = useSignupUserMutation();
   useEffect(
     function () {
       if (!signupResponse.isLoading) {
         //
         if (signupResponse.isError) {
-          toast.error(signupResponse.error?.errDetails.message, {
+          toast.error(signupResponse.error?.errDetails?.message, {
             position: "bottom-center",
             className: "w-max",
           });
@@ -44,11 +40,16 @@ function Signup() {
     },
     [signupResponse]
   );
-
-  const handleSendSingupData = (e: React.FormEvent) => {
+  const handleSendSingupData = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const data = new FormData(e.currentTarget);
 
-    signupUser(formData)
+    fetchSignupUser({
+      fullname: data.get("fullname") as string,
+      email: data.get("email") as string,
+      password: data.get("password") as string,
+      phone: data.get("phone") as string,
+    })
       .unwrap()
       .then((res) => {
         const domain = window.document.location.hostname;
@@ -67,25 +68,31 @@ function Signup() {
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas, totam.
       </p>
       <div className="flex flex-col lg:flex-row items-stretch justify-between gap-2 lg:gap-5 mb-4">
-        <span className="basis-1/2 mb-2 lg:mb-0">
-          <label htmlFor="fullname" className="capitalize font-medium ms-2">
+        <FormInputWrapper dir="col" extraClassName="basis-1/2">
+          <label
+            htmlFor="fullname"
+            className="capitalize font-medium ms-2 text-Grey-900"
+          >
             full name
           </label>
-          <input
+          <InputField
             type="text"
             id="fullname"
             placeholder="enter your fullname .."
             className="input-field"
             name="fullname"
             value={formData.fullname}
-            onChange={handleGetValue}
+            onChange={handleInputFormData}
           />
-        </span>
-        <span className="basis-1/2 ">
-          <label htmlFor="phonenumber" className="capitalize font-medium ms-2">
+        </FormInputWrapper>
+        <FormInputWrapper dir="col" extraClassName="basis-1/2">
+          <label
+            htmlFor="phonenumber"
+            className="capitalize font-medium ms-2 text-Grey-900"
+          >
             phone number
           </label>
-          <input
+          <InputField
             type="tel"
             id="phonenumber"
             placeholder="phone number .."
@@ -94,55 +101,49 @@ function Signup() {
             className="input-field"
             name="phone"
             value={formData.phone}
-            onChange={handleGetValue}
+            onChange={handleInputFormData}
           />
-        </span>
+        </FormInputWrapper>
       </div>
-      <div className="flex flex-col items-stretch justify-start gap-2 mb-4">
-        <label htmlFor="email" className="capitalize font-medium ms-2">
+      <FormInputWrapper dir="col">
+        <label
+          htmlFor="email"
+          className="capitalize font-medium ms-2 text-Grey-900"
+        >
           email
         </label>
-        <input
+        <InputField
           type="text"
           id="email"
           placeholder="enter your email .."
           className="input-field"
           name="email"
           value={formData.email}
-          onChange={handleGetValue}
+          onChange={handleInputFormData}
         />
-      </div>
-      <div className="flex flex-col items-stretch justify-start gap-2 mb-5">
-        <label htmlFor="password" className="capitalize font-medium ms-2">
+      </FormInputWrapper>
+      <FormInputWrapper
+        dir="col"
+        className="flex flex-col items-stretch justify-start gap-2 mb-5"
+      >
+        <label
+          htmlFor="password"
+          className="capitalize font-medium ms-2 text-Grey-900"
+        >
           password
         </label>
-        <input
+        <InputField
           type="password"
           id="password"
           placeholder="enter your password .."
           className="input-field"
           name="password"
           value={formData.password}
-          onChange={handleGetValue}
+          onChange={handleInputFormData}
         />
-      </div>
+      </FormInputWrapper>
       <div className="flex items-stretch justify-end pt-3">
-        <button
-          type="submit"
-          className="w-full lg:w-48 bg-sky-600 text-white uppercase px-4 py-2 rounded-full"
-        >
-          {signupResponse.isLoading ? (
-            <label
-              htmlFor=""
-              className="flex items-center justify-center gap-3"
-            >
-              <span className="spinner-loading w-7 h-7 border-black"></span>
-              <small>wait a moment ..</small>
-            </label>
-          ) : (
-            "register"
-          )}
-        </button>
+        <SubmitButton isLoading={signupResponse.isLoading} title={"sign-up"} />
       </div>
     </form>
   );
