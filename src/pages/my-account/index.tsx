@@ -8,6 +8,7 @@ import ProfileSettings from "./components/ProfileSettings";
 import MyAddress from "./components/MyAddress";
 import { useRouter } from "next/router";
 import { routes } from "@/constants/Routes";
+import MyOrders from "./components/MyOrders";
 
 const MyAccount = () => {
   // const [currentRenderedComponent, setCurrentRenderedComponent] =
@@ -17,6 +18,7 @@ const MyAccount = () => {
   const {
     query: { section },
   } = useRouter();
+  const { profile, myOrders, myAddress } = routes.myAccount;
 
   const handleChangeRenderedComponent = (ev: React.MouseEvent) => {
     const target = ev.target as Element;
@@ -71,12 +73,11 @@ const MyAccount = () => {
               onClick={(ev) => handleChangeRenderedComponent(ev)}
             />
           </ul>
-          {section === routes.myAccount.profile ? (
+          {section === profile ? (
             <ProfileSettings title={"profile settings"} />
           ) : null}
-          {section === routes.myAccount.myAddress ? (
-            <MyAddress title={"my address"} />
-          ) : null}
+          {section === myAddress ? <MyAddress title={"my address"} /> : null}
+          {section === myOrders ? <MyOrders title={"my orders"} /> : null}
         </section>
       </main>
     </>
