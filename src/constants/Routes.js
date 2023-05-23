@@ -1,6 +1,11 @@
 export const routes = {
   checkout: "/checkout",
-  shoppingCart: "/order",
+  shoppingCart: {
+    order: "/order",
+    cart: "cart",
+    checkout: "/checkout",
+    completeOrder: "complete-oreder",
+  },
   register: "/register",
   shop: "/shop",
   faq: "/faq",
@@ -12,4 +17,5 @@ export const routes = {
   },
   trackOrder: "/track-order",
   logout: "/logout",
+  wishList: "/wishlist",
 };
