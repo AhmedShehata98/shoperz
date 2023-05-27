@@ -9,7 +9,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@emotion/react": "^11.11.0",
     "@emotion/styled": "^11.11.0",
     "@next/font": "^13.4.1",
     "@reduxjs/toolkit": "^1.9.5",

@@ -43,28 +43,28 @@ const Product = ({ cate, name, src, price }: Props) => {
                 fill="white"
               />
             </svg>
-            <button className="p-3 -z-20 right-0 bottom-0 absolute group duration-500 transition-all  bg-slate-200 rounded-full group-hover:-translate-y-12">
+            {/* <button className="p-3 -z-20 right-0 bottom-0 absolute  duration-500 transition-all  bg-slate-200 rounded-full group-hover:-translate-y-12">
               <svg
                 width="18"
                 height="16"
                 viewBox="0 0 18 16"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
-                className="group-hover:text-[#FF316A] shadow-2xl"
+                className=" shadow-2xl"
               >
                 <path
                   d="M1.98738 1.96589C0.226864 3.72641 0.226864 6.58079 1.98738 8.3413L9.00033 15.3542L16.0133 8.3413C17.7738 6.58079 17.7738 3.72641 16.0133 1.96589C14.2528 0.205379 11.3984 0.205379 9.63787 1.96589L9.00033 2.60343L8.36278 1.96589C6.60227 0.205379 3.74789 0.205379 1.98738 1.96589Z"
                   fill="currentColor"
                 />
               </svg>
-              <button className="p-3 group -z-20 right-0 bottom-0 absolute group transition-all duration-700 bg-slate-200 rounded-full group-hover:-translate-y-12">
+              <button className="p-3  -z-20 right-0 bottom-0 absolute  transition-all duration-700 bg-slate-200 rounded-full group-hover:-translate-y-12">
                 <svg
                   width="18"
                   height="16"
                   viewBox="0 0 18 16"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
-                  className="group-hover:text-[#129199] shadow-2xl"
+                  className=" shadow-2xl"
                 >
                   <path
                     fillRule="evenodd"
@@ -74,7 +74,7 @@ const Product = ({ cate, name, src, price }: Props) => {
                   />
                 </svg>
               </button>
-            </button>
+            </button> */}
           </button>
         </div>
       </div>

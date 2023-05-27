@@ -3,7 +3,7 @@ import React from "react";
 type Props = {};
 
 const index = (props: Props) => {
-  return <div>index</div>;
+  return <div className="container max-w-5xl mx-auto"></div>;
 };
 
 export default index;
