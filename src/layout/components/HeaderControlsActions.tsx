@@ -8,11 +8,17 @@ import { selectAppState, setShowCartDrawer } from "@/redux/slices/app.slice";
 import { selectAllCart } from "@/hooks/reduxHooks";
 import UserDropMenu from "./UserDropMenu";
 import UserBtn from "./UserBtn";
+import Link from "next/link";
+import { routes } from "@/constants/Routes";
 
 type Props = {
   setShowMenu: Dispatch<SetStateAction<boolean>>;
 };
 function HeaderControlsActions({ setShowMenu }: Props) {
+  const {
+    shoppingCart: { cart, order },
+    wishList,
+  } = routes;
   const { cartLength } = useSelector(selectAppState);
   const [showUserMenu, setShowUserMenu] = useState(false);
   const dispatch = useDispatch();
@@ -90,20 +96,20 @@ function HeaderControlsActions({ setShowMenu }: Props) {
           onClick={() => setShowUserMenu((show) => !show)}
         />
         {showUserMenu ? <UserDropMenu /> : null}
-        <button type="button" className="flex items-center gap-2">
+        <Link href={{ pathname: wishList }} className="flex items-center gap-2">
           <BsFillHeartFill />
           <p className="text-gray-500 text-xs uppercase pointer-events-none">
             1
           </p>
-        </button>
-        <button
-          type="button"
+        </Link>
+        <Link
+          href={{ pathname: order, query: { to: cart } }}
           className="flex items-center gap-2"
-          onClick={() => handleShowCart()}
+          // onClick={() => handleShowCart()}
         >
           <FaShoppingCart />
           <p className="text-gray-500 text-xs uppercase">{cartLength}</p>
-        </button>
+        </Link>
       </span>
     </div>
   );

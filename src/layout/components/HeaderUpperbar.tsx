@@ -9,6 +9,7 @@ import { IoLocation, IoLanguageOutline } from "react-icons/io5";
 import { ImEarth } from "react-icons/im";
 import { AiFillSetting, AiFillYoutube } from "react-icons/ai";
 import Link from "next/link";
+import { routes } from "@/constants/Routes";
 
 export default function HeaderUpperbar() {
   return (
@@ -60,17 +61,17 @@ export default function HeaderUpperbar() {
           </a>
         </nav>
         <nav className="flex  text-base gap-2 text-gray-400 px-2 divide-x-2 divide-gray-300">
-          <a
-            href="#"
+          <Link
+            href={routes.trackOrder}
             className="flex group items-center  justify-center gap-2 px-2"
           >
             <IoLocation className="group-hover:text-Grey-800" />
             <p className="text-xs uppercase group-hover:text-Grey-800   text-gray-400">
               track order
             </p>
-          </a>
+          </Link>
           <Link
-            href="/shop"
+            href={routes.shop}
             className="flex group hover:text-Grey-700 items-center justify-center gap-2 px-2"
           >
             <FaShoppingBasket className="group-hover:text-Grey-800" />
@@ -79,23 +80,28 @@ export default function HeaderUpperbar() {
             </p>
           </Link>
 
-          <a
-            href="#"
+          <Link
+            href={{
+              pathname: routes.myAccount.account,
+              query: {
+                section: routes.myAccount.profile,
+              },
+            }}
             className="flex group items-center justify-center gap-2 px-2"
           >
             <AiFillSetting className="group-hover:text-Grey-800" />
             <p className="text-xs uppercase group-hover:text-Grey-800  text-gray-400">
               settings
             </p>
-          </a>
-          <a
-            href="#"
+          </Link>
+          <Link
+            href={routes.faq}
             className="flex group hover:text-Grey-700 items-center justify-center gap-2 px-2"
           >
             <p className="text-xs uppercase hover:text-Grey-800 text-gray-400">
               faq
             </p>
-          </a>
+          </Link>
         </nav>
       </div>
     </div>

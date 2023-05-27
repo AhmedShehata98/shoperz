@@ -3,7 +3,7 @@ import Portal from "../../../hooks/Protal";
 import { AiOutlineTransaction } from "react-icons/ai";
 import { BsBoxSeam } from "react-icons/bs";
 import { MdOutlineLocalShipping } from "react-icons/md";
-import OrderReport from "./OrderReport";
+import OrderReport from "./OrderSummery";
 import Cart from "./Cart";
 import { motion } from "framer-motion";
 import { useQuery } from "react-query";

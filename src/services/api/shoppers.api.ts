@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const API_BASE_URL = "https://shoperz.onrender.com/";
+export const API_BASE_URL = "https://shoperz-api.vercel.app/";
 export const ENDPOINTS = {
   products: "products",
   cart: "cart",
@@ -13,6 +13,9 @@ export const ENDPOINTS = {
     login: "auth/login",
     resetPassword: "auth/resetpassword",
     verifyEmail: "auth/send-verify-email",
+  },
+  users: {
+    changePassword: "users/change-password",
   },
 };
 

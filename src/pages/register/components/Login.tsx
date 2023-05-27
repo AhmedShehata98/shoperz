@@ -1,59 +1,117 @@
-import Logo from "@/components/Logo";
+import InputField from "@/components/InputField";
+import useFormData from "@/hooks/useFormData";
+import { useLoginUserMutation } from "@/services/shoperzApi.service";
 import Link from "next/link";
-import React from "react";
+import { useRouter } from "next/router";
+import React, { useEffect } from "react";
+import { toast } from "react-toastify";
+import SubmitButton from "./SubmitButton";
+import FormInputWrapper from "@/components/FormInputWrapper";
 
 function Login() {
+  const { push } = useRouter();
+
+  const [fetchLoginUser, loginResponse] = useLoginUserMutation();
+  function handleStartLogin(ev: React.FormEvent<HTMLFormElement>) {
+    ev.preventDefault();
+    const data = new FormData(ev.currentTarget);
+    fetchLoginUser({
+      email: data.get("email") as string,
+      password: data.get("password") as string,
+    })
+      .unwrap()
+      .then((response) => {
+        const domain = document.location.hostname;
+        const today = new Date();
+        const tomorrow = new Date();
+        tomorrow.setDate(today.getDate() + 1);
+
+        if (data.get("remeber-me") === "on") {
+          document.cookie = `${domain}=${response.data.token}; expires=${tomorrow}`;
+        } else {
+          document.cookie = `${domain}=${response.data.token};`;
+        }
+      })
+      .then(() => {
+        setTimeout(() => {
+          push("/");
+        }, 5050);
+      });
+  }
+
+  useEffect(() => {
+    if (loginResponse.isLoading === false) {
+      if (loginResponse.isError) {
+        toast.error("Oops , e-mail address or password in incorrect", {
+          position: "bottom-center",
+          className: "w-max",
+        });
+      }
+      if (loginResponse.isSuccess) {
+        toast.success(
+          "You have been successfully logged in and will now be redirected to the home page",
+          { position: "bottom-center", className: "w-max" }
+        );
+      }
+    }
+  }, [loginResponse]);
   return (
-    <form action="" className="lg:w-4/5 mb-14">
-      <p className="my-5 lg:my-8 pb-2 lg:pb-3">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate,
-        amet! Ab nobis consequatur corporis.
+    <form action="" className="lg:w-4/5 mb-14" onSubmit={handleStartLogin}>
+      <p className="my-5 lg:my-8 pb-2 lg:pb-3 capitalize">
+        login with your account and start your shopping tour in your favorate
+        place .
       </p>
-      <div className="flex flex-col items-stretch justify-start gap-2 mb-5">
+      <FormInputWrapper dir="col">
         <label htmlFor="email" className="capitalize font-medium ms-2">
           email
         </label>
-        <input
+        <InputField
           type="text"
           id="email"
+          name="email"
           placeholder="enter your email .."
-          className="input-field"
+          extraClassName={"py-2 rounded-full"}
         />
-      </div>
-      <div className="flex flex-col items-stretch justify-start gap-2 mb-5">
+      </FormInputWrapper>
+      <FormInputWrapper dir="col">
         <label htmlFor="password" className="capitalize font-medium ms-2">
           password
         </label>
-        <input
+        <InputField
           type="password"
           id="password"
+          name="password"
           placeholder="enter your password .."
-          className="input-field"
+          extraClassName={"py-2 rounded-full"}
         />
-      </div>
+      </FormInputWrapper>
       <div className="flex items-stretch justify-between gap-2">
-        <span>
+        <FormInputWrapper dir="row">
           <input
             type="checkbox"
             name="remeber-me"
             id="remeber-me"
             className="w-4 accent-sky-700 mx-2"
           />
-          <label htmlFor="remeber-me" className="font-mono capitalize">
+          <label
+            htmlFor="remeber-me"
+            className="font-mono capitalize select-none"
+          >
             remeber me
           </label>
-        </span>
-        <Link href={"reset-password"} className="underline text-sky-800">
+        </FormInputWrapper>
+        <Link
+          href={{
+            pathname: "reset-password",
+            query: { target: "reset-password" },
+          }}
+          className="underline text-sky-800"
+        >
           forget password ?
         </Link>
       </div>
       <div className="flex items-stretch justify-end pt-14">
-        <button
-          type="submit"
-          className="w-full lg:w-48 bg-sky-600 text-white uppercase px-4 py-3 rounded-full"
-        >
-          login
-        </button>
+        <SubmitButton isLoading={loginResponse.isLoading} title="login" />
       </div>
     </form>
   );

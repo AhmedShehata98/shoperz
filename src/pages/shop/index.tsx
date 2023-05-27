@@ -1,9 +1,10 @@
 import React from "react";
+import SideMenu from "./components/SideMenu";
 
 type Props = {};
 
 const index = (props: Props) => {
-  return <div className="container max-w-5xl mx-auto"></div>;
+  return <div>index</div>;
 };
 
-export default index;
+export default Shop;

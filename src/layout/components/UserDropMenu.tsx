@@ -4,8 +4,36 @@ import { BiLogOutCircle } from "react-icons/bi";
 import { TiArrowSortedUp } from "react-icons/ti";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import { routes } from "@/constants/Routes";
+import { Url } from "next/dist/shared/lib/router/router";
+import { BsBoxSeam } from "react-icons/bs";
+import { FaRegAddressCard } from "react-icons/fa";
+
+type DropMenuOptionProps = {
+  title: string;
+  Icon: React.ReactNode;
+  href: Url;
+  extraClassName?: string;
+};
+function DropMenuOption({
+  Icon,
+  href,
+  title,
+  extraClassName,
+}: DropMenuOptionProps) {
+  return (
+    <Link href={href} className={`user-dropmenu-link ${extraClassName}`}>
+      <span className="text-xl">{Icon}</span>
+      <p>{title}</p>
+    </Link>
+  );
+}
 
 function UserDropMenu() {
+  const {
+    logout,
+    myAccount: { account, myAddress, myOrders, profile },
+  } = routes;
   return (
     <div className="absolute z-10 top-full w-40 ">
       <motion.ul
@@ -15,26 +43,29 @@ function UserDropMenu() {
         }}
         initial={"hidden"}
         animate={"visible"}
-        className="relative flex flex-col items-start justify-center bg-white shadow-xl border border-Grey-400 rounded-md py-2 px-1.5 mt-3"
+        className="user-dropmenu"
       >
-        <Link
-          href={"my-account"}
-          className="w-full flex items-center justify-start gap-2 py-1.5 px-1 font-medium cursor-pointer capitalize text-sm hover:bg-Grey-100"
-        >
-          <span className="text-xl">
-            <MdOutlineSpaceDashboard />
-          </span>
-          <p>my account</p>
-        </Link>
-        <Link
-          href={"logout"}
-          className="w-full flex items-center justify-start gap-2 py-1.5 px-1 font-medium cursor-pointer capitalize text-red-600 text-sm hover:bg-red-300"
-        >
-          <span className="text-xl">
-            <BiLogOutCircle />
-          </span>
-          <p>logout</p>
-        </Link>
+        <DropMenuOption
+          title="my account"
+          href={{ pathname: account, query: { section: profile } }}
+          Icon={<MdOutlineSpaceDashboard />}
+        />
+        <DropMenuOption
+          title="address"
+          href={{ pathname: account, query: { section: myAddress } }}
+          Icon={<FaRegAddressCard />}
+        />
+        <DropMenuOption
+          title="orders"
+          href={{ pathname: account, query: { section: myOrders } }}
+          Icon={<BsBoxSeam />}
+        />
+        <DropMenuOption
+          extraClassName={"text-Danger-700 hover:bg-Danger-200"}
+          title="logout"
+          href={{ pathname: logout }}
+          Icon={<BiLogOutCircle />}
+        />
       </motion.ul>
     </div>
   );

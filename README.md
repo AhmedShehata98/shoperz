@@ -1,6 +1,11 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Getting Started
 
-## Getting Started
+### Shoperz e-commerce website
+##### It is a complete e-commerce application that contains the possibility of purchase by customers , and you can sell products of multiple categories .
+
+
+![project-image](https://i.postimg.cc/3J59KSDf/Screenshot-2023-05-24-140331.png)
+
 
 First, run the development server:
 
@@ -12,27 +17,29 @@ yarn dev
 pnpm dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+## learn more : 
+Technologies & library's :
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+#### Front-end 
+- [ React JS ](https://react.dev/) - The library for web and native user interfaces 
+- [ Next JS ](https://nextjs.org/) - The React Framework for the Web
+- [ Redux Tookkit ](https://redux-toolkit.js.org/) - The official, opinionated, batteries-included toolset for efficient Redux development
+- [ Tailwind CSS ](https://tailwindcss.com/) - A utility-first CSS framework packed with classes
+- [ Flowbite ](https://flowbite-react.com/) - Tailwind CSS Components
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+#### Back-end 
+- [ express JS ](http://expressjs.com/) - Fast, unopinionated, minimalist web framework for Node.js
+- [ Mongo DB ](https://www.mongodb.com/) - NoSQL database , document database
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
 
 ## Deploy on Vercel
+- [live Demo ]() - the live preview production build.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Design
+- [shoperz](https://www.figma.com/file/UU47vI6kMei6yCO0HK6jEx/eCommerce---Demo-UI-Kit---FREE-(Community)?type=design&node-id=1627%3A37733&t=Bt4XY8y573YCoS85-1)- figma design 
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## developed by
+- [Ahmed Shehata](https://github.com/AhmedShehata98/) - Front-end web developer.
+- [Mazen Ahmed](https://github.com/mazen-Ah) - Front-end web developer.
+- [Mahmoud Alnakeeb](https://github.com/mahmoudalnkeeb) - back-end web developer.- 
