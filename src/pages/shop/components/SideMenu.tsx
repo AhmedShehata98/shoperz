@@ -3,6 +3,7 @@ import SidebarCategories from "./SidebarCategories";
 import Brands from "./Brands";
 import Price from "./Price";
 import Colors from "./Colors";
+import Rating from "./Rating";
 
 function SideMenu() {
   return (
@@ -11,6 +12,7 @@ function SideMenu() {
       <Brands />
       <Price />
       <Colors />
+      <Rating />
     </aside>
   );
 }
