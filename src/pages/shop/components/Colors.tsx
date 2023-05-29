@@ -1,19 +1,39 @@
-import React from "react";
+import React, { useState } from "react";
 
 type Props = {};
 const data = [
   { id: 1, color: "#000000", isSelected: false },
-  { id: 1, color: "#FFFFFF", isSelected: false },
-  { id: 1, color: "#319DFF", isSelected: false },
-  { id: 1, color: "#FFDE31", isSelected: false },
-  { id: 1, color: "#FF316A", isSelected: false },
-  { id: 1, color: "#0DA678", isSelected: false },
-  { id: 1, color: "#9E13F3", isSelected: true },
-  { id: 1, color: "#FFAA04", isSelected: false },
-  { id: 1, color: "#FF64DD", isSelected: false },
-  { id: 1, color: "#17D1DD", isSelected: false },
+  { id: 2, color: "#FFFFFF", isSelected: false },
+  { id: 3, color: "#319DFF", isSelected: false },
+  { id: 4, color: "#FFDE31", isSelected: false },
+  { id: 5, color: "#FF316A", isSelected: false },
+  { id: 6, color: "#0DA678", isSelected: false },
+  { id: 7, color: "#9E13F3", isSelected: true },
+  { id: 8, color: "#FFAA04", isSelected: false },
+  { id: 9, color: "#FF64DD", isSelected: false },
+  { id: 10, color: "#17D1DD", isSelected: false },
 ];
 const Colors = (props: Props) => {
+  const [color, setColor] = useState(data);
+
+  const handleSelectColor = (id: string | Number) => {
+    setColor((prev) => {
+      const newColorData = prev.map((e) =>
+        e.id === id
+          ? {
+              ...e,
+              isSelected: true,
+            }
+          : {
+              ...e,
+              isSelected: false,
+            }
+      );
+
+      return newColorData;
+    });
+  };
+
   return (
     <div className="w-full shadow-md p-4">
       <h4 className="capitalize mb-4 font-semibold">Colours</h4>
@@ -22,8 +42,9 @@ const Colors = (props: Props) => {
           return (
             <li
               key={color.id}
+              onClick={() => handleSelectColor(color.id)}
               data-color={color.color}
-              className={`block w-8 h-8 rounded-md shadow-2xl border-[1px]`}
+              className={`block w-8 h-8 rounded-lg shadow-2xl border-[1px]`}
               style={{
                 backgroundColor: color.color,
                 opacity: color.isSelected ? 0.5 : 1,
