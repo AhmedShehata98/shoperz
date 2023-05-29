@@ -44,10 +44,9 @@ const Colors = (props: Props) => {
               key={color.id}
               onClick={() => handleSelectColor(color.id)}
               data-color={color.color}
-              className={`block w-8 h-8 rounded-lg shadow-2xl border-[1px]`}
+              className={`block w-8 h-8 rounded-lg shadow-2xl border-[1px] cursor-pointer`}
               style={{
                 backgroundColor: color.color,
-                opacity: color.isSelected ? 0.5 : 1,
               }}
             ></li>
           );
