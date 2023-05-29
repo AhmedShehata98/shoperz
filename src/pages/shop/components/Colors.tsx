@@ -27,7 +27,6 @@ const Colors = (props: Props) => {
               style={{
                 backgroundColor: color.color,
                 opacity: color.isSelected ? 0.5 : 1,
-                borderRadius: color.isSelected ? "50%" : undefined,
               }}
             ></li>
           );
