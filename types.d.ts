@@ -28,6 +28,35 @@ type IPaymentMethod = {
   paymentData: {};
 };
 
+type Products = {
+  _id: string;
+  name: string;
+  description: string;
+  price: number;
+  images: Array<string>;
+  thumbnail: string;
+  category_id: string;
+  sku: string;
+  brand: string;
+  colors: Array<string>;
+  stock: number;
+  discount: number;
+  rating: number;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+};
+
+type ProductsResponse = {
+  data: {
+    count: number;
+    nextLastId: string;
+    products: Array<Products>;
+  };
+  error: string | null;
+  message: string;
+};
+
 type ShippingAddress = {
   id: string;
   isCurrent?: boolean;

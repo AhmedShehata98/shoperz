@@ -58,6 +58,12 @@ export const shoperzApi = createApi({
         },
       }),
     }),
+    getAllproducts: builder.query<ProductsResponse, void>({
+      query: () => ENDPOINTS.products,
+    }),
+    getProductById: builder.query<ProductsResponse, string>({
+      query: (id) => `${ENDPOINTS.products}/${id}`,
+    }),
   }),
 });
 
@@ -66,4 +72,6 @@ export const {
   useLoginUserMutation,
   useVerifyEmailAddressMutation,
   useChangeCurrentPasswordMutation,
+  useGetAllproductsQuery,
+  useGetProductByIdQuery,
 } = shoperzApi;
