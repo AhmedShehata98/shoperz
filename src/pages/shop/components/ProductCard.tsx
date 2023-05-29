@@ -21,15 +21,15 @@ export default function ProductCard({
   updatedAt,
 }: Products) {
   return (
-    <li>
-      <span>
+    <li className="flex flex-col border shadow p-3">
+      <span className="px-3 py-1">
         <small>category name</small>
       </span>
       <span>
         <p>{name}</p>
       </span>
       <figure>
-        <Image src={thumbnail} alt="product-img-thumbnail" />
+        <img src={thumbnail} alt="product-img-thumbnail" />
       </figure>
       <span>
         <b>{price}</b>
