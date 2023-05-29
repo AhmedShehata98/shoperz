@@ -2,6 +2,7 @@ import React from "react";
 import SidebarCategories from "./SidebarCategories";
 import Brands from "./Brands";
 import Price from "./Price";
+import Colors from "./Colors";
 
 function SideMenu() {
   return (
@@ -9,6 +10,7 @@ function SideMenu() {
       <SidebarCategories />
       <Brands />
       <Price />
+      <Colors />
     </aside>
   );
 }

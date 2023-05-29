@@ -41,7 +41,7 @@ function PaymentStatusbar({ currentPage }: PaymentStatusbarProps) {
               shopping-cart
             </p>
           )}
-          {/*  */}
+
           {currentPage === "shopping-cart" && (
             <span className="w-10 md:w-24 h-1 bg-gray-300 rounded-full mx-2"></span>
           )}

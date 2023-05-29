@@ -34,26 +34,49 @@ const price = [
 function Price() {
   const [inputRangeValue, setInputRangeValue] = React.useState(50);
   return (
-    <div className="w-full p-3 flex flex-col items-start justify-start border border-Grey-300 shadow mb-4">
+    <div className="w-full p-4 flex flex-col items-start justify-start border border-Grey-300 shadow mb-4">
       <h4 className="capitalize mb-4 font-semibold">price</h4>
       <ul className="grid grid-flow-row gap-2 place-items-start">
-        {price.map((prc) => (
-          <li className="flex items-center justify-start flex-row-reverse gap-2 ">
-            <label
-              htmlFor={prc.name}
-              className="text-Grey-700 capitalize text-sm hover:text-Grey-900 cursor-pointer"
+        {price.map(
+          (
+            prc: {
+              name: string | undefined;
+              title:
+                | string
+                | number
+                | boolean
+                | React.ReactElement<
+                    any,
+                    string | React.JSXElementConstructor<any>
+                  >
+                | React.ReactFragment
+                | React.ReactPortal
+                | null
+                | undefined;
+              value: boolean | undefined;
+            },
+            i: React.Key | null | undefined
+          ) => (
+            <li
+              key={i}
+              className="flex items-center justify-start flex-row-reverse gap-2 "
             >
-              {prc.title}
-            </label>
-            <input
-              type="checkbox"
-              name={prc.name}
-              id={prc.name}
-              checked={prc.value}
-              className="accent-Primary-700 w-4 cursor-pointer"
-            />
-          </li>
-        ))}
+              <label
+                htmlFor={prc.name}
+                className="text-Grey-700 capitalize text-sm hover:text-Grey-900 cursor-pointer"
+              >
+                {prc.title}
+              </label>
+              <input
+                type="checkbox"
+                name={prc.name}
+                id={prc.name}
+                checked={prc.value}
+                className="accent-Primary-700 w-4 cursor-pointer"
+              />
+            </li>
+          )
+        )}
       </ul>
       <div className="w-full border-t my-3 py-3">
         <span className="flex items-center gap-2">
