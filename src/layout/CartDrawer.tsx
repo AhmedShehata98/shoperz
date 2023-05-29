@@ -7,7 +7,7 @@ import { FaCcMastercard, FaCcVisa } from "react-icons/fa";
 import { MdPayment } from "react-icons/md";
 import { FaEquals } from "react-icons/fa";
 import Link from "next/link";
-import { routes } from "../constants/Routes";
+import { routes } from "../hooks/Routes";
 import { useGetCartItemsQuery } from "@/services/dummyjson.service";
 import { useDispatch } from "react-redux";
 import { setCartLength, setShowCartDrawer } from "@/redux/slices/app.slice";
