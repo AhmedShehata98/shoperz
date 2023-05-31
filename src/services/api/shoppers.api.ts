@@ -1,6 +1,7 @@
 import axios from "axios";
 
 export const API_BASE_URL = "https://shoperz-api.vercel.app/";
+// export const API_BASE_URL = "http://localhost:3000/";
 export const ENDPOINTS = {
   products: "products",
   cart: "cart",
@@ -16,6 +17,7 @@ export const ENDPOINTS = {
   },
   users: {
     changePassword: "users/change-password",
+    myData: "/users/me",
   },
 };
 

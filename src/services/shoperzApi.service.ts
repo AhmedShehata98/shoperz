@@ -39,6 +39,15 @@ export const shoperzApi = createApi({
         },
       }),
     }),
+    userData: builder.query<{ data: { user: UserData } }, string | undefined>({
+      query: (jwt: string) => ({
+        method: "GET",
+        url: ENDPOINTS.users.myData,
+        headers: {
+          authorization: jwt,
+        },
+      }),
+    }),
     verifyEmailAddress: builder.mutation<void, VertifyPayload>({
       query: ({ token, uid }) => ({
         url: `${ENDPOINTS.auth.verifyEmail}?token=${token}&uid=${uid}`,
@@ -74,4 +83,5 @@ export const {
   useChangeCurrentPasswordMutation,
   useGetAllproductsQuery,
   useGetProductByIdQuery,
+  useUserDataQuery,
 } = shoperzApi;

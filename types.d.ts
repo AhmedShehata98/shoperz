@@ -57,6 +57,12 @@ type ProductsResponse = {
   message: string;
 };
 
+type UserData = {
+  _id: string;
+  fullname: string;
+  email: string;
+  phone: string;
+};
 type ShippingAddress = {
   id: string;
   isCurrent?: boolean;
