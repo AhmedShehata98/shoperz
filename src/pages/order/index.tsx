@@ -2,13 +2,30 @@ import PaymentStatusbar from "@/components/PaymentStatusbar";
 
 import Head from "next/head";
 import React from "react";
-import CheckoutComponent from "./components/CheckoutComponent";
-import OrderCompleteComponent from "./components/OrderCompleteComponent";
 import ShoppingCartComponent from "./components/ShoppingCartComponent";
 import { selectAppState } from "@/redux/slices/app.slice";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
 import { routes } from "@/constants/Routes";
+import dynamic from "next/dynamic";
+import QuickLoadingModul from "@/layout/QuickLoadingModul";
+
+const CheckoutComponent = dynamic(
+  () => import("./components/CheckoutComponent"),
+  {
+    loading(loadingProps) {
+      return <QuickLoadingModul />;
+    },
+  }
+);
+const OrderCompleteComponent = dynamic(
+  () => import("./components/OrderCompleteComponent"),
+  {
+    loading(loadingProps) {
+      return <QuickLoadingModul />;
+    },
+  }
+);
 
 function ShoppingCart() {
   const {

@@ -57,6 +57,33 @@ type ProductsResponse = {
   message: string;
 };
 
+interface SearchBox extends Omit<ProductsResponse, "data"> {
+  data: {
+    products: Array<
+      Omit<
+        Products,
+        | "description"
+        | "price"
+        | "images"
+        | "category_id"
+        | "sku"
+        | "brand"
+        | "colors"
+        | "stock"
+        | "discount"
+        | "rating"
+        | "createdAt"
+        | "updatedAt"
+        | "__v"
+      >
+    >;
+    paginition: {
+      length: number;
+      page;
+    };
+  };
+}
+
 type UserData = {
   _id: string;
   fullname: string;

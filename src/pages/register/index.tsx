@@ -1,11 +1,19 @@
-import React, { useState } from "react";
-import Logo from "../../components/Logo";
-import Login from "./components/Login";
-import Signup from "./components/Signup";
-import registerImg from "../../assets/img/register.jpg";
+import React from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { routes } from "@/constants/Routes";
+import dynamic from "next/dynamic";
+import QuickLoadingModul from "@/layout/QuickLoadingModul";
+
+const Logo = dynamic(() => import("../../components/Logo"), {
+  loading: () => <QuickLoadingModul />,
+});
+const Login = dynamic(() => import("./components/Login"), {
+  loading: () => <QuickLoadingModul />,
+});
+const Signup = dynamic(() => import("./components/Signup"), {
+  loading: () => <QuickLoadingModul />,
+});
 
 function Register() {
   const {
@@ -29,7 +37,7 @@ function Register() {
         <div className="hidden relative lg:flex w-1/2 h-screen p-5">
           <figure className="relative flex w-full h-full rounded-xl shadow-sm overflow-hidden after:content-[''] after:absolute after:inset-0 after:bg-Grey-800 after:bg-opacity-30">
             <img
-              src={registerImg.src}
+              src={require("../../assets/img/register.jpg").default.src}
               alt="register-img"
               className="h-full w-full object-cover object-center"
             />

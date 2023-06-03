@@ -1,11 +1,16 @@
-import ProductCard from "@/pages/order/components/ProductCard";
 import React, { useMemo } from "react";
 import { MdOutlineLocalShipping } from "react-icons/md";
 import { motion } from "framer-motion";
-import { SinglyLinkedList } from "@/utils/SinglyLinkedList";
 import { useSelector } from "react-redux";
 import { selectAppState } from "@/redux/slices/app.slice";
 import { BsFillPatchCheckFill } from "react-icons/bs";
+import dynamic from "next/dynamic";
+import QuickLoadingModul from "@/layout/QuickLoadingModul";
+
+const ProductCard = dynamic(
+  () => import("@/pages/order/components/ProductCard"),
+  { loading: () => <QuickLoadingModul /> }
+);
 
 interface OrderProps {}
 

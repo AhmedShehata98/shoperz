@@ -1,25 +1,24 @@
 import React, { useState } from "react";
-import { FaUserAlt, FaShoppingCart } from "react-icons/fa";
-import { FiMenu } from "react-icons/fi";
-import { BsFillHeartFill, BsSearch } from "react-icons/bs";
-import Logo from "@/components/Logo";
-import Link from "next/link";
-import HeaderUpperbar from "@/layout/components/HeaderUpperbar";
-import HeaderCategorybar from "@/layout/components/HeaderCategorybar";
 import CartDrawer from "./CartDrawer";
-import SlideMenu from "@/layout/SlideMenu";
-import InputField from "@/components/InputField";
 import HeaderControlsActions from "@/layout/components/HeaderControlsActions";
 import { useSelector } from "react-redux";
 import { selectAppState } from "@/redux/slices/app.slice";
-// interface MenuItem {
-//   label: string;
-//   href: string;
-// }
+import dynamic from "next/dynamic";
+import QuickLoadingModul from "./QuickLoadingModul";
+const HeaderUpperbar = dynamic(
+  () => import("@/layout/components/HeaderUpperbar"),
+  { loading: () => <QuickLoadingModul /> }
+);
+const SlideMenu = dynamic(() => import("@/layout/SlideMenu"), {
+  loading: () => <QuickLoadingModul />,
+});
+const HeaderCategorybar = dynamic(
+  () => import("@/layout/components/HeaderCategorybar"),
+  {
+    loading: () => <QuickLoadingModul />,
+  }
+);
 
-// interface SlideableMenuProps {
-//   items: MenuItem[];
-// }
 const Headerbar = () => {
   const { showCartDrawer } = useSelector(selectAppState);
   const [showMenu, setShowMenu] = useState(false);

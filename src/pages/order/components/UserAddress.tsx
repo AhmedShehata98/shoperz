@@ -10,27 +10,27 @@ import { useDispatch } from "react-redux";
 
 function UserAddress() {
   const dispatch = useDispatch();
-  const {
-    isLoading,
-    isError,
-    isSuccess,
-    data: addressList,
-  } = useGetUserAddressQuery("");
+  // const {
+  //   isLoading,
+  //   isError,
+  //   isSuccess,
+  //   data: addressList,
+  // } = useGetUserAddressQuery("");
   const [showAddressForm, setShowAddressForm] = useState(false);
   const sendUserInformation = () => {
-    dispatch(
-      handleAddToOrderData({
-        id: "checkout",
-        userInformation: formData,
-      })
-    );
+    // dispatch(
+    //   handleAddToOrderData({
+    //     id: "checkout",
+    //     userInformation: formData,
+    //   })
+    // );
   };
   return (
     <div className=" mt-3">
       <h3 className="mb-2 text-Grey-700 text-xl font-medium capitalize">
         shopping address :
       </h3>
-      {isLoading ? (
+      {/* {isLoading ? (
         <div className="flex items-center justify-center gap-2">
           <span className="spinner-loading w-7 h-7 border-Primary-700"></span>
           <small>getting address ..</small>
@@ -56,12 +56,12 @@ function UserAddress() {
             return <AddressCardItem key={newAddress.id} data={newAddress} />;
           })}
         </ul>
-      )}
+      )} */}
       <button
         type="button"
         className="w-full rounded bg-Primary-600 p-2 text-white capitalize mt-4 disabled:pointer-events-none disabled:cursor-not-allowed disabled:bg-gray-400"
         onClick={() => setShowAddressForm((prev) => !prev)}
-        disabled={isLoading}
+        // disabled={isLoading}
       >
         add new address
       </button>

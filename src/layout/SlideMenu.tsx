@@ -1,10 +1,9 @@
-import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import React from "react";
+import { motion } from "framer-motion";
 import { IoIosArrowBack } from "react-icons/io";
 import HeaderCategorybar from "@/layout/components/HeaderCategorybar";
 import InputField from "@/components/InputField";
-import Logo from "@/components/Logo";
-import { IoLocation, IoLanguageOutline } from "react-icons/io5";
+import { IoLocation } from "react-icons/io5";
 import { AiFillYoutube, AiOutlineClose, AiFillSetting } from "react-icons/ai";
 import {
   FaFacebookF,

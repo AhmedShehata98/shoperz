@@ -68,10 +68,16 @@ export const shoperzApi = createApi({
       }),
     }),
     getAllproducts: builder.query<ProductsResponse, void>({
-      query: () => ENDPOINTS.products,
+      query: () => ENDPOINTS.products.products,
     }),
     getProductById: builder.query<ProductsResponse, string>({
-      query: (id) => `${ENDPOINTS.products}/${id}`,
+      query: (id) => `${ENDPOINTS.products.products}/${id}`,
+    }),
+    searchProducts: builder.mutation<SearchBox, string>({
+      query: (query) => ({
+        method: "GET",
+        url: `${ENDPOINTS.products.searchProduct}?q=${query}`,
+      }),
     }),
   }),
 });
@@ -84,4 +90,5 @@ export const {
   useGetAllproductsQuery,
   useGetProductByIdQuery,
   useUserDataQuery,
+  useSearchProductsMutation,
 } = shoperzApi;

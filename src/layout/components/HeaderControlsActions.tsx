@@ -8,14 +8,23 @@ import React, {
 import { BsFillHeartFill, BsSearch } from "react-icons/bs";
 import { FaShoppingCart, FaUserAlt } from "react-icons/fa";
 import { FiMenu } from "react-icons/fi";
-import Logo from "../../components/Logo";
 import { useDispatch, useSelector } from "react-redux";
 import { selectAppState, setShowCartDrawer } from "@/redux/slices/app.slice";
-import UserDropMenu from "./UserDropMenu";
-import UserBtn from "./UserBtn";
 import Link from "next/link";
 import { routes } from "@/constants/Routes";
 import { useUserDataQuery } from "@/services/shoperzApi.service";
+import SearchBox from "./SearchBox";
+import dynamic from "next/dynamic";
+import QuickLoadingModul from "../QuickLoadingModul";
+const Logo = dynamic(() => import("../../components/Logo"), {
+  loading: () => <QuickLoadingModul />,
+});
+const UserBtn = dynamic(() => import("./UserBtn"), {
+  loading: () => <QuickLoadingModul />,
+});
+const UserDropMenu = dynamic(() => import("./UserDropMenu"), {
+  loading: () => <QuickLoadingModul />,
+});
 
 type Props = {
   setShowMenu: Dispatch<SetStateAction<boolean>>;
@@ -86,40 +95,7 @@ function HeaderControlsActions({ setShowMenu }: Props) {
           <Logo />
         </div>
       </span>
-      <form action="" className="shoperz-search-bar">
-        <input
-          type="search"
-          name="search-for-products"
-          id="app-search-field"
-          placeholder="search for products .."
-          className="shoperz-searchbar-input "
-        />
-        <select
-          name="select-category"
-          id="categories"
-          value={"all categories"}
-          className="shoperz-searchbar-select"
-        >
-          <option value="all categories">all categories</option>
-          <option value="electronics">electronics</option>
-          <option value="ketchin">ketchin</option>
-          <option value="garden">garden</option>
-          <option value="sports">sports</option>
-          <option value="mens">mens</option>
-          <option value="womens">womens</option>
-          <option value="computers & accessories">
-            computers & accessories
-          </option>
-          <option value="mobiles & accessories">mobiles & accessories</option>
-          <option value="helthey">helthey</option>
-          <option value="gifts">gifts</option>
-          <option value="toys">toys</option>
-          <option value="TV & Audio">TV & Audio</option>
-        </select>
-        <button type="submit" id="search0btn" className="shoperz-searchbar-btn">
-          <BsSearch />
-        </button>
-      </form>
+      <SearchBox />
       <span className="headerar-actionsbtns-wrapper">
         {loadingUserData ? (
           <SkeletonUserBtn />
