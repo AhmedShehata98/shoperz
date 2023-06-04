@@ -2,36 +2,34 @@ import React, { useState } from "react";
 import Image, { StaticImageData } from "next/image";
 import { Button, Tooltip } from "flowbite-react";
 type Props = {
-  cate: string;
-  name: string;
-  src: StaticImageData;
-  price: number;
+  productData: Products;
+  onAddToCart: React.MouseEventHandler;
 };
+const Product = ({ onAddToCart, productData }: Props) => {
+  // const {
+  //   brand,
+  //   __v,
+  //   category_id,
+  //   colors,
+  //   createdAt,
+  //   description,
+  //   discount,
+  //   images,
+  //   name,
+  //   price,
+  //   rating,
+  //   sku,
+  //   stock,
+  //   thumbnail,
+  //   updatedAt,
+  // } = productData;
 
-const Product = ({
-  _id,
-  brand,
-  __v,
-  category_id,
-  colors,
-  createdAt,
-  description,
-  discount,
-  images,
-  name,
-  price,
-  rating,
-  sku,
-  stock,
-  thumbnail,
-  updatedAt,
-}: Products) => {
-  const [hover, SetHover] = useState(true);
+  console.log(productData);
   return (
-    <div className=" p-4 grid relative cursor-pointer border-Grey-200 group border-[1px] hover:border-transparent hover:shadow-md rounded">
-      <h6 className="text-xs text-Grey-700 py-2">{category_id}</h6>
+    <li className=" p-4 grid relative cursor-pointer border-Grey-200 group border-[1px] hover:border-transparent hover:shadow-md rounded">
+      <h6 className="text-xs text-Grey-700 py-2">{productData.category_id}</h6>
       <h5 className="text-Primary-600 font-semibold text-sm py-2 items-center">
-        {name}
+        {productData.name}
       </h5>
       {/* <div className="py-2">
         <Image
@@ -45,19 +43,19 @@ const Product = ({
       <div className="p-6">
         <img
           className="object-cover max-h-32 w-32 rounded mx-auto group-hover:scale-105 transition-all duration-500"
-          src={thumbnail}
+          src={productData.thumbnail}
           alt="product-img-thumbnail"
         />
       </div>
       <div className="flex justify-between items-center py-2">
         <div className="font-semibold text-base my-auto">
-          {price.toLocaleString("en", {
+          {productData.price.toLocaleString("en", {
             style: "currency",
             currency: "USD",
           })}
         </div>
         <div className="">
-          <Button className="p-3 w-11 !h-11 right-4 bottom-4 absolute hover:text-green-700 transition-all duration-500 !bg-slate-200 !rounded-full group-hover:-translate-y-24">
+          <Button className="p-3 w-11 !h-11 right-4 bottom-4 text-xl absolute hover:text-green-700 transition-all duration-500 !bg-Grey-400 !rounded-full group-hover:-translate-y-24">
             <svg
               width="18"
               height="16"
@@ -75,7 +73,7 @@ const Product = ({
 
           <button></button>
 
-          <Button className="p-3 w-11 !h-11  right-4 bottom-4 absolute hover:text-red-700 duration-400 transition-all  !bg-slate-200 !rounded-full group-hover:-translate-y-12">
+          <Button className="p-3 w-11 !h-11  right-4 bottom-4 text-xl absolute hover:text-red-700 duration-400 transition-all  !bg-Grey-400 !rounded-full group-hover:-translate-y-12">
             <svg
               width="18"
               height="16"
@@ -91,7 +89,10 @@ const Product = ({
             </svg>
           </Button>
 
-          <Button className="p-3 w-11 !h-11  absolute right-4 bottom-4  group-hover:!bg-Primary-600 transition-all duration-300 !bg-slate-200 !rounded-full">
+          <Button
+            className="p-3 w-11 !h-11  absolute right-4 bottom-4 text-xl  group-hover:!bg-Primary-600 transition-all duration-300 !bg-Grey-400 !rounded-full"
+            onClick={onAddToCart}
+          >
             <svg
               width="16"
               height="16"
@@ -110,7 +111,7 @@ const Product = ({
           </Button>
         </div>
       </div>
-    </div>
+    </li>
   );
 };
 

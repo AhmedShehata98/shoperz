@@ -79,6 +79,26 @@ export const shoperzApi = createApi({
         url: `${ENDPOINTS.products.searchProduct}?q=${query}`,
       }),
     }),
+    getCartItems: builder.query<CartResponse, string>({
+      query: (token) => ({
+        url: ENDPOINTS.cart,
+        headers: {
+          authorization: token,
+        },
+      }),
+    }),
+    addToCart: builder.mutation<
+      CartResponse,
+      { productId: string; quantity: number; token: string }
+    >({
+      query: ({ productId, quantity, token }) => ({
+        url: ENDPOINTS.cart,
+        body: { productId, quantity },
+        headers: {
+          authorization: token,
+        },
+      }),
+    }),
   }),
 });
 
@@ -91,4 +111,5 @@ export const {
   useGetProductByIdQuery,
   useUserDataQuery,
   useSearchProductsMutation,
+  useAddToCartMutation,
 } = shoperzApi;

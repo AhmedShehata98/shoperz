@@ -1,15 +1,19 @@
-interface ICart {
-  carts: Array<CartItems>;
-}
+interface ICart extends Products {}
 
-type CartItems = {
-  id: number;
-  products: Array<CartProducts>;
-  total: number;
-  discountedTotal: number;
-  userId: number;
-  totalProducts: number;
-  totalQuantity: number;
+type CartResponse = {
+  message: string;
+  data: {
+    userCart: {
+      _id: string;
+      userId: string;
+      items: Array<ICart>;
+      createdAt: string;
+      updatedAt: string;
+      __v: string;
+    };
+    cartTotal: number;
+    discountedTotal: number;
+  };
 };
 
 type CartProducts = {
