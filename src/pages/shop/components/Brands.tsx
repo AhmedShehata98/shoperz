@@ -35,8 +35,8 @@ export default function Brands() {
     },
   ];
   return (
-    <div className="w-full p-4 flex flex-col items-start justify-start border border-Grey-300 shadow mb-4">
-      <h4 className="capitalize mb-4 font-semibold">brands</h4>
+    <div className="w-full p-4 flex flex-col items-start justify-start border border-Grey-300 shadow">
+      <h4 className="capitalize  font-semibold">brands</h4>
       <ul className="grid grid-flow-row gap-2 place-items-start">
         {brands.map((brand, i) => (
           <li

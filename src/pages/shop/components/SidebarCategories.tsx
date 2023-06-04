@@ -34,7 +34,7 @@ export default function SidebarCategories() {
   ];
 
   return (
-    <div className="w-full p-3 bg-Grey-100 flex flex-col items-start justify-center border border-Grey-300 shadow mb-4">
+    <div className="w-full p-3 bg-Grey-100 flex flex-col items-start justify-center border border-Grey-300 shadow">
       <h4 className="capitalize mb-4 font-semibold">categories</h4>
       <ul className="grid grid-flow-row gap-2">
         {categories.map((cate, i) => (

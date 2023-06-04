@@ -8,25 +8,54 @@ type Props = {
   price: number;
 };
 
-const Product = ({ cate, name, src, price }: Props) => {
+const Product = ({
+  _id,
+  brand,
+  __v,
+  category_id,
+  colors,
+  createdAt,
+  description,
+  discount,
+  images,
+  name,
+  price,
+  rating,
+  sku,
+  stock,
+  thumbnail,
+  updatedAt,
+}: Products) => {
   const [hover, SetHover] = useState(true);
   return (
-    <div className=" p-4 cursor-pointer border-Grey-200 group border-[1px] hover:border-transparent hover:shadow-md rounded">
-      <h6 className="text-xs text-Grey-700 py-2">{cate}</h6>
+    <div className=" p-4 grid relative cursor-pointer border-Grey-200 group border-[1px] hover:border-transparent hover:shadow-md rounded">
+      <h6 className="text-xs text-Grey-700 py-2">{category_id}</h6>
       <h5 className="text-Primary-600 font-semibold text-sm py-2 items-center">
         {name}
       </h5>
-      <div className="py-2">
+      {/* <div className="py-2">
         <Image
           className="mx-auto group-hover:scale-105 transition-all duration-500"
-          src={src}
+          src={images}
           width={150}
           height={150}
           alt="product"
         />
+      </div> */}
+      <div className="p-6">
+        <img
+          className="object-cover max-h-32 w-32 rounded mx-auto group-hover:scale-105 transition-all duration-500"
+          src={thumbnail}
+          alt="product-img-thumbnail"
+        />
       </div>
       <div className="flex justify-between items-center py-2">
-        <span>{price}</span>
+        <div className="font-semibold text-base my-auto">
+          {price.toLocaleString("en", {
+            style: "currency",
+            currency: "USD",
+          })}
+        </div>
         <div className="">
           <Button className="p-3 w-11 !h-11 right-4 bottom-4 absolute hover:text-green-700 transition-all duration-500 !bg-slate-200 !rounded-full group-hover:-translate-y-24">
             <svg
