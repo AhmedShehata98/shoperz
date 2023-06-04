@@ -20,6 +20,10 @@ const useFormData = (initialstate: any) => {
     }
   };
 
-  return { formData, handleInputFormData };
+  const handleFormDataManually = (data: any) => {
+    setFormData(data);
+  };
+
+  return { formData, handleInputFormData, handleFormDataManually };
 };
 export default useFormData;

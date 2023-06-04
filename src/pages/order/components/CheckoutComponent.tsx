@@ -1,13 +1,22 @@
 import FinalOrderReport from "@/pages/order/components/FinalOrderReport";
-import UserAddressForm from "@/components/UserAddressForm";
 import React, { useState, useCallback } from "react";
 import { motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import { selectAppState } from "@/redux/slices/app.slice";
 import OrdersPreviewListProps from "./OrdersPreviewList";
 import Portal from "@/hooks/Protal";
-import PaymentMethods from "./PaymentMethods";
-import UserAddress from "./UserAddress";
+import dynamic from "next/dynamic";
+import QuickLoadingModul from "@/layout/QuickLoadingModul";
+
+const UserAddress = dynamic(() => import("./UserAddress"), {
+  loading: () => <QuickLoadingModul />,
+});
+const PaymentMethods = dynamic(() => import("./PaymentMethods"), {
+  loading: () => <QuickLoadingModul />,
+});
+const UserAddressForm = dynamic(() => import("@/components/UserAddressForm"), {
+  loading: () => <QuickLoadingModul />,
+});
 
 interface CheckoutProps {}
 

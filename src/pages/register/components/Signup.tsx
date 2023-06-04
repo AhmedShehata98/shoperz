@@ -25,8 +25,8 @@ function Signup() {
         }
         if (signupResponse.isSuccess) {
           toast.success(
-            "Congratulations, the account was successfully created",
-            { position: "bottom-center", className: "w-max" }
+            "Congratulations, account is created successfully ,Please check your email inbox for activating account",
+            { position: "bottom-center", className: "w-2/3" }
           );
         }
         //

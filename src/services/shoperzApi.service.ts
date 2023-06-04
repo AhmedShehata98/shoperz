@@ -39,6 +39,15 @@ export const shoperzApi = createApi({
         },
       }),
     }),
+    userData: builder.query<{ data: { user: UserData } }, string | undefined>({
+      query: (jwt: string) => ({
+        method: "GET",
+        url: ENDPOINTS.users.myData,
+        headers: {
+          authorization: jwt,
+        },
+      }),
+    }),
     verifyEmailAddress: builder.mutation<void, VertifyPayload>({
       query: ({ token, uid }) => ({
         url: `${ENDPOINTS.auth.verifyEmail}?token=${token}&uid=${uid}`,
@@ -59,10 +68,16 @@ export const shoperzApi = createApi({
       }),
     }),
     getAllproducts: builder.query<ProductsResponse, void>({
-      query: () => ENDPOINTS.products,
+      query: () => ENDPOINTS.products.products,
     }),
     getProductById: builder.query<ProductsResponse, string>({
-      query: (id) => `${ENDPOINTS.products}/${id}`,
+      query: (id) => `${ENDPOINTS.products.products}/${id}`,
+    }),
+    searchProducts: builder.mutation<SearchBox, string>({
+      query: (query) => ({
+        method: "GET",
+        url: `${ENDPOINTS.products.searchProduct}?q=${query}`,
+      }),
     }),
     get,
   }),
@@ -75,4 +90,6 @@ export const {
   useChangeCurrentPasswordMutation,
   useGetAllproductsQuery,
   useGetProductByIdQuery,
+  useUserDataQuery,
+  useSearchProductsMutation,
 } = shoperzApi;

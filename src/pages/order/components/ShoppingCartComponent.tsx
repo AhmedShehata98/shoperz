@@ -3,15 +3,21 @@ import Portal from "../../../hooks/Protal";
 import { AiOutlineTransaction } from "react-icons/ai";
 import { BsBoxSeam } from "react-icons/bs";
 import { MdOutlineLocalShipping } from "react-icons/md";
-import OrderReport from "./OrderSummery";
 import Cart from "./Cart";
 import { motion } from "framer-motion";
-import { useQuery } from "react-query";
-import AlertDialog from "./AlertDialog";
 import OfferItem from "./OfferItem";
 import { useGetCartItemsQuery } from "@/services/dummyjson.service";
 import { useDispatch } from "react-redux";
 import { setCartLength } from "@/redux/slices/app.slice";
+import dynamic from "next/dynamic";
+import QuickLoadingModul from "@/layout/QuickLoadingModul";
+
+const OrderReport = dynamic(() => import("./OrderSummery"), {
+  loading: () => <QuickLoadingModul />,
+});
+const AlertDialog = dynamic(() => import("./AlertDialog"), {
+  loading: () => <QuickLoadingModul />,
+});
 
 interface ShoppingCartComponentProps {}
 function ShoppingCartComponent() {

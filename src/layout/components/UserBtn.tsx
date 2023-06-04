@@ -6,9 +6,10 @@ import { RiArrowDownSFill } from "react-icons/ri";
 
 interface Props {
   isAuthenticated: boolean;
+  name: string | undefined;
   onClick: React.MouseEventHandler;
 }
-export default function UserBtn({ isAuthenticated, onClick }: Props) {
+export default function UserBtn({ isAuthenticated, name, onClick }: Props) {
   if (isAuthenticated) {
     return (
       <button
@@ -18,8 +19,8 @@ export default function UserBtn({ isAuthenticated, onClick }: Props) {
         onClick={onClick}
       >
         <RiArrowDownSFill className="text-2xl pointer-events-none" />
-        <p className="text-gray-500 text-xs uppercase pointer-events-none">
-          ahmed shehata
+        <p className="text-gray-400 font-semibold text-sm capitalize pointer-events-none">
+          {name}
         </p>
       </button>
     );
