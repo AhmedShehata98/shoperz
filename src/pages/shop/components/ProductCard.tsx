@@ -21,25 +21,6 @@ export default function ProductCard({
   thumbnail,
   updatedAt,
 }: Products) {
-  console.log(
-    _id,
-    brand,
-    __v,
-    category_id,
-    colors,
-    createdAt,
-    description,
-    discount,
-    images,
-    name,
-    price,
-    rating,
-    sku,
-    stock,
-    thumbnail,
-    updatedAt
-  );
-
   return (
     <li className="flex max-sm:flex-col max-md:w-full border shadow p-3 cursor-pointer hover:scale-105 duration-300 max-lg:justify-between">
       <figure className="flex max-sm:grid w-full">
