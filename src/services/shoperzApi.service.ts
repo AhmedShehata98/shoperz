@@ -64,6 +64,7 @@ export const shoperzApi = createApi({
     getProductById: builder.query<ProductsResponse, string>({
       query: (id) => `${ENDPOINTS.products}/${id}`,
     }),
+    get,
   }),
 });
 
