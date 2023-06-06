@@ -6,35 +6,18 @@ type Props = {
   onAddToCart: React.MouseEventHandler;
 };
 const Product = ({ onAddToCart, productData }: Props) => {
-  // const {
-  //   brand,
-  //   __v,
-  //   category_id,
-  //   colors,
-  //   createdAt,
-  //   description,
-  //   discount,
-  //   images,
-  //   name,
-  //   price,
-  //   rating,
-  //   sku,
-  //   stock,
-  //   thumbnail,
-  //   updatedAt,
-  // } = productData;
-
   console.log(productData);
+
   return (
     <li className=" p-4 grid relative cursor-pointer border-Grey-200 group border-[1px] hover:border-transparent hover:shadow-md rounded">
-      <h6 className="text-xs text-Grey-700 py-2">{productData.category_id}</h6>
+      <h6 className="text-xs text-Grey-700 py-2">{productData?.category_id}</h6>
       <h5 className="text-Primary-600 font-semibold text-sm py-2 items-center">
-        {productData.name}
+        {productData?.name}
       </h5>
       {/* <div className="py-2">
         <Image
           className="mx-auto group-hover:scale-105 transition-all duration-500"
-          src={images}
+          src={productData?.images[0]}
           width={150}
           height={150}
           alt="product"
@@ -42,14 +25,14 @@ const Product = ({ onAddToCart, productData }: Props) => {
       </div> */}
       <div className="p-6">
         <img
-          className="object-cover max-h-32 w-32 rounded mx-auto group-hover:scale-105 transition-all duration-500"
-          src={productData.thumbnail}
+          className="object-cover max-h-36 h-36 w-40 rounded mx-auto group-hover:scale-105 transition-all duration-500"
+          src={productData?.images[0]}
           alt="product-img-thumbnail"
         />
       </div>
       <div className="flex justify-between items-center py-2">
         <div className="font-semibold text-base my-auto">
-          {productData.price.toLocaleString("en", {
+          {productData?.price.toLocaleString("en", {
             style: "currency",
             currency: "USD",
           })}

@@ -102,8 +102,14 @@ const Shop = (props: Props) => {
             </div>
           </ul>
         </section>
-        <ButtonFilter />
-        <Filters />
+        <ButtonFilter
+          onClick={function (
+            event: React.MouseEvent<Element, MouseEvent>
+          ): void {
+            throw new Error("Function not implemented.");
+          }}
+        />
+        {/* <Filters /> */}
       </main>
     </>
   );

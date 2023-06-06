@@ -12,72 +12,18 @@ import "swiper/css/scrollbar";
 import "swiper/css";
 import Product from "./Product";
 import Headtitle from "./Headtitle";
+import { useGetAllproductsQuery } from "@/services/shoperzApi.service";
+import LoadingProducts from "@/pages/shop/components/LoadingProducts";
 
 type Props = {};
 
 const BigDeals = (props: Props) => {
-  const p = [
-    {
-      src: Product2,
-      name: "Appel iphone 14 pro,Ltop Super REtina xdr oled 6.1",
-      price: 1200,
-      cate: "Smartphones",
-    },
-    {
-      src: Product2,
-      name: "Appel iphone 14 pro,Ltop Super REtina xdr oled 6.1",
-      price: 1200,
-      cate: "Smartphones",
-    },
-    {
-      src: Product2,
-      name: "Appel iphone 14 pro,Ltop Super REtina xdr oled 6.1",
-      price: 1200,
-      cate: "Smartphones",
-    },
-    {
-      src: Product2,
-      name: "Appel iphone 14 pro,Ltop Super REtina xdr oled 6.1",
-      price: 1200,
-      cate: "Smartphones",
-    },
-    {
-      src: Product2,
-      name: "Appel iphone 14 pro,Ltop Super REtina xdr oled 6.1",
-      price: 1200,
-      cate: "Smartphones",
-    },
-    {
-      src: Product2,
-      name: "Appel iphone 14 pro,Ltop Super REtina xdr oled 6.1",
-      price: 1200,
-      cate: "Smartphones",
-    },
-    {
-      src: Product2,
-      name: "Appel iphone 14 pro,Ltop Super REtina xdr oled 6.1",
-      price: 1200,
-      cate: "Smartphones",
-    },
-    {
-      src: Product2,
-      name: "Appel iphone 14 pro,Ltop Super REtina xdr oled 6.1",
-      price: 1200,
-      cate: "Smartphones",
-    },
-    {
-      src: Product2,
-      name: "Appel iphone 14 pro,Ltop Super REtina xdr oled 6.1",
-      price: 1200,
-      cate: "Smartphones",
-    },
-    {
-      src: Product2,
-      name: "Appel iphone 14 pro,Ltop Super REtina xdr oled 6.1",
-      price: 1200,
-      cate: "Smartphones",
-    },
-  ];
+  const {
+    isError: isProductsError,
+    isLoading: isLoadingProducts,
+    data: products,
+    isSuccess: isSuccessProducts,
+  } = useGetAllproductsQuery();
   interface arrows {
     right: Boolean;
     left: Boolean;
@@ -156,16 +102,26 @@ const BigDeals = (props: Props) => {
           },
         }}
       >
-        {p.map((el, i) => (
-          <SwiperSlide key={i}>
-            <Product
-              cate={el.cate}
-              name={el.name}
-              src={el.src}
-              price={el.price}
-            />
-          </SwiperSlide>
-        ))}
+        {isProductsError && <div>error</div>}
+        {isLoadingProducts ? (
+          <LoadingProducts />
+        ) : (
+          products?.data.products.map(
+            (el: any, i: number) =>
+              i < 10 && (
+                <SwiperSlide key={i}>
+                  <Product
+                    productData={el}
+                    onAddToCart={function (
+                      event: React.MouseEvent<Element, MouseEvent>
+                    ): void {
+                      throw new Error("Function not implemented.");
+                    }}
+                  />
+                </SwiperSlide>
+              )
+          )
+        )}
       </Swiper>
     </div>
   );

@@ -79,7 +79,10 @@ export const shoperzApi = createApi({
         url: `${ENDPOINTS.products.searchProduct}?q=${query}`,
       }),
     }),
-    get,
+    // addToCart:builder.mutation<any,any>({
+    //   query: (payload) => ({
+    //     method: "POST",
+    // })
   }),
 });
 

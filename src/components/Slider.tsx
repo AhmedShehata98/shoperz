@@ -25,8 +25,6 @@ const Slider = (props: Props) => {
         pagination={{
           clickable: true,
         }}
-        onSlideChange={() => console.log("slide change")}
-        onSwiper={(swiper) => console.log(swiper)}
         className=" w-full"
       >
         <SwiperSlide>

@@ -3,6 +3,10 @@ import {
   BsFillArrowRightCircleFill,
   BsArrowLeftCircleFill,
 } from "react-icons/bs";
+import {
+  useAddToCartMutation,
+  useGetAllproductsQuery,
+} from "@/services/shoperzApi.service";
 import Product1 from "../assets/products/Product.png";
 import { Swiper, SwiperSlide, useSwiper } from "swiper/react";
 import { Navigation, Pagination, Scrollbar, A11y } from "swiper";
@@ -12,77 +16,23 @@ import "swiper/css/scrollbar";
 import "swiper/css";
 import Product from "./Product";
 import Headtitle from "./Headtitle";
+import LoadingProducts from "@/pages/shop/components/LoadingProducts";
 
 type Props = {};
 
 const SlidesProducts = (props: Props) => {
-  const p = [
-    {
-      src: Product1,
-      name: "Appel iphone 14 pro,Ltop Super REtina xdr oled 6.1",
-      price: 1200,
-      cate: "Smartphones",
-    },
-    {
-      src: Product1,
-      name: "Appel iphone 14 pro,Ltop Super REtina xdr oled 6.1",
-      price: 1200,
-      cate: "Smartphones",
-    },
-    {
-      src: Product1,
-      name: "Appel iphone 14 pro,Ltop Super REtina xdr oled 6.1",
-      price: 1200,
-      cate: "Smartphones",
-    },
-    {
-      src: Product1,
-      name: "Appel iphone 14 pro,Ltop Super REtina xdr oled 6.1",
-      price: 1200,
-      cate: "Smartphones",
-    },
-    {
-      src: Product1,
-      name: "Appel iphone 14 pro,Ltop Super REtina xdr oled 6.1",
-      price: 1200,
-      cate: "Smartphones",
-    },
-    {
-      src: Product1,
-      name: "Appel iphone 14 pro,Ltop Super REtina xdr oled 6.1",
-      price: 1200,
-      cate: "Smartphones",
-    },
-    {
-      src: Product1,
-      name: "Appel iphone 14 pro,Ltop Super REtina xdr oled 6.1",
-      price: 1200,
-      cate: "Smartphones",
-    },
-    {
-      src: Product1,
-      name: "Appel iphone 14 pro,Ltop Super REtina xdr oled 6.1",
-      price: 1200,
-      cate: "Smartphones",
-    },
-    {
-      src: Product1,
-      name: "Appel iphone 14 pro,Ltop Super REtina xdr oled 6.1",
-      price: 1200,
-      cate: "Smartphones",
-    },
-    {
-      src: Product1,
-      name: "Appel iphone 14 pro,Ltop Super REtina xdr oled 6.1",
-      price: 1200,
-      cate: "Smartphones",
-    },
-  ];
+  const {
+    isError: isProductsError,
+    isLoading: isLoadingProducts,
+    data: products,
+    isSuccess: isSuccessProducts,
+  } = useGetAllproductsQuery();
   interface arrows {
     right: Boolean;
     left: Boolean;
   }
   const [arrows, setArrows] = useState({ right: false, left: false });
+  console.log(products);
 
   return (
     <div className="container pb-10 mx-auto">
@@ -156,16 +106,26 @@ const SlidesProducts = (props: Props) => {
           },
         }}
       >
-        {p.map((el, i) => (
-          <SwiperSlide key={i}>
-            <Product
-              cate={el.cate}
-              name={el.name}
-              src={el.src}
-              price={el.price}
-            />
-          </SwiperSlide>
-        ))}
+        {isProductsError && <div>error</div>}
+        {isLoadingProducts ? (
+          <LoadingProducts />
+        ) : (
+          products?.data.products.map(
+            (el: any, i: number) =>
+              i < 10 && (
+                <SwiperSlide key={i}>
+                  <Product
+                    productData={el}
+                    onAddToCart={function (
+                      event: React.MouseEvent<Element, MouseEvent>
+                    ): void {
+                      throw new Error("Function not implemented.");
+                    }}
+                  />
+                </SwiperSlide>
+              )
+          )
+        )}
       </Swiper>
     </div>
   );
