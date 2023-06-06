@@ -105,11 +105,6 @@ export const shoperzApi = createApi({
         url: `${ENDPOINTS.products.searchProduct}?q=${query}`,
       }),
     }),
-<<<<<<< HEAD
-    // addToCart:builder.mutation<any,any>({
-    //   query: (payload) => ({
-    //     method: "POST",
-    // })
     getCartItems: builder.query<Cart, string>({
       query: (token: string) => ({
         method: "GET",
@@ -120,8 +115,6 @@ export const shoperzApi = createApi({
       }),
       transformResponse: (response: CartResponse, meta, arg) => response.data,
     }),
-=======
->>>>>>> 9195773cdb962db33eda604edfab22e5a79296e3
   }),
 });
 
@@ -134,11 +127,5 @@ export const {
   useGetProductByIdQuery,
   useUserDataQuery,
   useSearchProductsMutation,
-<<<<<<< HEAD
   useGetCartItemsQuery,
-=======
-  useGetTopRatedProductsQuery,
-  useGetMegaOfferProductsQuery,
-  useAddToCartMutation,
->>>>>>> 9195773cdb962db33eda604edfab22e5a79296e3
 } = shoperzApi;
