@@ -14,20 +14,20 @@ export const shoperzApi = createApi({
           "Content-Type": "application/json ;charset=UTF-8",
         },
       }),
-      transformErrorResponse: (
-        response: { status: string | number; data: SignupError },
-        meta,
-        arg
-      ) => ({
-        status: response.status,
-        errDetails: {
-          message:
-            response.data.error?.[0].error?.[0].message ||
-            response.data.message,
-          data: response.data.data || null,
-          field: response.data.error?.[0].field || null,
-        },
-      }),
+      // transformErrorResponse: (
+      //   response: { status: string | number; data: SignupError },
+      //   meta,
+      //   arg
+      // ) => ({
+      //   status: response.status,
+      //   errDetails: {
+      //     message:
+      //       response.data.error?.[0].error?.[0].message ||
+      //       response.data.message,
+      //     data: response.data.data || null,
+      //     field: response.data.error?.[0].field || null,
+      //   },
+      // }),
     }),
     loginUser: builder.mutation({
       query: (payload: Login) => ({
@@ -67,11 +67,37 @@ export const shoperzApi = createApi({
         },
       }),
     }),
-    getAllproducts: builder.query<ProductsResponse, void>({
+    getAllProducts: builder.query<ProductsResponse, void>({
       query: () => ENDPOINTS.products.products,
+    }),
+    getTopRatedProducts: builder.query<ProductsResponse, void>({
+      query: () => ENDPOINTS.products.topRatedProduct,
+    }),
+    getMegaOfferProducts: builder.query<ProductsResponse, void>({
+      query: () => ENDPOINTS.products.megaOfferProduct,
     }),
     getProductById: builder.query<ProductsResponse, string>({
       query: (id) => `${ENDPOINTS.products.products}/${id}`,
+    }),
+    getCartItems: builder.query<CartResponse, string>({
+      query: (token) => ({
+        url: ENDPOINTS.cart,
+        headers: {
+          authorization: token,
+        },
+      }),
+    }),
+    addToCart: builder.mutation<
+      CartResponse,
+      { productId: string; quantity: number; token: string }
+    >({
+      query: ({ productId, quantity, token }) => ({
+        url: ENDPOINTS.cart,
+        body: { productId, quantity },
+        headers: {
+          authorization: token,
+        },
+      }),
     }),
     searchProducts: builder.mutation<SearchBox, string>({
       query: (query) => ({
@@ -79,10 +105,6 @@ export const shoperzApi = createApi({
         url: `${ENDPOINTS.products.searchProduct}?q=${query}`,
       }),
     }),
-    // addToCart:builder.mutation<any,any>({
-    //   query: (payload) => ({
-    //     method: "POST",
-    // })
   }),
 });
 
@@ -91,9 +113,11 @@ export const {
   useLoginUserMutation,
   useVerifyEmailAddressMutation,
   useChangeCurrentPasswordMutation,
-  useGetAllproductsQuery,
+  useGetAllProductsQuery,
   useGetProductByIdQuery,
   useUserDataQuery,
   useSearchProductsMutation,
+  useGetTopRatedProductsQuery,
+  useGetMegaOfferProductsQuery,
   useAddToCartMutation,
 } = shoperzApi;

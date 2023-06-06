@@ -6,26 +6,16 @@ type Props = {
   onAddToCart: React.MouseEventHandler;
 };
 const Product = ({ onAddToCart, productData }: Props) => {
-  console.log(productData);
-
   return (
-    <li className=" p-4 grid relative cursor-pointer border-Grey-200 group border-[1px] hover:border-transparent hover:shadow-md rounded">
+    <li className=" p-4 grid h-[20rem] relative cursor-pointer border-Grey-200 group border-[1px] hover:border-transparent hover:shadow-md rounded">
       <h6 className="text-xs text-Grey-700 py-2">{productData?.category_id}</h6>
       <h5 className="text-Primary-600 font-semibold text-sm py-2 items-center">
         {productData?.name}
       </h5>
-      {/* <div className="py-2">
-        <Image
-          className="mx-auto group-hover:scale-105 transition-all duration-500"
-          src={productData?.images[0]}
-          width={150}
-          height={150}
-          alt="product"
-        />
-      </div> */}
+
       <div className="p-6">
         <img
-          className="object-cover max-h-36 h-36 w-40 rounded mx-auto group-hover:scale-105 transition-all duration-500"
+          className="object-cover max-h-36 rounded mx-auto group-hover:scale-105 transition-all duration-500"
           src={productData?.images[0]}
           alt="product-img-thumbnail"
         />
@@ -53,8 +43,6 @@ const Product = ({ onAddToCart, productData }: Props) => {
               />
             </svg>
           </Button>
-
-          <button></button>
 
           <Button className="p-3 w-11 !h-11  right-4 bottom-4 text-xl absolute hover:text-red-700 duration-400 transition-all  !bg-Grey-400 !rounded-full group-hover:-translate-y-12">
             <svg

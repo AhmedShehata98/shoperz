@@ -4,7 +4,7 @@ import ShopUpperbar from "./components/ShopUpperbar";
 import ProductCard from "./components/ProductCard";
 import {
   useAddToCartMutation,
-  useGetAllproductsQuery,
+  useGetAllProductsQuery,
 } from "@/services/shoperzApi.service";
 import Product from "@/components/Product";
 import clsx from "clsx";
@@ -19,12 +19,14 @@ type Props = {};
 const Shop = (props: Props) => {
   const [fetchAddToCart, addToCartResponse] = useAddToCartMutation();
   const filterRef = useRef<HTMLElement | undefined>(undefined);
+  console.log(addToCartResponse);
+
   const {
     isError: isProductsError,
     isLoading: isLoadingProducts,
     data: products,
     isSuccess: isSuccessProducts,
-  } = useGetAllproductsQuery();
+  } = useGetAllProductsQuery();
   const handleShowFilterbar = () => {
     filterRef.current?.classList.toggle("filter-sidebar-show");
     document.body.classList.toggle("prevent-scroll");
@@ -32,7 +34,6 @@ const Shop = (props: Props) => {
   const handleApplyFilter = () => {
     console.log("apply filter");
   };
-
   const [showProducts, setShowProducts] = useState(true);
   function t(page: number): void {
     throw new Error("Function not implemented.");

@@ -3,10 +3,7 @@ import {
   BsFillArrowRightCircleFill,
   BsArrowLeftCircleFill,
 } from "react-icons/bs";
-import {
-  useAddToCartMutation,
-  useGetAllproductsQuery,
-} from "@/services/shoperzApi.service";
+
 import Product1 from "../assets/products/Product.png";
 import { Swiper, SwiperSlide, useSwiper } from "swiper/react";
 import { Navigation, Pagination, Scrollbar, A11y } from "swiper";
@@ -17,6 +14,7 @@ import "swiper/css";
 import Product from "./Product";
 import Headtitle from "./Headtitle";
 import LoadingProducts from "@/pages/shop/components/LoadingProducts";
+import { useGetAllProductsQuery } from "@/services/shoperzApi.service";
 
 type Props = {};
 
@@ -26,13 +24,12 @@ const SlidesProducts = (props: Props) => {
     isLoading: isLoadingProducts,
     data: products,
     isSuccess: isSuccessProducts,
-  } = useGetAllproductsQuery();
+  } = useGetAllProductsQuery();
   interface arrows {
     right: Boolean;
     left: Boolean;
   }
   const [arrows, setArrows] = useState({ right: false, left: false });
-  console.log(products);
 
   return (
     <div className="container pb-10 mx-auto">

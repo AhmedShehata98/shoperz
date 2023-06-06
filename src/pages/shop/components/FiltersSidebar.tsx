@@ -1,3 +1,4 @@
+/* eslint-disable react/display-name */
 import React, { LegacyRef, forwardRef, useEffect } from "react";
 import SidebarCategories from "./SidebarCategories";
 import Brands from "./Brands";
@@ -12,7 +13,7 @@ type Props = {
 };
 
 const FiltersSidebar = forwardRef(
-  ({ handleApply, handleClose }: Props, ref: LegacyRef<HTMLDivElement>) => {
+  ({ handleApply, handleClose }: Props, ref: any) => {
     return (
       <aside ref={ref} className="filter-sidebar">
         <SidebarCategories />
