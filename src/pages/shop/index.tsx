@@ -46,6 +46,7 @@ const Shop = (props: Props) => {
                 showProducts !== true,
             })}
           >
+            {isProductsError && <div>error</div>}
             {isLoadingProducts ? (
               <LoadingProducts />
             ) : products?.error === null && products.data.products?.length ? (
@@ -67,8 +68,8 @@ const Shop = (props: Props) => {
             </div>
           </ul>
         </section>
-        <ButtonFilter />
-        <Filters />
+        {/* <ButtonFilter />
+        <Filters /> */}
       </main>
     </>
   );
