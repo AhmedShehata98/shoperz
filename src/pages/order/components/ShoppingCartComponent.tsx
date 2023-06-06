@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import Portal from "../../../hooks/Protal";
 import { AiOutlineTransaction } from "react-icons/ai";
 import { BsBoxSeam } from "react-icons/bs";
@@ -6,7 +6,7 @@ import { MdOutlineLocalShipping } from "react-icons/md";
 import Cart from "./Cart";
 import { motion } from "framer-motion";
 import OfferItem from "./OfferItem";
-import { useGetCartItemsQuery } from "@/services/dummyjson.service";
+import { useGetCartItemsQuery } from "@/services/shoperzApi.service";
 import { useDispatch } from "react-redux";
 import { setCartLength } from "@/redux/slices/app.slice";
 import dynamic from "next/dynamic";
@@ -23,34 +23,30 @@ interface ShoppingCartComponentProps {}
 function ShoppingCartComponent() {
   const dispatch = useDispatch();
   const [showConfirmIsUser, setShowConfirmIsUser] = useState(false);
+  const [token, setToken] = useState("");
 
   ////////////////////
   //
   //
-  let loggedin = true;
+  let loggedin = Boolean(token);
   //
   //
   ////////////////////
 
-  const { data, isLoading, isError, isSuccess } = useGetCartItemsQuery();
+  const {
+    data: userCartData,
+    isLoading,
+    isError,
+    isSuccess,
+  } = useGetCartItemsQuery(token, { skip: !Boolean(token) });
 
-  const memoziedCartItem = useMemo(() => {
-    if (isSuccess) {
-      let randomCartItem: number = Math.floor(
-        Math.random() * data.carts.length - 1
-      );
-      if (randomCartItem > data.carts.length) {
-        dispatch(
-          setCartLength(data?.carts[randomCartItem - 1]?.products.length)
-        );
-        return data?.carts[randomCartItem - 1];
-      } else {
-        dispatch(setCartLength(data?.carts[randomCartItem]?.products.length));
-        return data?.carts[randomCartItem];
-      }
+  useEffect(() => {
+    const token = document.cookie.split("=")[1];
+    if (token) {
+      setToken(token);
     }
-  }, [data, isLoading]) as CartItems;
-
+  }, []);
+  console.log(userCartData);
   return (
     <motion.article
       variants={{
@@ -63,11 +59,15 @@ function ShoppingCartComponent() {
     >
       <section className="shopping-cart-details">
         <Cart
-          cartItems={memoziedCartItem?.products}
+          cartItems={userCartData?.userCart.items || []}
+          total={userCartData?.cartTotal || 0}
           apiCallState={{ isLoading, isError, isSuccess }}
         />
         <OrderReport
-          orders={memoziedCartItem}
+          orders={userCartData?.userCart.items || []}
+          cartTotal={userCartData?.cartTotal || 0}
+          discountedTotal={userCartData?.discountedTotal || 0}
+          ProductsQuantity={userCartData?.userCart.items?.length || 0}
           loggedin={loggedin}
           setShowConfirmIsUser={setShowConfirmIsUser}
           apiCallState={{ isLoading, isError, isSuccess }}

@@ -4,22 +4,23 @@ import { IoTrashOutline } from "react-icons/io5";
 
 interface CartItemProps {
   itemData?: CartProducts;
+  total: number;
 }
-export default function CartItem({ itemData }: CartItemProps) {
+export default function CartItem({ total, itemData }: CartItemProps) {
   return (
-    <li key={itemData?.id} className="cart-item">
+    <li key={itemData?.productId._id} className="cart-item">
       <div className="cart-product-info">
-        {/* <figure className="w-16 rounded-md">
+        <figure className="w-16 rounded-md">
           <img
-            src={itemData?.thumbnail}
+            src={itemData?.productId.thumbnail}
             alt="cart-item-image"
             className="w-full object-cover object-center"
           />
-        </figure> */}
+        </figure>
         <figcaption className="w-10/12 flex items-start justify-between">
           <div className="basis-2/3 flex items-start flex-col">
             <p className="text-sky-700 font-semibold capitalize m-0">
-              {itemData?.title}
+              {itemData?.productId.name}
             </p>
             <span className="flex items-center justify-center gap-4">
               <small className="text-gray-500">{itemData?.quantity}X</small>
@@ -28,7 +29,7 @@ export default function CartItem({ itemData }: CartItemProps) {
                   {Intl.NumberFormat("en-eg", {
                     style: "currency",
                     currency: "EGP",
-                  }).format(itemData?.price || 0)}
+                  }).format(itemData?.productId.price || 0)}
                 </small>
               </span>
             </span>
@@ -50,14 +51,14 @@ export default function CartItem({ itemData }: CartItemProps) {
         </figcaption>
       </div>
       <div className="cart-product-pricing">
-        <span className="w-16 flex max-lg:flex-row max-lg:gap-5 flex-col items-start justify-start gap-1 flex-1">
-          <p className="text-lg font-semibold capitalize">total :</p>
+        <span className="w-16 flex max-lg:flex-row max-lg:gap-5 flex-col items-start justify-start flex-1">
+          <p className="text-lg leading-5 font-semibold capitalize">total :</p>
           <span className="flex items-center justify-center gap-1">
-            <p className="font-mono ">
+            <p className="font-mono">
               {Intl.NumberFormat("en-eg", {
                 style: "currency",
                 currency: "EGP",
-              }).format(itemData?.total || 0)}
+              }).format(total || 0)}
             </p>
           </span>
         </span>

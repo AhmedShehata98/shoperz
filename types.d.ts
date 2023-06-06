@@ -1,29 +1,25 @@
-interface ICart extends Products {}
-
-type CartResponse = {
+interface CartResponse {
   message: string;
-  data: {
-    userCart: {
-      _id: string;
-      userId: string;
-      items: Array<ICart>;
-      createdAt: string;
-      updatedAt: string;
-      __v: string;
-    };
-    cartTotal: number;
-    discountedTotal: number;
-  };
+  data: Cart;
+}
+type Cart = {
+  userCart: UserCart;
+  cartTotal: number;
+  discountedTotal: number;
+};
+
+type UserCart = {
+  _id: string;
+  userId: string;
+  items: Array<CartProducts>;
+  createdAt: string;
+  updatedAt: string;
+  __v: string;
 };
 
 type CartProducts = {
-  id: number;
-  title: "Spring and summershoes";
-  price: number;
+  productId: Products;
   quantity: number;
-  total: number;
-  discountPercentage: number;
-  discountedPrice: number;
 };
 
 type IPaymentMethod = {

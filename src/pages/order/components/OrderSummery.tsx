@@ -1,15 +1,10 @@
-import React, { useEffect, useMemo, useState, useCallback } from "react";
+import React from "react";
 import visaLogo from "../../../assets/icons/visa.png";
 import mastercardLogo from "../../../assets/icons/mastercard.svg";
 import paypalLogo from "../../../assets/icons/paypal.svg";
 import { useRouter } from "next/router";
-import { SinglyLinkedList } from "@/utils/SinglyLinkedList";
 import { useDispatch } from "react-redux";
-import {
-  changeCurrentOrderComponent,
-  handleAddToOrderData,
-  handleUpdateOrderData,
-} from "@/redux/slices/app.slice";
+import { handleAddToOrderData } from "@/redux/slices/app.slice";
 import { IApiCallState } from "@/models/shopperz.model";
 import OrderBoxItem from "./OrderBoxItem";
 import { BsCashStack, BsFillBoxSeamFill } from "react-icons/bs";
@@ -17,7 +12,6 @@ import { ImPriceTags } from "react-icons/im";
 import { MdOutlineLocalShipping } from "react-icons/md";
 import { TbBrandCashapp } from "react-icons/tb";
 import CustomButton from "@/components/CustomButton";
-import Link from "next/link";
 import { routes } from "@/constants/Routes";
 
 /**
@@ -27,13 +21,19 @@ import { routes } from "@/constants/Routes";
  */
 
 interface OrderSummeryProps {
-  orders: CartItems;
+  orders: CartProducts[];
+  ProductsQuantity: number;
+  cartTotal: number;
+  discountedTotal: number;
   loggedin: boolean;
   setShowConfirmIsUser: React.Dispatch<React.SetStateAction<boolean>>;
   apiCallState: IApiCallState;
 }
 function OrderSummery({
   orders,
+  cartTotal,
+  discountedTotal,
+  ProductsQuantity,
   loggedin,
   setShowConfirmIsUser,
   apiCallState,
@@ -54,11 +54,11 @@ function OrderSummery({
       push({ pathname: order, query: { to: checkout } });
       let fullOrderData = {
         id: "shopping-order",
-        cartItems: orders.products,
-        "sub-total": orders.total,
-        discount: orders.total - orders.discountedTotal,
+        cartItems: orders,
+        "sub-total": cartTotal,
+        discount: cartTotal - discountedTotal,
         shippingCost,
-        total: orders.discountedTotal,
+        total: cartTotal,
       };
       dispatch(handleAddToOrderData(fullOrderData));
     } else {
@@ -79,8 +79,8 @@ function OrderSummery({
       <ul className="grid grid-flow-row px-1 py-2 border-b">
         <OrderBoxItem
           data={{
-            title: "sub-price",
-            value: orders?.discountedTotal,
+            title: "total",
+            value: cartTotal,
           }}
           Icon={<BsCashStack />}
         />
@@ -88,7 +88,7 @@ function OrderSummery({
         <OrderBoxItem
           data={{
             title: "discount",
-            value: orders?.total - orders?.discountedTotal,
+            value: cartTotal - discountedTotal,
           }}
           Icon={<ImPriceTags />}
         />
@@ -110,9 +110,9 @@ function OrderSummery({
               {Intl.NumberFormat("en-EG", {
                 currencySign: "accounting",
                 notation: "standard",
-              }).format(orders?.totalQuantity || 0)}
+              }).format(ProductsQuantity || 0)}
             </b>
-            <small className="leading-3 text-Grey-700">quantity</small>
+            <small className="leading-3 text-Grey-700">products quantity</small>
           </span>
         </span>
         <span className="flex items-center justify-center gap-2">
@@ -122,7 +122,7 @@ function OrderSummery({
           <span className="flex flex-col text-sm capitalize">
             <b className="m-0">
               {Intl.NumberFormat("en-EG", numberFormatOptions).format(
-                orders?.total || 0
+                discountedTotal || 0
               )}
             </b>
             <small className="leading-3 text-Grey-700 ">total</small>

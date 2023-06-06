@@ -13,8 +13,13 @@ import { ImSad } from "react-icons/im";
 interface CartProps {
   cartItems: Array<CartProducts>;
   apiCallState: IApiCallState;
+  total: number;
 }
-export default function Cart({ cartItems = [], apiCallState }: CartProps) {
+export default function Cart({
+  total,
+  cartItems = [],
+  apiCallState,
+}: CartProps) {
   if (apiCallState.isLoading) {
     return (
       <div className="flex flex-col items-center justify-center w-full h-48 my-8">
@@ -55,7 +60,7 @@ export default function Cart({ cartItems = [], apiCallState }: CartProps) {
       {cartItems.length > 0 && !apiCallState.isLoading ? (
         <ul className="cart-items-list">
           {cartItems.map((item) => (
-            <CartItem key={nanoid(5)} itemData={item} />
+            <CartItem key={nanoid(5)} total={total} itemData={item} />
           ))}
         </ul>
       ) : null}

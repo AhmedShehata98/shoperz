@@ -44,7 +44,7 @@ const Shop = (props: Props) => {
       toast.success("product is added to your cart success");
     } else {
       toast.warning(
-        "You are not registered! ,Register first and start your shoping journy"
+        "You are not registered! ,ARegister first and start your shoping journy"
       );
     }
   };

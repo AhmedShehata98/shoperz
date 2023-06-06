@@ -83,6 +83,16 @@ export const shoperzApi = createApi({
     //   query: (payload) => ({
     //     method: "POST",
     // })
+    getCartItems: builder.query<Cart, string>({
+      query: (token: string) => ({
+        method: "GET",
+        url: ENDPOINTS.cart,
+        headers: {
+          Authorization: token,
+        },
+      }),
+      transformResponse: (response: CartResponse, meta, arg) => response.data,
+    }),
   }),
 });
 
@@ -95,5 +105,5 @@ export const {
   useGetProductByIdQuery,
   useUserDataQuery,
   useSearchProductsMutation,
-  useAddToCartMutation,
+  useGetCartItemsQuery,
 } = shoperzApi;
