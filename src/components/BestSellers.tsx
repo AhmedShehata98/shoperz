@@ -13,7 +13,7 @@ import "swiper/css";
 import Product from "./Product";
 import Headtitle from "./Headtitle";
 import LoadingProducts from "@/pages/shop/components/LoadingProducts";
-import { useGetAllproductsQuery } from "@/services/shoperzApi.service";
+import { useGetAllProductsQuery } from "@/services/shoperzApi.service";
 
 type Props = {};
 
@@ -24,7 +24,7 @@ const BestSellers = (props: Props) => {
     isLoading: isLoadingProducts,
     data: products,
     isSuccess: isSuccessProducts,
-  } = useGetAllproductsQuery();
+  } = useGetAllProductsQuery();
   interface arrows {
     right: Boolean;
     left: Boolean;
