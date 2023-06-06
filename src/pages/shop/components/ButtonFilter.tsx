@@ -1,10 +1,16 @@
 import React from "react";
 
-type Props = {};
+type Props = {
+  onClick: React.MouseEventHandler;
+};
 
-const ButtonFilter = (props: Props) => {
+const ButtonFilter = ({ onClick }: Props) => {
   return (
-    <button className="bg-slate-400 rounded-full p-4 fixed bottom-4 left-4">
+    <button
+      type="button"
+      className="bg-slate-400 rounded-full p-4 fixed bottom-4 left-4"
+      onClick={onClick}
+    >
       <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="none"

@@ -3,25 +3,12 @@ import Image from "next/image";
 import React from "react";
 import { AiTwotoneShopping } from "react-icons/ai";
 
-export default function ProductCard({
-  _id,
-  brand,
-  __v,
-  category_id,
-  colors,
-  createdAt,
-  description,
-  discount,
-  images,
-  name,
-  price,
-  rating,
-  sku,
-  stock,
-  thumbnail,
-  updatedAt,
-}: Products) {
-  console.log(
+type Props = {
+  productData: Products;
+  onAddToCart: React.MouseEventHandler;
+};
+export default function ProductCard({ productData, onAddToCart }: Props) {
+  const {
     _id,
     brand,
     __v,
@@ -37,9 +24,8 @@ export default function ProductCard({
     sku,
     stock,
     thumbnail,
-    updatedAt
-  );
-
+    updatedAt,
+  } = productData;
   return (
     <li className="flex max-sm:flex-col max-md:w-full border shadow p-3 cursor-pointer hover:scale-105 duration-300 max-lg:justify-between">
       <figure className="flex max-sm:grid w-full">
@@ -116,7 +102,10 @@ export default function ProductCard({
           })}
         </div>
         <div className="py-2 w-full">
-          <button className="flex w-full hover:bg-Primary-700 transition bg-Primary-600 py-2 px-3 rounded-full items-center justify-center text-white font-light gap-x-3">
+          <button
+            className="flex w-full hover:bg-Primary-700 transition bg-Primary-600 py-2 px-3 rounded-full items-center justify-center text-white font-light gap-x-3"
+            onClick={onAddToCart}
+          >
             <span className="text-xs">Add to Cart</span>
             <AiTwotoneShopping className="text-white" />
           </button>

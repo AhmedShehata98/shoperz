@@ -79,7 +79,7 @@ export const shoperzApi = createApi({
         url: `${ENDPOINTS.products.searchProduct}?q=${query}`,
       }),
     }),
-    // get,
+    get,
   }),
 });
 
@@ -92,4 +92,5 @@ export const {
   useGetProductByIdQuery,
   useUserDataQuery,
   useSearchProductsMutation,
+  useAddToCartMutation,
 } = shoperzApi;
