@@ -1,6 +1,10 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/dist/query/react";
 import { API_BASE_URL, ENDPOINTS } from "./api/shoppers.api";
-import { setCartLength, setShowCartDrawer } from "@/redux/slices/app.slice";
+import {
+  setCartLength,
+  setIsLoggedIn,
+  setShowCartDrawer,
+} from "@/redux/slices/app.slice";
 
 export const shoperzApi = createApi({
   reducerPath: "user",
@@ -32,8 +36,8 @@ export const shoperzApi = createApi({
       //   },
       // }),
     }),
-    loginUser: builder.mutation({
-      query: (payload: Login) => ({
+    loginUser: builder.mutation<LoginResponse, Login>({
+      query: (payload) => ({
         url: ENDPOINTS.auth.login,
         method: "POST",
         body: payload,
@@ -41,6 +45,17 @@ export const shoperzApi = createApi({
           "Content-Type": "application/json ; charset=UTF-8",
         },
       }),
+      invalidatesTags: ["Users"],
+      onQueryStarted: async (response, { dispatch, queryFulfilled }) => {
+        try {
+          const res = await queryFulfilled;
+          const hostname = window.location.hostname;
+          document.cookie = `${hostname}=${res.data.data.token}`;
+          dispatch(setIsLoggedIn(true));
+        } catch (error) {
+          dispatch(setIsLoggedIn(false));
+        }
+      },
     }),
     userData: builder.query<{ data: { user: UserData } }, string | undefined>({
       query: (jwt: string) => ({

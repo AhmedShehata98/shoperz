@@ -4,34 +4,23 @@ import { AiOutlineTransaction } from "react-icons/ai";
 import { BsBoxSeam } from "react-icons/bs";
 import { MdOutlineLocalShipping } from "react-icons/md";
 import Cart from "./Cart";
+import OrderReport from "./OrderSummery";
 import { motion } from "framer-motion";
 import OfferItem from "./OfferItem";
 import { useGetCartItemsQuery } from "@/services/shoperzApi.service";
-import { useDispatch } from "react-redux";
-import { setCartLength } from "@/redux/slices/app.slice";
+import { useDispatch, useSelector } from "react-redux";
+import { selectAppState, setCartLength } from "@/redux/slices/app.slice";
 import dynamic from "next/dynamic";
 import QuickLoadingModul from "@/layout/QuickLoadingModul";
 
-const OrderReport = dynamic(() => import("./OrderSummery"), {
-  loading: () => <QuickLoadingModul />,
-});
 const AlertDialog = dynamic(() => import("./AlertDialog"), {
   loading: () => <QuickLoadingModul />,
 });
 
-interface ShoppingCartComponentProps {}
 function ShoppingCartComponent() {
-  const dispatch = useDispatch();
+  const { isLoggedIn } = useSelector(selectAppState);
   const [showConfirmIsUser, setShowConfirmIsUser] = useState(false);
   const [token, setToken] = useState("");
-
-  ////////////////////
-  //
-  //
-  let loggedin = Boolean(token);
-  //
-  //
-  ////////////////////
 
   const {
     data: userCartData,
@@ -68,7 +57,7 @@ function ShoppingCartComponent() {
           cartTotal={userCartData?.cartTotal || 0}
           discountedTotal={userCartData?.discountedTotal || 0}
           ProductsQuantity={userCartData?.userCart.items?.length || 0}
-          loggedin={loggedin}
+          loggedin={Boolean(isLoggedIn)}
           setShowConfirmIsUser={setShowConfirmIsUser}
           apiCallState={{ isLoading, isError, isSuccess }}
         />

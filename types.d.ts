@@ -151,6 +151,10 @@ type SignupSuccess = {
   error: null | string;
 };
 
+interface LoginResponse extends ApiResponse {
+  data: { token: string };
+}
+
 type Login = {
   email: string;
   password: string;

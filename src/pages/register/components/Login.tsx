@@ -20,18 +20,6 @@ function Login() {
       password: data.get("password") as string,
     })
       .unwrap()
-      .then((response) => {
-        const domain = document.location.hostname;
-        const today = new Date();
-        const tomorrow = new Date();
-        tomorrow.setDate(today.getDate() + 1);
-
-        if (data.get("remeber-me") === "on") {
-          document.cookie = `${domain}=${response.data.token}; expires=${tomorrow}`;
-        } else {
-          document.cookie = `${domain}=${response.data.token};`;
-        }
-      })
       .then(() => {
         setTimeout(() => {
           push("/");
