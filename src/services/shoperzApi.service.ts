@@ -106,7 +106,7 @@ export const shoperzApi = createApi({
       }),
     }),
     getCartItems: builder.query<Cart, string>({
-      query: (token: string) => ({
+      query: (token) => ({
         method: "GET",
         url: ENDPOINTS.cart,
         headers: {
@@ -127,5 +127,6 @@ export const {
   useGetProductByIdQuery,
   useUserDataQuery,
   useSearchProductsMutation,
+  useAddToCartMutation,
   useGetCartItemsQuery,
 } = shoperzApi;
