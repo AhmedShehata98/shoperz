@@ -33,7 +33,6 @@ const Headerbar = () => {
       headerbarRef.current?.classList.remove("hidden");
     }
   }, [pathname]);
-
   return (
     <header ref={headerbarRef} className="flex flex-col w-full h-fit bg-white">
       {showCartDrawer ? <CartDrawer /> : null}

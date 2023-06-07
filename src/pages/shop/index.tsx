@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import Head from "next/head";
 import ShopUpperbar from "./components/ShopUpperbar";
 import ProductCard from "./components/ProductCard";
@@ -13,13 +13,16 @@ import ButtonFilter from "./components/ButtonFilter";
 import FiltersSidebar from "./components/FiltersSidebar";
 import { Pagination } from "flowbite-react";
 import { toast } from "react-toastify";
+import { selectAppState } from "@/redux/slices/app.slice";
+import { useSelector } from "react-redux";
 
 type Props = {};
 
 const Shop = (props: Props) => {
+  const { isLoggedIn } = useSelector(selectAppState);
+  const [token, setToken] = useState<string | undefined>(undefined);
   const [fetchAddToCart, addToCartResponse] = useAddToCartMutation();
   const filterRef = useRef<HTMLElement | undefined>(undefined);
-  console.log(addToCartResponse);
 
   const {
     isError: isProductsError,
@@ -39,16 +42,26 @@ const Shop = (props: Props) => {
     throw new Error("Function not implemented.");
   }
   const handleAddToCart = (productId: string, quantity: number) => {
-    const token = document.cookie.split("=")[1];
-    if (token) {
-      fetchAddToCart({ productId, quantity, token });
-      toast.success("product is added to your cart success");
+    if (isLoggedIn) {
+      fetchAddToCart({ productId, quantity, token: token! });
     } else {
       toast.warning(
         "You are not registered! ,ARegister first and start your shoping journy"
       );
     }
   };
+
+  // get token from cookie and set token state
+  // this is important to get cart items
+  useEffect(() => {
+    const token = document.cookie.split("=")[1];
+    if (token) {
+      setToken(token);
+    } else {
+      setToken(undefined);
+    }
+  }, []);
+
   return (
     <>
       <Head>

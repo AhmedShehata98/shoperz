@@ -1,3 +1,8 @@
+type ApiResponse = {
+  message: string;
+  data: null;
+  error: null;
+};
 interface CartResponse {
   message: string;
   data: Cart;
@@ -7,6 +12,20 @@ type Cart = {
   cartTotal: number;
   discountedTotal: number;
 };
+
+interface AddToCartResponse extends ApiResponse {
+  data: {
+    cart: {
+      _id: string;
+      userId: string;
+      items: Product[];
+      createdAt: string;
+      updatedAt: string;
+    };
+    cartTotal: number;
+    discountedTotal: number;
+  };
+}
 
 type UserCart = {
   _id: string;

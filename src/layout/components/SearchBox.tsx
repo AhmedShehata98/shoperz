@@ -23,7 +23,6 @@ export default function SearchBox() {
       clearTimeout(handlerId);
     };
   }, [query]);
-  console.log(productsResponse.data?.data.products);
   return (
     <form action="" className="shoperz-searchbox">
       <input
