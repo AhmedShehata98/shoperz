@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import Headerbar from "@/layout/Headerbar";
 import { wrapper } from "@/redux/store";
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
@@ -11,6 +10,9 @@ import LoadingModal from "@/components/LoadingModal";
 import dynamic from "next/dynamic";
 import QuickLoadingModul from "@/layout/QuickLoadingModul";
 import "react-toastify/dist/ReactToastify.css";
+const Headerbar = dynamic(() => import("@/layout/Headerbar"), {
+  loading: () => <QuickLoadingModul />,
+});
 const Footer = dynamic(() => import("@/layout/Footer"), {
   loading: () => <QuickLoadingModul />,
 });
@@ -43,9 +45,9 @@ function App({ Component, pageProps }: AppProps) {
   return (
     <Provider store={store}>
       <div className={roboto.className}>
-        {router.pathname !== "/register" && <Headerbar />}
+        <Headerbar />
         <Component {...pageProps} />
-        {router.pathname !== "/register" && <Footer />}
+        <Footer />
         <ToastContainer
           position="bottom-center"
           autoClose={5000}
@@ -58,13 +60,12 @@ function App({ Component, pageProps }: AppProps) {
           pauseOnHover
           theme="light"
         />
+        {isRouting ? (
+          <Portal>
+            <LoadingModal />
+          </Portal>
+        ) : null}
       </div>
-
-      {isRouting ? (
-        <Portal>
-          <LoadingModal />
-        </Portal>
-      ) : null}
     </Provider>
   );
 }

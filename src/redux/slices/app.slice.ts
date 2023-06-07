@@ -6,35 +6,19 @@ import { ICreditCard } from "@/models/shopperz.model";
 interface AppStateProps {
   currentComponent: "shopping-cart" | "checkout" | "order-complete";
   orderData: SinglyLinkedList;
-  cart: Array<{
-    id: number;
-    title: string;
-    description: string;
-    price: number;
-    discountPercentage: number;
-    rating: number;
-    stock: number;
-    brand: string;
-    category: string;
-    thumbnail: string;
-    totalPrice: number;
-    currency: string;
-    quantity: number;
-    images: Array<string>;
-  }>;
   showCartDrawer: boolean;
   paymentMethod: IPaymentMethod[];
   creditCardsList: ICreditCard[];
-  alertContext: AlertComponent;
   cartLength: number;
+  isLoggedIn: boolean;
 }
 
 const initialState: AppStateProps = {
   currentComponent: "shopping-cart",
   orderData: new SinglyLinkedList(),
-  cart: [],
   cartLength: 0,
   showCartDrawer: false,
+  isLoggedIn: false,
   paymentMethod: [
     {
       id: "credit-card",
@@ -48,11 +32,6 @@ const initialState: AppStateProps = {
     },
   ],
   creditCardsList: [],
-  alertContext: {
-    alertType: "success",
-    message: "",
-    show: false,
-  },
 };
 
 export const appSlice = createSlice({
@@ -77,9 +56,6 @@ export const appSlice = createSlice({
       if (data) {
         state.orderData.push({ ...data, id: action.payload });
       }
-    },
-    addCartItems: (state, action) => {
-      state.cart.push(...action.payload);
     },
     selectPatmentMethod: (state, action) => {
       let newPaymentMethod = state.paymentMethod.map((method) =>
@@ -117,14 +93,14 @@ export const appSlice = createSlice({
 
       state.creditCardsList = listAfterRemove;
     },
-    setShowAlert: (state, action) => {
-      state.alertContext = { ...action.payload };
-    },
     setShowCartDrawer: (state, action) => {
       state.showCartDrawer = action.payload;
     },
     setCartLength: (state, action) => {
       state.cartLength = action.payload;
+    },
+    setIsLoggedIn: (state, action) => {
+      state.isLoggedIn = action.payload;
     },
   },
 });
@@ -136,12 +112,11 @@ export const {
   handleUpdateOrderData,
   handleGetOrderDataById,
   handleMargefullOrderData,
-  addCartItems,
+  setIsLoggedIn,
   addPaymentData,
   selectPatmentMethod,
   addToCreditCardsList,
   removeFromCreditCardsList,
-  setShowAlert,
   setShowCartDrawer,
   setCartLength,
 } = appSlice.actions;
