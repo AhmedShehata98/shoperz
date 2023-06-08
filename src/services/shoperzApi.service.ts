@@ -119,7 +119,7 @@ export const shoperzApi = createApi({
         },
       }),
       invalidatesTags: ["Cart"],
-      onQueryStarted(arg, { dispatch, queryFulfilled }) {
+      onQueryStarted(arg, { dispatch, queryFulfilled, extra, getState }) {
         queryFulfilled.then(
           ({
             data: {
@@ -133,6 +133,36 @@ export const shoperzApi = createApi({
         );
       },
     }),
+    removeFromCart: builder.mutation<
+      ApiResponse,
+      { productId: string | undefined; token: string | undefined }
+    >({
+      query: ({ productId, token }) => ({
+        url: `${ENDPOINTS.cart}/${productId}`,
+        method: "DELETE",
+        headers: {
+          authorization: token,
+        },
+      }),
+      invalidatesTags: ["Cart"],
+    }),
+    updateCartQuantity: builder.mutation<
+      any,
+      {
+        productId: string | undefined;
+        quantity: number | undefined;
+        token: string | undefined;
+      }
+    >({
+      query: ({ productId, quantity, token }) => ({
+        url: `${ENDPOINTS.cart}/${productId}/${quantity}`,
+        method: "PUT",
+        headers: {
+          authorization: token,
+        },
+      }),
+      invalidatesTags: ["Cart"],
+    }),
     searchProducts: builder.mutation<SearchBox, string>({
       query: (query) => ({
         method: "GET",
@@ -145,12 +175,13 @@ export const shoperzApi = createApi({
 export const {
   useSignupUserMutation,
   useLoginUserMutation,
-
   useChangeCurrentPasswordMutation,
   useGetAllProductsQuery,
   useGetProductByIdQuery,
   useUserDataQuery,
   useSearchProductsMutation,
   useAddToCartMutation,
+  useRemoveFromCartMutation,
   useGetCartItemsQuery,
+  useUpdateCartQuantityMutation,
 } = shoperzApi;

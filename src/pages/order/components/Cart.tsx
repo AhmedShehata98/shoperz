@@ -1,14 +1,11 @@
 import { IApiCallState } from "@/models/shopperz.model";
-import { SinglyLinkedList } from "@/utils/SinglyLinkedList";
-import React, { useMemo } from "react";
-import { AiOutlineCloseCircle } from "react-icons/ai";
-import { FaCcMastercard, FaCcVisa, FaEquals } from "react-icons/fa";
+import React from "react";
 import { HiOutlineShoppingBag } from "react-icons/hi";
-import { IoTrashOutline } from "react-icons/io5";
-import { MdPayment } from "react-icons/md";
 import CartItem from "./CartItem";
 import { nanoid } from "@reduxjs/toolkit";
 import { ImSad } from "react-icons/im";
+import Link from "next/link";
+import { routes } from "@/constants/Routes";
 
 interface CartProps {
   cartItems: Array<CartProducts>;
@@ -51,16 +48,23 @@ export default function Cart({
             <HiOutlineShoppingBag />
           </span>
           <p className="text-sky-700 capitalize mt-2">no items in your cart</p>
-          <button className="bg-sky-500 text-white px-5 py-2 rounded-full shadow-md hover:bg-sky-600 mt-12">
+          <Link
+            href={{ pathname: routes.shop }}
+            className="custom-button rounded-full mt-6"
+          >
             show products
-          </button>
+          </Link>
         </div>
       ) : null}
 
       {cartItems.length > 0 && !apiCallState.isLoading ? (
         <ul className="cart-items-list">
           {cartItems.map((item) => (
-            <CartItem key={nanoid(5)} total={total} itemData={item} />
+            <CartItem
+              key={nanoid(5)}
+              quantity={item.quantity}
+              itemData={item.productId}
+            />
           ))}
         </ul>
       ) : null}

@@ -1,7 +1,8 @@
+import CustomButton from "@/components/CustomButton";
 import { Rating } from "flowbite-react";
 import Image from "next/image";
 import React from "react";
-import { AiTwotoneShopping } from "react-icons/ai";
+import { BsFillCartCheckFill, BsFillCartPlusFill } from "react-icons/bs";
 
 type Props = {
   productData: Products;
@@ -23,9 +24,11 @@ export default function ProductCard({ productData, onAddToCart }: Props) {
     rating,
     sku,
     stock,
+    isInCart,
     thumbnail,
     updatedAt,
   } = productData;
+  console.log(isInCart);
   return (
     <li className="flex max-sm:flex-col max-md:w-full border shadow p-3 cursor-pointer hover:scale-105 duration-300 max-lg:justify-between">
       <figure className="flex max-sm:grid w-full">
@@ -102,13 +105,28 @@ export default function ProductCard({ productData, onAddToCart }: Props) {
           })}
         </div>
         <div className="py-2 w-full">
-          <button
-            className="flex w-full hover:bg-Primary-700 transition bg-Primary-600 py-2 px-3 rounded-full items-center justify-center text-white font-light gap-x-3"
+          <CustomButton
+            extraClassName="rounded-full py-2 w-full"
             onClick={onAddToCart}
+            disabled={isInCart}
           >
-            <span className="text-xs">Add to Cart</span>
-            <AiTwotoneShopping className="text-white" />
-          </button>
+            <span
+              className={`${
+                isInCart ? "hidden" : "flex"
+              }  items-center justify-center gap-3`}
+            >
+              <p className="text-xs">Add to Cart</p>
+              <BsFillCartPlusFill className="text-lg text-white pointer-events-none" />
+            </span>
+            <span
+              className={`${
+                isInCart ? "flex" : "hidden"
+              }  items-center justify-center gap-3`}
+            >
+              <p className="text-xs">added</p>
+              <BsFillCartCheckFill className="text-lg text-white pointer-events-none" />
+            </span>
+          </CustomButton>
         </div>
       </div>
     </li>

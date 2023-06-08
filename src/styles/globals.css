@@ -45,8 +45,8 @@
   .cart-product-pricing {
     @apply max-lg:w-full basis-1/3 flex items-center max-lg:justify-between;
   }
-  .cart-rm-ntn {
-    @apply flex items-center justify-center gap-2 bg-rose-400 text-lg capitalize text-white py-2 px-4 ms-4 rounded-sm hover:bg-red-500 self-start;
+  .cart-rm-btn {
+    @apply flex items-center justify-center gap-2 bg-rose-400 text-lg capitalize text-white py-2 px-4 ms-4 rounded-sm hover:bg-red-500 self-start disabled:bg-Grey-500;
   }
   .cart-isEmpty {
     @apply w-full h-max flex flex-col justify-center items-center my-8;
@@ -109,7 +109,7 @@
     @apply relative flex items-center justify-between gap-6 text-gray-600;
   }
   .custom-button {
-    @apply flex items-center justify-center gap-2 px-6 py-1.5 bg-Primary-700 text-white rounded-md shadow capitalize hover:bg-Primary-600 hover:shadow-Grey-400;
+    @apply flex items-center justify-center gap-2 px-6 py-1.5 bg-Primary-700 text-white rounded-md shadow capitalize hover:bg-Primary-600 hover:shadow-Grey-400 disabled:bg-Grey-500 disabled:text-black;
   }
   .form-input-wrapper {
     @apply flex flex-col items-stretch justify-start gap-2 mb-4;

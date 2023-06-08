@@ -61,6 +61,7 @@ type Products = {
   stock: number;
   discount: number;
   rating: number;
+  isInCart: boolean;
   createdAt: string;
   updatedAt: string;
   __v: number;

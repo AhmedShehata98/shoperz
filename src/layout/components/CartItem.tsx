@@ -1,3 +1,4 @@
+import { useRemoveFromCartMutation } from "@/services/shoperzApi.service";
 import React from "react";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 
@@ -6,6 +7,17 @@ type Props = {
   quantity: number;
 };
 function CartItem({ product, quantity }: Props) {
+  const [token, setToken] = React.useState<string | undefined>(undefined);
+  const [fetchRemoveCartItem, responseCart] = useRemoveFromCartMutation();
+
+  React.useEffect(() => {
+    const token = document.cookie.split("=")[1];
+    if (token) {
+      setToken(token);
+    } else {
+      setToken(undefined);
+    }
+  }, []);
   return (
     <li
       key={product._id}
@@ -35,7 +47,15 @@ function CartItem({ product, quantity }: Props) {
         </span>
       </div>
       <span className="w-16 flex flex-col items-start justify-center gap-1">
-        <button className="text-2xl text-red-200 hover:text-red-600">
+        <button
+          className="text-2xl text-red-200 hover:text-red-600"
+          onClick={() =>
+            fetchRemoveCartItem({
+              productId: product?._id,
+              token,
+            })
+          }
+        >
           <AiOutlineCloseCircle />
         </button>
         <span className="flex items-center justify-center gap-1">

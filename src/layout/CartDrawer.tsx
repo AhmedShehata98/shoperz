@@ -10,16 +10,13 @@ import Link from "next/link";
 import { routes } from "../constants/Routes";
 import { useGetCartItemsQuery } from "@/services/shoperzApi.service";
 import { useDispatch } from "react-redux";
-import { setCartLength, setShowCartDrawer } from "@/redux/slices/app.slice";
+import { setShowCartDrawer } from "@/redux/slices/app.slice";
 import CartDrowerItems from "./components/CartDrowerItems";
 import CartItem from "./components/CartItem";
-import CustomButton from "@/components/CustomButton";
-interface Props {}
+
 function CartDrawer() {
   const dispatch = useDispatch();
-  const CartItemsWrapperRef = React.useRef<HTMLDivElement | undefined>(
-    undefined
-  );
+
   const [token, setToken] = useState<string | undefined>(undefined);
   const cartVariants = {
     visible: { opacity: 1, translateX: "0px" },
@@ -55,13 +52,6 @@ function CartDrawer() {
       setToken(undefined);
     }
   }, []);
-
-  useEffect(() => {
-    CartItemsWrapperRef.current?.scroll({
-      top: CartItemsWrapperRef.current.scrollHeight,
-      behavior: "smooth",
-    });
-  }, [cartItems]);
 
   return (
     <div className="absolute z-20 bg-slate-700 inset-0 bg-opacity-60 flex flex-col md:flex-row items-start justify-start md:justify-end gap-2 overflow-hidden">
@@ -102,10 +92,7 @@ function CartDrawer() {
         {cartItems?.userCart.items?.length! > 0 &&
           !loadingCartItems &&
           successFetchCartItems && (
-            <div
-              ref={CartItemsWrapperRef}
-              className="w-full h-[90vh] max-md:h-[85vh] px-2 flex flex-col overflow-y-auto"
-            >
+            <div className="w-full h-[90vh] max-md:h-[85vh] px-2 flex flex-col overflow-y-auto">
               <CartDrowerItems>
                 {cartItems?.userCart.items.map((item: CartProducts) => (
                   <CartItem
@@ -117,8 +104,12 @@ function CartDrawer() {
               </CartDrowerItems>
               <TotalElement total={cartItems?.cartTotal} />
               <Link
-                href={routes.shoppingCart.order}
+                href={{
+                  pathname: routes.shoppingCart.order,
+                  query: { to: routes.shoppingCart.cart },
+                }}
                 className="custom-button mb-4"
+                onClick={handleHideCart}
               >
                 <p>shopping cart</p>
               </Link>

@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect, MouseEvent } from "react";
 import Head from "next/head";
 import ShopUpperbar from "./components/ShopUpperbar";
 import ProductCard from "./components/ProductCard";
@@ -38,11 +38,21 @@ const Shop = (props: Props) => {
     console.log("apply filter");
   };
   const [showProducts, setShowProducts] = useState(true);
-  function t(page: number): void {
-    throw new Error("Function not implemented.");
+  function handleSwitchVisibality(btn: HTMLButtonElement): void {
+    btn.disabled = true;
+    btn.firstElementChild?.classList.replace("flex", "hidden");
+    btn.lastElementChild?.classList.replace("hidden", "flex");
   }
-  const handleAddToCart = (productId: string, quantity: number) => {
+  const handleAddToCart = (
+    event: MouseEvent<HTMLButtonElement>,
+    productId: string,
+    quantity: number
+  ) => {
+    const target = event.target as HTMLButtonElement;
+    const btn = target.closest("button") as HTMLButtonElement;
     if (isLoggedIn) {
+      // handle switch btw "added to cart" or "add to cart" icons and pragraph
+      handleSwitchVisibality(btn);
       fetchAddToCart({ productId, quantity, token: token! });
     } else {
       toast.warning(
@@ -95,13 +105,17 @@ const Shop = (props: Props) => {
                   <ProductCard
                     key={product._id}
                     productData={product}
-                    onAddToCart={() => handleAddToCart(product._id, 1)}
+                    onAddToCart={(ev: MouseEvent<HTMLButtonElement>) =>
+                      handleAddToCart(ev, product._id, 1)
+                    }
                   />
                 ) : (
                   <Product
                     key={product._id}
                     productData={product}
-                    onAddToCart={() => handleAddToCart(product._id, 1)}
+                    onAddToCart={(ev: MouseEvent<HTMLButtonElement>) =>
+                      handleAddToCart(ev, product._id, 1)
+                    }
                   />
                 )
               )
