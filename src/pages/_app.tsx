@@ -9,6 +9,7 @@ import Portal from "@/hooks/Protal";
 import LoadingModal from "@/components/LoadingModal";
 import dynamic from "next/dynamic";
 import QuickLoadingModul from "@/layout/QuickLoadingModul";
+
 import "react-toastify/dist/ReactToastify.css";
 const Headerbar = dynamic(() => import("@/layout/Headerbar"), {
   loading: () => <QuickLoadingModul />,
@@ -32,20 +33,20 @@ export const roboto = Roboto({
 function App({ Component, pageProps }: AppProps) {
   const { store, props } = wrapper.useWrappedStore(pageProps);
   const [isRouting, setIsRouting] = useState(false);
-  const router = useRouter();
+  const { pathname, events } = useRouter();
   useEffect(() => {
-    router.events.on("routeChangeStart", () => {
+    events.on("routeChangeStart", () => {
       setIsRouting(true);
     });
-    router.events.on("routeChangeComplete", () => {
+    events.on("routeChangeComplete", () => {
       setIsRouting(false);
     });
-  }, [router]);
+  }, [events]);
 
   return (
     <Provider store={store}>
       <div className={roboto.className}>
-        <Headerbar />
+        {pathname === "/register" ? null : <Headerbar />}
         <Component {...pageProps} />
         <Footer />
         <ToastContainer

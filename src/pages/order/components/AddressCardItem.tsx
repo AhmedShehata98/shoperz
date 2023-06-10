@@ -1,11 +1,23 @@
 import React from "react";
 import { BsHouseDoor, BsTrash } from "react-icons/bs";
 import { IoIosPerson } from "react-icons/io";
+import { CgOrganisation } from "react-icons/Cg";
 
 type Props = {
-  data: ShippingAddress;
+  address: UserAddress;
 };
-export default function AddressCardItem({ data }: Props) {
+export default function AddressCardItem({ address }: Props) {
+  const {
+    country,
+    province,
+    postalCode,
+    city,
+    street,
+    contactPhone,
+    updatedAt,
+    default: isDefault,
+    addressLabel,
+  } = address;
   return (
     <li className="flex items-start flex-col bg-white p-3 border rounded">
       <span className="w-full flex items-center justify-between rounded mb-2">
@@ -15,27 +27,41 @@ export default function AddressCardItem({ data }: Props) {
             name="address"
             id="address1"
             className="accent-Primary-700 mx-2"
+            checked={isDefault}
           />
           <label htmlFor="address1" className="flex gap-2 items-center">
-            <BsHouseDoor className="block text-xl" />
-            <b className="leading-3">{data.addressType}</b>
+            {addressLabel === "Home" ? (
+              <BsHouseDoor className="block text-xl" />
+            ) : (
+              <CgOrganisation />
+            )}
+            <b className="leading-3">{addressLabel}</b>
           </label>
         </span>
         <button className="p-2 text-red-700 rounded hover:bg-red-200">
           <BsTrash />
         </button>
       </span>
-      <span className="flex flex-col gap-1">
-        <span className="flex items-center justify-start gap-2 uppercase mb-1">
+      <span className="w-full flex flex-col gap-1">
+        {/* <span className="flex items-center justify-start gap-2 uppercase mb-1">
           <IoIosPerson className="block text-xl ms-1" />
           <p className="text-Primary-700 capitalize">{`${data.firstName} ${data.lastName}`}</p>
-        </span>
+        </span> */}
         <address className="text-sm capitalize text-Grey-700">
-          <p>{data["more-of-location"]}</p>
-          <b>{data.city}</b>
-          <b>{data["country-or-regio"]}</b>
+          <span className="flex gap-2 items-center">
+            <b>{city}</b>
+            <b>{country}</b>
+          </span>
+          <span className="flex gap-2 items-center">
+            <b>{street}</b>
+            <b>{province}</b>
+            <b>{postalCode}</b>
+          </span>
         </address>
-        <code>{data["phone-number"]}</code>
+        <span className="w-full flex items-center justify-between">
+          <code>{contactPhone}</code>
+          <small>last update at :{new Date(updatedAt).toDateString()}</small>
+        </span>
       </span>
     </li>
   );

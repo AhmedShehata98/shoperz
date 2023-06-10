@@ -35,7 +35,6 @@ function ShoppingCartComponent() {
       setToken(token);
     }
   }, []);
-  console.log(userCartData);
   return (
     <motion.article
       variants={{
@@ -53,13 +52,11 @@ function ShoppingCartComponent() {
           apiCallState={{ isLoading, isError, isSuccess }}
         />
         <OrderReport
-          orders={userCartData?.userCart.items || []}
           cartTotal={userCartData?.cartTotal || 0}
           discountedTotal={userCartData?.discountedTotal || 0}
           ProductsQuantity={userCartData?.userCart.items?.length || 0}
           loggedin={Boolean(isLoggedIn)}
           setShowConfirmIsUser={setShowConfirmIsUser}
-          apiCallState={{ isLoading, isError, isSuccess }}
         />
         {showConfirmIsUser && (
           <Portal>

@@ -24,6 +24,7 @@ export const ENDPOINTS = {
     changePassword: "users/change-password",
     myData: "/users/me",
   },
+  address: "/address",
 };
 
 export const sendSignupData = async (body: any) => {

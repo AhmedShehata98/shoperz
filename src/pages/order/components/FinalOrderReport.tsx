@@ -11,21 +11,18 @@ import paypalLogo from "../../../assets/icons/paypal.svg";
 import { useDispatch, useSelector } from "react-redux";
 import {
   changeCurrentOrderComponent,
-  handleMargefullOrderData,
   selectAppState,
 } from "@/redux/slices/app.slice";
 import OrderBoxItem from "./OrderBoxItem";
+import { MdDiscount } from "react-icons/md";
+import { FaShippingFast } from "react-icons/fa";
+import { IoIosCash } from "react-icons/io";
 
 interface OrderReportProps {
-  subTotal: number;
-  shippingCost: number;
-  discount: number;
+  total: number;
+  children: Array<React.ReactNode>;
 }
-function FinalOrderReport({
-  subTotal,
-  discount,
-  shippingCost,
-}: OrderReportProps) {
+function FinalOrderReport({ total, children }: OrderReportProps) {
   const dispatch = useDispatch();
   const { paymentMethod } = useSelector(selectAppState);
   const [isAgreement, setIsAgreement] = useState(false);
@@ -36,7 +33,6 @@ function FinalOrderReport({
       confirmationLabel.current?.classList.add("text-red-700");
     } else {
       dispatch(changeCurrentOrderComponent("order-complete"));
-      dispatch(handleMargefullOrderData("order-complete"));
     }
     if (isAgreement) {
       confirmationLabel.current?.classList.remove("text-red-700");
@@ -49,20 +45,7 @@ function FinalOrderReport({
 
   return (
     <ul className="order-report-box w-full mt-1 mb-4">
-      <OrderBoxItem
-        data={{
-          title: "sub-title ",
-          value: Intl.NumberFormat("en-EG", {
-            style: "currency",
-            currency: "EGP", // display price as country like => EGP , $
-            currencySign: "accounting",
-            notation: "standard", // displays price in title => 100K ,2M ,4B
-          }).format(subTotal || 0),
-        }}
-      />
-      <OrderBoxItem data={{ title: "shipping ", value: "alexsandria - EG" }} />
-      <OrderBoxItem data={{ title: "Discount ", value: discount }} />
-      <OrderBoxItem data={{ title: "Shipping Cost ", value: shippingCost }} />
+      {children}
       <hr className="block my-4 py-2" />
       <form
         action=""
@@ -112,7 +95,7 @@ function FinalOrderReport({
           {Intl.NumberFormat("en-EG", {
             style: "currency",
             currency: "EGP",
-          }).format(subTotal || 0)}
+          }).format(total || 0)}
         </p>
       </button>
       <div className="flex flex-col max-lg:items-center mt-8 mb-3">

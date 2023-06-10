@@ -4,7 +4,6 @@ import mastercardLogo from "../../../assets/icons/mastercard.svg";
 import paypalLogo from "../../../assets/icons/paypal.svg";
 import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
-import { handleAddToOrderData } from "@/redux/slices/app.slice";
 import { IApiCallState } from "@/models/shopperz.model";
 import OrderBoxItem from "./OrderBoxItem";
 import { BsCashStack, BsFillBoxSeamFill } from "react-icons/bs";
@@ -21,24 +20,19 @@ import { routes } from "@/constants/Routes";
  */
 
 interface OrderSummeryProps {
-  orders: CartProducts[];
   ProductsQuantity: number;
   cartTotal: number;
   discountedTotal: number;
   loggedin: boolean;
   setShowConfirmIsUser: React.Dispatch<React.SetStateAction<boolean>>;
-  apiCallState: IApiCallState;
 }
 function OrderSummery({
-  orders,
   cartTotal,
   discountedTotal,
   ProductsQuantity,
   loggedin,
   setShowConfirmIsUser,
-  apiCallState,
 }: OrderSummeryProps) {
-  const dispatch = useDispatch();
   const shippingCost = 50;
   const { push } = useRouter();
   const { order, checkout } = routes.shoppingCart;
@@ -52,15 +46,15 @@ function OrderSummery({
   const getNextPage = () => {
     if (loggedin) {
       push({ pathname: order, query: { to: checkout } });
-      let fullOrderData = {
-        id: "shopping-order",
-        cartItems: orders,
-        "sub-total": cartTotal,
-        discount: cartTotal - discountedTotal,
-        shippingCost,
-        total: cartTotal,
-      };
-      dispatch(handleAddToOrderData(fullOrderData));
+      // let fullOrderData = {
+      //   id: "shopping-order",
+      //   cartItems: orders,
+      //   "sub-total": cartTotal,
+      //   discount: cartTotal - discountedTotal,
+      //   shippingCost,
+      //   total: cartTotal,
+      // };
+      // dispatch(handleAddToOrderData(fullOrderData));
     } else {
       setShowConfirmIsUser(true);
     }

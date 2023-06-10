@@ -8,7 +8,7 @@ import {
 
 export const shoperzApi = createApi({
   reducerPath: "user",
-  tagTypes: ["Products", "Users", "Cart"],
+  tagTypes: ["Products", "Users", "Cart", "Address"],
   baseQuery: fetchBaseQuery({ baseUrl: API_BASE_URL }),
   endpoints: (builder) => ({
     signupUser: builder.mutation({
@@ -94,6 +94,12 @@ export const shoperzApi = createApi({
       query: (id) => `${ENDPOINTS.products.products}/${id}`,
       providesTags: ["Products"],
     }),
+    searchProducts: builder.mutation<SearchBox, string>({
+      query: (query) => ({
+        method: "GET",
+        url: `${ENDPOINTS.products.searchProduct}?q=${query}`,
+      }),
+    }),
     getCartItems: builder.query<Cart, string>({
       query: (token) => ({
         method: "GET",
@@ -163,11 +169,38 @@ export const shoperzApi = createApi({
       }),
       invalidatesTags: ["Cart"],
     }),
-    searchProducts: builder.mutation<SearchBox, string>({
-      query: (query) => ({
+    getUserAddressList: builder.query<
+      ShippingAddressResponse,
+      string | undefined
+    >({
+      query: (token) => ({
         method: "GET",
-        url: `${ENDPOINTS.products.searchProduct}?q=${query}`,
+        url: ENDPOINTS.address,
+        headers: {
+          authorization: token,
+        },
       }),
+      providesTags: ["Address"],
+    }),
+    addUserAddress: builder.mutation<
+      ShippingAddressResponse,
+      {
+        address: Omit<
+          UserAddress,
+          "_id" | "userId" | "createdAt" | "updatedAt" | "__v"
+        >;
+        token: string | undefined;
+      }
+    >({
+      query: ({ address, token }) => ({
+        method: "POST",
+        url: ENDPOINTS.address,
+        headers: {
+          authorization: token,
+        },
+        body: address,
+      }),
+      invalidatesTags: ["Address"],
     }),
   }),
 });
@@ -184,4 +217,6 @@ export const {
   useRemoveFromCartMutation,
   useGetCartItemsQuery,
   useUpdateCartQuantityMutation,
+  useGetUserAddressListQuery,
+  useAddUserAddressMutation,
 } = shoperzApi;
