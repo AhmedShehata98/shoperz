@@ -7,7 +7,7 @@ export const ENDPOINTS = {
     products: "products",
     searchProduct: "/products/search",
     topRatedProduct: "/products/top-rated",
-    megaOfferProduct: "/products/mega-offer",
+    megaOfferProduct: "/products/mega-offers",
   },
   cart: "cart",
   categories: {

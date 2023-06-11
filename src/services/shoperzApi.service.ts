@@ -82,12 +82,20 @@ export const shoperzApi = createApi({
       query: () => ENDPOINTS.products.products,
       providesTags: ["Products"],
     }),
-    getTopRatedProducts: builder.query<ProductsResponse, void>({
-      query: () => ENDPOINTS.products.topRatedProduct,
+    getTopRatedProducts: builder.query<
+      TopRatedProductsResponse,
+      { limit: number }
+    >({
+      query: ({ limit }) =>
+        `${ENDPOINTS.products.topRatedProduct}/?limit=${limit || 5}`,
       providesTags: ["Products"],
     }),
-    getMegaOfferProducts: builder.query<ProductsResponse, void>({
-      query: () => ENDPOINTS.products.megaOfferProduct,
+    getMegaOfferProducts: builder.query<
+      TopRatedProductsResponse,
+      { limit: number }
+    >({
+      query: ({ limit }) =>
+        `${ENDPOINTS.products.megaOfferProduct}/?limit=${limit || 5}`,
       providesTags: ["Products"],
     }),
     getProductById: builder.query<ProductsResponse, string>({
@@ -241,6 +249,8 @@ export const {
   useLoginUserMutation,
   useChangeCurrentPasswordMutation,
   useGetAllProductsQuery,
+  useGetTopRatedProductsQuery,
+  useGetMegaOfferProductsQuery,
   useGetProductByIdQuery,
   useUserDataQuery,
   useSearchProductsMutation,

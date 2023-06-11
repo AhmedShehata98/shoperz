@@ -15,15 +15,6 @@ const ProductCard = dynamic(
 interface OrderProps {}
 
 function OrderCompleteComponent() {
-  const {
-    orderData: { printTail },
-    paymentMethod,
-  } = useSelector(selectAppState);
-
-  const transferMethod = useMemo(() => {
-    return paymentMethod.find((method) => method.value === true);
-  }, [paymentMethod]);
-
   return (
     <motion.section
       variants={{
@@ -40,67 +31,42 @@ function OrderCompleteComponent() {
           <BsFillPatchCheckFill />
           <p>paid</p>
         </span> */}
-        {transferMethod?.id.split("-").join(" ").toLocaleUpperCase() ===
-        "upon-receipt" ? (
-          <span className="flex items-center gap-2 px-4 text-orange-600 text-xl font-medium">
-            <MdOutlineLocalShipping />
-            <p>{transferMethod?.id.split("-").join(" ")}</p>
-          </span>
-        ) : null}
-        {transferMethod?.id.split("-").join(" ").toLocaleUpperCase() ===
-        "upon-receipt" ? (
-          <span className="flex items-center gap-2 px-4 text-Success-700 text-xl font-medium">
-            <BsFillPatchCheckFill />
-            <p>paid</p>
-          </span>
-        ) : null}
+        transfer method - na
       </span>
       <ul className="w-full divide-y">
-        {printTail?.data.cartItems.map((item: any) => {
+        {/* {printTail?.data.cartItems.map((item: any) => {
           return <ProductCard product={item} />;
-        })}
+        })} */}
       </ul>
       <div className="w-full flex items-center justify-between capitalize text-xl py-5">
         <p>total</p>
-        <b className="text-red-700">l.e {printTail?.data.total},00</b>
+        <b className="text-red-700">na</b>
       </div>
       <div className="w-full grid grid-cols-1 md:grid-cols-2 items-start justify-between gap-12 max-md:gap-7">
         <ul>
           <li className="flex items-center justify-between gap-4 capitalize mb-3">
             <p className="text-Grey-600 text-sm font-medium">shipping</p>
-            <b>{`${printTail?.data.userInformation?.city || "NA"} - ${
-              printTail?.data.userInformation?.["country-or-regio"] || "NA"
-            }`}</b>
+            user address data here
           </li>
           <li className="flex items-center justify-between gap-4 capitalize mb-3">
             <p className="text-Grey-600 text-sm font-medium">
               mony transfer method
             </p>
-            <b>{transferMethod?.id.split("-").join(" ").toLocaleUpperCase()}</b>
+            <b>transfer method na</b>
           </li>
-          {transferMethod.paymentData["card-number"] ? (
-            <li className="flex items-center justify-between gap-4 capitalize mb-3">
-              <p className="text-Grey-600 text-sm font-medium">transfer info</p>
-              <b>
-                {`${"*".repeat(12)} ${transferMethod.paymentData[
-                  "card-number"
-                ]?.slice(-4)}`}
-              </b>
-            </li>
-          ) : null}
         </ul>
         <ul>
           <li className="flex items-center justify-between gap-4 capitalize mb-3">
             <p className="text-Grey-600 text-sm font-medium">sub-total </p>
-            <b>L.E {printTail?.data["sub-total"]},00</b>
+            <b>na</b>
           </li>
           <li className="flex items-center justify-between gap-4 capitalize mb-3">
-            <p className="text-Grey-600 text-sm font-medium">discount</p>
-            <b>l.e{printTail?.data.discount}</b>
+            <p className="text-Grey-600 text-sm font-medium">after discount</p>
+            <b>na</b>
           </li>
           <li className="flex items-center justify-between gap-4 capitalize mb-3">
             <p className="text-Grey-600 text-sm font-medium">shipping Cost </p>
-            <b>L.E {printTail?.data.shippingCost}</b>
+            <b>na</b>
           </li>
         </ul>
       </div>

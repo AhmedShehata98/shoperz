@@ -77,6 +77,13 @@ type ProductsResponse = {
   message: string;
 };
 
+interface TopRatedProductsResponse extends ApiResponse {
+  data: {
+    products: Array<Products>;
+    pagination: { length: number; page: number };
+  };
+}
+
 interface SearchBox extends Omit<ProductsResponse, "data"> {
   data: {
     products: Array<
