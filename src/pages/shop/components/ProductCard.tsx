@@ -34,7 +34,7 @@ export default function ProductCard({ productData, onAddToCart }: Props) {
       <figure className="flex max-sm:grid w-full">
         <div className="p-6">
           <img
-            className="object-cover min-w-[200px] max-h-36 rounded"
+            className="object-cover min-w-[200px] md:max-h-36 rounded"
             src={thumbnail}
             alt="product-img-thumbnail"
           />

@@ -183,5 +183,4 @@ export const {
   useAddToCartMutation,
   useRemoveFromCartMutation,
   useGetCartItemsQuery,
-  useUpdateCartQuantityMutation,
 } = shoperzApi;

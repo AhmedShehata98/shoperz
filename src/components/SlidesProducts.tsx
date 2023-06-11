@@ -24,6 +24,8 @@ const SlidesProducts = (props: Props) => {
     isLoading: isLoadingProducts,
     data: products,
     isSuccess: isSuccessProducts,
+    error,
+    status,
   } = useGetAllProductsQuery();
   interface arrows {
     right: Boolean;
@@ -103,7 +105,12 @@ const SlidesProducts = (props: Props) => {
           },
         }}
       >
-        {isProductsError && <div>error</div>}
+        {isProductsError && (
+          <div className="grid">
+            {status}
+            {JSON.stringify(error)}
+          </div>
+        )}
         {isLoadingProducts ? (
           <LoadingProducts />
         ) : (

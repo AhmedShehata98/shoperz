@@ -1,4 +1,10 @@
-import React, { useRef, useState, useEffect, MouseEvent } from "react";
+import React, {
+  useRef,
+  useState,
+  useEffect,
+  MouseEvent,
+  MouseEventHandler,
+} from "react";
 import Head from "next/head";
 import ShopUpperbar from "./components/ShopUpperbar";
 import ProductCard from "./components/ProductCard";
@@ -120,20 +126,10 @@ const Shop = (props: Props) => {
                 )
               )
             ) : null}
-            <div className="flex items-center justify-center text-center">
-              {/* <Pagination
-                currentPage={1}
-                layout="table"
-                onPageChange={t}
-                totalPages={1000}
-              /> */}
-            </div>
           </ul>
         </section>
         <ButtonFilter
-          onClick={function (
-            event: React.MouseEvent<Element, MouseEvent>
-          ): void {
+          onClick={function (event: MouseEvent<Element, MouseEvent>): void {
             throw new Error("Function not implemented.");
           }}
         />
