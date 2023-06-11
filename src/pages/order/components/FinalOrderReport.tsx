@@ -1,10 +1,4 @@
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import React, { useCallback, useRef, useState } from "react";
 import visaLogo from "../../../assets/icons/visa.png";
 import mastercardLogo from "../../../assets/icons/mastercard.svg";
 import paypalLogo from "../../../assets/icons/paypal.svg";
@@ -13,16 +7,15 @@ import {
   changeCurrentOrderComponent,
   selectAppState,
 } from "@/redux/slices/app.slice";
-import OrderBoxItem from "./OrderBoxItem";
-import { MdDiscount } from "react-icons/md";
-import { FaShippingFast } from "react-icons/fa";
-import { IoIosCash } from "react-icons/io";
+
+import Link from "next/link";
+import { routes } from "@/constants/Routes";
 
 interface OrderReportProps {
-  total: number;
+  discountedTotal: number;
   children: Array<React.ReactNode>;
 }
-function FinalOrderReport({ total, children }: OrderReportProps) {
+function FinalOrderReport({ discountedTotal, children }: OrderReportProps) {
   const dispatch = useDispatch();
   const { paymentMethod } = useSelector(selectAppState);
   const [isAgreement, setIsAgreement] = useState(false);
@@ -85,19 +78,21 @@ function FinalOrderReport({ total, children }: OrderReportProps) {
           </label>
         </span>
       </form>
-      <button
-        className="w-full flex items-center justify-center gap-4 px-4 py-3 rounded-full capitalize text-white bg-Primary-700 font-semibold mt-7 mb-3 hover:bg-Primary-600"
-        onClick={() => getNextPage()}
+      <Link
+        className="custom-button mt-4 py-2 text-sm"
+        href={{
+          pathname: routes.shoppingCart.order,
+          query: { to: routes.shoppingCart.completeOrder },
+        }}
       >
+        <p>checkout</p>
         <p>
-          checkout
-          <i> - </i>
           {Intl.NumberFormat("en-EG", {
             style: "currency",
             currency: "EGP",
-          }).format(total || 0)}
+          }).format(discountedTotal || 0)}
         </p>
-      </button>
+      </Link>
       <div className="flex flex-col max-lg:items-center mt-8 mb-3">
         <p className="text-gray-400 font-medium text-sm">
           SECURE PAYMENTS PROVIDED BY

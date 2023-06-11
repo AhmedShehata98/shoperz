@@ -5,8 +5,14 @@ import { CgOrganisation } from "react-icons/Cg";
 
 type Props = {
   address: UserAddress;
+  onCheckAddress: React.ChangeEventHandler;
+  onRemoveAddress: React.MouseEventHandler;
 };
-export default function AddressCardItem({ address }: Props) {
+export default function AddressCardItem({
+  address,
+  onCheckAddress,
+  onRemoveAddress,
+}: Props) {
   const {
     country,
     province,
@@ -28,6 +34,7 @@ export default function AddressCardItem({ address }: Props) {
             id="address1"
             className="accent-Primary-700 mx-2"
             checked={isDefault}
+            onChange={onCheckAddress}
           />
           <label htmlFor="address1" className="flex gap-2 items-center">
             {addressLabel === "Home" ? (
@@ -38,7 +45,11 @@ export default function AddressCardItem({ address }: Props) {
             <b className="leading-3">{addressLabel}</b>
           </label>
         </span>
-        <button className="p-2 text-red-700 rounded hover:bg-red-200">
+        <button
+          type="button"
+          className="p-2 text-red-600 bg-rose-100 rounded hover:bg-red-200"
+          onClick={onRemoveAddress}
+        >
           <BsTrash />
         </button>
       </span>

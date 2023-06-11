@@ -2,7 +2,11 @@ import React, { useState } from "react";
 import AddressCardItem from "./AddressCardItem";
 import Portal from "@/hooks/Protal";
 import UserAddressForm from "@/components/UserAddressForm";
-import { useGetUserAddressListQuery } from "@/services/shoperzApi.service";
+import {
+  useGetUserAddressListQuery,
+  useRemoveAddressMutation,
+  useUpdateAddressDataMutation,
+} from "@/services/shoperzApi.service";
 import useGetToken from "@/hooks/useGetToken";
 import { TbAddressBookOff } from "react-icons/tb";
 
@@ -15,6 +19,11 @@ function UserAddress() {
   } = useGetUserAddressListQuery(token, {
     skip: !token ? true : false,
   });
+  const [fetchUpdateAddress, ResponseAddressUpdate] =
+    useUpdateAddressDataMutation();
+  const [fetchRemoveAddress, ResponseAddressRemove] =
+    useRemoveAddressMutation();
+
   const [showAddressForm, setShowAddressForm] = useState(false);
   return (
     <div className=" mt-3">
@@ -31,9 +40,22 @@ function UserAddress() {
       !ErrorFetchUserAddress &&
       userAddressList?.data.userAddresses?.length! >= 1 ? (
         <ul className="grid grid-flow-row gap-2 bg-Grey-100 border border-Grey-200 p-2">
-          {userAddressList?.data.userAddresses.map((address: UserAddress) => {
-            return <AddressCardItem key={address._id} address={address} />;
-          })}
+          {userAddressList?.data.userAddresses.map((address: UserAddress) => (
+            <AddressCardItem
+              key={address._id}
+              address={address}
+              onCheckAddress={() => {
+                fetchUpdateAddress({
+                  payload: { default: !address.default },
+                  addressId: address._id,
+                  token,
+                });
+              }}
+              onRemoveAddress={() => {
+                fetchRemoveAddress({ token, addressId: address._id });
+              }}
+            />
+          ))}
         </ul>
       ) : null}
       {!loadingUserAddress &&
@@ -45,7 +67,6 @@ function UserAddress() {
         type="button"
         className="w-full rounded bg-Primary-600 p-2 text-white capitalize mt-4 disabled:pointer-events-none disabled:cursor-not-allowed disabled:bg-gray-400"
         onClick={() => setShowAddressForm((prev) => !prev)}
-        // disabled={isLoading}
       >
         add new address
       </button>

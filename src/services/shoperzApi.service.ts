@@ -202,6 +202,37 @@ export const shoperzApi = createApi({
       }),
       invalidatesTags: ["Address"],
     }),
+    updateAddressData: builder.mutation<
+      ApiResponse,
+      {
+        payload: Partial<UserAddress>;
+        token: string | undefined;
+        addressId: string;
+      }
+    >({
+      query: ({ payload, token, addressId }) => ({
+        url: `${ENDPOINTS.address}/${addressId}`,
+        method: "PUT",
+        headers: {
+          authorization: token,
+        },
+        body: payload,
+      }),
+      invalidatesTags: ["Address"],
+    }),
+    removeAddress: builder.mutation<
+      ApiResponse,
+      { addressId: string; token: string | undefined }
+    >({
+      query: ({ addressId, token }) => ({
+        url: `${ENDPOINTS.address}/${addressId}`,
+        method: "DELETE",
+        headers: {
+          authorization: token,
+        },
+      }),
+      invalidatesTags: ["Address"],
+    }),
   }),
 });
 
@@ -219,4 +250,6 @@ export const {
   useUpdateCartQuantityMutation,
   useGetUserAddressListQuery,
   useAddUserAddressMutation,
+  useUpdateAddressDataMutation,
+  useRemoveAddressMutation,
 } = shoperzApi;

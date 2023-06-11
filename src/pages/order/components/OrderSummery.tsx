@@ -46,15 +46,6 @@ function OrderSummery({
   const getNextPage = () => {
     if (loggedin) {
       push({ pathname: order, query: { to: checkout } });
-      // let fullOrderData = {
-      //   id: "shopping-order",
-      //   cartItems: orders,
-      //   "sub-total": cartTotal,
-      //   discount: cartTotal - discountedTotal,
-      //   shippingCost,
-      //   total: cartTotal,
-      // };
-      // dispatch(handleAddToOrderData(fullOrderData));
     } else {
       setShowConfirmIsUser(true);
     }
@@ -81,8 +72,8 @@ function OrderSummery({
 
         <OrderBoxItem
           data={{
-            title: "discount",
-            value: cartTotal - discountedTotal,
+            title: "after discount",
+            value: discountedTotal,
           }}
           Icon={<ImPriceTags />}
         />

@@ -60,7 +60,7 @@ function CheckoutComponent() {
       </div>
       <div className="basis-1/3 max-lg:basis-full flex flex-col items-center justify-between gap-2">
         <OrdersPreviewListProps cartItems={userCart?.userCart.items || []} />
-        <FinalOrderReport total={userCart?.cartTotal || 0}>
+        <FinalOrderReport discountedTotal={userCart?.discountedTotal || 0}>
           <OrderBoxItem
             data={{
               title: "total",
