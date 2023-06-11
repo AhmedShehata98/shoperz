@@ -1,76 +1,78 @@
-import React, { useCallback, useState } from "react";
-import { BsHouseDoor, BsTrash } from "react-icons/bs";
-import { IoIosPerson } from "react-icons/io";
+import React, { useState } from "react";
 import AddressCardItem from "./AddressCardItem";
-
 import Portal from "@/hooks/Protal";
 import UserAddressForm from "@/components/UserAddressForm";
-import { handleAddToOrderData } from "@/redux/slices/app.slice";
-import { useDispatch } from "react-redux";
+import {
+  useGetUserAddressListQuery,
+  useRemoveAddressMutation,
+  useUpdateAddressDataMutation,
+} from "@/services/shoperzApi.service";
+import useGetToken from "@/hooks/useGetToken";
+import { TbAddressBookOff } from "react-icons/tb";
 
 function UserAddress() {
-  const dispatch = useDispatch();
-  // const {
-  //   isLoading,
-  //   isError,
-  //   isSuccess,
-  //   data: addressList,
-  // } = useGetUserAddressQuery("");
+  const { token } = useGetToken();
+  const {
+    data: userAddressList,
+    isLoading: loadingUserAddress,
+    isError: ErrorFetchUserAddress,
+  } = useGetUserAddressListQuery(token, {
+    skip: !token ? true : false,
+  });
+  const [fetchUpdateAddress, ResponseAddressUpdate] =
+    useUpdateAddressDataMutation();
+  const [fetchRemoveAddress, ResponseAddressRemove] =
+    useRemoveAddressMutation();
+
   const [showAddressForm, setShowAddressForm] = useState(false);
-  const sendUserInformation = () => {
-    // dispatch(
-    //   handleAddToOrderData({
-    //     id: "checkout",
-    //     userInformation: formData,
-    //   })
-    // );
-  };
   return (
     <div className=" mt-3">
       <h3 className="mb-2 text-Grey-700 text-xl font-medium capitalize">
         shopping address :
       </h3>
-      {/* {isLoading ? (
+      {loadingUserAddress ? (
         <div className="flex items-center justify-center gap-2">
           <span className="spinner-loading w-7 h-7 border-Primary-700"></span>
           <small>getting address ..</small>
         </div>
-      ) : (
+      ) : null}
+      {!loadingUserAddress &&
+      !ErrorFetchUserAddress &&
+      userAddressList?.data.userAddresses?.length! >= 1 ? (
         <ul className="grid grid-flow-row gap-2 bg-Grey-100 border border-Grey-200 p-2">
-          {addressList?.slice(2, 4).map((address) => {
-            let newAddress: ShippingAddress = {
-              firstName: address.name.split(" ")[0],
-              lastName: address.name.split(" ")[1],
-              "phone-number": address.phone,
-              postcode: address.address.zipcode,
-              city: address.address.city,
-              email: address.email,
-              id: address.id.toString(),
-              "country-or-regio": "egypt",
-              "more-of-location": `${address.address.street} ${address.address.suite} ${address.address.zipcode}`,
-              province: address.address.city,
-              addressType: "house address",
-              isCurrent: false,
-            };
-
-            return <AddressCardItem key={newAddress.id} data={newAddress} />;
-          })}
+          {userAddressList?.data.userAddresses.map((address: UserAddress) => (
+            <AddressCardItem
+              key={address._id}
+              address={address}
+              onCheckAddress={() => {
+                fetchUpdateAddress({
+                  payload: { default: !address.default },
+                  addressId: address._id,
+                  token,
+                });
+              }}
+              onRemoveAddress={() => {
+                fetchRemoveAddress({ token, addressId: address._id });
+              }}
+            />
+          ))}
         </ul>
-      )} */}
+      ) : null}
+      {!loadingUserAddress &&
+      !ErrorFetchUserAddress &&
+      userAddressList?.data.userAddresses?.length! <= 0 ? (
+        <NoAddressList />
+      ) : null}
       <button
         type="button"
         className="w-full rounded bg-Primary-600 p-2 text-white capitalize mt-4 disabled:pointer-events-none disabled:cursor-not-allowed disabled:bg-gray-400"
         onClick={() => setShowAddressForm((prev) => !prev)}
-        // disabled={isLoading}
       >
         add new address
       </button>
       {showAddressForm ? (
         <Portal>
-          <UserAddressForm
-            setIsShowing={setShowAddressForm}
-            handleSubmit={sendUserInformation}
-          />
+          <UserAddressForm setIsShowing={setShowAddressForm} />
         </Portal>
       ) : null}
     </div>
@@ -78,3 +80,16 @@ function UserAddress() {
 }
 
 export default UserAddress;
+
+function NoAddressList() {
+  return (
+    <div className="flex flex-col items-center justify-center px-2 py-6 bg-Grey-100">
+      <span className="w-14 h-14 flex items-center justify-center bg-orange-100 rounded-full shadow self-center mb-4">
+        <TbAddressBookOff className="block text-4xl text-orange-700" />
+      </span>
+      <p className="capitalize text-sm text-Grey-800">
+        sorry , there is no address information provided in your profile
+      </p>
+    </div>
+  );
+}

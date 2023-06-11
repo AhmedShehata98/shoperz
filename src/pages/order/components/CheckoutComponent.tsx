@@ -7,6 +7,12 @@ import OrdersPreviewListProps from "./OrdersPreviewList";
 import Portal from "@/hooks/Protal";
 import dynamic from "next/dynamic";
 import QuickLoadingModul from "@/layout/QuickLoadingModul";
+import useGetToken from "@/hooks/useGetToken";
+import { useGetCartItemsQuery } from "@/services/shoperzApi.service";
+import OrderBoxItem from "./OrderBoxItem";
+import { FaShippingFast } from "react-icons/fa";
+import { MdDiscount } from "react-icons/md";
+import { IoIosCash } from "react-icons/io";
 
 const UserAddress = dynamic(() => import("./UserAddress"), {
   loading: () => <QuickLoadingModul />,
@@ -21,13 +27,13 @@ const UserAddressForm = dynamic(() => import("@/components/UserAddressForm"), {
 interface CheckoutProps {}
 
 function CheckoutComponent() {
+  const { token } = useGetToken();
   const [showAddressForm, setShowAddressForm] = useState(false);
-  const { orderData } = useSelector(selectAppState);
-  const shoppingCart = orderData.getById("shopping-order"),
-    cartItems: Array<ICart> = shoppingCart["cartItems"],
-    shippingCost = shoppingCart.shippingCost,
-    discount = shoppingCart.discount,
-    subTotal = shoppingCart["sub-total"];
+  const shippingCost = 50;
+  const { data: userCart, isLoading: loadingUserCart } = useGetCartItemsQuery(
+    token!,
+    { skip: !token ? true : false }
+  );
 
   const showAddressFormModel = useCallback((state: boolean) => {
     setShowAddressForm(state);
@@ -44,11 +50,6 @@ function CheckoutComponent() {
       className="checkout-component "
     >
       <div className="basis-2/3 max-lg:w-full flex flex-col pt-5">
-        {/* <header className="w-full py-6 flex items-center justify-between border-b-2 border-Grey-400">
-          <h3 className="capitalize font-semibold text-xl">shipping</h3>
-          <p className="text-gray-500">(4)</p>
-        </header> */}
-
         <UserAddress />
         <PaymentMethods />
         {showAddressForm ? (
@@ -58,12 +59,30 @@ function CheckoutComponent() {
         ) : null}
       </div>
       <div className="basis-1/3 max-lg:basis-full flex flex-col items-center justify-between gap-2">
-        <OrdersPreviewListProps cartItems={cartItems} />
-        <FinalOrderReport
-          subTotal={subTotal}
-          shippingCost={shippingCost}
-          discount={discount}
-        />
+        <OrdersPreviewListProps cartItems={userCart?.userCart.items || []} />
+        <FinalOrderReport discountedTotal={userCart?.discountedTotal || 0}>
+          <OrderBoxItem
+            data={{
+              title: "total",
+              value: userCart?.cartTotal! + shippingCost,
+            }}
+            Icon={<IoIosCash className="text-xl" />}
+          />
+          <OrderBoxItem
+            data={{
+              title: "Shipping Cost",
+              value: shippingCost,
+            }}
+            Icon={<FaShippingFast className="text-xl" />}
+          />
+          <OrderBoxItem
+            data={{
+              title: "after discount",
+              value: userCart?.discountedTotal! + shippingCost,
+            }}
+            Icon={<MdDiscount className="text-xl" />}
+          />
+        </FinalOrderReport>
       </div>
     </motion.section>
   );

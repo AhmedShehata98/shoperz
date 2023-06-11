@@ -14,6 +14,15 @@
   .custom-home-slideshow-paginition {
     @apply absolute !bottom-0 z-10 !left-0 w-full flex items-center justify-center gap-3 bg-transparent py-3;
   }
+  .loading-module {
+    @apply fixed inset-0 z-50 h-screen w-full flex items-center justify-center bg-Grey-700 bg-opacity-70;
+  }
+  .loading-spiner {
+    @apply absolute top-0 left-0 block w-44 h-44 border-8 border-Primary-700 border-t-Grey-500 rounded-full animate-spin;
+  }
+  .paragraph-circle {
+    @apply relative w-44 h-44 flex flex-col gap-3 items-center justify-center bg-white shadow-lg rounded-full p-3;
+  }
   .register-navlink {
     @apply w-1/2 lg:w-40 block py-1.5 lg:py-2 px-4 text-lg text-center uppercase rounded-full hover:bg-sky-400 hover:shadow;
   }

@@ -1,12 +1,11 @@
-import { ICart } from "@/models/shopperz.model";
 import React from "react";
 import { BsFillBoxFill } from "react-icons/bs";
 
 interface OrdersPreviewListProps {
-  cartItems: Array<ICart>;
+  cartItems: Array<CartProducts>;
 }
 export default function OrdersPreviewList({
-  cartItems = [],
+  cartItems,
 }: OrdersPreviewListProps) {
   return (
     <div className="w-full flex flex-col mt-8">
@@ -20,7 +19,7 @@ export default function OrdersPreviewList({
                 <span className="flex flex-col basis-1/4">
                   <figure className="w-20 overflow-hidden">
                     <img
-                      src={item?.thumbnail}
+                      src={item.productId.thumbnail}
                       alt="product-image"
                       className="w-full object-cover"
                     />
@@ -29,13 +28,13 @@ export default function OrdersPreviewList({
                 </span>
                 <span className="basis-2/3 flex flex-col items-start justify-center ">
                   <p className="text-Primary-700 capitalize text-sm">
-                    {item.title}
+                    {item.productId.name}
                   </p>
                   <small className="text-sm text-Grey-600">
                     {Intl.NumberFormat("en-eg", {
                       style: "currency",
                       currency: "EGP",
-                    }).format(item.price)}
+                    }).format(item.productId.price)}
                   </small>
                   <b className="flex gap-2 capitalize mt-3 text-sm">
                     total :
@@ -43,7 +42,7 @@ export default function OrdersPreviewList({
                       {Intl.NumberFormat("en-eg", {
                         style: "currency",
                         currency: "EGP",
-                      }).format(item?.price * item?.quantity)}
+                      }).format(item?.productId.price * item.quantity)}
                     </p>
                   </b>
                 </span>

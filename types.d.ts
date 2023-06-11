@@ -77,6 +77,13 @@ type ProductsResponse = {
   message: string;
 };
 
+interface TopRatedProductsResponse extends ApiResponse {
+  data: {
+    products: Array<Products>;
+    pagination: { length: number; page: number };
+  };
+}
+
 interface SearchBox extends Omit<ProductsResponse, "data"> {
   data: {
     products: Array<
@@ -110,19 +117,27 @@ type UserData = {
   email: string;
   phone: string;
 };
-type ShippingAddress = {
-  id: string;
-  isCurrent?: boolean;
-  addressType: "house address" | "work address";
-  firstName: string;
-  lastName: string;
-  "country-or-regio": string;
-  "more-of-location": string;
-  city: string;
+interface ShippingAddressResponse extends ApiResponse {
+  data: {
+    userAddresses: Array<UserAddress>;
+  };
+}
+
+type UserAddress = {
+  _id: string;
+  userId: string;
+  country: string;
   province: string;
-  postcode: string;
-  "phone-number": string;
-  email: string;
+  city: string;
+  street: string;
+  additionalLandmarks: string;
+  postalCode: string;
+  contactPhone: string;
+  default: boolean;
+  addressLabel: "Home" | "Work";
+  createdAt: string;
+  updatedAt: string;
+  __v: 0;
 };
 
 type Signup = {

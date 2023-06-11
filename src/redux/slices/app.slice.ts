@@ -5,7 +5,6 @@ import { ICreditCard } from "@/models/shopperz.model";
 
 interface AppStateProps {
   currentComponent: "shopping-cart" | "checkout" | "order-complete";
-  orderData: SinglyLinkedList;
   showCartDrawer: boolean;
   paymentMethod: IPaymentMethod[];
   creditCardsList: ICreditCard[];
@@ -15,7 +14,6 @@ interface AppStateProps {
 
 const initialState: AppStateProps = {
   currentComponent: "shopping-cart",
-  orderData: new SinglyLinkedList(),
   cartLength: 0,
   showCartDrawer: false,
   isLoggedIn: false,
@@ -40,22 +38,6 @@ export const appSlice = createSlice({
   reducers: {
     changeCurrentOrderComponent: (state, action) => {
       state.currentComponent = action.payload;
-    },
-    handleAddToOrderData: (state, action) => {
-      state.orderData.push(action.payload);
-    },
-    handleUpdateOrderData: (state, action) => {
-      state.orderData.update(action.payload.oldData, action.payload.newData);
-    },
-    handleGetOrderDataById: (state, action) => {
-      state.orderData.getById(action.payload);
-    },
-    handleMargefullOrderData: (state, action) => {
-      let data = state.orderData.margeAllData();
-
-      if (data) {
-        state.orderData.push({ ...data, id: action.payload });
-      }
     },
     selectPatmentMethod: (state, action) => {
       let newPaymentMethod = state.paymentMethod.map((method) =>
@@ -108,10 +90,6 @@ export const appSlice = createSlice({
 export const selectAppState = (state: AppState) => state.app;
 export const {
   changeCurrentOrderComponent,
-  handleAddToOrderData,
-  handleUpdateOrderData,
-  handleGetOrderDataById,
-  handleMargefullOrderData,
   setIsLoggedIn,
   addPaymentData,
   selectPatmentMethod,

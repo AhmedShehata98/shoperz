@@ -8,7 +8,7 @@ import {
 
 export const shoperzApi = createApi({
   reducerPath: "user",
-  tagTypes: ["Products", "Users", "Cart"],
+  tagTypes: ["Products", "Users", "Cart", "Address"],
   baseQuery: fetchBaseQuery({ baseUrl: API_BASE_URL }),
   endpoints: (builder) => ({
     signupUser: builder.mutation({
@@ -82,17 +82,31 @@ export const shoperzApi = createApi({
       query: () => ENDPOINTS.products.products,
       providesTags: ["Products"],
     }),
-    getTopRatedProducts: builder.query<ProductsResponse, void>({
-      query: () => ENDPOINTS.products.topRatedProduct,
+    getTopRatedProducts: builder.query<
+      TopRatedProductsResponse,
+      { limit: number }
+    >({
+      query: ({ limit }) =>
+        `${ENDPOINTS.products.topRatedProduct}/?limit=${limit || 5}`,
       providesTags: ["Products"],
     }),
-    getMegaOfferProducts: builder.query<ProductsResponse, void>({
-      query: () => ENDPOINTS.products.megaOfferProduct,
+    getMegaOfferProducts: builder.query<
+      TopRatedProductsResponse,
+      { limit: number }
+    >({
+      query: ({ limit }) =>
+        `${ENDPOINTS.products.megaOfferProduct}/?limit=${limit || 5}`,
       providesTags: ["Products"],
     }),
     getProductById: builder.query<ProductsResponse, string>({
       query: (id) => `${ENDPOINTS.products.products}/${id}`,
       providesTags: ["Products"],
+    }),
+    searchProducts: builder.mutation<SearchBox, string>({
+      query: (query) => ({
+        method: "GET",
+        url: `${ENDPOINTS.products.searchProduct}?q=${query}`,
+      }),
     }),
     getCartItems: builder.query<Cart, string>({
       query: (token) => ({
@@ -163,11 +177,69 @@ export const shoperzApi = createApi({
       }),
       invalidatesTags: ["Cart"],
     }),
-    searchProducts: builder.mutation<SearchBox, string>({
-      query: (query) => ({
+    getUserAddressList: builder.query<
+      ShippingAddressResponse,
+      string | undefined
+    >({
+      query: (token) => ({
         method: "GET",
-        url: `${ENDPOINTS.products.searchProduct}?q=${query}`,
+        url: ENDPOINTS.address,
+        headers: {
+          authorization: token,
+        },
       }),
+      providesTags: ["Address"],
+    }),
+    addUserAddress: builder.mutation<
+      ShippingAddressResponse,
+      {
+        address: Omit<
+          UserAddress,
+          "_id" | "userId" | "createdAt" | "updatedAt" | "__v"
+        >;
+        token: string | undefined;
+      }
+    >({
+      query: ({ address, token }) => ({
+        method: "POST",
+        url: ENDPOINTS.address,
+        headers: {
+          authorization: token,
+        },
+        body: address,
+      }),
+      invalidatesTags: ["Address"],
+    }),
+    updateAddressData: builder.mutation<
+      ApiResponse,
+      {
+        payload: Partial<UserAddress>;
+        token: string | undefined;
+        addressId: string;
+      }
+    >({
+      query: ({ payload, token, addressId }) => ({
+        url: `${ENDPOINTS.address}/${addressId}`,
+        method: "PUT",
+        headers: {
+          authorization: token,
+        },
+        body: payload,
+      }),
+      invalidatesTags: ["Address"],
+    }),
+    removeAddress: builder.mutation<
+      ApiResponse,
+      { addressId: string; token: string | undefined }
+    >({
+      query: ({ addressId, token }) => ({
+        url: `${ENDPOINTS.address}/${addressId}`,
+        method: "DELETE",
+        headers: {
+          authorization: token,
+        },
+      }),
+      invalidatesTags: ["Address"],
     }),
   }),
 });
@@ -177,10 +249,13 @@ export const {
   useLoginUserMutation,
   useChangeCurrentPasswordMutation,
   useGetAllProductsQuery,
+  useGetTopRatedProductsQuery,
+  useGetMegaOfferProductsQuery,
   useGetProductByIdQuery,
   useUserDataQuery,
   useSearchProductsMutation,
   useAddToCartMutation,
   useRemoveFromCartMutation,
   useGetCartItemsQuery,
+  useUpdateCartQuantityMutation,
 } = shoperzApi;
