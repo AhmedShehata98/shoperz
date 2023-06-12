@@ -69,9 +69,13 @@ type Products = {
 
 type ProductsResponse = {
   data: {
-    count: number;
-    nextLastId: string;
     products: Array<Products>;
+    paginition: {
+      limit: number;
+      currentPage: number;
+      remainingPages: number;
+      length: number;
+    };
   };
   error: string | null;
   message: string;
