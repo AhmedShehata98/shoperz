@@ -40,7 +40,9 @@ export default function ProductCard({ productData, onAddToCart }: Props) {
           />
         </div>
         <div>
-          <h6 className="text-gray-500 text-sm">Smartphones,Telephones</h6>
+          <h6 className="text-gray-500 text-sm">
+            {category_id?.name || "NA-NA"}
+          </h6>
           <h5 className="text-Primary-600 font-semibold text-sm py-2 items-center">
             {name}
           </h5>
