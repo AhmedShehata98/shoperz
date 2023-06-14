@@ -24,12 +24,14 @@ const SlidesProducts = (props: Props) => {
     isLoading: isLoadingProducts,
     data: products,
     isSuccess: isSuccessProducts,
+    error,
   } = useGetAllProductsQuery();
   interface arrows {
     right: Boolean;
     left: Boolean;
   }
   const [arrows, setArrows] = useState({ right: false, left: false });
+  console.log(error);
 
   return (
     <div className="container pb-10 mx-auto">

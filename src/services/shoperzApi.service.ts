@@ -128,4 +128,5 @@ export const {
   useUserDataQuery,
   useSearchProductsMutation,
   useGetCartItemsQuery,
+  useAddToCartMutation,
 } = shoperzApi;
