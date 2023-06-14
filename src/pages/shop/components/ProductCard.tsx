@@ -1,7 +1,10 @@
+import CustomButton from "@/components/CustomButton";
+import { routes } from "@/constants/Routes";
 import { Rating } from "flowbite-react";
 import Image from "next/image";
+import { useRouter } from "next/router";
 import React from "react";
-import { AiTwotoneShopping } from "react-icons/ai";
+import { BsFillCartCheckFill, BsFillCartPlusFill } from "react-icons/bs";
 
 type Props = {
   productData: Products;
@@ -23,21 +26,33 @@ export default function ProductCard({ productData, onAddToCart }: Props) {
     rating,
     sku,
     stock,
+    isInCart,
     thumbnail,
     updatedAt,
   } = productData;
+  const { push } = useRouter();
+  const { shop: shopRoute } = routes;
+
+  function getCurrentProductPreview() {
+    push(shopRoute, { query: { id: _id } });
+  }
   return (
-    <li className="flex max-sm:flex-col max-md:w-full border shadow p-3 cursor-pointer hover:scale-105 duration-300 max-lg:justify-between">
+    <li
+      className="flex max-sm:flex-col max-md:w-full border shadow p-3 cursor-pointer hover:scale-105 duration-300 max-lg:justify-between"
+      onClick={getCurrentProductPreview}
+    >
       <figure className="flex max-sm:grid w-full">
         <div className="p-6">
           <img
-            className="object-cover min-w-[200px] max-h-36 rounded"
+            className="object-cover min-w-[200px] md:max-h-36 rounded"
             src={thumbnail}
             alt="product-img-thumbnail"
           />
         </div>
         <div>
-          <h6 className="text-gray-500 text-sm">Smartphones,Telephones</h6>
+          <h6 className="text-gray-500 text-sm">
+            {category_id?.name || "NA-NA"}
+          </h6>
           <h5 className="text-Primary-600 font-semibold text-sm py-2 items-center">
             {name}
           </h5>
@@ -102,13 +117,28 @@ export default function ProductCard({ productData, onAddToCart }: Props) {
           })}
         </div>
         <div className="py-2 w-full">
-          <button
-            className="flex w-full hover:bg-Primary-700 transition bg-Primary-600 py-2 px-3 rounded-full items-center justify-center text-white font-light gap-x-3"
+          <CustomButton
+            extraClassName="rounded-full py-2 w-full"
             onClick={onAddToCart}
+            disabled={isInCart}
           >
-            <span className="text-xs">Add to Cart</span>
-            <AiTwotoneShopping className="text-white" />
-          </button>
+            <span
+              className={`${
+                isInCart ? "hidden" : "flex"
+              }  items-center justify-center gap-3`}
+            >
+              <p className="text-xs">Add to Cart</p>
+              <BsFillCartPlusFill className="text-lg text-white pointer-events-none" />
+            </span>
+            <span
+              className={`${
+                isInCart ? "flex" : "hidden"
+              }  items-center justify-center gap-3`}
+            >
+              <p className="text-xs">added</p>
+              <BsFillCartCheckFill className="text-lg text-white pointer-events-none" />
+            </span>
+          </CustomButton>
         </div>
       </div>
     </li>

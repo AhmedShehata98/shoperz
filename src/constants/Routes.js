@@ -1,11 +1,8 @@
 export const routes = {
   checkout: "/checkout",
-  shoppingCart: {
-    order: "/order",
-    cart: "cart",
-    checkout: "/checkout",
-    completeOrder: "complete-oreder",
-  },
+  shoppingCart: "/shopping-cart",
+  order: "/order",
+  checkout: "/checkout",
   register: "/register",
   shop: "/shop",
   faq: "/faq",

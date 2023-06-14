@@ -40,7 +40,6 @@ function MyAddress({ title }: Props) {
   ]);
   const [showAddressForm, setShowAddressForm] = useState(false);
 
-  function handleSendNewAddress() {}
   function handleShowAddressForm() {
     setShowAddressForm((prev) => !prev);
   }
@@ -75,7 +74,10 @@ function MyAddress({ title }: Props) {
               );
             }
             return (
-              <li className=" bg-white border border-Grey-200 p-2 shadow-md">
+              <li
+                key={address.id}
+                className=" bg-white border border-Grey-200 p-2 shadow-md"
+              >
                 <div className="flex items-center justify-between px-3 py-2 border-b border-Grey-200">
                   <h5 className="text-lg text-Grey-900 font-medium capitalize">
                     {address.locationLabel}
@@ -128,10 +130,7 @@ function MyAddress({ title }: Props) {
       </div>
       {showAddressForm ? (
         <Portal>
-          <UserAddressForm
-            setIsShowing={setShowAddressForm}
-            handleSubmit={handleSendNewAddress}
-          />
+          <UserAddressForm setIsShowing={setShowAddressForm} />
         </Portal>
       ) : null}
     </article>

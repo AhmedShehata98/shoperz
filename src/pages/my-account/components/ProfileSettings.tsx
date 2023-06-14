@@ -5,7 +5,6 @@ import useFormData from "@/hooks/useFormData";
 import {
   useChangeCurrentPasswordMutation,
   useUserDataQuery,
-  useVerifyEmailAddressMutation,
 } from "@/services/shoperzApi.service";
 import React from "react";
 
@@ -32,23 +31,18 @@ function ProfileSettings({ title }: Props) {
     }
   );
   const [uidCode, setUidCode] = React.useState("");
-  const [fetchVerify, verifyResponse] = useVerifyEmailAddressMutation();
   const [fetchChangePassword, chpwdResponse] =
     useChangeCurrentPasswordMutation();
-  async function handleVerifyEmail() {
-    const token = document.cookie.split("=")[1];
-    const res = await fetchVerify({ token, uid: uidCode }).unwrap();
-    console.log(res);
-  }
+
   async function handleChangePassword({
     currentPassword,
     newPassword,
-    confirmPassword,
+    newPasswordRepeat,
   }: ChangeUserPassword) {
     const res = await fetchChangePassword({
       currentPassword,
       newPassword,
-      newPasswordRepeat: confirmPassword,
+      newPasswordRepeat,
     }).unwrap();
 
     console.log(await res);
@@ -60,7 +54,7 @@ function ProfileSettings({ title }: Props) {
     handleChangePassword({
       currentPassword: data.get("current-password") as string,
       newPassword: data.get("new-password") as string,
-      confirmPassword: data.get("confirm-password") as string,
+      newPasswordRepeat: data.get("confirm-password") as string,
     });
   }
 
@@ -77,7 +71,7 @@ function ProfileSettings({ title }: Props) {
         email: userData?.data.user.email,
       });
     }
-  }, [loadingUserData, userData]);
+  }, [loadingUserData, userData, handleFormDataManually]);
 
   return (
     <article className="porfile-setting">

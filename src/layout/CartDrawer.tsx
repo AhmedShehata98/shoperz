@@ -8,59 +8,56 @@ import { MdPayment } from "react-icons/md";
 import { FaEquals } from "react-icons/fa";
 import Link from "next/link";
 import { routes } from "../constants/Routes";
-import { useGetCartItemsQuery } from "@/services/dummyjson.service";
+import { useGetCartItemsQuery } from "@/services/shoperzApi.service";
 import { useDispatch } from "react-redux";
-import { setCartLength, setShowCartDrawer } from "@/redux/slices/app.slice";
-interface Props {}
+import { setShowCartDrawer } from "@/redux/slices/app.slice";
+import CartDrowerItems from "./components/CartDrowerItems";
+import CartItem from "./components/CartItem";
+
 function CartDrawer() {
   const dispatch = useDispatch();
-  // const [totalPrice, setTotalPrice] = useState(0);
+
+  const [token, setToken] = useState<string | undefined>(undefined);
   const cartVariants = {
     visible: { opacity: 1, translateX: "0px" },
     hidden: { opacity: 0, translateX: "-35px" },
   };
 
-  // useEffect(() => {
-  //   setTotalPrice(total);
-  // }, [cartItems]);
-
   const {
     data: cartItems,
-    isLoading,
-    isSuccess,
-    isError,
-  } = useGetCartItemsQuery();
+    isLoading: loadingCartItems,
+    isSuccess: successFetchCartItems,
+    isError: errorFetchCartItems,
+  } = useGetCartItemsQuery(token!, { skip: !token ? true : false });
 
-  const memoziedCartItem = useMemo(() => {
-    if (isSuccess) {
-      let randomCartItem: number = Math.floor(
-        Math.random() * cartItems.carts.length - 1
-      );
+  useEffect(() => {
+    window.scrollBy({ top: 0, behavior: "smooth" });
+    document.body.classList.add("prevent-scroll");
 
-      if (randomCartItem > cartItems.carts.length) {
-        dispatch(
-          setCartLength(cartItems?.carts[randomCartItem - 1]?.products.length)
-        );
-        return cartItems?.carts[randomCartItem - 1];
-      } else {
-        dispatch(
-          setCartLength(cartItems?.carts[randomCartItem]?.products.length)
-        );
-        return cartItems?.carts[randomCartItem];
-      }
-    }
-  }, [cartItems, isLoading]) as CartItems;
-
+    return () => {
+      document.body.classList.remove("prevent-scroll");
+    };
+  }, []);
   const handleHideCart = () => {
     dispatch(setShowCartDrawer(false));
   };
-  console.log(memoziedCartItem?.products);
+
+  // get token from cookie and set token state
+  // this is important to get cart items
+  useEffect(() => {
+    const token = document.cookie.split("=")[1];
+    if (token) {
+      setToken(token);
+    } else {
+      setToken(undefined);
+    }
+  }, []);
 
   return (
-    <div className="absolute z-20 bg-slate-700 inset-0 bg-opacity-60 flex flex-col md:flex-row items-start justify-start md:justify-end overflow-hidden">
-      <div className="w-full md:w-min md:h-full flex items-center justify-center px-3 my-2 md:my-0">
+    <div className="absolute z-20 bg-slate-700 inset-0 bg-opacity-60 flex flex-col md:flex-row items-start justify-start md:justify-end gap-2 overflow-hidden">
+      <div className="w-max h-screen max-md:h-max max-md:w-full flex items-center justify-center">
         <button
-          className="bg-white p-3 rounded-full shadow-lg text-lg"
+          className="flex items-center justify-center bg-white w-11 h-11 rounded-full shadow-xl text-lg max-md:my-2"
           title="go back"
           onClick={() => handleHideCart()}
         >
@@ -75,9 +72,11 @@ function CartDrawer() {
       >
         <header className="w-full py-4 flex items-center justify-between">
           <h3 className="capitalize font-semibold text-lg">your cart</h3>
-          <p className="text-gray-500">({memoziedCartItem?.products.length})</p>
+          <p className="text-gray-500">
+            ( {cartItems?.userCart.items.length} )
+          </p>
         </header>
-        {memoziedCartItem?.products?.length < 1 && (
+        {cartItems?.userCart.items?.length! < 1 && errorFetchCartItems && (
           <div className="w-full h-3/4 flex flex-col justify-center items-center">
             <span className="flex bg-sky-100 text-6xl text-sky-700 rounded-full shadow p-7">
               <HiOutlineShoppingBag />
@@ -90,88 +89,54 @@ function CartDrawer() {
             </button>
           </div>
         )}
-        {memoziedCartItem?.products.length > 0 && (
-          <div className="w-full px-2 flex flex-col">
-            <ul className="w-full grid grid-flow-row-dense gap-4 mb-5 mt-2">
-              {memoziedCartItem?.products.map((item) => (
-                <li
-                  key={item.price}
-                  className="flex gap-3 items-center justify-between p-3 rounded-md hover:bg-gray-100"
-                >
-                  {/* <figure className="w-16 rounded-md">
-                    <img
-                      src={item?.image}
-                      alt="cart-item-image"
-                      className="w-full object-cover object-center"
-                    />
-                  </figure> */}
-                  <div className="w-2/3 flex flex-col items-start justify-start gap-1">
-                    <p className="text-sky-700 font-semibold capitalize m-0">
-                      {item?.title}
-                    </p>
-                    <span className="flex items-center justify-center gap-4">
-                      <small className="text-gray-500">{item?.quantity}X</small>
-                      <span className="flex items-center justify-center gap-1 text-gray-500">
-                        <small className="font-mono ">
-                          {Intl.NumberFormat("en-eg", {
-                            style: "currency",
-                            currency: "EGP",
-                          }).format(item.price)}
-                        </small>
-                      </span>
-                    </span>
-                  </div>
-                  <span className="w-16 flex flex-col items-start justify-center gap-1">
-                    <button className="text-2xl text-red-200 hover:text-red-600">
-                      <AiOutlineCloseCircle />
-                    </button>
-                    <span className="flex items-center justify-center gap-1">
-                      <small className="font-mono ">
-                        {Intl.NumberFormat("en-eg", {
-                          style: "currency",
-                          currency: "EGP",
-                        }).format(item.total)}
-                      </small>
-                    </span>
-                  </span>
-                </li>
-              ))}
-            </ul>
-            <span className="w-full flex items-center justify-between capitalize my-4">
-              <p className="ps-20 font-medium">total</p>
-              <FaEquals />
-              <span className="flex gap-1 items-end pe-4">
-                <strong className="text-xl text-rose-600">
-                  {Intl.NumberFormat("en-eg", {
-                    style: "currency",
-                    currency: "EGP",
-                  }).format(memoziedCartItem.total)}
-                </strong>
-              </span>
-            </span>
-            <span className="w-full flex flex-col sm:flex-row items-center justify-stretch gap-3 mt-6 mb-3">
+        {cartItems?.userCart.items?.length! > 0 &&
+          !loadingCartItems &&
+          successFetchCartItems && (
+            <div className="w-full h-[90vh] max-md:h-[85vh] px-2 flex flex-col overflow-y-auto">
+              <CartDrowerItems>
+                {cartItems?.userCart.items.map((item: CartProducts) => (
+                  <CartItem
+                    key={item.productId._id}
+                    product={item.productId}
+                    quantity={item.quantity}
+                  />
+                ))}
+              </CartDrowerItems>
+              <TotalElement total={cartItems?.cartTotal} />
               <Link
-                href={routes.shoppingCart}
-                className="w-full sm:w-1/2 flex items-center justify-center gap-3 px-3 py-2 capitalize bg-Primary-700 text-white rounded-full hover:bg-Primary-600"
+                href={{
+                  pathname: routes.shoppingCart,
+                }}
+                className="custom-button mb-4"
+                onClick={handleHideCart}
               >
                 <p>shopping cart</p>
               </Link>
-            </span>
-            <span className="w-full flex items-stretch justify-center flex-col gap-2 mt-6 mb-4">
-              <p className="uppercase font-medium text-gray-500">
-                secured payments provided by
-              </p>
-              <span className="self-start flex items-center justify-between gap-1 text-4xl">
-                <FaCcVisa className="text-blue-700" />
-                <FaCcMastercard className="text-[ #eb001b]" />
-                <MdPayment className="text-emerald-700" />
-              </span>
-            </span>
-          </div>
-        )}
+            </div>
+          )}
       </motion.article>
     </div>
   );
 }
 
 export default CartDrawer;
+
+type TotalElementProps = {
+  total: number;
+};
+function TotalElement({ total }: TotalElementProps) {
+  return (
+    <span className="w-full flex items-center justify-between capitalize my-4">
+      <p className="ps-20 font-medium">total</p>
+      <FaEquals />
+      <span className="flex gap-1 items-end pe-4">
+        <strong className="text-xl text-rose-600">
+          {Intl.NumberFormat("en-eg", {
+            style: "currency",
+            currency: "EGP",
+          }).format(total)}
+        </strong>
+      </span>
+    </span>
+  );
+}

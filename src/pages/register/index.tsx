@@ -4,6 +4,8 @@ import { useRouter } from "next/router";
 import { routes } from "@/constants/Routes";
 import dynamic from "next/dynamic";
 import QuickLoadingModul from "@/layout/QuickLoadingModul";
+import registerImage from "../../assets/img/register.jpg";
+import Image from "next/image";
 
 const Logo = dynamic(() => import("../../components/Logo"), {
   loading: () => <QuickLoadingModul />,
@@ -20,7 +22,6 @@ function Register() {
     push,
     query: { target },
   } = useRouter();
-
   const handleChangePage = (data: string) => {
     push({
       pathname: routes.register,
@@ -36,8 +37,8 @@ function Register() {
       <main className="min-h-screen w-full flex items-center justify-center">
         <div className="hidden relative lg:flex w-1/2 h-screen p-5">
           <figure className="relative flex w-full h-full rounded-xl shadow-sm overflow-hidden after:content-[''] after:absolute after:inset-0 after:bg-Grey-800 after:bg-opacity-30">
-            <img
-              src={require("../../assets/img/register.jpg").default.src}
+            <Image
+              src={registerImage}
               alt="register-img"
               className="h-full w-full object-cover object-center"
             />

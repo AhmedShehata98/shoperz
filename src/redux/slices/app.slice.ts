@@ -5,36 +5,20 @@ import { ICreditCard } from "@/models/shopperz.model";
 
 interface AppStateProps {
   currentComponent: "shopping-cart" | "checkout" | "order-complete";
-  orderData: SinglyLinkedList;
-  cart: Array<{
-    id: number;
-    title: string;
-    description: string;
-    price: number;
-    discountPercentage: number;
-    rating: number;
-    stock: number;
-    brand: string;
-    category: string;
-    thumbnail: string;
-    totalPrice: number;
-    currency: string;
-    quantity: number;
-    images: Array<string>;
-  }>;
   showCartDrawer: boolean;
   paymentMethod: IPaymentMethod[];
   creditCardsList: ICreditCard[];
-  alertContext: AlertComponent;
   cartLength: number;
+  isLoggedIn: boolean;
+  shoppingCart: [string] | null;
+  token: string | null;
 }
 
 const initialState: AppStateProps = {
   currentComponent: "shopping-cart",
-  orderData: new SinglyLinkedList(),
-  cart: [],
   cartLength: 0,
   showCartDrawer: false,
+  isLoggedIn: false,
   paymentMethod: [
     {
       id: "credit-card",
@@ -48,11 +32,8 @@ const initialState: AppStateProps = {
     },
   ],
   creditCardsList: [],
-  alertContext: {
-    alertType: "success",
-    message: "",
-    show: false,
-  },
+  shoppingCart: null,
+  token: null,
 };
 
 export const appSlice = createSlice({
@@ -61,25 +42,6 @@ export const appSlice = createSlice({
   reducers: {
     changeCurrentOrderComponent: (state, action) => {
       state.currentComponent = action.payload;
-    },
-    handleAddToOrderData: (state, action) => {
-      state.orderData.push(action.payload);
-    },
-    handleUpdateOrderData: (state, action) => {
-      state.orderData.update(action.payload.oldData, action.payload.newData);
-    },
-    handleGetOrderDataById: (state, action) => {
-      state.orderData.getById(action.payload);
-    },
-    handleMargefullOrderData: (state, action) => {
-      let data = state.orderData.margeAllData();
-
-      if (data) {
-        state.orderData.push({ ...data, id: action.payload });
-      }
-    },
-    addCartItems: (state, action) => {
-      state.cart.push(...action.payload);
     },
     selectPatmentMethod: (state, action) => {
       let newPaymentMethod = state.paymentMethod.map((method) =>
@@ -117,14 +79,17 @@ export const appSlice = createSlice({
 
       state.creditCardsList = listAfterRemove;
     },
-    setShowAlert: (state, action) => {
-      state.alertContext = { ...action.payload };
-    },
     setShowCartDrawer: (state, action) => {
       state.showCartDrawer = action.payload;
     },
     setCartLength: (state, action) => {
       state.cartLength = action.payload;
+    },
+    setIsLoggedIn: (state, action) => {
+      state.isLoggedIn = action.payload;
+    },
+    setToken: (state, action) => {
+      state.token = action.payload.token;
     },
   },
 });
@@ -132,16 +97,12 @@ export const appSlice = createSlice({
 export const selectAppState = (state: AppState) => state.app;
 export const {
   changeCurrentOrderComponent,
-  handleAddToOrderData,
-  handleUpdateOrderData,
-  handleGetOrderDataById,
-  handleMargefullOrderData,
-  addCartItems,
+  setIsLoggedIn,
   addPaymentData,
   selectPatmentMethod,
   addToCreditCardsList,
   removeFromCreditCardsList,
-  setShowAlert,
   setShowCartDrawer,
   setCartLength,
+  setToken,
 } = appSlice.actions;

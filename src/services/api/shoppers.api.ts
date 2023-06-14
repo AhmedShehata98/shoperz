@@ -1,13 +1,13 @@
 import axios from "axios";
 
 // export const API_BASE_URL = "https://shoperz-api.vercel.app/";
-export const API_BASE_URL = "http://localhost:3000/";
+export const API_BASE_URL = "http://127.0.0.1:3000/";
 export const ENDPOINTS = {
   products: {
-    products: "products",
+    products: "/products",
     searchProduct: "/products/search",
     topRatedProduct: "/products/top-rated",
-    megaOfferProduct: "/products/mega-offer",
+    megaOfferProduct: "/products/mega-offers",
   },
   cart: "cart",
   categories: {
@@ -24,6 +24,7 @@ export const ENDPOINTS = {
     changePassword: "users/change-password",
     myData: "/users/me",
   },
+  address: "/address",
 };
 
 export const sendSignupData = async (body: any) => {

@@ -1,8 +1,16 @@
-import React, { useRef, useState } from "react";
+import React, {
+  useRef,
+  useState,
+  useEffect,
+  MouseEvent,
+  MouseEventHandler,
+} from "react";
 import Head from "next/head";
 import ShopUpperbar from "./components/ShopUpperbar";
 import ProductCard from "./components/ProductCard";
 import {
+  getRunningQueriesThunk,
+  shoperzApi,
   useAddToCartMutation,
   useGetAllProductsQuery,
 } from "@/services/shoperzApi.service";
@@ -13,20 +21,25 @@ import ButtonFilter from "./components/ButtonFilter";
 import FiltersSidebar from "./components/FiltersSidebar";
 import { Pagination } from "flowbite-react";
 import { toast } from "react-toastify";
+import { selectAppState } from "@/redux/slices/app.slice";
+import { useSelector } from "react-redux";
+import { wrapper } from "@/redux/store";
 
 type Props = {};
 
 const Shop = (props: Props) => {
+  const { isLoggedIn } = useSelector(selectAppState);
+  const [token, setToken] = useState<string | undefined>(undefined);
   const [fetchAddToCart, addToCartResponse] = useAddToCartMutation();
   const filterRef = useRef<HTMLElement | undefined>(undefined);
-  console.log(addToCartResponse);
 
   const {
     isError: isProductsError,
     isLoading: isLoadingProducts,
     data: products,
     isSuccess: isSuccessProducts,
-  } = useGetAllProductsQuery();
+  } = useGetAllProductsQuery({ limit: 20 });
+
   const handleShowFilterbar = () => {
     filterRef.current?.classList.toggle("filter-sidebar-show");
     document.body.classList.toggle("prevent-scroll");
@@ -35,20 +48,40 @@ const Shop = (props: Props) => {
     console.log("apply filter");
   };
   const [showProducts, setShowProducts] = useState(true);
-  function t(page: number): void {
-    throw new Error("Function not implemented.");
+  function handleSwitchVisibality(btn: HTMLButtonElement): void {
+    btn.disabled = true;
+    btn.firstElementChild?.classList.replace("flex", "hidden");
+    btn.lastElementChild?.classList.replace("hidden", "flex");
   }
-  const handleAddToCart = (productId: string, quantity: number) => {
-    const token = document.cookie.split("=")[1];
-    if (token) {
-      fetchAddToCart({ productId, quantity, token });
-      toast.success("product is added to your cart success");
+  const handleAddToCart = (
+    event: MouseEvent<HTMLButtonElement>,
+    productId: string,
+    quantity: number
+  ) => {
+    const target = event.target as HTMLButtonElement;
+    const btn = target.closest("button") as HTMLButtonElement;
+    if (isLoggedIn) {
+      // handle switch btw "added to cart" or "add to cart" icons and pragraph
+      handleSwitchVisibality(btn);
+      fetchAddToCart({ productId, quantity, token: token! });
     } else {
       toast.warning(
         "You are not registered! ,ARegister first and start your shoping journy"
       );
     }
   };
+
+  // get token from cookie and set token state
+  // this is important to get cart items
+  useEffect(() => {
+    const token = document.cookie.split("=")[1];
+    if (token) {
+      setToken(token);
+    } else {
+      setToken(undefined);
+    }
+  }, []);
+
   return (
     <>
       <Head>
@@ -82,31 +115,25 @@ const Shop = (props: Props) => {
                   <ProductCard
                     key={product._id}
                     productData={product}
-                    onAddToCart={() => handleAddToCart(product._id, 1)}
+                    onAddToCart={(ev: MouseEvent<HTMLButtonElement>) =>
+                      handleAddToCart(ev, product._id, 1)
+                    }
                   />
                 ) : (
                   <Product
                     key={product._id}
                     productData={product}
-                    onAddToCart={() => handleAddToCart(product._id, 1)}
+                    onAddToCart={(ev: MouseEvent<HTMLButtonElement>) =>
+                      handleAddToCart(ev, product._id, 1)
+                    }
                   />
                 )
               )
             ) : null}
-            <div className="flex items-center justify-center text-center">
-              {/* <Pagination
-                currentPage={1}
-                layout="table"
-                onPageChange={t}
-                totalPages={1000}
-              /> */}
-            </div>
           </ul>
         </section>
         <ButtonFilter
-          onClick={function (
-            event: React.MouseEvent<Element, MouseEvent>
-          ): void {
+          onClick={function (event: MouseEvent<HTMLButtonElement>): void {
             throw new Error("Function not implemented.");
           }}
         />
@@ -117,3 +144,15 @@ const Shop = (props: Props) => {
 };
 
 export default Shop;
+
+export const getStaticProps = wrapper.getStaticProps(
+  ({ dispatch, getState }) =>
+    async (context) => {
+      dispatch(shoperzApi.endpoints.getAllProducts.initiate({ limit: 20 }));
+      await Promise.all(dispatch(getRunningQueriesThunk()));
+
+      return {
+        props: {},
+      };
+    }
+);

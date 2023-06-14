@@ -1,3 +1,8 @@
+type ApiResponse = {
+  message: string;
+  data: null;
+  error: null;
+};
 interface CartResponse {
   message: string;
   data: Cart;
@@ -7,6 +12,20 @@ type Cart = {
   cartTotal: number;
   discountedTotal: number;
 };
+
+interface AddToCartResponse extends ApiResponse {
+  data: {
+    cart: {
+      _id: string;
+      userId: string;
+      items: Product[];
+      createdAt: string;
+      updatedAt: string;
+    };
+    cartTotal: number;
+    discountedTotal: number;
+  };
+}
 
 type UserCart = {
   _id: string;
@@ -35,13 +54,17 @@ type Products = {
   price: number;
   images: Array<string>;
   thumbnail: string;
-  category_id: string;
+  category_id: {
+    _id: string;
+    name: string;
+  };
   sku: string;
   brand: string;
   colors: Array<string>;
   stock: number;
   discount: number;
   rating: number;
+  isInCart: boolean;
   createdAt: string;
   updatedAt: string;
   __v: number;
@@ -49,13 +72,27 @@ type Products = {
 
 type ProductsResponse = {
   data: {
-    count: number;
-    nextLastId: string;
     products: Array<Products>;
+    paginition: {
+      limit: number;
+      currentPage: number;
+      remainingPages: number;
+      length: number;
+    };
   };
   error: string | null;
   message: string;
 };
+
+type productQueriesParameter = {
+  limit: number;
+};
+interface TopRatedProductsResponse extends ApiResponse {
+  data: {
+    products: Array<Products>;
+    pagination: { length: number; page: number };
+  };
+}
 
 interface SearchBox extends Omit<ProductsResponse, "data"> {
   data: {
@@ -90,19 +127,27 @@ type UserData = {
   email: string;
   phone: string;
 };
-type ShippingAddress = {
-  id: string;
-  isCurrent?: boolean;
-  addressType: "house address" | "work address";
-  firstName: string;
-  lastName: string;
-  "country-or-regio": string;
-  "more-of-location": string;
-  city: string;
+interface ShippingAddressResponse extends ApiResponse {
+  data: {
+    userAddresses: Array<UserAddress>;
+  };
+}
+
+type UserAddress = {
+  _id: string;
+  userId: string;
+  country: string;
   province: string;
-  postcode: string;
-  "phone-number": string;
-  email: string;
+  city: string;
+  street: string;
+  additionalLandmarks: string;
+  postalCode: string;
+  contactPhone: string;
+  default: boolean;
+  addressLabel: "Home" | "Work";
+  createdAt: string;
+  updatedAt: string;
+  __v: 0;
 };
 
 type Signup = {
@@ -131,6 +176,10 @@ type SignupSuccess = {
   data: { token: string };
   error: null | string;
 };
+
+interface LoginResponse extends ApiResponse {
+  data: { token: string };
+}
 
 type Login = {
   email: string;

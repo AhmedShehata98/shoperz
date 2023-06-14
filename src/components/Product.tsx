@@ -8,7 +8,9 @@ type Props = {
 const Product = ({ onAddToCart, productData }: Props) => {
   return (
     <li className=" p-4 grid h-[20rem] relative cursor-pointer border-Grey-200 group border-[1px] hover:border-transparent hover:shadow-md rounded">
-      <h6 className="text-xs text-Grey-700 py-2">{productData?.category_id}</h6>
+      <h6 className="text-xs text-Grey-700 py-2">
+        {productData?.category_id?.name || "NA-NA"}
+      </h6>
       <h5 className="text-Primary-600 font-semibold text-sm py-2 items-center">
         {productData?.name}
       </h5>
@@ -16,7 +18,7 @@ const Product = ({ onAddToCart, productData }: Props) => {
       <div className="p-6">
         <img
           className="object-cover max-h-36 rounded mx-auto group-hover:scale-105 transition-all duration-500"
-          src={productData?.images[0]}
+          src={productData?.thumbnail}
           alt="product-img-thumbnail"
         />
       </div>
@@ -61,7 +63,7 @@ const Product = ({ onAddToCart, productData }: Props) => {
           </Button>
 
           <Button
-            className="p-3 w-11 !h-11  absolute right-4 bottom-4 text-xl  group-hover:!bg-Primary-600 transition-all duration-300 !bg-Grey-400 !rounded-full"
+            className="p-3 w-11 !h-11  absolute right-4f bottom-4 text-xl  group-hover:!bg-Primary-600 transition-all duration-300 !bg-Grey-400 !rounded-full"
             onClick={onAddToCart}
           >
             <svg

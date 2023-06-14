@@ -7,9 +7,12 @@ import React, { useEffect } from "react";
 import { toast } from "react-toastify";
 import SubmitButton from "./SubmitButton";
 import FormInputWrapper from "@/components/FormInputWrapper";
+import { useDispatch } from "react-redux";
+import { setToken } from "@/redux/slices/app.slice";
 
 function Login() {
   const { push } = useRouter();
+  const dispatch = useDispatch();
 
   const [fetchLoginUser, loginResponse] = useLoginUserMutation();
   function handleStartLogin(ev: React.FormEvent<HTMLFormElement>) {
@@ -20,19 +23,8 @@ function Login() {
       password: data.get("password") as string,
     })
       .unwrap()
-      .then((response) => {
-        const domain = document.location.hostname;
-        const today = new Date();
-        const tomorrow = new Date();
-        tomorrow.setDate(today.getDate() + 1);
-
-        if (data.get("remeber-me") === "on") {
-          document.cookie = `${domain}=${response.data.token}; expires=${tomorrow}`;
-        } else {
-          document.cookie = `${domain}=${response.data.token};`;
-        }
-      })
-      .then(() => {
+      .then((res) => {
+        dispatch(setToken({ token: res.data.token }));
         setTimeout(() => {
           push("/");
         }, 5050);

@@ -1,11 +1,6 @@
 import React, { useState } from "react";
-import {
-  BsFillArrowRightCircleFill,
-  BsArrowLeftCircleFill,
-} from "react-icons/bs";
 
-import Product1 from "../assets/products/Product.png";
-import { Swiper, SwiperSlide, useSwiper } from "swiper/react";
+import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Scrollbar, A11y } from "swiper";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
@@ -25,6 +20,7 @@ const SlidesProducts = (props: Props) => {
     data: products,
     isSuccess: isSuccessProducts,
     error,
+    status,
   } = useGetAllProductsQuery();
   interface arrows {
     right: Boolean;
@@ -105,7 +101,12 @@ const SlidesProducts = (props: Props) => {
           },
         }}
       >
-        {isProductsError && <div>error</div>}
+        {isProductsError && (
+          <div className="grid">
+            {status}
+            {JSON.stringify(error)}
+          </div>
+        )}
         {isLoadingProducts ? (
           <LoadingProducts />
         ) : (

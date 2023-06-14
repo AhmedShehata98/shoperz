@@ -1,24 +1,30 @@
-import { handleAddToOrderData } from "@/redux/slices/app.slice";
 import React, { useCallback, useState } from "react";
 import { AiFillCloseSquare } from "react-icons/ai";
 import { useDispatch } from "react-redux";
 import { motion } from "framer-motion";
+import { useAddUserAddressMutation } from "@/services/shoperzApi.service";
+import useGetToken from "@/hooks/useGetToken";
+import CustomButton from "./CustomButton";
+import { toast } from "react-toastify";
 interface AddressForm {
   setIsShowing: (state: boolean) => void;
-  handleSubmit: React.FormEventHandler;
 }
-function UserAddressForm({ setIsShowing, handleSubmit }: AddressForm) {
-  const dispatch = useDispatch();
-  const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    "country-or-regio": "",
-    "more-of-location": "",
+function UserAddressForm({ setIsShowing }: AddressForm) {
+  const [fetchAddUserAddress, responseUserAddress] =
+    useAddUserAddressMutation();
+  const { token } = useGetToken();
+  const [formData, setFormData] = useState<
+    Omit<UserAddress, "_id" | "userId" | "createdAt" | "updatedAt" | "__v">
+  >({
+    default: false,
+    country: "",
     city: "",
     province: "",
-    postcode: "",
-    "phone-number": "",
-    email: "",
+    street: "",
+    postalCode: "",
+    contactPhone: "",
+    additionalLandmarks: "",
+    addressLabel: "Home",
   });
   const handleGetValue = (e: React.ChangeEvent) => {
     const target = e.target as HTMLInputElement;
@@ -32,18 +38,32 @@ function UserAddressForm({ setIsShowing, handleSubmit }: AddressForm) {
 
   const resetAllInputFields = () => {
     setFormData({
-      firstName: "",
-      lastName: "",
-      "country-or-regio": "",
-      "more-of-location": "",
+      default: true,
+      country: "",
       city: "",
       province: "",
-      postcode: "",
-      "phone-number": "",
-      email: "",
+      street: "",
+      postalCode: "",
+      contactPhone: "",
+      additionalLandmarks: "",
+      addressLabel: "Home",
     });
   };
 
+  const handleSubmit = (ev: React.FormEvent) => {
+    ev.preventDefault();
+    fetchAddUserAddress({ address: formData, token: token })
+      .unwrap()
+      .then((res) => {
+        toast.done("Ok , Address is added successfully .");
+        setIsShowing(false);
+      })
+      .catch((err) => {
+        toast.warn(
+          `Error ${err.code}, something won't warning ,${err.message} `
+        );
+      });
+  };
   return (
     <div className="absolute z-10 inset-0 flex items-start md:items-center justify-center bg-Grey-800 bg-opacity-60 overflow-y-auto">
       <motion.form
@@ -55,6 +75,7 @@ function UserAddressForm({ setIsShowing, handleSubmit }: AddressForm) {
         initial={"hidden"}
         animate={"visible"}
         className="flex flex-col items-stretch justify-start w-full md:w-3/5 bg-white p-3 rounded-md"
+        onSubmit={handleSubmit}
       >
         <header className="flex items-center justify-between pb-2 my-2 border-b-2 border-Primary-700">
           <h3 className="text-lg font-semibold uppercase">add new address :</h3>
@@ -66,45 +87,44 @@ function UserAddressForm({ setIsShowing, handleSubmit }: AddressForm) {
             <AiFillCloseSquare />
           </button>
         </header>
-        <form
-          onSubmit={handleSubmit}
-          className="grid grid-cols-1 md:grid-cols-2 gap-3 items-center justify-between mb-4 py-2 "
-        >
+        <form className="grid grid-cols-1 md:grid-cols-2 gap-3 items-center justify-between mb-4 py-2 ">
           <span className="flex flex-col gap-2 capitalize">
             <label
-              htmlFor="firstName"
+              htmlFor="addressLabel"
               className="font-medium text-Grey-700"
               aria-required
             >
-              first name *
+              address label *
             </label>
-            <input
-              type="text"
-              id="firstName"
-              name="firstName"
+            <select
+              id="addressLabel"
+              name="addressLabel"
               required
               className="border px-4 py-2 focus:outline-none focus:border-Primary-500"
               placeholder="your first name"
-              value={formData.firstName}
+              value={formData.addressLabel}
               onChange={(e: React.ChangeEvent) => handleGetValue(e)}
-            />
+            >
+              <option value="Home">home</option>
+              <option value="Work">work</option>
+            </select>
           </span>
           <span className="flex flex-col gap-2 capitalize">
             <label
-              htmlFor="lastName"
+              htmlFor="contactPhone"
               className="font-medium text-Grey-700"
               aria-required
             >
-              last name *
+              contact Phone *
             </label>
             <input
-              type="text"
-              id="lastName"
-              name="lastName"
+              type="tel"
+              id="contactPhone"
+              name="contactPhone"
               required
               className="border px-4 py-2 focus:outline-none focus:border-Primary-500"
-              placeholder="your last name"
-              value={formData.lastName}
+              placeholder="EX +20100000000"
+              value={formData.contactPhone}
               onChange={(e: React.ChangeEvent) => handleGetValue(e)}
             />
           </span>
@@ -112,7 +132,7 @@ function UserAddressForm({ setIsShowing, handleSubmit }: AddressForm) {
         <div className="grid grid-cols-1  gap-3 items-center justify-between mb-4 py-2 ">
           <span className="flex flex-col gap-2 capitalize">
             <label
-              htmlFor="countryOrRegion"
+              htmlFor="country"
               className="font-medium text-Grey-700"
               aria-required
             >
@@ -120,29 +140,38 @@ function UserAddressForm({ setIsShowing, handleSubmit }: AddressForm) {
             </label>
             <input
               type="text"
-              id="countryOrRegion"
-              name="country-or-regio"
+              id="country"
+              name="country"
               required
               className="border px-4 py-2 focus:outline-none focus:border-Primary-500"
-              placeholder="House number and street name"
-              value={formData["country-or-regio"]}
+              placeholder="EX, Egypt.."
+              value={formData.country}
               onChange={(e: React.ChangeEvent) => handleGetValue(e)}
             />
-            <input
-              type="text"
-              id="more"
-              name="more-of-location"
-              className="border px-4 py-2 focus:outline-none focus:border-Primary-500"
-              placeholder="Apartment, suite, unit, etc. (optional)"
-              value={formData["more-of-location"]}
-              onChange={(e: React.ChangeEvent) => handleGetValue(e)}
-            />
+            <span className="flex flex-col gap-2 capitalize">
+              <label
+                htmlFor="street"
+                className="font-medium text-Grey-700"
+                aria-required
+              >
+                Street *
+              </label>
+              <input
+                type="text"
+                id="street"
+                name="street"
+                className="border px-4 py-2 focus:outline-none focus:border-Primary-500"
+                placeholder="House number and street name ..."
+                value={formData.street}
+                onChange={(e: React.ChangeEvent) => handleGetValue(e)}
+              />
+            </span>
           </span>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3 items-center justify-between mb-4 py-2 ">
           <span className="flex flex-col gap-2 capitalize">
             <label
-              htmlFor="City"
+              htmlFor="city"
               className="font-medium text-Grey-700"
               aria-required
             >
@@ -150,18 +179,18 @@ function UserAddressForm({ setIsShowing, handleSubmit }: AddressForm) {
             </label>
             <input
               type="text"
-              id="City"
+              id="city"
               name="city"
               className="border px-4 py-2 focus:outline-none focus:border-Primary-500"
               required
-              placeholder=""
-              value={formData["city"]}
+              placeholder="EX , alexsandria "
+              value={formData.city}
               onChange={(e: React.ChangeEvent) => handleGetValue(e)}
             />
           </span>
           <span className="flex flex-col gap-2 capitalize">
             <label
-              htmlFor="Province"
+              htmlFor="province"
               className="font-medium text-Grey-700"
               aria-required
             >
@@ -169,18 +198,18 @@ function UserAddressForm({ setIsShowing, handleSubmit }: AddressForm) {
             </label>
             <input
               type="text"
-              id="Province"
+              id="province"
               name="province"
               className="border px-4 py-2 focus:outline-none focus:border-Primary-500"
               required
-              placeholder=""
-              value={formData["province"]}
+              placeholder="EX , Sidi Gaber"
+              value={formData.province}
               onChange={(e: React.ChangeEvent) => handleGetValue(e)}
             />
           </span>
           <span className="flex flex-col gap-2 capitalize">
             <label
-              htmlFor="Postcode"
+              htmlFor="postalCode"
               className="font-medium text-Grey-700"
               aria-required
             >
@@ -188,12 +217,12 @@ function UserAddressForm({ setIsShowing, handleSubmit }: AddressForm) {
             </label>
             <input
               type="text"
-              id="Postcode"
-              name="postcode"
+              id="postalCode"
+              name="postalCode"
               className="border px-4 py-2 focus:outline-none focus:border-Primary-500"
               required
-              placeholder=""
-              value={formData["postcode"]}
+              placeholder="Ex, 95135"
+              value={formData.postalCode}
               onChange={(e: React.ChangeEvent) => handleGetValue(e)}
             />
           </span>
@@ -205,45 +234,30 @@ function UserAddressForm({ setIsShowing, handleSubmit }: AddressForm) {
               className="font-medium text-Grey-700"
               aria-required
             >
-              Phone (optional)
+              additional Landmarks
             </label>
             <input
               type="tel"
-              id="Phone"
-              name="phone-number"
+              id="additionalLandmarks"
+              name="additionalLandmarks"
               className="border px-4 py-2 focus:outline-none focus:border-Primary-500"
-              placeholder=""
-              value={formData["phone-number"]}
-              onChange={(e: React.ChangeEvent) => handleGetValue(e)}
-            />
-          </span>
-          <span className="flex flex-col gap-2 capitalize">
-            <label
-              htmlFor="Email"
-              className="font-medium text-Grey-700"
-              aria-required
-            >
-              Email address *
-            </label>
-            <input
-              type="email"
-              id="Email"
-              name="email"
-              className="border px-4 py-2 focus:outline-none focus:border-Primary-500"
-              required
-              placeholder="johndoe@example.com"
-              value={formData["email"]}
+              placeholder="Ex, extra information about location.."
+              value={formData.additionalLandmarks}
               onChange={(e: React.ChangeEvent) => handleGetValue(e)}
             />
           </span>
         </div>
         <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-3 items-center justify-between mb-4 py-2">
-          <button
-            type="submit"
-            className="bg-Primary-600 py-2 px-3 rounded-full text-white capitalize hover:bg-Primary-500 font-medium"
-          >
-            add address
-          </button>
+          <CustomButton type="submit" extraClassName="rounded-full capitalize">
+            {responseUserAddress.isLoading ? (
+              <>
+                creating ..
+                <span className="w-6 h-6 border-4 rounded-full border-t-Primary-600 animate-spin"></span>
+              </>
+            ) : (
+              "add address"
+            )}
+          </CustomButton>
           <button
             type="reset"
             className="border border-Primary-600 py-2 px-3 rounded-full text-Primary-700 capitalize hover:bg-Primary-300 font-medium"

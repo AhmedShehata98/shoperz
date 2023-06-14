@@ -13,10 +13,21 @@ import visaLogo from "../assets/icons/visa.png";
 import mastercardLogo from "../assets/icons/mastercard.svg";
 import paypalLogo from "../assets/icons/paypal.svg";
 import cashLogo from "../assets/icons/cash-on-delivery.png";
+import { useRouter } from "next/router";
 
 function Footer() {
+  const footerRef = React.useRef<HTMLElement | null>(null);
+  const { pathname } = useRouter();
+  React.useLayoutEffect(() => {
+    if (pathname === "/register") {
+      footerRef.current?.classList.add("hidden");
+    } else {
+      footerRef.current?.classList.remove("hidden");
+    }
+  }, [pathname]);
+
   return (
-    <footer className="w-full mt-auto">
+    <footer ref={footerRef} className="w-full mt-auto">
       <section className="bg-Grey-800 py-6 px-2">
         <div className="container mx-auto max-w-5xl flex items-center justify-between gap-4 flex-wrap">
           <h5 className="capitalize text-white ">

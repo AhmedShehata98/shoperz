@@ -18,11 +18,9 @@ export default function CategorybarLink({
   hover,
 }: CategorybarLinkProps) {
   return (
-    <Link
-      href={href}
-      onMouseEnter={() => setHover(true)}
-      onMouseLeave={() => setHover(false)}
-      className="flex hover:bg-Primary-800 lg:bg-Primary-600 text-sm items-center justify-between gap-2 h-full px-6 py-3 overflow-hidden truncate transition-colors "
+    <div
+      onClick={() => setHover((e) => !e)}
+      className="flex cursor-pointer hover:bg-Primary-800 lg:bg-Primary-600 text-sm items-center justify-between gap-2 h-full px-6 py-3 overflow-hidden truncate transition-colors "
     >
       <p>{title}</p>
       {hover ? (
@@ -30,6 +28,6 @@ export default function CategorybarLink({
       ) : (
         <MdOutlineKeyboardArrowUp className={"block text-white text-sm"} />
       )}
-    </Link>
+    </div>
   );
 }
