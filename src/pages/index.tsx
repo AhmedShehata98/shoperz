@@ -9,8 +9,14 @@ import BigDeals from "@/components/BigDeals";
 import Banners from "@/components/Banners";
 import ProductLists from "@/components/ProductLists";
 import Brands from "@/components/Brands";
+import {
+  getRunningQueriesThunk,
+  shoperzApi,
+} from "@/services/shoperzApi.service";
+import { wrapper } from "@/redux/store";
 
-export default function Home() {
+export default function Home(props: any) {
+  console.log(props);
   return (
     <>
       <Head>

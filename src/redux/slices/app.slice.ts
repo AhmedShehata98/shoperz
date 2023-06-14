@@ -10,6 +10,8 @@ interface AppStateProps {
   creditCardsList: ICreditCard[];
   cartLength: number;
   isLoggedIn: boolean;
+  shoppingCart: [string] | null;
+  token: string | null;
 }
 
 const initialState: AppStateProps = {
@@ -30,6 +32,8 @@ const initialState: AppStateProps = {
     },
   ],
   creditCardsList: [],
+  shoppingCart: null,
+  token: null,
 };
 
 export const appSlice = createSlice({
@@ -84,6 +88,9 @@ export const appSlice = createSlice({
     setIsLoggedIn: (state, action) => {
       state.isLoggedIn = action.payload;
     },
+    setToken: (state, action) => {
+      state.token = action.payload.token;
+    },
   },
 });
 
@@ -97,4 +104,5 @@ export const {
   removeFromCreditCardsList,
   setShowCartDrawer,
   setCartLength,
+  setToken,
 } = appSlice.actions;

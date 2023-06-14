@@ -6,7 +6,7 @@ type Props = {
   Icon: React.ReactNode;
   title: string;
   isActive?: boolean;
-  herf: Url;
+  herf: any;
   onClick?: React.MouseEventHandler;
 };
 export default function AccountSidebarItem({
@@ -18,7 +18,7 @@ export default function AccountSidebarItem({
 }: Props) {
   return (
     <Link
-      href={herf}
+      href={...herf}
       className={
         isActive
           ? "account-sidebar-item account-sidebar-item-active"

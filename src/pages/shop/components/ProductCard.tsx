@@ -33,7 +33,7 @@ export default function ProductCard({ productData, onAddToCart }: Props) {
     <li className="flex max-sm:flex-col max-md:w-full border shadow p-3 cursor-pointer hover:scale-105 duration-300 max-lg:justify-between">
       <figure className="flex max-sm:grid w-full">
         <div className="p-6">
-          <img
+          <Image
             className="object-cover min-w-[200px] md:max-h-36 rounded"
             src={thumbnail}
             alt="product-img-thumbnail"

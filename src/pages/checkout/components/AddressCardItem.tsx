@@ -13,17 +13,17 @@ export default function AddressCardItem({
   onCheckAddress,
   onRemoveAddress,
 }: Props) {
-  const {
-    country,
-    province,
-    postalCode,
-    city,
-    street,
-    contactPhone,
-    updatedAt,
-    default: isDefault,
-    addressLabel,
-  } = address;
+  // const {
+  //   country,
+  //   province,
+  //   postalCode,
+  //   city,
+  //   street,
+  //   contactPhone,
+  //   updatedAt,
+  //   default: isDefault,
+  //   addressLabel,
+  // } = address;
   return (
     <li className="flex items-start flex-col bg-white p-3 border rounded">
       <span className="w-full flex items-center justify-between rounded mb-2">
@@ -33,16 +33,16 @@ export default function AddressCardItem({
             name="address"
             id="address1"
             className="accent-Primary-700 mx-2"
-            checked={isDefault}
+            checked={address?.default}
             onChange={onCheckAddress}
           />
           <label htmlFor="address1" className="flex gap-2 items-center">
-            {addressLabel === "Home" ? (
+            {address?.addressLabel === "Home" ? (
               <BsHouseDoor className="block text-xl" />
             ) : (
               <CgOrganisation />
             )}
-            <b className="leading-3">{addressLabel}</b>
+            <b className="leading-3">{address?.addressLabel}</b>
           </label>
         </span>
         <button
@@ -60,18 +60,20 @@ export default function AddressCardItem({
         </span> */}
         <address className="text-sm capitalize text-Grey-700">
           <span className="flex gap-2 items-center">
-            <b>{city}</b>
-            <b>{country}</b>
+            <b>{address?.city}</b>
+            <b>{address?.country}</b>
           </span>
           <span className="flex gap-2 items-center">
-            <b>{street}</b>
-            <b>{province}</b>
-            <b>{postalCode}</b>
+            <b>{address?.street}</b>
+            <b>{address?.province}</b>
+            <b>{address?.postalCode}</b>
           </span>
         </address>
         <span className="w-full flex items-center justify-between">
-          <code>{contactPhone}</code>
-          <small>last update at :{new Date(updatedAt).toDateString()}</small>
+          <code>{address?.contactPhone}</code>
+          <small>
+            last update at :{new Date(address?.updatedAt).toDateString()}
+          </small>
         </span>
       </span>
     </li>

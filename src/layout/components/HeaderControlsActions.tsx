@@ -55,7 +55,8 @@ function HeaderControlsActions({ setShowMenu }: Props) {
   });
 
   const {
-    shoppingCart: { cart, order },
+    shoppingCart,
+
     wishList,
   } = routes;
   const [showUserMenu, setShowUserMenu] = useState(false);
@@ -85,12 +86,12 @@ function HeaderControlsActions({ setShowMenu }: Props) {
       setToken(undefined);
       dispacth(setIsLoggedIn(false));
     }
-  }, [successUserData, loadingUserData, errorUserData]);
+  }, [successUserData, loadingUserData, errorUserData, dispacth]);
   useEffect(() => {
     if (cartItems?.userCart) {
       dispacth(setCartLength(cartItems?.userCart.items.length));
     }
-  }, [cartItems]);
+  }, [cartItems, dispacth]);
 
   return (
     <div className="w-full flex items-center  justify-between px-2 max-lg:pt-4 pb-4">
@@ -124,7 +125,7 @@ function HeaderControlsActions({ setShowMenu }: Props) {
           <ItemsCountingLength length={0} />
         </Link>
         <Link
-          href={{ pathname: order, query: { to: cart } }}
+          href={{ pathname: shoppingCart }}
           className="flex items-center gap-2"
         >
           <FaShoppingCart />

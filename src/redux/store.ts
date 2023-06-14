@@ -1,4 +1,4 @@
-import { createWrapper } from "next-redux-wrapper";
+import { HYDRATE, createWrapper } from "next-redux-wrapper";
 import { appSlice } from "./slices/app.slice";
 import {
   Action,
@@ -7,21 +7,16 @@ import {
   getDefaultMiddleware,
 } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/dist/query";
-import { dummyjsonApi } from "@/services/dummyjson.service";
 import { shoperzApi } from "@/services/shoperzApi.service";
 
 export const makeStore = () =>
   configureStore({
     reducer: {
       [appSlice.name]: appSlice.reducer,
-      [dummyjsonApi.reducerPath]: dummyjsonApi.reducer,
       [shoperzApi.reducerPath]: shoperzApi.reducer,
     },
     middleware: (getDefaultMiddleware) =>
-      getDefaultMiddleware().concat(
-        dummyjsonApi.middleware,
-        shoperzApi.middleware
-      ),
+      getDefaultMiddleware().concat(shoperzApi.middleware),
     devTools: true,
   });
 export type AppStore = ReturnType<typeof makeStore>;

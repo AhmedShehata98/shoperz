@@ -22,7 +22,7 @@ export default function SearchBox() {
     return () => {
       clearTimeout(handlerId);
     };
-  }, [query]);
+  }, [query, fetchSearchProducts]);
   return (
     <form action="" className="shoperz-searchbox">
       <input

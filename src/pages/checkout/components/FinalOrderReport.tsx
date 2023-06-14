@@ -20,6 +20,7 @@ function FinalOrderReport({ discountedTotal, children }: OrderReportProps) {
   const { paymentMethod } = useSelector(selectAppState);
   const [isAgreement, setIsAgreement] = useState(false);
   const confirmationLabel = useRef<HTMLLabelElement | null>(null);
+  const { order } = routes;
 
   const getNextPage = useCallback(() => {
     if (isAgreement === false) {
@@ -30,11 +31,11 @@ function FinalOrderReport({ discountedTotal, children }: OrderReportProps) {
     if (isAgreement) {
       confirmationLabel.current?.classList.remove("text-red-700");
     }
-  }, [isAgreement]);
+  }, [isAgreement, dispatch]);
 
   const handleAgreementCheck = useCallback(() => {
     setIsAgreement((prev) => !prev);
-  }, [isAgreement]);
+  }, []);
 
   return (
     <ul className="order-report-box w-full mt-1 mb-4">
@@ -81,8 +82,7 @@ function FinalOrderReport({ discountedTotal, children }: OrderReportProps) {
       <Link
         className="custom-button mt-4 py-2 text-sm"
         href={{
-          pathname: routes.shoppingCart.order,
-          query: { to: routes.shoppingCart.completeOrder },
+          pathname: order,
         }}
       >
         <p>checkout</p>

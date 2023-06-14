@@ -63,7 +63,7 @@ const Product = ({ onAddToCart, productData }: Props) => {
           </Button>
 
           <Button
-            className="p-3 w-11 !h-11  absolute right-4 bottom-4 text-xl  group-hover:!bg-Primary-600 transition-all duration-300 !bg-Grey-400 !rounded-full"
+            className="p-3 w-11 !h-11  absolute right-4f bottom-4 text-xl  group-hover:!bg-Primary-600 transition-all duration-300 !bg-Grey-400 !rounded-full"
             onClick={onAddToCart}
           >
             <svg

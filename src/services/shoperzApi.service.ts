@@ -5,11 +5,17 @@ import {
   setIsLoggedIn,
   setShowCartDrawer,
 } from "@/redux/slices/app.slice";
+import { HYDRATE } from "next-redux-wrapper";
 
 export const shoperzApi = createApi({
-  reducerPath: "user",
+  reducerPath: "shoperz",
   tagTypes: ["Products", "Users", "Cart", "Address"],
   baseQuery: fetchBaseQuery({ baseUrl: API_BASE_URL }),
+  extractRehydrationInfo(action, { reducerPath }) {
+    if (action.type === HYDRATE) {
+      return action.payload[reducerPath];
+    }
+  },
   endpoints: (builder) => ({
     signupUser: builder.mutation({
       query: (payload: Signup) => ({
@@ -258,4 +264,9 @@ export const {
   useRemoveFromCartMutation,
   useGetCartItemsQuery,
   useUpdateCartQuantityMutation,
+  useGetUserAddressListQuery,
+  useAddUserAddressMutation,
+  useRemoveAddressMutation,
+  useUpdateAddressDataMutation,
 } = shoperzApi;
+export const { getRunningQueriesThunk } = shoperzApi.util;

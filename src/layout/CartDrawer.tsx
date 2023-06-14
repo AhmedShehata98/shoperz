@@ -105,8 +105,7 @@ function CartDrawer() {
               <TotalElement total={cartItems?.cartTotal} />
               <Link
                 href={{
-                  pathname: routes.shoppingCart.order,
-                  query: { to: routes.shoppingCart.cart },
+                  pathname: routes.shoppingCart,
                 }}
                 className="custom-button mb-4"
                 onClick={handleHideCart}

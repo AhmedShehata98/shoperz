@@ -13,28 +13,31 @@ export default function OrdersPreviewList({
         Review your order :
       </h3>
       <ul className="w-full flex flex-col border border-Grey-300 shadow-md p-3">
-        {cartItems.length >= 0
-          ? cartItems.map((item) => (
-              <li className="flex items-start justify-center gap-3 mb-2">
+        {cartItems?.length >= 0
+          ? cartItems?.map((item) => (
+              <li
+                key={item?.productId?._id}
+                className="flex items-start justify-center gap-3 mb-2"
+              >
                 <span className="flex flex-col basis-1/4">
                   <figure className="w-20 overflow-hidden">
                     <img
-                      src={item.productId.thumbnail}
+                      src={item?.productId?.thumbnail}
                       alt="product-image"
                       className="w-full object-cover"
                     />
                   </figure>
-                  <p className="mt-2 text-Grey-600">{item.quantity}X</p>
+                  <p className="mt-2 text-Grey-600">{item?.quantity}X</p>
                 </span>
                 <span className="basis-2/3 flex flex-col items-start justify-center ">
                   <p className="text-Primary-700 capitalize text-sm">
-                    {item.productId.name}
+                    {item?.productId?.name}
                   </p>
                   <small className="text-sm text-Grey-600">
                     {Intl.NumberFormat("en-eg", {
                       style: "currency",
                       currency: "EGP",
-                    }).format(item.productId.price)}
+                    }).format(item?.productId?.price)}
                   </small>
                   <b className="flex gap-2 capitalize mt-3 text-sm">
                     total :
@@ -42,14 +45,14 @@ export default function OrdersPreviewList({
                       {Intl.NumberFormat("en-eg", {
                         style: "currency",
                         currency: "EGP",
-                      }).format(item?.productId.price * item.quantity)}
+                      }).format(item?.productId?.price * item?.quantity)}
                     </p>
                   </b>
                 </span>
               </li>
             ))
           : null}
-        {cartItems.length <= 0 ? (
+        {cartItems?.length <= 0 ? (
           <div className="w-full flex flex-col items-center">
             <span className="bg-Primary-300 w-max text-Primary-700 text-xl p-2 m-4 rounded-full">
               <BsFillBoxFill />

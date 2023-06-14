@@ -37,12 +37,12 @@ function ProfileSettings({ title }: Props) {
   async function handleChangePassword({
     currentPassword,
     newPassword,
-    confirmPassword,
+    newPasswordRepeat,
   }: ChangeUserPassword) {
     const res = await fetchChangePassword({
       currentPassword,
       newPassword,
-      newPasswordRepeat: confirmPassword,
+      newPasswordRepeat,
     }).unwrap();
 
     console.log(await res);
@@ -54,7 +54,7 @@ function ProfileSettings({ title }: Props) {
     handleChangePassword({
       currentPassword: data.get("current-password") as string,
       newPassword: data.get("new-password") as string,
-      confirmPassword: data.get("confirm-password") as string,
+      newPasswordRepeat: data.get("confirm-password") as string,
     });
   }
 
@@ -71,7 +71,7 @@ function ProfileSettings({ title }: Props) {
         email: userData?.data.user.email,
       });
     }
-  }, [loadingUserData, userData]);
+  }, [loadingUserData, userData, handleFormDataManually]);
 
   return (
     <article className="porfile-setting">

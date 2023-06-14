@@ -56,7 +56,7 @@ export default function CartItem({ quantity, itemData }: CartItemProps) {
       <div className="cart-product-info">
         <figure className="w-16 rounded-md">
           <img
-            src={itemData.thumbnail}
+            src={itemData?.thumbnail}
             alt="cart-item-image"
             className="w-full object-cover object-center"
           />
@@ -97,7 +97,7 @@ export default function CartItem({ quantity, itemData }: CartItemProps) {
             </label>
             <button
               className="w-7 h-7 flex items-center justify-center rounded-full hover:bg-Grey-100"
-              onClick={() => handleIncreaseQuantity(quantity, itemData._id)}
+              onClick={() => handleIncreaseQuantity(quantity, itemData?._id)}
             >
               {responseQuantity.isLoading ? (
                 <span className="w-4 h-4 rounded-full border-2 border-Grey-400 border-t-Grey-100 animate-spin"></span>
@@ -116,7 +116,7 @@ export default function CartItem({ quantity, itemData }: CartItemProps) {
               {Intl.NumberFormat("en-eg", {
                 style: "currency",
                 currency: "EGP",
-              }).format(itemData.price * quantity || 0)}
+              }).format(itemData?.price * quantity || 0)}
             </p>
           </span>
         </span>

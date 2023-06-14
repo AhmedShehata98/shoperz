@@ -7,10 +7,11 @@ import SubmitButton from "./SubmitButton";
 import InputField from "@/components/InputField";
 import FormInputWrapper from "@/components/FormInputWrapper";
 import useFormData from "@/hooks/useFormData";
+import { setToken } from "@/redux/slices/app.slice";
 
 function Signup() {
   const router = useRouter();
-
+  const dispatch = useDispatch();
   let timeoutRef = useRef(0);
   const [fetchSignupUser, signupResponse] = useSignupUserMutation();
   useEffect(
@@ -18,7 +19,7 @@ function Signup() {
       if (!signupResponse.isLoading) {
         //
         if (signupResponse.isError) {
-          toast.error(signupResponse.error?.errDetails?.message, {
+          toast.error("Error , There's something wrong check signup data", {
             position: "bottom-center",
             className: "w-max",
           });
@@ -48,6 +49,7 @@ function Signup() {
       .then((res) => {
         const domain = window.document.location.hostname;
         document.cookie = `${domain}=${res.data.token}`;
+        dispatch(setToken({ token: res.data.token }));
       })
       .then(() => {
         timeoutRef.current = +setTimeout(() => {

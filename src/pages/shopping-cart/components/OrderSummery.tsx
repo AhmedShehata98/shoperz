@@ -5,7 +5,7 @@ import paypalLogo from "../../../assets/icons/paypal.svg";
 import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
 import { IApiCallState } from "@/models/shopperz.model";
-import OrderBoxItem from "./OrderBoxItem";
+import OrderBoxItem from "../../checkout/components/OrderBoxItem";
 import { BsCashStack, BsFillBoxSeamFill } from "react-icons/bs";
 import { ImPriceTags } from "react-icons/im";
 import { MdOutlineLocalShipping } from "react-icons/md";
@@ -35,7 +35,7 @@ function OrderSummery({
 }: OrderSummeryProps) {
   const shippingCost = 50;
   const { push } = useRouter();
-  const { order, checkout } = routes.shoppingCart;
+  const { checkout } = routes;
   const numberFormatOptions: Intl.NumberFormatOptions = {
     style: "currency",
     currency: "EGP", // display price as country like => EGP , $
@@ -45,7 +45,7 @@ function OrderSummery({
 
   const getNextPage = () => {
     if (loggedin) {
-      push({ pathname: order, query: { to: checkout } });
+      push({ pathname: checkout });
     } else {
       setShowConfirmIsUser(true);
     }

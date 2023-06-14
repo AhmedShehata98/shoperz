@@ -29,7 +29,7 @@ function CreditMethodItem({ value, selectPaymentMethod }: CreditMethodProps) {
         dispatch(addPaymentData({ id: target.id, selectedCard }));
       }
     },
-    [showAddCartModal]
+    [dispatch]
   );
 
   return (

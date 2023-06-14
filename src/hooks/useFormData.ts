@@ -6,16 +6,17 @@ const useFormData = (initialstate: any) => {
   const handleInputFormData = (
     event: ChangeEvent<HTMLSelectElement | HTMLInputElement>
   ) => {
-    const name = event.target.name;
-    const id = event.target.id;
-    const value = event.target.value;
+    const target = event.target as HTMLInputElement;
+    const name = target.name;
+    const id = target.id;
+    const value = target.value;
     if (name === "") {
       setFormData((prevData: any) => ({ ...prevData, [id]: value }));
     } else {
       setFormData((prevData: any) => ({ ...prevData, [name]: value }));
     }
-    if (event.target.type === "checkbox") {
-      const value = event.target?.checked;
+    if (target.type === "checkbox") {
+      const value = target.checked;
       setFormData((prevData: any) => ({ ...prevData, [name]: value }));
     }
   };

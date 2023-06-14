@@ -129,7 +129,7 @@ const Shop = (props: Props) => {
           </ul>
         </section>
         <ButtonFilter
-          onClick={function (event: MouseEvent<Element, MouseEvent>): void {
+          onClick={function (event: MouseEvent<HTMLButtonElement>): void {
             throw new Error("Function not implemented.");
           }}
         />

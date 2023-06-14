@@ -52,8 +52,6 @@ function UserAddressForm({ setIsShowing }: AddressForm) {
 
   const handleSubmit = (ev: React.FormEvent) => {
     ev.preventDefault();
-    console.log(token);
-    console.log(formData);
     fetchAddUserAddress({ address: formData, token: token })
       .unwrap()
       .then((res) => {

@@ -1,18 +1,19 @@
 import React from "react";
-import ProductCard from "./ProductCard";
 import ColumnProduct from "./ColumnProduct";
 import {
+  shoperzApi,
   useGetMegaOfferProductsQuery,
   useGetTopRatedProductsQuery,
 } from "@/services/shoperzApi.service";
 import Headtitle from "./Headtitle";
 import { useInView } from "react-intersection-observer";
+import { wrapper } from "@/redux/store";
 
 type Props = {};
 
 const ProductLists = (props: Props) => {
   const { ref, inView, entry } = useInView();
-
+  console.log(props);
   const {
     data: topRatedProducts,
     isLoading: loadingTopRatedProducts,
@@ -38,7 +39,7 @@ const ProductLists = (props: Props) => {
 
           {!loadingTopRatedProducts && successTopRatedProducts
             ? topRatedProducts.data.products.map((product) => (
-                <ColumnProduct product={product} />
+                <ColumnProduct key={product._id} product={product} />
               ))
             : null}
         </ul>
@@ -47,7 +48,7 @@ const ProductLists = (props: Props) => {
 
           {!loadingTopRatedProducts && successTopRatedProducts
             ? topRatedProducts.data.products.map((product) => (
-                <ColumnProduct product={product} />
+                <ColumnProduct key={product._id} product={product} />
               ))
             : null}
         </ul>
@@ -56,7 +57,7 @@ const ProductLists = (props: Props) => {
 
           {!loadingMegaOfferProducts && successMegaOfferProducts
             ? megaOfferProducts.data.products.map((product) => (
-                <ColumnProduct product={product} />
+                <ColumnProduct key={product._id} product={product} />
               ))
             : null}
         </ul>
@@ -66,3 +67,21 @@ const ProductLists = (props: Props) => {
 };
 
 export default ProductLists;
+
+// export const getServerSideProps = wrapper.getServerSideProps(
+//   async ({ dispatch, getState }) => {
+//     console.log("get static props inside home product list component");
+//     await dispatch(
+//       shoperzApi.endpoints.getMegaOfferProducts.initiate({ limit: 5 })
+//     );
+//     const megaOffers = shoperzApi.endpoints.getMegaOfferProducts.select({
+//       limit: 5,
+//     });
+//     await Promise.all(dispatch(shoperzApi.util.getRunningQueriesThunk()));
+//     console.log(getState());
+
+//     return {
+//       props: megaOffers || 0,
+//     };
+//   }
+// );

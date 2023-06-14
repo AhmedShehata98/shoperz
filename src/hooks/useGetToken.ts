@@ -1,13 +1,18 @@
+import { setToken } from "@/redux/slices/app.slice";
 import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 
 function useGetToken() {
-  const [token, setToken] = useState<string | undefined>(undefined);
+  const [token, setTokenState] = useState<string | undefined>(undefined);
+  const dispatch = useDispatch();
   useEffect(() => {
     const token = document.cookie.split("=")[1];
     if (token) {
-      setToken(token);
+      setTokenState(token);
+      dispatch(setToken({ token }));
     } else {
-      setToken(undefined);
+      setTokenState(undefined);
+      dispatch(setToken({ token: undefined }));
     }
   }, []);
 
