@@ -9,6 +9,8 @@ import Head from "next/head";
 import ShopUpperbar from "./components/ShopUpperbar";
 import ProductCard from "./components/ProductCard";
 import {
+  getRunningQueriesThunk,
+  shoperzApi,
   useAddToCartMutation,
   useGetAllProductsQuery,
 } from "@/services/shoperzApi.service";
@@ -21,6 +23,7 @@ import { Pagination } from "flowbite-react";
 import { toast } from "react-toastify";
 import { selectAppState } from "@/redux/slices/app.slice";
 import { useSelector } from "react-redux";
+import { wrapper } from "@/redux/store";
 
 type Props = {};
 
@@ -35,7 +38,8 @@ const Shop = (props: Props) => {
     isLoading: isLoadingProducts,
     data: products,
     isSuccess: isSuccessProducts,
-  } = useGetAllProductsQuery();
+  } = useGetAllProductsQuery({ limit: 20 });
+
   const handleShowFilterbar = () => {
     filterRef.current?.classList.toggle("filter-sidebar-show");
     document.body.classList.toggle("prevent-scroll");
@@ -140,3 +144,15 @@ const Shop = (props: Props) => {
 };
 
 export default Shop;
+
+export const getStaticProps = wrapper.getStaticProps(
+  ({ dispatch, getState }) =>
+    async (context) => {
+      dispatch(shoperzApi.endpoints.getAllProducts.initiate({ limit: 20 }));
+      await Promise.all(dispatch(getRunningQueriesThunk()));
+
+      return {
+        props: {},
+      };
+    }
+);

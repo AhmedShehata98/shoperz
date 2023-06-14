@@ -11,6 +11,9 @@ import TopRatedProducts from "./components/TopRatedProducts";
 import BestSellerProducts from "./components/BestSellerProducts";
 import MegaOffersProducts from "./components/MegaOffersProducts";
 import CustomHeading from "./components/CustomHeading";
+import { wrapper } from "@/redux/store";
+import { GetStaticPaths } from "next";
+import { API_BASE_URL, ENDPOINTS } from "@/services/api/shoppers.api";
 
 const ProductPage = () => {
   return (
@@ -57,3 +60,17 @@ const ProductPage = () => {
 };
 
 export default ProductPage;
+
+export const getStaticPaths: GetStaticPaths = async (productPage) => {
+  console.log(productPage);
+  let res = fetch(`${API_BASE_URL}${ENDPOINTS.products}/${productPage}`);
+  let data = (await res).json();
+  return {
+    paths: {
+      params: {
+        name: data,
+      },
+      fallback: true,
+    },
+  };
+};

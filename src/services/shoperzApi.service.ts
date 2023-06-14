@@ -84,8 +84,8 @@ export const shoperzApi = createApi({
       }),
       invalidatesTags: ["Users"],
     }),
-    getAllProducts: builder.query<ProductsResponse, void>({
-      query: () => ENDPOINTS.products.products,
+    getAllProducts: builder.query<ProductsResponse, productQueriesParameter>({
+      query: ({ limit }) => ENDPOINTS.products.products,
       providesTags: ["Products"],
     }),
     getTopRatedProducts: builder.query<

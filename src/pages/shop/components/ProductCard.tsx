@@ -1,6 +1,8 @@
 import CustomButton from "@/components/CustomButton";
+import { routes } from "@/constants/Routes";
 import { Rating } from "flowbite-react";
 import Image from "next/image";
+import { useRouter } from "next/router";
 import React from "react";
 import { BsFillCartCheckFill, BsFillCartPlusFill } from "react-icons/bs";
 
@@ -28,12 +30,20 @@ export default function ProductCard({ productData, onAddToCart }: Props) {
     thumbnail,
     updatedAt,
   } = productData;
-  console.log(isInCart);
+  const { push } = useRouter();
+  const { shop: shopRoute } = routes;
+
+  function getCurrentProductPreview() {
+    push(shopRoute, { query: { id: _id } });
+  }
   return (
-    <li className="flex max-sm:flex-col max-md:w-full border shadow p-3 cursor-pointer hover:scale-105 duration-300 max-lg:justify-between">
+    <li
+      className="flex max-sm:flex-col max-md:w-full border shadow p-3 cursor-pointer hover:scale-105 duration-300 max-lg:justify-between"
+      onClick={getCurrentProductPreview}
+    >
       <figure className="flex max-sm:grid w-full">
         <div className="p-6">
-          <Image
+          <img
             className="object-cover min-w-[200px] md:max-h-36 rounded"
             src={thumbnail}
             alt="product-img-thumbnail"

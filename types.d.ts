@@ -84,6 +84,9 @@ type ProductsResponse = {
   message: string;
 };
 
+type productQueriesParameter = {
+  limit: number;
+};
 interface TopRatedProductsResponse extends ApiResponse {
   data: {
     products: Array<Products>;
