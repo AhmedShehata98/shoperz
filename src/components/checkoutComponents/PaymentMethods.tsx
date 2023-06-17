@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from "react";
 
 import CreditMethodItem from "./CreditMethodItem";
-import ChashMethodItem from "../components/ChashMethodItem";
+import ChashMethodItem from "./ChashMethodItem";
 import { useDispatch, useSelector } from "react-redux";
 import { selectAppState, selectPatmentMethod } from "@/redux/slices/app.slice";
 

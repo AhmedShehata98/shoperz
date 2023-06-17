@@ -10,10 +10,10 @@ import Image from "next/image";
 const Logo = dynamic(() => import("../../components/Logo"), {
   loading: () => <QuickLoadingModul />,
 });
-const Login = dynamic(() => import("./components/Login"), {
+const Login = dynamic(() => import("./registerComponents/Login"), {
   loading: () => <QuickLoadingModul />,
 });
-const Signup = dynamic(() => import("./components/Signup"), {
+const Signup = dynamic(() => import("./registerComponents/Signup"), {
   loading: () => <QuickLoadingModul />,
 });
 

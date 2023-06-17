@@ -3,9 +3,12 @@ import dynamic from "next/dynamic";
 import QuickLoadingModul from "@/layout/QuickLoadingModul";
 import Head from "next/head";
 
-const ProductCard = dynamic(() => import("./components/ProductCard"), {
-  loading: () => <QuickLoadingModul />,
-});
+const ProductCard = dynamic(
+  () => import("../../components/orderComponents/ProductCard"),
+  {
+    loading: () => <QuickLoadingModul />,
+  }
+);
 
 interface OrderProps {}
 

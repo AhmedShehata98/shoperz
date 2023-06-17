@@ -18,20 +18,32 @@ import { BsBoxSeam } from "react-icons/bs";
 import { MdOutlineLocalShipping } from "react-icons/md";
 import { wrapper } from "@/redux/store";
 
-const OfferItem = dynamic(() => import("./components/OfferItem"), {
-  loading() {
-    return <QuickLoadingModul />;
-  },
-});
-const Cart = dynamic(() => import("./components/Cart"), {
-  loading: () => <QuickLoadingModul />,
-});
-const OrderReport = dynamic(() => import("./components/OrderSummery"), {
-  loading: () => <QuickLoadingModul />,
-});
-const AlertDialog = dynamic(() => import("./components/AlertDialog"), {
-  loading: () => <QuickLoadingModul />,
-});
+const OfferItem = dynamic(
+  () => import("../../components/shoppingCartComponents/OfferItem"),
+  {
+    loading() {
+      return <QuickLoadingModul />;
+    },
+  }
+);
+const Cart = dynamic(
+  () => import("../../components/shoppingCartComponents/Cart"),
+  {
+    loading: () => <QuickLoadingModul />,
+  }
+);
+const OrderReport = dynamic(
+  () => import("../../components/shoppingCartComponents/OrderSummery"),
+  {
+    loading: () => <QuickLoadingModul />,
+  }
+);
+const AlertDialog = dynamic(
+  () => import("../../components/shoppingCartComponents/AlertDialog"),
+  {
+    loading: () => <QuickLoadingModul />,
+  }
+);
 
 function ShoppingCart(props: any) {
   const { token } = useGetToken();

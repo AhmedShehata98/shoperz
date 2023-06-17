@@ -6,8 +6,8 @@ import React, {
   MouseEventHandler,
 } from "react";
 import Head from "next/head";
-import ShopUpperbar from "./components/ShopUpperbar";
-import ProductCard from "./components/ProductCard";
+import ShopUpperbar from "../../components/shopComponents/ShopUpperbar";
+import ProductCard from "../../components/shopComponents/ProductCard";
 import {
   getRunningQueriesThunk,
   shoperzApi,
@@ -16,9 +16,9 @@ import {
 } from "@/services/shoperzApi.service";
 import Product from "@/components/Product";
 import clsx from "clsx";
-import LoadingProducts from "./components/LoadingProducts";
-import ButtonFilter from "./components/ButtonFilter";
-import FiltersSidebar from "./components/FiltersSidebar";
+import LoadingProducts from "../../components/shopComponents/LoadingProducts";
+import ButtonFilter from "../../components/shopComponents/ButtonFilter";
+import FiltersSidebar from "../../components/shopComponents/FiltersSidebar";
 import { Pagination } from "flowbite-react";
 import { toast } from "react-toastify";
 import { selectAppState } from "@/redux/slices/app.slice";

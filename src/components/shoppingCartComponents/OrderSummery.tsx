@@ -1,11 +1,11 @@
 import React from "react";
-import visaLogo from "../../../assets/icons/visa.png";
-import mastercardLogo from "../../../assets/icons/mastercard.svg";
-import paypalLogo from "../../../assets/icons/paypal.svg";
+import visaLogo from "../../assets/icons/visa.png";
+import mastercardLogo from "../../assets/icons/mastercard.svg";
+import paypalLogo from "../../assets/icons/paypal.svg";
 import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
 import { IApiCallState } from "@/models/shopperz.model";
-import OrderBoxItem from "../../checkout/components/OrderBoxItem";
+import OrderBoxItem from "../checkoutComponents/OrderBoxItem";
 import { BsCashStack, BsFillBoxSeamFill } from "react-icons/bs";
 import { ImPriceTags } from "react-icons/im";
 import { MdOutlineLocalShipping } from "react-icons/md";

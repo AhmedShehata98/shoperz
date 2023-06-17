@@ -1,14 +1,14 @@
 import Head from "next/head";
 import React from "react";
 import { FaRegUserCircle } from "react-icons/fa";
-import AccountSidebarItem from "./components/AccountSidebarItem";
+import AccountSidebarItem from "../../components/accountComponents/AccountSidebarItem";
 import { BiMap } from "react-icons/bi";
 import { AiOutlineShopping } from "react-icons/ai";
-import ProfileSettings from "./components/ProfileSettings";
-import MyAddress from "./components/MyAddress";
+import ProfileSettings from "../../components/accountComponents/ProfileSettings";
+import MyAddress from "../../components/accountComponents/MyAddress";
 import { useRouter } from "next/router";
 import { routes } from "@/constants/Routes";
-import MyOrders from "./components/MyOrders";
+import MyOrders from "../../components/accountComponents/MyOrders";
 
 const MyAccount = () => {
   // const [currentRenderedComponent, setCurrentRenderedComponent] =

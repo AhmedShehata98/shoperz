@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { AiFillCloseSquare } from "react-icons/ai";
-import visaLogo from "../../../assets/icons/visa.png";
-import mastercardLogo from "../../../assets/icons/mastercard.svg";
-import creditCardLogo from "../../../assets/icons/credit-card.png";
+import visaLogo from "../../assets/icons/visa.png";
+import mastercardLogo from "../../assets/icons/mastercard.svg";
+import creditCardLogo from "../../assets/icons/credit-card.png";
 import DatePicker, { ReactDatePickerProps } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { GoCreditCard } from "react-icons/go";

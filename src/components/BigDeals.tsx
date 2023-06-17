@@ -10,7 +10,7 @@ import Product from "./Product";
 import Headtitle from "./Headtitle";
 import { useGetAllProductsQuery } from "@/services/shoperzApi.service";
 
-import LoadingProducts from "@/pages/shop/components/LoadingProducts";
+import LoadingProducts from "@/components/shopComponents/LoadingProducts";
 
 type Props = {};
 
@@ -20,7 +20,7 @@ const BigDeals = (props: Props) => {
     isLoading: isLoadingProducts,
     data: products,
     isSuccess: isSuccessProducts,
-  } = useGetAllProductsQuery();
+  } = useGetAllProductsQuery({ limit: 20 });
   interface arrows {
     right: Boolean;
     left: Boolean;

@@ -60,17 +60,3 @@ const ProductPage = () => {
 };
 
 export default ProductPage;
-
-export const getStaticPaths: GetStaticPaths = async (productPage) => {
-  console.log(productPage);
-  let res = fetch(`${API_BASE_URL}${ENDPOINTS.products}/${productPage}`);
-  let data = (await res).json();
-  return {
-    paths: {
-      params: {
-        name: data,
-      },
-      fallback: true,
-    },
-  };
-};

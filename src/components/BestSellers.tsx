@@ -7,7 +7,7 @@ import "swiper/css/scrollbar";
 import "swiper/css";
 import Product from "./Product";
 import Headtitle from "./Headtitle";
-import LoadingProducts from "@/pages/shop/components/LoadingProducts";
+import LoadingProducts from "@/components/shopComponents/LoadingProducts";
 import { useGetAllProductsQuery } from "@/services/shoperzApi.service";
 
 type Props = {};
@@ -19,7 +19,7 @@ const BestSellers = (props: Props) => {
     isLoading: isLoadingProducts,
     data: products,
     isSuccess: isSuccessProducts,
-  } = useGetAllProductsQuery();
+  } = useGetAllProductsQuery({ limit: 20 });
   interface arrows {
     right: Boolean;
     left: Boolean;

@@ -1,17 +1,17 @@
 import Head from "next/head";
 import React from "react";
-import UserAddress from "./components/UserAddress";
-import PaymentMethods from "./components/PaymentMethods";
+import UserAddress from "../../components/checkoutComponents/UserAddress";
+import PaymentMethods from "../../components/checkoutComponents/PaymentMethods";
 import Portal from "@/hooks/Protal";
 import UserAddressForm from "@/components/UserAddressForm";
-import FinalOrderReport from "./components/FinalOrderReport";
-import OrderBoxItem from "./components/OrderBoxItem";
+import FinalOrderReport from "../../components/checkoutComponents/FinalOrderReport";
+import OrderBoxItem from "../../components/checkoutComponents/OrderBoxItem";
 import { IoIosCash } from "react-icons/io";
 import { FaShippingFast } from "react-icons/fa";
 import useGetToken from "@/hooks/useGetToken";
 import { useGetCartItemsQuery } from "@/services/shoperzApi.service";
 import { MdDiscount } from "react-icons/md";
-import OrdersPreviewList from "./components/OrdersPreviewList";
+import OrdersPreviewList from "../../components/checkoutComponents/OrdersPreviewList";
 
 const Checkout = () => {
   const { token } = useGetToken();
