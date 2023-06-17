@@ -29,6 +29,12 @@
   .register-navlink-active {
     @apply text-white bg-sky-600  shadow-md hover:bg-sky-600;
   }
+  .swiper-prev {
+    @apply w-7 h-7 flex items-center justify-center border rounded-md text-lg;
+  }
+  .swiper-next {
+    @apply w-7 h-7 flex items-center justify-center border rounded-md text-lg;
+  }
   .input-field {
     @apply w-full px-5 py-2 lg:py-3 rounded-full shadow-sm border border-sky-700 focus:outline-none focus:shadow-blue-400
     w-full px-5 py-3 rounded-full shadow-sm border border-sky-700 focus:outline-none focus:shadow-blue-400;

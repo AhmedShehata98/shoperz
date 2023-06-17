@@ -27,7 +27,7 @@ const BestSellers = (props: Props) => {
   const [arrows, setArrows] = useState({ right: false, left: false });
 
   return (
-    <div className="container pb-10 mx-auto">
+    <div className="container max-w-5xl pb-10 mx-auto">
       <div className="flex justify-between items-center py-6">
         <Headtitle title="Bestsellers" />
         <div className="flex gap-x-10">

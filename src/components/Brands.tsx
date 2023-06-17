@@ -5,7 +5,7 @@ type Props = {};
 
 const Brands = (props: Props) => {
   return (
-    <div className=" container py-10 mx-auto">
+    <div className="container max-w-5xl py-10 mx-auto">
       <div className="grid justify-center items-center max-sm:grid-cols-2 max-md:grid-cols-3 max-lg:grid-cols-4 grid-cols-5">
         <div>
           <Image src={brand} alt="brand" />

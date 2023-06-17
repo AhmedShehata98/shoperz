@@ -1,17 +1,30 @@
-import type { Metadata } from "next";
 import Slider from "@/components/Slider";
-import SlidesProducts from "@/components/SlidesProducts";
 import Head from "next/head";
-import CategorySection from "@/components/CategorySection";
-import BestSellers from "@/components/BestSellers";
-import BigDeals from "@/components/BigDeals";
-import Banners from "@/components/Banners";
-import ProductLists from "@/components/ProductLists";
-import Brands from "@/components/Brands";
 import dynamic from "next/dynamic";
 import QuickLoadingModul from "@/layout/QuickLoadingModul";
 
 const ShopFeats = dynamic(() => import("@/components/ShopFeats"), {
+  loading: () => <QuickLoadingModul />,
+});
+const SlidesProducts = dynamic(() => import("@/components/SlidesProducts"), {
+  loading: () => <QuickLoadingModul />,
+});
+const CategorySection = dynamic(() => import("@/components/CategorySection"), {
+  loading: () => <QuickLoadingModul />,
+});
+const Banners = dynamic(() => import("@/components/Banners"), {
+  loading: () => <QuickLoadingModul />,
+});
+const BigDeals = dynamic(() => import("@/components/BigDeals"), {
+  loading: () => <QuickLoadingModul />,
+});
+const Brands = dynamic(() => import("@/components/Brands"), {
+  loading: () => <QuickLoadingModul />,
+});
+const BestSellers = dynamic(() => import("@/components/BestSellers"), {
+  loading: () => <QuickLoadingModul />,
+});
+const ProductLists = dynamic(() => import("@/components/ProductLists"), {
   loading: () => <QuickLoadingModul />,
 });
 
