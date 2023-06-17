@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Slider from "@/components/Slider";
-import ShopFeats from "@/components/ShopFeats";
 import SlidesProducts from "@/components/SlidesProducts";
 import Head from "next/head";
 import CategorySection from "@/components/CategorySection";
@@ -9,14 +8,14 @@ import BigDeals from "@/components/BigDeals";
 import Banners from "@/components/Banners";
 import ProductLists from "@/components/ProductLists";
 import Brands from "@/components/Brands";
-import {
-  getRunningQueriesThunk,
-  shoperzApi,
-} from "@/services/shoperzApi.service";
-import { wrapper } from "@/redux/store";
+import dynamic from "next/dynamic";
+import QuickLoadingModul from "@/layout/QuickLoadingModul";
+
+const ShopFeats = dynamic(() => import("@/components/ShopFeats"), {
+  loading: () => <QuickLoadingModul />,
+});
 
 export default function Home(props: any) {
-  console.log(props);
   return (
     <>
       <Head>

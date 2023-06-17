@@ -14,9 +14,9 @@ const Slide = ({ src, title }: Props) => {
     >
       <section className="container max-w-5xl mx-auto flex h-full max-md:flex-col justify-between items-center gap-4">
         <div className="flex flex-col items-start justify-center gap-10 md:basis-1/2 lg:basis-2/5 max-md:w-full max-md:px-4 ">
-          <h2 className="text-start uppercase text-4xl max-xl:text-4xl font-thin max-md:text-3xl">
+          <span className="flex items-center justify-start flex-wrap gap-2 text-2xl uppercase max-lg:text-xl">
             {title}
-          </h2>
+          </span>
           <button className="bg-Primary-600 hover:bg-Primary-800 text-base text-center text-white py-2 px-6 rounded-3xl w-fit h-fit max-md:w-full">
             Find Out More
           </button>

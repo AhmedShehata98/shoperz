@@ -31,7 +31,13 @@ const Slider = (props: Props) => {
           <div className={`bg-gradient-to-r from-[#F1FFF8] to-[#C4F4FF]`}>
             <Slide
               src={iphone}
-              title="NEW RELEASE THIS FALL"
+              title={
+                <>
+                  <p>new</p>
+                  <b className="text-4xl">Iphone 14 Pro max</b>
+                  <p>release this fall</p>
+                </>
+              }
               name="iphone 14 pro"
             />
           </div>
@@ -40,7 +46,14 @@ const Slider = (props: Props) => {
           <div className={`bg-gradient-to-r from-[#FFFCF3] to-[#FFDFDF]`}>
             <Slide
               src={Watches}
-              title="NEW RELEASE THIS FALL"
+              title={
+                <>
+                  <b className="text-4xl">playbox</b>
+                  <p>console</p>
+                  <br />
+                  <p>x245-HD</p>
+                </>
+              }
               name="iphone 14 pro"
             />
           </div>
@@ -50,7 +63,12 @@ const Slider = (props: Props) => {
         >
           <Slide
             src={controller}
-            title="NEW RELEASE THIS FALL"
+            title={
+              <>
+                <p>keep your shape with all new</p>
+                <b className="text-4xl">gadgets</b>
+              </>
+            }
             name="iphone 14 pro"
           />
         </SwiperSlide>
