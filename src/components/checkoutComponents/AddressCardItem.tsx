@@ -1,7 +1,6 @@
 import React from "react";
 import { BsHouseDoor, BsTrash } from "react-icons/bs";
-import { IoIosPerson } from "react-icons/io";
-import { CgOrganisation } from "react-icons/Cg";
+import { MdOutlineMapsHomeWork } from "react-icons/md";
 
 type Props = {
   address: UserAddress;
@@ -40,7 +39,7 @@ export default function AddressCardItem({
             {address?.addressLabel === "Home" ? (
               <BsHouseDoor className="block text-xl" />
             ) : (
-              <CgOrganisation />
+              <MdOutlineMapsHomeWork />
             )}
             <b className="leading-3">{address?.addressLabel}</b>
           </label>
