@@ -17,7 +17,7 @@ type Props = {
   setShowMenu: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const SlideMenu = ({ setShowMenu }: Props) => {
+const ActionMenu = ({ setShowMenu }: Props) => {
   const slideMenuVariant = {
     hidden: { opacity: 0, translateY: "50px" },
     visible: { opacity: 1, translateY: "0px" },
@@ -130,7 +130,7 @@ const SlideMenu = ({ setShowMenu }: Props) => {
   );
 };
 
-export default SlideMenu;
+export default ActionMenu;
 
 type LoggedInBoardProps = {
   fullname: string | undefined;

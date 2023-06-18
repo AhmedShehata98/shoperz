@@ -10,7 +10,7 @@ const HeaderUpperbar = dynamic(
   () => import("@/layout/components/HeaderUpperbar"),
   { loading: () => <QuickLoadingModul /> }
 );
-const SlideMenu = dynamic(() => import("@/layout/SlideMenu"), {
+const ActionMenu = dynamic(() => import("@/layout/ActionMenu"), {
   loading: () => <QuickLoadingModul />,
 });
 const HeaderCategorybar = dynamic(
@@ -29,8 +29,8 @@ const Headerbar = () => {
     <header ref={headerbarRef} className="flex flex-col w-full h-fit bg-white">
       {showCartDrawer ? <CartDrawer /> : null}
       {showMenu && (
-        <AnimatePresence mode="popLayout">
-          <SlideMenu setShowMenu={setShowMenu} />
+        <AnimatePresence mode="wait">
+          <ActionMenu setShowMenu={setShowMenu} />
         </AnimatePresence>
       )}
       <section className="container max-w-5xl mx-auto flex flex-col justify-between items-center gap-3">
