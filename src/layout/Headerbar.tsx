@@ -4,6 +4,7 @@ import HeaderControlsActions from "@/layout/components/HeaderControlsActions";
 import { useSelector } from "react-redux";
 import { selectAppState } from "@/redux/slices/app.slice";
 import dynamic from "next/dynamic";
+import { AnimatePresence } from "framer-motion";
 import QuickLoadingModul from "./QuickLoadingModul";
 const HeaderUpperbar = dynamic(
   () => import("@/layout/components/HeaderUpperbar"),
@@ -27,7 +28,11 @@ const Headerbar = () => {
   return (
     <header ref={headerbarRef} className="flex flex-col w-full h-fit bg-white">
       {showCartDrawer ? <CartDrawer /> : null}
-      {showMenu && <SlideMenu setShowMenu={setShowMenu} />}
+      {showMenu && (
+        <AnimatePresence mode="popLayout">
+          <SlideMenu setShowMenu={setShowMenu} />
+        </AnimatePresence>
+      )}
       <section className="container max-w-5xl mx-auto flex flex-col justify-between items-center gap-3">
         <HeaderUpperbar />
         <HeaderControlsActions setShowMenu={setShowMenu} />

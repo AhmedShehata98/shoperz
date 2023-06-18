@@ -140,7 +140,7 @@ export default HeaderControlsActions;
 
 function SkeletonUserBtn() {
   return (
-    <div className="flex flex-col gap-1">
+    <div className="flex flex-col gap-1 max-md:hidden">
       <span className="block w-16 h-3 bg-Grey-200 rounded-lg animate-pulse"></span>
       <span className="block w-12 h-2 bg-Grey-200 rounded-lg animate-pulse"></span>
     </div>

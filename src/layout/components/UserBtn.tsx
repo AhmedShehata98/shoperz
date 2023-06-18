@@ -15,7 +15,7 @@ export default function UserBtn({ isAuthenticated, name, onClick }: Props) {
       <button
         type="button"
         id="user-btn"
-        className="flex items-center gap-1"
+        className="flex items-center gap-1 max-md:hidden"
         onClick={onClick}
       >
         <RiArrowDownSFill className="text-2xl pointer-events-none" />
@@ -28,7 +28,7 @@ export default function UserBtn({ isAuthenticated, name, onClick }: Props) {
     return (
       <Link
         href={{ pathname: routes.register, query: { target: "login" } }}
-        className="flex items-center gap-2"
+        className="flex items-center gap-2 max-md:hidden"
       >
         <FaUserAlt className="text-lg pointer-events-none" />
         <p className="text-gray-500 text-xs uppercase pointer-events-none">
