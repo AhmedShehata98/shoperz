@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { Swiper, SwiperSlide, useSwiper } from "swiper/react";
+import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Scrollbar, A11y } from "swiper";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
@@ -27,12 +27,11 @@ const SlidesProducts = (props: Props) => {
     right: Boolean;
     left: Boolean;
   }
-  const swipper = useSwiper();
   const [isEndOfList, setIsEndOfList] = useState(false);
   const [isStartOfList, setIsStartOfList] = useState(true);
 
   return (
-    <div className="container max-w-5xl pb-10 mx-auto">
+    <div className="container max-w-5xl pb-10 mx-auto px-4">
       <div className="flex justify-between items-center py-6">
         <Headtitle title="Featured Products" />
         <div className="flex gap-x-3">
@@ -64,7 +63,7 @@ const SlidesProducts = (props: Props) => {
         className="!pb-4 pt-1"
         breakpoints={{
           0: {
-            slidesPerView: 1,
+            slidesPerView: 2,
             spaceBetween: 10,
           },
           480: {

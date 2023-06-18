@@ -99,8 +99,9 @@ function HeaderControlsActions({ setShowMenu }: Props) {
         <button
           onClick={() => setShowMenu((e: boolean) => !e)}
           className="text-2xl text-gray-600 lg:hidden"
+          id="action-menu-btn"
         >
-          <FiMenu />
+          <FiMenu className="pointer-events-none" />
         </button>
         <div>
           <Logo />

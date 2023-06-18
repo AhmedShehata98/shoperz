@@ -31,9 +31,28 @@ const ActionMenu = ({ setShowMenu }: Props) => {
   };
   const { token } = useGetToken();
   const { isLoggedIn } = useSelector(selectAppState);
-  const { data: userData, isLoading: loadUserData } = useUserDataQuery(token);
+  const { data: userData, isLoading: loadUserData } = useUserDataQuery(token, {
+    skip: !Boolean(token),
+  });
+
+  React.useEffect(() => {
+    document.addEventListener("click", (ev: MouseEvent) => {
+      const target = ev.target as HTMLElement;
+      if (target.id !== "action-menu" && target.id !== "action-menu-btn") {
+        setShowMenu(false);
+      }
+    });
+    return () => {
+      document.removeEventListener("click", (ev: MouseEvent) => {
+        if ((ev.target as HTMLElement).id !== "action-menu") {
+          setShowMenu(false);
+        }
+      });
+    };
+  }, []);
+
   return (
-    <div className="absolute lg:hidden flex flex-col z-20 h-screen w-full bg-slate-700 inset-0 bg-opacity-60">
+    <div className="absolute lg:hidden flex flex-col z-50 h-screen w-full bg-slate-700 inset-0 bg-opacity-60">
       <div className="w-full flex items-center justify-center px-3 my-2 ">
         <button
           className="flex items-center justify-center w-12 h-12 bg-red-600 p-3 rounded-full shadow-lg text-lg"
@@ -48,6 +67,7 @@ const ActionMenu = ({ setShowMenu }: Props) => {
         initial={"hidden"}
         animate={"visible"}
         exit={{ opacity: 0.1, translateY: "80%" }}
+        id="action-menu"
         className="w-full md:w-2/5 lg:w-1/3 h-full min-h-screen flex flex-col items-center justify-start bg-white p-3 my-2 rounded-t-3xl md:rounded-none"
       >
         <div className="w-full flex items-center justify-start gap-4 rounded-lg bg-Grey-100 px-4 py-4 mt-6 mb-3 shadow-md">

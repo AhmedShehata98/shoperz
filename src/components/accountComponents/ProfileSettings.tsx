@@ -2,6 +2,7 @@ import CustomButton from "@/components/CustomButton";
 import FormInputWrapper from "@/components/FormInputWrapper";
 import InputField from "@/components/InputField";
 import useFormData from "@/hooks/useFormData";
+import useGetToken from "@/hooks/useGetToken";
 import {
   useChangeCurrentPasswordMutation,
   useUserDataQuery,
@@ -13,11 +14,12 @@ type Props = {
 };
 
 function ProfileSettings({ title }: Props) {
-  const [token, setToken] = React.useState<string | undefined>(undefined);
-  const { isLoading: loadingUserData, data: userData } = useUserDataQuery(
-    token,
-    { skip: !Boolean(token) }
-  );
+  const { token } = useGetToken();
+  const {
+    isLoading: loadingUserData,
+    data: userData,
+    isSuccess: isSuccessGetUsrData,
+  } = useUserDataQuery(token, { skip: !Boolean(token) });
 
   const { formData, handleInputFormData, handleFormDataManually } = useFormData(
     {
@@ -44,8 +46,6 @@ function ProfileSettings({ title }: Props) {
       newPassword,
       newPasswordRepeat,
     }).unwrap();
-
-    console.log(await res);
   }
   function handleSubmit(ev: React.FormEvent<HTMLFormElement>) {
     ev.preventDefault();
@@ -59,19 +59,14 @@ function ProfileSettings({ title }: Props) {
   }
 
   React.useEffect(() => {
-    const token = document.cookie.split("=")[1] || undefined;
-    setToken(token);
-  }, []);
-
-  React.useEffect(() => {
-    if (!loadingUserData) {
+    if (!loadingUserData && isSuccessGetUsrData) {
       handleFormDataManually({
         fullname: userData?.data.user.fullname,
         phone: userData?.data.user.phone,
         email: userData?.data.user.email,
       });
     }
-  }, [loadingUserData, userData, handleFormDataManually]);
+  }, [loadingUserData, isSuccessGetUsrData]);
 
   return (
     <article className="porfile-setting">

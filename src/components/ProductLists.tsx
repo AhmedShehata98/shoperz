@@ -32,7 +32,7 @@ const ProductLists = (props: Props) => {
   ); // if this section is not in view dont fetch data
 
   return (
-    <div ref={ref} className="bg-gray-100">
+    <div ref={ref} className="bg-gray-100 px-4">
       <div className="container max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 items-start justify-start gap-4">
         <ul className="grid grid-flow-row my-6">
           <Headtitle title={"Top Rated"} />

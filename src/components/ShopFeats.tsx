@@ -25,7 +25,7 @@ const ShopFeats = (props: Props) => {
     },
   ];
   return (
-    <div className="container max-w-5xl mx-auto flex items-center justify-center ">
+    <div className="container max-w-5xl mx-auto flex items-center justify-center px-4">
       <ul className="flex max-lg:grid max-lg:grid-cols-2 container justify-between rounded-lg items-center divide-x-[1px] border-[1px] my-8 mt-16">
         {feats.map((el, i) => {
           return (

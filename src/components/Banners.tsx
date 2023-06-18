@@ -7,7 +7,7 @@ type Props = {};
 
 const Banners = (props: Props) => {
   return (
-    <div className="container max-w-5xl pb-10 mx-auto">
+    <div className="container max-w-5xl pb-10 mx-auto px-4">
       <div className="grid lg:grid-cols-2 justify-center items-center gap-x-8 max-lg:gap-y-8">
         <Banner
           bannerImage={JBL}

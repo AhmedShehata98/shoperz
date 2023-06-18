@@ -34,7 +34,7 @@ export default function Home(props: any) {
       <Head>
         <title>Shoperz | home </title>
       </Head>
-      <main className="">
+      <main>
         <Slider />
         <ShopFeats />
         <SlidesProducts />
