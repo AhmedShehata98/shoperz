@@ -86,6 +86,7 @@ type ProductsResponse = {
 
 type productQueriesParameter = {
   limit: number;
+  sortQueries?: Object;
 };
 interface TopRatedProductsResponse extends ApiResponse {
   data: {
@@ -121,6 +122,7 @@ interface SearchBox extends Omit<ProductsResponse, "data"> {
   };
 }
 
+type sortMethods = "-createdAt" | "price" | "-price" | "reviews" | "discount";
 type UserData = {
   _id: string;
   fullname: string;

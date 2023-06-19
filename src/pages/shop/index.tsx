@@ -1,10 +1,4 @@
-import React, {
-  useRef,
-  useState,
-  useEffect,
-  MouseEvent,
-  MouseEventHandler,
-} from "react";
+import React, { useRef, useState, useEffect, MouseEvent } from "react";
 import Head from "next/head";
 import ShopUpperbar from "../../components/shopComponents/ShopUpperbar";
 import ProductCard from "../../components/shopComponents/ProductCard";
@@ -32,13 +26,18 @@ const Shop = (props: Props) => {
   const [token, setToken] = useState<string | undefined>(undefined);
   const [fetchAddToCart, addToCartResponse] = useAddToCartMutation();
   const filterRef = useRef<HTMLElement | undefined>(undefined);
+  const [productsLimitSelect, setProductsLimitSelect] = useState(20);
+  const [sortMethod, setSortMethod] = useState<sortMethods>("-createdAt");
 
   const {
     isError: isProductsError,
     isLoading: isLoadingProducts,
     data: products,
     isSuccess: isSuccessProducts,
-  } = useGetAllProductsQuery({ limit: 20 });
+  } = useGetAllProductsQuery({
+    limit: productsLimitSelect,
+    sortQueries: sortMethod,
+  });
 
   const handleShowFilterbar = () => {
     filterRef.current?.classList.toggle("filter-sidebar-show");
@@ -47,6 +46,21 @@ const Shop = (props: Props) => {
   const handleApplyFilter = () => {
     console.log("apply filter");
   };
+  const handleSortProducts = React.useCallback(
+    (event: React.ChangeEvent<HTMLSelectElement>) => {
+      const sortSelectedMethod = event.target.value as sortMethods;
+      setSortMethod(sortSelectedMethod);
+    },
+    []
+  );
+  const handleSelectProductsLimit = React.useCallback(
+    (event: React.ChangeEvent<HTMLSelectElement>) => {
+      const productsLimit = +event.target.value;
+      setProductsLimitSelect(productsLimit);
+    },
+    []
+  );
+
   const [showProducts, setShowProducts] = useState(true);
   function handleSwitchVisibality(btn: HTMLButtonElement): void {
     btn.disabled = true;
@@ -97,8 +111,16 @@ const Shop = (props: Props) => {
           <ShopUpperbar
             setShowProducts={setShowProducts}
             title={"tv & audio"}
-            count={20}
-            fromCount={10929}
+            count={products?.data.paginition.length || 0}
+            fromCount={0}
+            productsLimitSelect={productsLimitSelect}
+            sortMethod={sortMethod}
+            onSortSelect={(ev: React.ChangeEvent<HTMLSelectElement>) =>
+              handleSortProducts(ev)
+            }
+            onSelectProductsLimit={(ev: React.ChangeEvent<HTMLSelectElement>) =>
+              handleSelectProductsLimit(ev)
+            }
           />
           <ul
             className={clsx("grid gap-4 pb-12 pt-6 ", {

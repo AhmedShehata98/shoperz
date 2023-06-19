@@ -8,8 +8,8 @@ export default function HeaderCategorybar() {
   const [hover, setHover] = useState(false);
   return (
     <>
-      <div className=" w-full flex flex-col items-center justify-center bg-sky-500">
-        <nav className="container max-w-5xl mx-auto grid lg:grid-flow-col-dense text-gray-50 uppercase font-normal divide-x-[1px] divide-sky-600">
+      <div className="category-bar-wrapper">
+        <nav className="category-bar">
           <CategorybarLink
             setHover={setHover}
             hover={hover}

@@ -6,6 +6,9 @@ import { selectAppState } from "@/redux/slices/app.slice";
 import dynamic from "next/dynamic";
 import { AnimatePresence } from "framer-motion";
 import QuickLoadingModul from "./QuickLoadingModul";
+import { BsSearch } from "react-icons/bs";
+import MobileSearchbar from "./components/MobileSearchbar";
+
 const HeaderUpperbar = dynamic(
   () => import("@/layout/components/HeaderUpperbar"),
   { loading: () => <QuickLoadingModul /> }
@@ -38,6 +41,7 @@ const Headerbar = () => {
       <div className="max-lg:hidden">
         <HeaderCategorybar />
       </div>
+      <MobileSearchbar />
     </header>
   );
 };

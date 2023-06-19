@@ -1,19 +1,12 @@
-import React, {
-  Dispatch,
-  SetStateAction,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { BsFillHeartFill, BsSearch } from "react-icons/bs";
 import { FaShoppingCart, FaUserAlt } from "react-icons/fa";
-import { FiMenu } from "react-icons/fi";
+import { RiMenu2Fill } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
 import {
   selectAppState,
   setCartLength,
   setIsLoggedIn,
-  setShowCartDrawer,
 } from "@/redux/slices/app.slice";
 import Link from "next/link";
 import { routes } from "@/constants/Routes";
@@ -94,14 +87,14 @@ function HeaderControlsActions({ setShowMenu }: Props) {
   }, [cartItems, dispacth]);
 
   return (
-    <div className="w-full flex items-center  justify-between px-2 max-lg:pt-4 pb-4">
+    <div className="header-control-actions">
       <span className="flex items-center justify-center max-md:gap-4 gap-8">
         <button
           onClick={() => setShowMenu((e: boolean) => !e)}
           className="text-2xl text-gray-600 lg:hidden"
           id="action-menu-btn"
         >
-          <FiMenu className="pointer-events-none" />
+          <RiMenu2Fill className="pointer-events-none" />
         </button>
         <div>
           <Logo />

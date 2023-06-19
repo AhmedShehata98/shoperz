@@ -141,5 +141,20 @@
   .filter-sidebar-show {
     @apply !translate-x-0 pointer-events-auto;
   }
+  .category-bar-wrapper {
+    @apply w-full flex flex-col items-center justify-center bg-sky-500;
+  }
+  .category-bar {
+    @apply container max-w-5xl mx-auto grid lg:grid-flow-col-dense text-gray-50 uppercase font-normal divide-x-[1px] divide-sky-600;
+  }
+  .category-link {
+    @apply flex cursor-pointer hover:bg-Primary-800 lg:bg-Primary-600 text-sm items-center justify-between gap-2 h-full px-6 py-2 overflow-hidden truncate transition-colors;
+  }
+  .header-control-actions {
+    @apply w-full flex items-center justify-between px-3 pb-4;
+  }
+  .header-upper-bar {
+    @apply w-full flex items-center justify-between;
+  }
 }
 @tailwind utilities;
