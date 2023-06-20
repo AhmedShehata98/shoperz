@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/dist/query/react";
 import { API_BASE_URL, ENDPOINTS } from "./api/shoppers.api";
 import {
-  setCartLength,
+  setShoppingCart,
   setIsLoggedIn,
   setShowCartDrawer,
 } from "@/redux/slices/app.slice";
@@ -26,21 +26,6 @@ export const shoperzApi = createApi({
           "Content-Type": "application/json ;charset=UTF-8",
         },
       }),
-
-      // transformErrorResponse: (
-      //   response: { status: string | number; data: SignupError },
-      //   meta,
-      //   arg
-      // ) => ({
-      //   status: response.status,
-      //   errDetails: {
-      //     message:
-      //       response.data.error?.[0].error?.[0].message ||
-      //       response.data.message,
-      //     data: response.data.data || null,
-      //     field: response.data.error?.[0].field || null,
-      //   },
-      // }),
     }),
     loginUser: builder.mutation<LoginResponse, Login>({
       query: (payload) => ({
@@ -126,6 +111,14 @@ export const shoperzApi = createApi({
       providesTags: ["Cart"],
       transformResponse: (response: CartResponse, meta, arg): Cart =>
         response.data,
+      onQueryStarted(_, { dispatch, queryFulfilled }) {
+        queryFulfilled.then((cart) => {
+          const cartIds = cart.data.userCart.items.map(
+            ({ productId: { _id } }) => ({ _id })
+          );
+          dispatch(setShoppingCart({ cart: cartIds }));
+        });
+      },
     }),
     addToCart: builder.mutation<
       AddToCartResponse,
@@ -147,8 +140,7 @@ export const shoperzApi = createApi({
               data: { cart },
             },
           }) => {
-            const cartLength = cart.items.length;
-            dispatch(setCartLength(cartLength));
+            dispatch(setShoppingCart({ cart }));
             dispatch(setShowCartDrawer(true));
           }
         );

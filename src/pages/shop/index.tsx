@@ -18,11 +18,12 @@ import { toast } from "react-toastify";
 import { selectAppState } from "@/redux/slices/app.slice";
 import { useSelector } from "react-redux";
 import { wrapper } from "@/redux/store";
+import { isInCartMiddleware } from "@/utils/isInCartMiddleware";
 
 type Props = {};
 
 const Shop = (props: Props) => {
-  const { isLoggedIn } = useSelector(selectAppState);
+  const { isLoggedIn, shoppingCart } = useSelector(selectAppState);
   const [token, setToken] = useState<string | undefined>(undefined);
   const [fetchAddToCart, addToCartResponse] = useAddToCartMutation();
   const filterRef = useRef<HTMLElement | undefined>(undefined);
@@ -132,24 +133,25 @@ const Shop = (props: Props) => {
             {isLoadingProducts ? (
               <LoadingProducts />
             ) : products?.error === null && products.data.products?.length ? (
-              products.data.products.map((product) =>
-                showProducts ? (
-                  <ProductCard
-                    key={product._id}
-                    productData={product}
-                    onAddToCart={(ev: MouseEvent<HTMLButtonElement>) =>
-                      handleAddToCart(ev, product._id, 1)
-                    }
-                  />
-                ) : (
-                  <Product
-                    key={product._id}
-                    productData={product}
-                    onAddToCart={(ev: MouseEvent<HTMLButtonElement>) =>
-                      handleAddToCart(ev, product._id, 1)
-                    }
-                  />
-                )
+              isInCartMiddleware(products.data.products, shoppingCart).map(
+                (product) =>
+                  showProducts ? (
+                    <ProductCard
+                      key={product._id}
+                      productData={product}
+                      onAddToCart={(ev: MouseEvent<HTMLButtonElement>) =>
+                        handleAddToCart(ev, product._id, 1)
+                      }
+                    />
+                  ) : (
+                    <Product
+                      key={product._id}
+                      productData={product}
+                      onAddToCart={(ev: MouseEvent<HTMLButtonElement>) =>
+                        handleAddToCart(ev, product._id, 1)
+                      }
+                    />
+                  )
               )
             ) : null}
           </ul>

@@ -10,7 +10,7 @@ interface AppStateProps {
   creditCardsList: ICreditCard[];
   cartLength: number;
   isLoggedIn: boolean;
-  shoppingCart: [string] | null;
+  shoppingCart: [string] | [];
   token: string | null;
 }
 
@@ -32,7 +32,7 @@ const initialState: AppStateProps = {
     },
   ],
   creditCardsList: [],
-  shoppingCart: null,
+  shoppingCart: [],
   token: null,
 };
 
@@ -85,6 +85,11 @@ export const appSlice = createSlice({
     setCartLength: (state, action) => {
       state.cartLength = action.payload;
     },
+    setShoppingCart: (state, action) => {
+      let cart = action.payload.cart as [];
+      state.shoppingCart?.push(...cart);
+      state.cartLength = action.payload.cart?.length;
+    },
     setIsLoggedIn: (state, action) => {
       state.isLoggedIn = action.payload;
     },
@@ -105,4 +110,5 @@ export const {
   setShowCartDrawer,
   setCartLength,
   setToken,
+  setShoppingCart,
 } = appSlice.actions;

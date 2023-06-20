@@ -15,13 +15,7 @@ type Cart = {
 
 interface AddToCartResponse extends ApiResponse {
   data: {
-    cart: {
-      _id: string;
-      userId: string;
-      items: Product[];
-      createdAt: string;
-      updatedAt: string;
-    };
+    cart: Array<{ _id: string }>;
     cartTotal: number;
     discountedTotal: number;
   };
