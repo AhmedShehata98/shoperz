@@ -10,7 +10,7 @@ interface AppStateProps {
   creditCardsList: ICreditCard[];
   cartLength: number;
   isLoggedIn: boolean;
-  shoppingCart: [string] | [];
+  shoppingCart: { _id: string }[] | [];
   token: string | null;
 }
 

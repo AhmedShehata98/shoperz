@@ -19,12 +19,15 @@ import { selectAppState } from "@/redux/slices/app.slice";
 import { useSelector } from "react-redux";
 import { wrapper } from "@/redux/store";
 import { isInCartMiddleware } from "@/utils/isInCartMiddleware";
+import { useRouter } from "next/router";
+import useGetToken from "@/hooks/useGetToken";
 
 type Props = {};
 
 const Shop = (props: Props) => {
   const { isLoggedIn, shoppingCart } = useSelector(selectAppState);
-  const [token, setToken] = useState<string | undefined>(undefined);
+  const { token } = useGetToken();
+  const { query } = useRouter();
   const [fetchAddToCart, addToCartResponse] = useAddToCartMutation();
   const filterRef = useRef<HTMLElement | undefined>(undefined);
   const [productsLimitSelect, setProductsLimitSelect] = useState(20);
@@ -35,10 +38,31 @@ const Shop = (props: Props) => {
     isLoading: isLoadingProducts,
     data: products,
     isSuccess: isSuccessProducts,
-  } = useGetAllProductsQuery({
-    limit: productsLimitSelect,
-    sortQueries: sortMethod,
-  });
+  } = useGetAllProductsQuery(
+    {
+      limit: productsLimitSelect,
+      sortQueries: sortMethod,
+    },
+    {
+      selectFromResult: ({ data, isSuccess }) => {
+        if (isSuccess) {
+          return {
+            data: {
+              products: isInCartMiddleware(data?.data.products, shoppingCart),
+              paginition: data?.data.paginition,
+            },
+          };
+        } else {
+          return {
+            data: {
+              products: undefined,
+              paginition: undefined,
+            },
+          };
+        }
+      },
+    }
+  );
 
   const handleShowFilterbar = () => {
     filterRef.current?.classList.toggle("filter-sidebar-show");
@@ -86,17 +110,6 @@ const Shop = (props: Props) => {
     }
   };
 
-  // get token from cookie and set token state
-  // this is important to get cart items
-  useEffect(() => {
-    const token = document.cookie.split("=")[1];
-    if (token) {
-      setToken(token);
-    } else {
-      setToken(undefined);
-    }
-  }, []);
-
   return (
     <>
       <Head>
@@ -112,7 +125,7 @@ const Shop = (props: Props) => {
           <ShopUpperbar
             setShowProducts={setShowProducts}
             title={"tv & audio"}
-            count={products?.data.paginition.length || 0}
+            count={products?.paginition?.length || 0}
             fromCount={0}
             productsLimitSelect={productsLimitSelect}
             sortMethod={sortMethod}
@@ -132,26 +145,25 @@ const Shop = (props: Props) => {
             {isProductsError && <div>error</div>}
             {isLoadingProducts ? (
               <LoadingProducts />
-            ) : products?.error === null && products.data.products?.length ? (
-              isInCartMiddleware(products.data.products, shoppingCart).map(
-                (product) =>
-                  showProducts ? (
-                    <ProductCard
-                      key={product._id}
-                      productData={product}
-                      onAddToCart={(ev: MouseEvent<HTMLButtonElement>) =>
-                        handleAddToCart(ev, product._id, 1)
-                      }
-                    />
-                  ) : (
-                    <Product
-                      key={product._id}
-                      productData={product}
-                      onAddToCart={(ev: MouseEvent<HTMLButtonElement>) =>
-                        handleAddToCart(ev, product._id, 1)
-                      }
-                    />
-                  )
+            ) : products.products?.length ? (
+              products?.products?.map((product) =>
+                showProducts ? (
+                  <ProductCard
+                    key={product._id}
+                    productData={product}
+                    onAddToCart={(ev: MouseEvent<HTMLButtonElement>) =>
+                      handleAddToCart(ev, product._id, 1)
+                    }
+                  />
+                ) : (
+                  <Product
+                    key={product._id}
+                    productData={product}
+                    onAddToCart={(ev: MouseEvent<HTMLButtonElement>) =>
+                      handleAddToCart(ev, product._id, 1)
+                    }
+                  />
+                )
               )
             ) : null}
           </ul>
