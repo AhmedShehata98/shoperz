@@ -16,18 +16,46 @@ import {
 import LoadingProducts from "@/components/shopComponents/LoadingProducts";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import useGetToken from "@/hooks/useGetToken";
+import { isInCartMiddleware } from "@/utils/isInCartMiddleware";
+import { useSelector } from "react-redux";
+import { selectAppState } from "@/redux/slices/app.slice";
 
 type Props = {};
 
 const BigDeals = (props: Props) => {
+  const { shoppingCart } = useSelector(selectAppState);
   const { token } = useGetToken();
 
   const {
-    isError: isProductsError,
-    isLoading: isLoadingProducts,
+    isError,
+    isLoading,
     data: products,
-    isSuccess: isSuccessProducts,
-  } = useGetAllProductsQuery({ limit: 20 });
+  } = useGetAllProductsQuery(
+    { limit: 20 },
+    {
+      selectFromResult: ({ data, isSuccess, isError, isLoading }) => {
+        if (isSuccess) {
+          return {
+            data: {
+              products: isInCartMiddleware(data?.data.products, shoppingCart),
+              paginition: data?.data.paginition,
+            },
+            isError,
+            isLoading,
+          };
+        }
+
+        return {
+          data: {
+            products: undefined,
+            paginition: undefined,
+          },
+          isError,
+          isLoading,
+        };
+      },
+    }
+  );
   const [FetchaddToCart, addToCartResponse] = useAddToCartMutation();
   const [isEndOfList, setIsEndOfList] = useState(false);
   const [isStartOfList, setIsStartOfList] = useState(true);
@@ -86,11 +114,11 @@ const BigDeals = (props: Props) => {
           },
         }}
       >
-        {isProductsError && <div>error</div>}
-        {isLoadingProducts ? (
+        {isError && <div>error</div>}
+        {isLoading ? (
           <LoadingProducts />
         ) : (
-          products?.data.products.map((product) => (
+          products?.products?.map((product) => (
             <SwiperSlide key={product._id}>
               <Product
                 productData={product}
