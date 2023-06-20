@@ -156,5 +156,8 @@
   .header-upper-bar {
     @apply w-full flex items-center justify-between;
   }
+  .product-grid-card-btn {
+    @apply relative z-20 w-10 h-10 grid place-content-center place-items-center  rounded-full text-xl text-white hover:bg-Primary-700 hover:text-white;
+  }
 }
 @tailwind utilities;

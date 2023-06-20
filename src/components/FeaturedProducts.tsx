@@ -29,7 +29,7 @@ const FeaturedProducts = (props: Props) => {
     isLoading,
     data: products,
   } = useGetAllProductsQuery(
-    { limit: 12 },
+    { limit: 12, sortQueries: "createdAt" },
 
     {
       selectFromResult: ({ data, isSuccess, isError, isLoading }) => {

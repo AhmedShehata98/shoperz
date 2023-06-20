@@ -8,11 +8,15 @@ import {
 import Headtitle from "./Headtitle";
 import { useInView } from "react-intersection-observer";
 import { wrapper } from "@/redux/store";
+import { useSelector } from "react-redux";
+import { selectAppState } from "@/redux/slices/app.slice";
+import { isInCartMiddleware } from "@/utils/isInCartMiddleware";
 
 type Props = {};
 
 const ProductLists = (props: Props) => {
   const { ref, inView, entry } = useInView();
+  const { shoppingCart } = useSelector(selectAppState);
   console.log(props);
   const {
     data: topRatedProducts,
@@ -20,7 +24,31 @@ const ProductLists = (props: Props) => {
     isSuccess: successTopRatedProducts,
   } = useGetTopRatedProductsQuery(
     { limit: 5 },
-    { skip: !inView ? true : false }
+    {
+      skip: !inView ? true : false,
+      selectFromResult: ({ data, isSuccess, isError, isLoading }) => {
+        if (isSuccess) {
+          return {
+            data: {
+              products: isInCartMiddleware(data?.data.products, shoppingCart),
+            },
+            isError,
+            isLoading,
+            isSuccess,
+          };
+        }
+
+        return {
+          data: {
+            products: undefined,
+            paginition: undefined,
+          },
+          isError,
+          isLoading,
+          isSuccess,
+        };
+      },
+    }
   ); // if this section is not in view dont fetch data
   const {
     data: megaOfferProducts,
@@ -28,7 +56,31 @@ const ProductLists = (props: Props) => {
     isSuccess: successMegaOfferProducts,
   } = useGetMegaOfferProductsQuery(
     { limit: 5 },
-    { skip: !inView ? true : false }
+    {
+      skip: !inView ? true : false,
+      selectFromResult: ({ data, isSuccess, isError, isLoading }) => {
+        if (isSuccess) {
+          return {
+            data: {
+              products: isInCartMiddleware(data?.data.products, shoppingCart),
+            },
+            isError,
+            isLoading,
+            isSuccess,
+          };
+        }
+
+        return {
+          data: {
+            products: undefined,
+            paginition: undefined,
+          },
+          isError,
+          isLoading,
+          isSuccess,
+        };
+      },
+    }
   ); // if this section is not in view dont fetch data
 
   return (
@@ -38,7 +90,7 @@ const ProductLists = (props: Props) => {
           <Headtitle title={"Top Rated"} />
 
           {!loadingTopRatedProducts && successTopRatedProducts
-            ? topRatedProducts.data.products.map((product) => (
+            ? topRatedProducts?.products?.map((product) => (
                 <ColumnProduct key={product._id} product={product} />
               ))
             : null}
@@ -47,7 +99,7 @@ const ProductLists = (props: Props) => {
           <Headtitle title={"Best sellers"} />
 
           {!loadingTopRatedProducts && successTopRatedProducts
-            ? topRatedProducts.data.products.map((product) => (
+            ? topRatedProducts?.products?.map((product) => (
                 <ColumnProduct key={product._id} product={product} />
               ))
             : null}
@@ -56,7 +108,7 @@ const ProductLists = (props: Props) => {
           <Headtitle title={"Mega Offers"} />
 
           {!loadingMegaOfferProducts && successMegaOfferProducts
-            ? megaOfferProducts.data.products.map((product) => (
+            ? megaOfferProducts?.products?.map((product) => (
                 <ColumnProduct key={product._id} product={product} />
               ))
             : null}
@@ -67,21 +119,3 @@ const ProductLists = (props: Props) => {
 };
 
 export default ProductLists;
-
-// export const getServerSideProps = wrapper.getServerSideProps(
-//   async ({ dispatch, getState }) => {
-//     console.log("get static props inside home product list component");
-//     await dispatch(
-//       shoperzApi.endpoints.getMegaOfferProducts.initiate({ limit: 5 })
-//     );
-//     const megaOffers = shoperzApi.endpoints.getMegaOfferProducts.select({
-//       limit: 5,
-//     });
-//     await Promise.all(dispatch(shoperzApi.util.getRunningQueriesThunk()));
-//     console.log(getState());
-
-//     return {
-//       props: megaOffers || 0,
-//     };
-//   }
-// );

@@ -36,13 +36,16 @@ function Login() {
       if (loginResponse.isError) {
         toast.error("Oops , e-mail address or password in incorrect", {
           position: "bottom-center",
-          className: "w-max",
+          className: "w-11/12 bottom-5 mx-auto lg:m-0 lg:w-auto",
         });
       }
       if (loginResponse.isSuccess) {
         toast.success(
           "You have been successfully logged in and will now be redirected to the home page",
-          { position: "bottom-center", className: "w-max" }
+          {
+            position: "bottom-center",
+            className: "w-11/12 bottom-5 mx-auto lg:m-0 lg:w-auto",
+          }
         );
       }
     }

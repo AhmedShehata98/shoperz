@@ -21,13 +21,16 @@ function Signup() {
         if (signupResponse.isError) {
           toast.error("Error , There's something wrong check signup data", {
             position: "bottom-center",
-            className: "w-max",
+            className: "w-11/12 bottom-5 mx-auto lg:m-0 lg:w-auto",
           });
         }
         if (signupResponse.isSuccess) {
           toast.success(
             "Congratulations, account is created successfully ,Please check your email inbox for activating account",
-            { position: "bottom-center", className: "w-2/3" }
+            {
+              position: "bottom-center",
+              className: "w-11/12 bottom-5 mx-auto lg:m-0 lg:w-auto",
+            }
           );
         }
         //

@@ -1,7 +1,8 @@
-import React, { useState } from "react";
-import Image, { StaticImageData } from "next/image";
-import { Button, Tooltip } from "flowbite-react";
-import { AiTwotoneHeart, AiTwotoneShopping } from "react-icons/ai";
+import React from "react";
+import Image from "next/image";
+import { AiTwotoneHeart } from "react-icons/ai";
+import { BsCartCheckFill, BsFillCartPlusFill } from "react-icons/bs";
+import { MdDiscount } from "react-icons/md";
 type Props = {
   productData: Products;
   onAddToCart: React.MouseEventHandler;
@@ -9,9 +10,24 @@ type Props = {
 const Product = ({ onAddToCart, productData }: Props) => {
   return (
     <li className="h-80 p-4 flex flex-col items-start justify-between relative cursor-pointer border-Grey-200 group border-[1px] hover:border-transparent hover:shadow-md rounded">
-      <h6 className="text-xs text-Grey-700">
-        {productData?.category_id?.name || "NA-NA"}
-      </h6>
+      <span className="w-full flex justify-between items-center">
+        <h6 className="text-xs text-Grey-700">
+          {productData?.category_id?.name || "NA-NA"}
+        </h6>
+        <span className="flex items-center justify-center">
+          {productData.discount && (
+            <>
+              <small className="font-bold text-opacity-60">
+                {Intl.NumberFormat("en-EG", {
+                  style: "percent",
+                  unitDisplay: "short",
+                }).format(productData.discount)}
+              </small>
+              <MdDiscount className="text-red-600 text-xl" />
+            </>
+          )}
+        </span>
+      </span>
       <h5 className="text-Primary-600 font-semibold text-sm py-2 items-center  leading-4">
         {productData?.name.length > 20
           ? productData.name.slice(0, 34).concat("...")
@@ -42,11 +58,18 @@ const Product = ({ onAddToCart, productData }: Props) => {
             <AiTwotoneHeart />
           </button>
           <button
-            className="relative z-20 w-10 h-10 grid place-content-center place-items-center bg-Grey-400 rounded-full text-xl hover:bg-Primary-700 hover:text-white"
+            className={`product-grid-card-btn ${
+              productData.isInCart ? "bg-Primary-700" : "bg-Grey-600"
+            }`}
             onClick={onAddToCart}
             title="add to cart"
+            disabled={productData.isInCart}
           >
-            <AiTwotoneShopping />
+            {productData.isInCart ? (
+              <BsCartCheckFill />
+            ) : (
+              <BsFillCartPlusFill />
+            )}
           </button>
         </div>
       </div>

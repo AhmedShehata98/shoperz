@@ -1,6 +1,8 @@
 import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Image, { StaticImageData } from "next/image";
+import Link from "next/link";
+import { routes } from "@/constants/Routes";
 type Props = {
   src: StaticImageData;
   title: React.ReactNode;
@@ -17,9 +19,9 @@ const Slide = ({ src, title }: Props) => {
           <span className="flex items-center justify-start flex-wrap gap-2 text-2xl uppercase max-lg:text-xl">
             {title}
           </span>
-          <button className="bg-Primary-600 hover:bg-Primary-800 text-base text-center text-white py-2 px-6 rounded-3xl w-fit h-fit max-md:w-full">
+          <Link className="custom-button" href={routes.shop}>
             Find Out More
-          </button>
+          </Link>
         </div>
         <figure className="md:basis-1/2 lg:basis-3/5 object-cover h-full flex items-center justify-center max-md:w-full max-md:px-4">
           <Image
