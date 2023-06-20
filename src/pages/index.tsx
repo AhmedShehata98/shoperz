@@ -6,7 +6,7 @@ import QuickLoadingModul from "@/layout/QuickLoadingModul";
 const ShopFeats = dynamic(() => import("@/components/ShopFeats"), {
   loading: () => <QuickLoadingModul />,
 });
-const SlidesProducts = dynamic(() => import("@/components/SlidesProducts"), {
+const SlidesProducts = dynamic(() => import("@/components/FeaturedProducts"), {
   loading: () => <QuickLoadingModul />,
 });
 const CategorySection = dynamic(() => import("@/components/CategorySection"), {
