@@ -9,12 +9,17 @@ import "swiper/css";
 import Product from "./Product";
 import Headtitle from "./Headtitle";
 import LoadingProducts from "@/components/shopComponents/LoadingProducts";
-import { useGetAllProductsQuery } from "@/services/shoperzApi.service";
+import {
+  useAddToCartMutation,
+  useGetAllProductsQuery,
+} from "@/services/shoperzApi.service";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
+import useGetToken from "@/hooks/useGetToken";
 
 type Props = {};
 
 const SlidesProducts = (props: Props) => {
+  const { token } = useGetToken();
   const {
     isError: isProductsError,
     isLoading: isLoadingProducts,
@@ -23,10 +28,8 @@ const SlidesProducts = (props: Props) => {
     error,
     status,
   } = useGetAllProductsQuery({ limit: 12 });
-  interface arrows {
-    right: Boolean;
-    left: Boolean;
-  }
+  const [FetchaddToCart, addToCartResponse] = useAddToCartMutation();
+
   const [isEndOfList, setIsEndOfList] = useState(false);
   const [isStartOfList, setIsStartOfList] = useState(true);
 
@@ -93,21 +96,20 @@ const SlidesProducts = (props: Props) => {
         {isLoadingProducts ? (
           <LoadingProducts />
         ) : (
-          products?.data.products.map(
-            (el: any, i: number) =>
-              i < 10 && (
-                <SwiperSlide key={i}>
-                  <Product
-                    productData={el}
-                    onAddToCart={function (
-                      event: React.MouseEvent<Element, MouseEvent>
-                    ): void {
-                      throw new Error("Function not implemented.");
-                    }}
-                  />
-                </SwiperSlide>
-              )
-          )
+          products?.data.products.map((product) => (
+            <SwiperSlide key={product._id}>
+              <Product
+                productData={product}
+                onAddToCart={function (): void {
+                  FetchaddToCart({
+                    token,
+                    productId: product._id,
+                    quantity: 1,
+                  });
+                }}
+              />
+            </SwiperSlide>
+          ))
         )}
       </Swiper>
     </div>

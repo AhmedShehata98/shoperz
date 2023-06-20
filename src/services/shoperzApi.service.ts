@@ -122,7 +122,7 @@ export const shoperzApi = createApi({
     }),
     addToCart: builder.mutation<
       AddToCartResponse,
-      { productId: string; quantity: number; token: string }
+      { productId: string; quantity: number; token: string | undefined }
     >({
       query: ({ productId, quantity, token }) => ({
         method: "POST",

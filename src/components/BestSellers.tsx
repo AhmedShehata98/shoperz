@@ -8,19 +8,52 @@ import "swiper/css";
 import Product from "./Product";
 import Headtitle from "./Headtitle";
 import LoadingProducts from "@/components/shopComponents/LoadingProducts";
-import { useGetAllProductsQuery } from "@/services/shoperzApi.service";
+import {
+  useAddToCartMutation,
+  useGetAllProductsQuery,
+} from "@/services/shoperzApi.service";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
+import useGetToken from "@/hooks/useGetToken";
+import { isInCartMiddleware } from "@/utils/isInCartMiddleware";
+import { useSelector } from "react-redux";
+import { selectAppState } from "@/redux/slices/app.slice";
 
 type Props = {};
 
 const BestSellers = (props: Props) => {
-  const swiper = useSwiper();
+  const { shoppingCart } = useSelector(selectAppState);
+  const { token } = useGetToken();
   const {
-    isError: isProductsError,
-    isLoading: isLoadingProducts,
+    isError,
+    isLoading,
     data: products,
-    isSuccess: isSuccessProducts,
-  } = useGetAllProductsQuery({ limit: 20 });
+  } = useGetAllProductsQuery(
+    { limit: 20 },
+    {
+      selectFromResult: ({ data, isSuccess, isError, isLoading }) => {
+        if (isSuccess) {
+          return {
+            data: {
+              products: isInCartMiddleware(data?.data.products, shoppingCart),
+              paginition: data?.data.paginition,
+            },
+            isError,
+            isLoading,
+          };
+        }
+
+        return {
+          data: {
+            products: undefined,
+            paginition: undefined,
+          },
+          isError,
+          isLoading,
+        };
+      },
+    }
+  );
+  const [FetchaddToCart, addToCartResponse] = useAddToCartMutation();
   const [isEndOfList, setIsEndOfList] = useState(false);
   const [isStartOfList, setIsStartOfList] = useState(true);
 
@@ -78,25 +111,24 @@ const BestSellers = (props: Props) => {
           },
         }}
       >
-        {isProductsError && <div>error</div>}
-        {isLoadingProducts ? (
+        {isError && <div>error</div>}
+        {isLoading ? (
           <LoadingProducts />
         ) : (
-          products?.data.products.map(
-            (el: any, i: number) =>
-              i < 10 && (
-                <SwiperSlide key={i}>
-                  <Product
-                    productData={el}
-                    onAddToCart={function (
-                      event: React.MouseEvent<Element, MouseEvent>
-                    ): void {
-                      throw new Error("Function not implemented.");
-                    }}
-                  />
-                </SwiperSlide>
-              )
-          )
+          products?.products?.map((product) => (
+            <SwiperSlide key={product._id}>
+              <Product
+                productData={product}
+                onAddToCart={function (): void {
+                  FetchaddToCart({
+                    token,
+                    productId: product._id,
+                    quantity: 1,
+                  });
+                }}
+              />
+            </SwiperSlide>
+          ))
         )}
       </Swiper>
     </div>
