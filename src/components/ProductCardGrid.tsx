@@ -7,7 +7,7 @@ type Props = {
   productData: Products;
   onAddToCart: React.MouseEventHandler;
 };
-const Product = ({ onAddToCart, productData }: Props) => {
+const ProductCardGrid = ({ onAddToCart, productData }: Props) => {
   return (
     <li className="h-80 p-4 flex flex-col items-start justify-between relative cursor-pointer border-Grey-200 group border-[1px] hover:border-transparent hover:shadow-md rounded">
       <span className="w-full flex justify-between items-center">
@@ -77,4 +77,4 @@ const Product = ({ onAddToCart, productData }: Props) => {
   );
 };
 
-export default Product;
+export default ProductCardGrid;

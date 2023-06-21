@@ -6,7 +6,7 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import "swiper/css";
-import Product from "./Product";
+import Product from "./ProductCardGrid";
 import Headtitle from "./Headtitle";
 import {
   useAddToCartMutation,

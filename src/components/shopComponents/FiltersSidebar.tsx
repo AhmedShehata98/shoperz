@@ -7,6 +7,7 @@ import Colors from "./Colors";
 import CustomButton from "@/components/CustomButton";
 import { BiFilterAlt } from "react-icons/bi";
 import { RiCloseFill } from "react-icons/ri";
+
 type Props = {
   handleClose: React.MouseEventHandler;
   handleApply: React.MouseEventHandler;

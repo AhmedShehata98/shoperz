@@ -8,7 +8,6 @@ import {
   useAddToCartMutation,
   useGetAllProductsQuery,
 } from "@/services/shoperzApi.service";
-import Product from "@/components/Product";
 import clsx from "clsx";
 import LoadingProducts from "../../components/shopComponents/LoadingProducts";
 import ButtonFilter from "../../components/shopComponents/ButtonFilter";
@@ -21,6 +20,12 @@ import { isInCartMiddleware } from "@/utils/isInCartMiddleware";
 import { useRouter } from "next/router";
 import useGetToken from "@/hooks/useGetToken";
 import PagginitionButtons from "@/components/shopComponents/PagginitionButtons";
+import dynamic from "next/dynamic";
+import QuickLoadingModul from "@/layout/QuickLoadingModul";
+
+const ProductCardGrid = dynamic(() => import("@/components/ProductCardGrid"), {
+  loading: () => <QuickLoadingModul />,
+});
 
 type Props = {};
 
@@ -176,7 +181,7 @@ const Shop = (props: Props) => {
                     }
                   />
                 ) : (
-                  <Product
+                  <ProductCardGrid
                     key={product._id}
                     productData={product}
                     onAddToCart={(ev: MouseEvent<HTMLButtonElement>) =>
@@ -196,11 +201,7 @@ const Shop = (props: Props) => {
             onChangePage={(event) => handleChangePage(event)}
           />
         </section>
-        <ButtonFilter
-          onClick={function (event: MouseEvent<HTMLButtonElement>): void {
-            throw new Error("Function not implemented.");
-          }}
-        />
+        <ButtonFilter onClick={() => handleShowFilterbar()} />
       </main>
     </>
   );

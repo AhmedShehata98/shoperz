@@ -136,7 +136,7 @@
     @apply w-full flex items-center justify-start gap-3 py-2 px-3 font-medium cursor-pointer capitalize text-sm hover:bg-Grey-100;
   }
   .filter-sidebar {
-    @apply sticky -top-[32rem] max-lg:fixed max-lg:w-full max-lg:top-0 max-lg:mt-0 max-lg:h-screen max-lg:overflow-y-auto max-lg:z-20 max-lg:bg-white max-lg:-translate-x-full max-lg:pointer-events-none w-1/4 space-y-4 h-full flex flex-col items-start justify-start transition-transform duration-500 my-4 py-2;
+    @apply sticky z-[90] -top-[32rem] max-lg:fixed max-lg:w-full max-lg:top-0 max-lg:mt-0 max-lg:h-screen max-lg:overflow-y-auto max-lg:z-20 max-lg:bg-white max-lg:-translate-x-full max-lg:pointer-events-none w-1/4 space-y-4 h-full flex flex-col items-start justify-start transition-transform duration-500 bg-white my-4 py-2;
   }
   .filter-sidebar-show {
     @apply !translate-x-0 pointer-events-auto;
@@ -163,7 +163,7 @@
     @apply w-full flex items-center justify-between;
   }
   .product-grid-card-btn {
-    @apply relative z-20 w-10 h-10 grid place-content-center place-items-center  rounded-full text-xl text-white hover:bg-Primary-700 hover:text-white;
+    @apply relative z-10 w-10 h-10 grid place-content-center place-items-center  rounded-full text-xl text-white hover:bg-Primary-700 hover:text-white;
   }
   .shop-upperbar {
     @apply w-full flex flex-col gap-3 shadow-sm rounded-md border border-Grey-200 px-3 py-6 mb-2;
