@@ -1,29 +1,32 @@
+import clsx from "clsx";
 import React from "react";
 import { BsGrid3X3GapFill } from "react-icons/bs";
 import { FaListUl } from "react-icons/fa";
 type Props = {
-  setShowProducts: React.Dispatch<React.SetStateAction<boolean>>;
+  onChangeProductsView: React.MouseEventHandler;
   title: string;
   count: number;
   fromCount: number;
   productsLimitSelect: number;
   sortMethod: sortMethods;
+  currentProductView: "list" | "grid";
   onSortSelect: React.ChangeEventHandler;
   onSelectProductsLimit: React.ChangeEventHandler;
 };
 
 function ShopUpperbar({
-  setShowProducts,
+  onChangeProductsView,
   title,
   count,
   fromCount,
   sortMethod,
-  onSortSelect,
+  currentProductView,
   productsLimitSelect,
+  onSortSelect,
   onSelectProductsLimit,
 }: Props) {
   return (
-    <header className="w-full flex flex-col gap-3 shadow-sm rounded-md border border-Grey-100 p-3 mb-4">
+    <header className="shop-upperbar">
       <div className="flex items-stretch justify-between">
         <h3 className="text-lg font-semibold capitalize">{title}</h3>
         <span className="flex items-center gap-1 capitalize">
@@ -36,19 +39,27 @@ function ShopUpperbar({
       <div className="flex items-stretch justify-between">
         <span className="flex items-center justify-center gap-3">
           <button
-            onClick={() => setShowProducts(false)}
-            className="p-2 text-Grey-800 text-lg bg-Grey-200 rounded-md border border-Grey-200 hover:bg-Grey-400"
+            // onClick={() => onChangeProductsView(false)}
+            onClick={onChangeProductsView}
+            data-view={"grid"}
+            className={"switch-products-view-btn"}
+            disabled={currentProductView === "grid"}
           >
-            <BsGrid3X3GapFill />
+            <BsGrid3X3GapFill className="pointer-events-none" />
           </button>
           <button
-            onClick={() => setShowProducts(true)}
-            className="p-2 text-Grey-800 text-lg bg-Grey-200 rounded-md border border-Grey-200 hover:bg-Grey-400"
+            onClick={onChangeProductsView}
+            data-view={"list"}
+            className={"switch-products-view-btn"}
+            disabled={currentProductView === "list"}
           >
-            <FaListUl />
+            <FaListUl className="pointer-events-none" />
           </button>
         </span>
-        <span className="flex max-md:flex-col items-center justify-center gap-3">
+        <form
+          action={""}
+          className="flex max-md:flex-col items-center justify-center gap-3"
+        >
           <select
             name="sort-by"
             id="sort-by"
@@ -73,7 +84,7 @@ function ShopUpperbar({
             <option value="50">50 product per page</option>
             <option value="10">10 product per page</option>
           </select>
-        </span>
+        </form>
       </div>
     </header>
   );

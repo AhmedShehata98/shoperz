@@ -32,37 +32,41 @@ const Shop = (props: Props) => {
   const filterRef = useRef<HTMLElement | undefined>(undefined);
   const [productsLimitSelect, setProductsLimitSelect] = useState(20);
   const [sortMethod, setSortMethod] = useState<sortMethods>("-createdAt");
+  const [productsView, setProductsView] = useState<"list" | "grid">("list");
 
-  const {
-    isError: isProductsError,
-    isLoading: isLoadingProducts,
-    data: products,
-    isSuccess: isSuccessProducts,
-  } = useGetAllProductsQuery(
-    {
-      limit: productsLimitSelect,
-      sortQueries: sortMethod,
-    },
-    {
-      selectFromResult: ({ data, isSuccess }) => {
-        if (isSuccess) {
-          return {
-            data: {
-              products: isInCartMiddleware(data?.data.products, shoppingCart),
-              paginition: data?.data.paginition,
-            },
-          };
-        } else {
-          return {
-            data: {
-              products: undefined,
-              paginition: undefined,
-            },
-          };
-        }
+  const { isProductsError, isLoadingProducts, products, isSuccessProducts } =
+    useGetAllProductsQuery(
+      {
+        limit: productsLimitSelect,
+        sortQueries: sortMethod,
       },
-    }
-  );
+      {
+        pollingInterval: 3000,
+        selectFromResult: ({ data, isSuccess, isError, isLoading }) => {
+          if (isSuccess) {
+            return {
+              products: {
+                products: isInCartMiddleware(data?.data.products, shoppingCart),
+                paginition: data?.data.paginition,
+              },
+              isSuccessProducts: isSuccess,
+              isProductsError: isError,
+              isLoadingProducts: isLoading,
+            };
+          } else {
+            return {
+              data: {
+                products: undefined,
+                paginition: undefined,
+              },
+              isSuccessProducts: isSuccess,
+              isProductsError: isError,
+              isLoadingProducts: isLoading,
+            };
+          }
+        },
+      }
+    );
 
   const handleShowFilterbar = () => {
     filterRef.current?.classList.toggle("filter-sidebar-show");
@@ -86,7 +90,6 @@ const Shop = (props: Props) => {
     []
   );
 
-  const [showProducts, setShowProducts] = useState(true);
   function handleSwitchVisibality(btn: HTMLButtonElement): void {
     btn.disabled = true;
     btn.firstElementChild?.classList.replace("flex", "hidden");
@@ -109,6 +112,10 @@ const Shop = (props: Props) => {
       );
     }
   };
+  const handleChangeProductsView = (event: MouseEvent) => {
+    const target = event.target as HTMLButtonElement;
+    setProductsView(target.dataset.view as "list" | "grid");
+  };
 
   return (
     <>
@@ -123,10 +130,11 @@ const Shop = (props: Props) => {
         />
         <section className="w-3/4 flex flex-col mt-6 max-lg:w-full max-lg:px-2">
           <ShopUpperbar
-            setShowProducts={setShowProducts}
+            onChangeProductsView={handleChangeProductsView}
+            currentProductView={productsView}
             title={"tv & audio"}
             count={products?.paginition?.length || 0}
-            fromCount={0}
+            fromCount={products?.paginition?.actualProductsLength || 0}
             productsLimitSelect={productsLimitSelect}
             sortMethod={sortMethod}
             onSortSelect={(ev: React.ChangeEvent<HTMLSelectElement>) =>
@@ -136,18 +144,22 @@ const Shop = (props: Props) => {
               handleSelectProductsLimit(ev)
             }
           />
-          <ul
-            className={clsx("grid gap-4 pb-12 pt-6 ", {
+          {/* "grid gap-4 pb-12 pt-6 ", {
               "grid-cols-3 max-md:grid-cols-2 max-sm:grid-cols-1":
-                showProducts !== true,
-            })}
+                productsView === "grid",
+            } */}
+          <ul
+            className={clsx(
+              "products-viewAs-list",
+              productsView === "grid" && "products-viewAs-grid"
+            )}
           >
             {isProductsError && <div>error</div>}
             {isLoadingProducts ? (
               <LoadingProducts />
-            ) : products.products?.length ? (
+            ) : products?.products?.length ? (
               products?.products?.map((product) =>
-                showProducts ? (
+                productsView === "list" ? (
                   <ProductCard
                     key={product._id}
                     productData={product}

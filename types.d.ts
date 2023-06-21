@@ -72,6 +72,7 @@ type ProductsResponse = {
       currentPage: number;
       remainingPages: number;
       length: number;
+      actualProductsLength: number;
     };
   };
   error: string | null;

@@ -153,11 +153,23 @@
   .header-control-actions {
     @apply w-full flex items-center justify-between px-3 pb-4;
   }
+  .products-viewAs-list {
+    @apply grid grid-flow-row gap-3 mb-8;
+  }
+  .products-viewAs-grid {
+    @apply grid grid-cols-2 lg:grid-cols-3 gap-3 mb-8;
+  }
   .header-upper-bar {
     @apply w-full flex items-center justify-between;
   }
   .product-grid-card-btn {
     @apply relative z-20 w-10 h-10 grid place-content-center place-items-center  rounded-full text-xl text-white hover:bg-Primary-700 hover:text-white;
+  }
+  .shop-upperbar {
+    @apply w-full flex flex-col gap-3 shadow-sm rounded-md border border-Grey-200 px-3 py-6 mb-2;
+  }
+  .switch-products-view-btn {
+    @apply p-2 text-Grey-800 text-lg rounded-md border bg-Grey-200 border-Grey-200 transition-colors hover:bg-Grey-400 disabled:pointer-events-none disabled:bg-Primary-700 disabled:border-Primary-500 disabled:text-white;
   }
 }
 @tailwind utilities;
