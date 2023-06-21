@@ -39,7 +39,6 @@ function ShopUpperbar({
       <div className="flex items-stretch justify-between">
         <span className="flex items-center justify-center gap-3">
           <button
-            // onClick={() => onChangeProductsView(false)}
             onClick={onChangeProductsView}
             data-view={"grid"}
             className={"switch-products-view-btn"}

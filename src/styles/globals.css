@@ -136,7 +136,7 @@
     @apply w-full flex items-center justify-start gap-3 py-2 px-3 font-medium cursor-pointer capitalize text-sm hover:bg-Grey-100;
   }
   .filter-sidebar {
-    @apply max-lg:fixed max-lg:w-full max-lg:top-0 max-lg:mt-0 max-lg:h-screen max-lg:overflow-y-auto max-lg:z-20 max-lg:bg-white max-lg:-translate-x-full max-lg:pointer-events-none w-1/4 space-y-4 h-full flex flex-col items-start justify-start transition-transform duration-500 my-4 py-2;
+    @apply sticky -top-[32rem] max-lg:fixed max-lg:w-full max-lg:top-0 max-lg:mt-0 max-lg:h-screen max-lg:overflow-y-auto max-lg:z-20 max-lg:bg-white max-lg:-translate-x-full max-lg:pointer-events-none w-1/4 space-y-4 h-full flex flex-col items-start justify-start transition-transform duration-500 my-4 py-2;
   }
   .filter-sidebar-show {
     @apply !translate-x-0 pointer-events-auto;
@@ -170,6 +170,18 @@
   }
   .switch-products-view-btn {
     @apply p-2 text-Grey-800 text-lg rounded-md border bg-Grey-200 border-Grey-200 transition-colors hover:bg-Grey-400 disabled:pointer-events-none disabled:bg-Primary-700 disabled:border-Primary-500 disabled:text-white;
+  }
+  .paggination-buttons-group {
+    @apply grid grid-flow-col items-center justify-center gap-2 mb-6;
+  }
+  .paggination-btn {
+    @apply bg-Primary-600 text-white font-medium capitalize w-16 h-10 rounded-md transition-colors hover:bg-Primary-700 disabled:opacity-70 disabled:bg-Grey-400 disabled:text-Grey-700;
+  }
+  .paggination-index {
+    @apply flex items-center justify-center w-10 h-10 bg-gray-300 rounded-md shadow hover:bg-Grey-200 cursor-pointer;
+  }
+  .paggination-index-active {
+    @apply bg-Primary-500 pointer-events-none;
   }
 }
 @tailwind utilities;

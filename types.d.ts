@@ -81,6 +81,7 @@ type ProductsResponse = {
 
 type productQueriesParameter = {
   limit: number;
+  page?: number;
   sortQueries?: Object;
 };
 interface TopRatedProductsResponse extends ApiResponse {

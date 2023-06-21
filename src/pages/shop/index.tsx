@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect, MouseEvent } from "react";
+import React, { useRef, useState, MouseEvent } from "react";
 import Head from "next/head";
 import ShopUpperbar from "../../components/shopComponents/ShopUpperbar";
 import ProductCard from "../../components/shopComponents/ProductCard";
@@ -13,7 +13,6 @@ import clsx from "clsx";
 import LoadingProducts from "../../components/shopComponents/LoadingProducts";
 import ButtonFilter from "../../components/shopComponents/ButtonFilter";
 import FiltersSidebar from "../../components/shopComponents/FiltersSidebar";
-import { Pagination } from "flowbite-react";
 import { toast } from "react-toastify";
 import { selectAppState } from "@/redux/slices/app.slice";
 import { useSelector } from "react-redux";
@@ -21,6 +20,7 @@ import { wrapper } from "@/redux/store";
 import { isInCartMiddleware } from "@/utils/isInCartMiddleware";
 import { useRouter } from "next/router";
 import useGetToken from "@/hooks/useGetToken";
+import PagginitionButtons from "@/components/shopComponents/PagginitionButtons";
 
 type Props = {};
 
@@ -31,6 +31,7 @@ const Shop = (props: Props) => {
   const [fetchAddToCart, addToCartResponse] = useAddToCartMutation();
   const filterRef = useRef<HTMLElement | undefined>(undefined);
   const [productsLimitSelect, setProductsLimitSelect] = useState(20);
+  const [page, setPage] = useState(1);
   const [sortMethod, setSortMethod] = useState<sortMethods>("-createdAt");
   const [productsView, setProductsView] = useState<"list" | "grid">("list");
 
@@ -39,6 +40,7 @@ const Shop = (props: Props) => {
       {
         limit: productsLimitSelect,
         sortQueries: sortMethod,
+        page,
       },
       {
         pollingInterval: 3000,
@@ -116,6 +118,16 @@ const Shop = (props: Props) => {
     const target = event.target as HTMLButtonElement;
     setProductsView(target.dataset.view as "list" | "grid");
   };
+  const handleChangePage = (event: MouseEvent) => {
+    const target = event.target as HTMLLIElement | HTMLButtonElement;
+    if (target.dataset.button === "prev") {
+      setPage((page) => page - 1);
+    } else if (target.dataset.button === "next") {
+      setPage((page) => page + 1);
+    } else {
+      setPage(+target.dataset.pagenumber!);
+    }
+  };
 
   return (
     <>
@@ -144,10 +156,6 @@ const Shop = (props: Props) => {
               handleSelectProductsLimit(ev)
             }
           />
-          {/* "grid gap-4 pb-12 pt-6 ", {
-              "grid-cols-3 max-md:grid-cols-2 max-sm:grid-cols-1":
-                productsView === "grid",
-            } */}
           <ul
             className={clsx(
               "products-viewAs-list",
@@ -179,13 +187,20 @@ const Shop = (props: Props) => {
               )
             ) : null}
           </ul>
+          <PagginitionButtons
+            actualProductsLength={
+              products?.paginition.actualProductsLength || 0
+            }
+            remainingPages={products?.paginition.remainingPages || 0}
+            currentPage={+products?.paginition?.currentPage! || page}
+            onChangePage={(event) => handleChangePage(event)}
+          />
         </section>
         <ButtonFilter
           onClick={function (event: MouseEvent<HTMLButtonElement>): void {
             throw new Error("Function not implemented.");
           }}
         />
-        {/* <Filters /> */}
       </main>
     </>
   );
