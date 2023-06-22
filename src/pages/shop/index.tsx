@@ -23,6 +23,7 @@ import PagginitionButtons from "@/components/shopComponents/PagginitionButtons";
 import dynamic from "next/dynamic";
 import QuickLoadingModul from "@/layout/QuickLoadingModul";
 import ErrorHappened from "@/components/ErrorHappened";
+import ProductCardSkeleton from "@/components/ProductCardSkeleton";
 
 const ProductCardGrid = dynamic(() => import("@/components/ProductCardGrid"), {
   loading: () => <QuickLoadingModul />,
@@ -173,29 +174,31 @@ const Shop = (props: Props) => {
                 errorMsg={"Ooops , maybe server down or network issue"}
               />
             )}
-            {isLoadingProducts ? (
-              <LoadingProducts />
-            ) : products?.products?.length ? (
-              products?.products?.map((product) =>
-                productsView === "list" ? (
-                  <ProductCard
-                    key={product._id}
-                    productData={product}
-                    onAddToCart={(ev: MouseEvent<HTMLButtonElement>) =>
-                      handleAddToCart(ev, product._id, 1)
-                    }
-                  />
-                ) : (
-                  <ProductCardGrid
-                    key={product._id}
-                    productData={product}
-                    onAddToCart={(ev: MouseEvent<HTMLButtonElement>) =>
-                      handleAddToCart(ev, product._id, 1)
-                    }
-                  />
+            {isLoadingProducts
+              ? [...Array(productsLimitSelect).keys()].map((__, idx) => (
+                  <ProductCardSkeleton dir={productsView} key={idx} />
+                ))
+              : products?.products?.length
+              ? products?.products?.map((product) =>
+                  productsView === "list" ? (
+                    <ProductCard
+                      key={product._id}
+                      productData={product}
+                      onAddToCart={(ev: MouseEvent<HTMLButtonElement>) =>
+                        handleAddToCart(ev, product._id, 1)
+                      }
+                    />
+                  ) : (
+                    <ProductCardGrid
+                      key={product._id}
+                      productData={product}
+                      onAddToCart={(ev: MouseEvent<HTMLButtonElement>) =>
+                        handleAddToCart(ev, product._id, 1)
+                      }
+                    />
+                  )
                 )
-              )
-            ) : null}
+              : null}
           </ul>
           <PagginitionButtons
             actualProductsLength={

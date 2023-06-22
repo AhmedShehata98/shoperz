@@ -19,6 +19,7 @@ import { isInCartMiddleware } from "@/utils/isInCartMiddleware";
 import { useSelector } from "react-redux";
 import { selectAppState } from "@/redux/slices/app.slice";
 import ErrorHappened from "./ErrorHappened";
+import ProductCardSkeleton from "./ProductCardSkeleton";
 
 type Props = {};
 
@@ -123,24 +124,26 @@ const FeaturedProducts = (props: Props) => {
             errorMsg={"Ooops , maybe server down or network issue"}
           />
         )}
-        {isLoading ? (
-          <LoadingProducts />
-        ) : (
-          products?.products?.map((product) => (
-            <SwiperSlide key={product._id}>
-              <Product
-                productData={product}
-                onAddToCart={function (): void {
-                  FetchaddToCart({
-                    token,
-                    productId: product._id,
-                    quantity: 1,
-                  });
-                }}
-              />
-            </SwiperSlide>
-          ))
-        )}
+        {isLoading
+          ? [...Array(12).keys()].map((__, idx) => (
+              <SwiperSlide key={idx}>
+                <ProductCardSkeleton dir={"grid"} />
+              </SwiperSlide>
+            ))
+          : products?.products?.map((product) => (
+              <SwiperSlide key={product._id}>
+                <Product
+                  productData={product}
+                  onAddToCart={function (): void {
+                    FetchaddToCart({
+                      token,
+                      productId: product._id,
+                      quantity: 1,
+                    });
+                  }}
+                />
+              </SwiperSlide>
+            ))}
       </Swiper>
     </div>
   );
