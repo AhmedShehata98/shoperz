@@ -17,6 +17,7 @@ import { AiOutlineTransaction } from "react-icons/ai";
 import { BsBoxSeam } from "react-icons/bs";
 import { MdOutlineLocalShipping } from "react-icons/md";
 import { wrapper } from "@/redux/store";
+import CartDetailsWrapper from "@/components/shoppingCartComponents/CartDetailsWrapper";
 
 const OfferItem = dynamic(
   () => import("../../components/shoppingCartComponents/OfferItem"),
@@ -47,11 +48,7 @@ const AlertDialog = dynamic(
 
 function ShoppingCart(props: any) {
   const { token } = useGetToken();
-  const {
-    currentComponent,
-    isLoggedIn,
-    token: tokenState,
-  } = useSelector(selectAppState);
+  const { currentComponent, isLoggedIn } = useSelector(selectAppState);
   const {
     data: userCartData,
     isLoading,
@@ -63,8 +60,6 @@ function ShoppingCart(props: any) {
   });
   const [showConfirmIsUser, setShowConfirmIsUser] = useState(false);
 
-  console.log(props);
-  console.log(tokenState);
   return (
     <>
       <Head>
@@ -73,7 +68,10 @@ function ShoppingCart(props: any) {
       <main className="w-full min-h-screen flex items-center justify-start flex-col">
         <PaymentStatusbar currentPage={currentComponent} />
         <section className="shopping-cart-wrapper">
-          <article className="cart-details">
+          <CartDetailsWrapper
+            cartItems={userCartData?.userCart.items?.length || 0}
+            isAuth={isLoggedIn}
+          >
             <Cart
               cartItems={userCartData?.userCart.items || []}
               total={userCartData?.cartTotal || 0}
@@ -91,7 +89,7 @@ function ShoppingCart(props: any) {
                 <AlertDialog setShowConfirmIsUser={setShowConfirmIsUser} />
               </Portal>
             )}
-          </article>
+          </CartDetailsWrapper>
           <div className="w-full flex flex-col items-center justify-center bg-Grey-100 gap-3">
             <header className="grid grid-cols-2 capitalize text-Primary-800 text-lg font-medium py-3 max-lg:px-3">
               <p>delivery</p>

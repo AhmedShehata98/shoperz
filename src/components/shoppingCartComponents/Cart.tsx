@@ -42,7 +42,7 @@ export default function Cart({
         <h3 className="capitalize font-semibold text-lg">your cart</h3>
         <p className="text-gray-500">( {cartItems?.length} )</p>
       </header>
-      {cartItems?.length < 1 ? (
+      {/* {cartItems?.length < 1 ? (
         <div className="cart-isEmpty">
           <span className="flex bg-sky-100 text-6xl text-sky-700 rounded-full shadow p-7">
             <HiOutlineShoppingBag />
@@ -55,7 +55,7 @@ export default function Cart({
             show products
           </Link>
         </div>
-      ) : null}
+      ) : null} */}
 
       {cartItems?.length > 0 && !apiCallState?.isLoading ? (
         <ul className="cart-items-list">
