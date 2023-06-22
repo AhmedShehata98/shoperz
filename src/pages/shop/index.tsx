@@ -23,6 +23,7 @@ import dynamic from "next/dynamic";
 import QuickLoadingModul from "@/layout/QuickLoadingModul";
 import ErrorHappened from "@/components/ErrorHappened";
 import ProductCardSkeleton from "@/components/ProductCardSkeleton";
+import ProductsListWrapper from "@/components/shopComponents/ProductsListWrapper";
 
 const ProductCardGrid = dynamic(() => import("@/components/ProductCardGrid"), {
   loading: () => <QuickLoadingModul />,
@@ -162,43 +163,34 @@ const Shop = (props: Props) => {
               handleSelectProductsLimit(ev)
             }
           />
-          <ul
-            className={clsx(
-              "products-viewAs-list",
-              productsView === "grid" && "products-viewAs-grid"
-            )}
+          <ProductsListWrapper
+            view={productsView}
+            apiCallState={{
+              isError: isProductsError,
+              isLoading: isLoadingProducts,
+            }}
+            productsLength={products?.products?.length}
           >
-            {isProductsError && (
-              <ErrorHappened
-                errorMsg={"Ooops , maybe server down or network issue"}
-              />
+            {products?.products?.map((product) =>
+              productsView === "list" ? (
+                <ProductCard
+                  key={product._id}
+                  productData={product}
+                  onAddToCart={(ev: MouseEvent<HTMLButtonElement>) =>
+                    handleAddToCart(ev, product._id, 1)
+                  }
+                />
+              ) : (
+                <ProductCardGrid
+                  key={product._id}
+                  productData={product}
+                  onAddToCart={(ev: MouseEvent<HTMLButtonElement>) =>
+                    handleAddToCart(ev, product._id, 1)
+                  }
+                />
+              )
             )}
-            {isLoadingProducts
-              ? [...Array(productsLimitSelect).keys()].map((__, idx) => (
-                  <ProductCardSkeleton dir={productsView} key={idx} />
-                ))
-              : products?.products?.length
-              ? products?.products?.map((product) =>
-                  productsView === "list" ? (
-                    <ProductCard
-                      key={product._id}
-                      productData={product}
-                      onAddToCart={(ev: MouseEvent<HTMLButtonElement>) =>
-                        handleAddToCart(ev, product._id, 1)
-                      }
-                    />
-                  ) : (
-                    <ProductCardGrid
-                      key={product._id}
-                      productData={product}
-                      onAddToCart={(ev: MouseEvent<HTMLButtonElement>) =>
-                        handleAddToCart(ev, product._id, 1)
-                      }
-                    />
-                  )
-                )
-              : null}
-          </ul>
+          </ProductsListWrapper>
           <PagginitionButtons
             actualProductsLength={
               products?.paginition.actualProductsLength || 0
