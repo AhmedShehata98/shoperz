@@ -12,8 +12,6 @@ import {
   useAddToCartMutation,
   useGetAllProductsQuery,
 } from "@/services/shoperzApi.service";
-
-import LoadingProducts from "@/components/shopComponents/LoadingProducts";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import useGetToken from "@/hooks/useGetToken";
 import { isInCartMiddleware } from "@/utils/isInCartMiddleware";

@@ -9,7 +9,6 @@ import {
   useGetAllProductsQuery,
 } from "@/services/shoperzApi.service";
 import clsx from "clsx";
-import LoadingProducts from "../../components/shopComponents/LoadingProducts";
 import ButtonFilter from "../../components/shopComponents/ButtonFilter";
 import FiltersSidebar from "../../components/shopComponents/FiltersSidebar";
 import { toast } from "react-toastify";

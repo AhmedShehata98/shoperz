@@ -8,7 +8,6 @@ import "swiper/css/scrollbar";
 import "swiper/css";
 import Product from "./ProductCardGrid";
 import Headtitle from "./Headtitle";
-import LoadingProducts from "@/components/shopComponents/LoadingProducts";
 import {
   useAddToCartMutation,
   useGetAllProductsQuery,
