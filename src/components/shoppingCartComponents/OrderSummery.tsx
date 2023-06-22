@@ -3,8 +3,6 @@ import visaLogo from "../../assets/icons/visa.png";
 import mastercardLogo from "../../assets/icons/mastercard.svg";
 import paypalLogo from "../../assets/icons/paypal.svg";
 import { useRouter } from "next/router";
-import { useDispatch } from "react-redux";
-import { IApiCallState } from "@/models/shopperz.model";
 import OrderBoxItem from "../checkoutComponents/OrderBoxItem";
 import { BsCashStack, BsFillBoxSeamFill } from "react-icons/bs";
 import { ImPriceTags } from "react-icons/im";
@@ -12,6 +10,7 @@ import { MdOutlineLocalShipping } from "react-icons/md";
 import { TbBrandCashapp } from "react-icons/tb";
 import CustomButton from "@/components/CustomButton";
 import { routes } from "@/constants/Routes";
+import Image from "next/image";
 
 /**
  *
@@ -121,14 +120,29 @@ function OrderSummery({
       >
         checkout
       </CustomButton>
-      <div className="flex flex-col max-lg:items-center mt-1 mb-3">
+      <div className="flex  flex-col max-lg:items-center mt-1 mb-3">
         <p className="text-gray-400 font-medium text-sm">
           SECURE PAYMENTS PROVIDED BY
         </p>
-        <span className="flex items-center gap-9 lg:gap-6">
-          <img src={visaLogo.src} alt="payments-logo" />
-          <img src={mastercardLogo.src} alt="payments-logo" />
-          <img src={paypalLogo.src} alt="payments-logo" />
+        <span className="flex items-center justify-center gap-9 lg:gap-6">
+          <Image
+            src={visaLogo.src}
+            width={35}
+            height={35}
+            alt="payments-logo"
+          />
+          <Image
+            src={mastercardLogo.src}
+            width={35}
+            height={35}
+            alt="payments-logo"
+          />
+          <Image
+            src={paypalLogo.src}
+            width={35}
+            height={35}
+            alt="payments-logo"
+          />
         </span>
       </div>
     </div>

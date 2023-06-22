@@ -29,9 +29,7 @@ function CartDetailsWrapper(props: Props) {
       </div>
     );
   } else {
-    return (
-      <section className="shopping-cart-wrapper">{props.children}</section>
-    );
+    return <section className="cart-details-wrapper">{props.children}</section>;
   }
 }
 
