@@ -73,7 +73,7 @@ function ShoppingCart(props: any) {
       <main className="w-full min-h-screen flex items-center justify-start flex-col">
         <PaymentStatusbar currentPage={currentComponent} />
         <section className="shopping-cart-wrapper">
-          <div className="cart-details">
+          <article className="cart-details">
             <Cart
               cartItems={userCartData?.userCart.items || []}
               total={userCartData?.cartTotal || 0}
@@ -91,7 +91,7 @@ function ShoppingCart(props: any) {
                 <AlertDialog setShowConfirmIsUser={setShowConfirmIsUser} />
               </Portal>
             )}
-          </div>
+          </article>
           <div className="w-full flex flex-col items-center justify-center bg-Grey-100 gap-3">
             <header className="grid grid-cols-2 capitalize text-Primary-800 text-lg font-medium py-3 max-lg:px-3">
               <p>delivery</p>
@@ -131,17 +131,4 @@ function ShoppingCart(props: any) {
   );
 }
 
-export default React.memo(ShoppingCart);
-
-export const getServerSideProps = wrapper.getServerSideProps(
-  (store) => async (context) => {
-    store.dispatch(
-      shoperzApi.endpoints.getCartItems.initiate(store.getState().app.token!)
-    );
-    await Promise.all(store.dispatch(getRunningQueriesThunk()));
-
-    return {
-      props: {},
-    };
-  }
-);
+export default ShoppingCart;
