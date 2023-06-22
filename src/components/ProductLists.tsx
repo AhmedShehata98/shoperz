@@ -11,6 +11,7 @@ import { wrapper } from "@/redux/store";
 import { useSelector } from "react-redux";
 import { selectAppState } from "@/redux/slices/app.slice";
 import { isInCartMiddleware } from "@/utils/isInCartMiddleware";
+import ErrorHappened from "./ErrorHappened";
 
 type Props = {};
 
@@ -22,6 +23,7 @@ const ProductLists = (props: Props) => {
     data: topRatedProducts,
     isLoading: loadingTopRatedProducts,
     isSuccess: successTopRatedProducts,
+    isError: isTopRatedProductsError,
   } = useGetTopRatedProductsQuery(
     { limit: 5 },
     {
@@ -54,6 +56,7 @@ const ProductLists = (props: Props) => {
     data: megaOfferProducts,
     isLoading: loadingMegaOfferProducts,
     isSuccess: successMegaOfferProducts,
+    isError: isMegaOfferProductsError,
   } = useGetMegaOfferProductsQuery(
     { limit: 5 },
     {
@@ -83,39 +86,46 @@ const ProductLists = (props: Props) => {
     }
   ); // if this section is not in view dont fetch data
 
-  return (
-    <div ref={ref} className="bg-gray-100 px-4">
-      <div className="container max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 items-start justify-start gap-4">
-        <ul className="grid grid-flow-row my-6">
-          <Headtitle title={"Top Rated"} />
+  // View Elements
+  if (isTopRatedProductsError || isMegaOfferProductsError) {
+    return (
+      <ErrorHappened errorMsg={"Ooops , maybe server down or network issue"} />
+    );
+  } else {
+    return (
+      <div ref={ref} className="bg-gray-100 px-4">
+        <div className="container max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 items-start justify-start gap-4">
+          <ul className="grid grid-flow-row my-6">
+            <Headtitle title={"Top Rated"} />
 
-          {!loadingTopRatedProducts && successTopRatedProducts
-            ? topRatedProducts?.products?.map((product) => (
-                <ColumnProduct key={product._id} product={product} />
-              ))
-            : null}
-        </ul>
-        <ul className="grid grid-flow-row my-6">
-          <Headtitle title={"Best sellers"} />
+            {!loadingTopRatedProducts && successTopRatedProducts
+              ? topRatedProducts?.products?.map((product) => (
+                  <ColumnProduct key={product._id} product={product} />
+                ))
+              : null}
+          </ul>
+          <ul className="grid grid-flow-row my-6">
+            <Headtitle title={"Best sellers"} />
 
-          {!loadingTopRatedProducts && successTopRatedProducts
-            ? topRatedProducts?.products?.map((product) => (
-                <ColumnProduct key={product._id} product={product} />
-              ))
-            : null}
-        </ul>
-        <ul className="grid grid-flow-row my-6">
-          <Headtitle title={"Mega Offers"} />
+            {!loadingTopRatedProducts && successTopRatedProducts
+              ? topRatedProducts?.products?.map((product) => (
+                  <ColumnProduct key={product._id} product={product} />
+                ))
+              : null}
+          </ul>
+          <ul className="grid grid-flow-row my-6">
+            <Headtitle title={"Mega Offers"} />
 
-          {!loadingMegaOfferProducts && successMegaOfferProducts
-            ? megaOfferProducts?.products?.map((product) => (
-                <ColumnProduct key={product._id} product={product} />
-              ))
-            : null}
-        </ul>
+            {!loadingMegaOfferProducts && successMegaOfferProducts
+              ? megaOfferProducts?.products?.map((product) => (
+                  <ColumnProduct key={product._id} product={product} />
+                ))
+              : null}
+          </ul>
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
 };
 
 export default ProductLists;

@@ -22,6 +22,7 @@ import useGetToken from "@/hooks/useGetToken";
 import PagginitionButtons from "@/components/shopComponents/PagginitionButtons";
 import dynamic from "next/dynamic";
 import QuickLoadingModul from "@/layout/QuickLoadingModul";
+import ErrorHappened from "@/components/ErrorHappened";
 
 const ProductCardGrid = dynamic(() => import("@/components/ProductCardGrid"), {
   loading: () => <QuickLoadingModul />,
@@ -48,7 +49,7 @@ const Shop = (props: Props) => {
         page,
       },
       {
-        pollingInterval: 3000,
+        refetchOnFocus: true,
         selectFromResult: ({ data, isSuccess, isError, isLoading }) => {
           if (isSuccess) {
             return {
@@ -167,7 +168,11 @@ const Shop = (props: Props) => {
               productsView === "grid" && "products-viewAs-grid"
             )}
           >
-            {isProductsError && <div>error</div>}
+            {isProductsError && (
+              <ErrorHappened
+                errorMsg={"Ooops , maybe server down or network issue"}
+              />
+            )}
             {isLoadingProducts ? (
               <LoadingProducts />
             ) : products?.products?.length ? (

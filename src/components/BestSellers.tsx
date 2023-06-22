@@ -17,6 +17,7 @@ import useGetToken from "@/hooks/useGetToken";
 import { isInCartMiddleware } from "@/utils/isInCartMiddleware";
 import { useSelector } from "react-redux";
 import { selectAppState } from "@/redux/slices/app.slice";
+import ErrorHappened from "./ErrorHappened";
 
 type Props = {};
 
@@ -111,7 +112,11 @@ const BestSellers = (props: Props) => {
           },
         }}
       >
-        {isError && <div>error</div>}
+        {isError && (
+          <ErrorHappened
+            errorMsg={"Ooops , maybe server down or network issue"}
+          />
+        )}
         {isLoading ? (
           <LoadingProducts />
         ) : (

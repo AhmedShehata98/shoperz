@@ -18,6 +18,7 @@ import useGetToken from "@/hooks/useGetToken";
 import { isInCartMiddleware } from "@/utils/isInCartMiddleware";
 import { useSelector } from "react-redux";
 import { selectAppState } from "@/redux/slices/app.slice";
+import ErrorHappened from "./ErrorHappened";
 
 type Props = {};
 
@@ -26,13 +27,14 @@ const FeaturedProducts = (props: Props) => {
   const { token } = useGetToken();
   const {
     isError,
+    error,
     isLoading,
     data: products,
   } = useGetAllProductsQuery(
     { limit: 12, sortQueries: "createdAt" },
 
     {
-      selectFromResult: ({ data, isSuccess, isError, isLoading }) => {
+      selectFromResult: ({ data, isSuccess, isError, error, isLoading }) => {
         if (isSuccess) {
           return {
             data: {
@@ -40,6 +42,7 @@ const FeaturedProducts = (props: Props) => {
               paginition: data?.data.paginition,
             },
             isError,
+            error,
             isLoading,
           };
         }
@@ -50,6 +53,7 @@ const FeaturedProducts = (props: Props) => {
             paginition: undefined,
           },
           isError,
+          error,
           isLoading,
         };
       },
@@ -114,7 +118,11 @@ const FeaturedProducts = (props: Props) => {
           },
         }}
       >
-        {isError && <div className="grid">error happened</div>}
+        {isError && (
+          <ErrorHappened
+            errorMsg={"Ooops , maybe server down or network issue"}
+          />
+        )}
         {isLoading ? (
           <LoadingProducts />
         ) : (
