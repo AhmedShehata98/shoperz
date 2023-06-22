@@ -1,18 +1,15 @@
 import React from "react";
-import { AnimatePresence, motion } from "framer-motion";
-import { IoCloseSharp, IoLocationSharp } from "react-icons/io5";
-import { BiShoppingBag } from "react-icons/bi";
-import { RiShoppingBasketLine } from "react-icons/ri";
+import { motion } from "framer-motion";
+import { IoCloseSharp } from "react-icons/io5";
+
 import { FiUser } from "react-icons/fi";
 import Link from "next/link";
 import { routes } from "@/constants/Routes";
-import { BsFillGearFill, BsLink45Deg } from "react-icons/bs";
+import { BsLink45Deg } from "react-icons/bs";
 import { useSelector } from "react-redux";
 import { selectAppState } from "@/redux/slices/app.slice";
 import { useUserDataQuery } from "@/services/shoperzApi.service";
 import useGetToken from "@/hooks/useGetToken";
-import { RiAccountBoxFill } from "react-icons/ri";
-import { MdOutlineAccountCircle } from "react-icons/md";
 import dynamic from "next/dynamic";
 import QuickLoadingModul from "./QuickLoadingModul";
 type Props = {
@@ -113,9 +110,10 @@ function LoggedInBoard({ fullname }: LoggedInBoardProps) {
 }
 
 function LoginButton() {
+  const { register, login } = routes.register;
   return (
     <Link
-      href={{ pathname: routes.register, query: { target: "login" } }}
+      href={{ pathname: register, query: { target: login } }}
       className="px-4 py-1.5 bg-Grey-400 capitalize text-sm rounded-md ms-auto"
     >
       register / login

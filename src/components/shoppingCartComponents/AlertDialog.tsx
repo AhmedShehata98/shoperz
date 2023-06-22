@@ -8,6 +8,8 @@ interface AlertProps {
   setShowConfirmIsUser: React.Dispatch<React.SetStateAction<boolean>>;
 }
 function AlertDialog({ setShowConfirmIsUser }: AlertProps) {
+  const { login, register } = routes.register;
+
   return (
     <div className="fixed top-0 inset-0 h-screen bg-Grey-900 bg-opacity-50 flex flex-col items-center justify-center">
       <motion.div
@@ -45,7 +47,7 @@ function AlertDialog({ setShowConfirmIsUser }: AlertProps) {
             cancel
           </button>
           <Link
-            href={routes.register}
+            href={{ pathname: register, query: { target: login } }}
             className="block text-center w-1/4 max-lg:w-full px-3 py-1.5 bg-Success-700 text-white capitalize rounded-md"
             onClick={() => setShowConfirmIsUser(false)}
           >

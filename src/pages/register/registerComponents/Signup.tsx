@@ -63,11 +63,11 @@ function Signup() {
 
   return (
     <form action="" className="lg:w-4/5 mb-14" onSubmit={handleSendSingupData}>
-      <p className="mb-3 lg:my-8 pb-3 lg:pb-3 capitalize">
+      <p className="mb-3 lg:my-8 pb-3 lg:pb-3 capitalize text-Grey-700">
         lets create new account in your favorate place and start your shopping
         and create new order .
       </p>
-      <div className="flex flex-col lg:flex-row items-stretch justify-between gap-2 lg:gap-5 mb-4">
+      <div className="flex flex-col lg:flex-row items-stretch justify-between gap-2 lg:gap-5 max-lg:mb-1 mb-4">
         <FormInputWrapper dir="col" extraClassName="basis-1/2">
           <label
             htmlFor="fullname"

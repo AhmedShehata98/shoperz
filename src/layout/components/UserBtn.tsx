@@ -10,6 +10,8 @@ interface Props {
   onClick: React.MouseEventHandler;
 }
 export default function UserBtn({ isAuthenticated, name, onClick }: Props) {
+  const { login, register, signup } = routes.register;
+
   if (isAuthenticated) {
     return (
       <button
@@ -27,7 +29,7 @@ export default function UserBtn({ isAuthenticated, name, onClick }: Props) {
   } else {
     return (
       <Link
-        href={{ pathname: routes.register, query: { target: "login" } }}
+        href={{ pathname: register, query: { target: login } }}
         className="flex items-center gap-2 max-md:hidden"
       >
         <FaUserAlt className="text-lg pointer-events-none" />

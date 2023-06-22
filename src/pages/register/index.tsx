@@ -4,7 +4,8 @@ import { useRouter } from "next/router";
 import { routes } from "@/constants/Routes";
 import dynamic from "next/dynamic";
 import QuickLoadingModul from "@/layout/QuickLoadingModul";
-import registerImage from "../../assets/img/register.jpg";
+import signupImg from "../../assets/img/signup.webp";
+import loginImg from "../../assets/img/login.webp";
 import Image from "next/image";
 
 const Logo = dynamic(() => import("../../components/Logo"), {
@@ -20,11 +21,13 @@ const Signup = dynamic(() => import("./registerComponents/Signup"), {
 function Register() {
   const {
     push,
+    pathname,
     query: { target },
   } = useRouter();
+  const { login, register, signup } = routes.register;
   const handleChangePage = (data: string) => {
     push({
-      pathname: routes.register,
+      pathname: register,
       query: { target: data },
     });
   };
@@ -38,7 +41,7 @@ function Register() {
         <div className="hidden relative lg:flex w-1/2 h-screen p-5">
           <figure className="relative flex w-full h-full rounded-xl shadow-sm overflow-hidden after:content-[''] after:absolute after:inset-0 after:bg-Grey-800 after:bg-opacity-30">
             <Image
-              src={registerImage}
+              src={target?.includes(login) ? loginImg : signupImg}
               alt="register-img"
               className="h-full w-full object-cover object-center"
             />
@@ -54,15 +57,15 @@ function Register() {
         </div>
 
         <div className="lg:w-1/2 h-screen flex items-center justify-start lg:center gap-3 flex-col py-5 px-5 lg:px-12">
-          <header className="self-start lg:self-end mb-auto">
+          <header className="self-start lg:self-end">
             <Logo />
           </header>
-          <h3 className="font-semibold capitalize mb-5">welcome to shoperz</h3>
+          <h3 className="font-semibold uppercase my-8">welcome to shoperz</h3>
           <nav className="w-full lg:w-max flex items-center justify-between bg-sky-300 gap-2 rounded-full p-2 mb-3">
             <button
-              onClick={() => handleChangePage("signup")}
+              onClick={() => handleChangePage(signup)}
               className={
-                target === "signup"
+                target === signup
                   ? "register-navlink register-navlink-active"
                   : "register-navlink"
               }
@@ -70,9 +73,9 @@ function Register() {
               signup
             </button>
             <button
-              onClick={() => handleChangePage("login")}
+              onClick={() => handleChangePage(login)}
               className={
-                target === "login"
+                target === login
                   ? "register-navlink register-navlink-active"
                   : "register-navlink"
               }
@@ -80,8 +83,8 @@ function Register() {
               login
             </button>
           </nav>
-          {target === "login" && <Login />}
-          {target === "signup" && <Signup />}
+          {target === login && <Login />}
+          {target === signup && <Signup />}
         </div>
       </main>
     </>

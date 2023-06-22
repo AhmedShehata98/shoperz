@@ -3,7 +3,11 @@ export const routes = {
   shoppingCart: "/shopping-cart",
   order: "/order",
   checkout: "/checkout",
-  register: "/register",
+  register: {
+    register: "/register",
+    login: "login",
+    signup: "signup",
+  },
   shop: "/shop",
   faq: "/faq",
   myAccount: {
