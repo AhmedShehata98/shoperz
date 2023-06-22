@@ -26,6 +26,7 @@ function PagginitionButtons({
       {[...Array(remainingPages).keys()].map((page) => {
         return (
           <li
+            key={page}
             className={clsx(
               "paggination-index",
               page + 1 === currentPage && "paggination-index-active"
