@@ -31,7 +31,7 @@ const BigDeals = (props: Props) => {
     isLoading,
     data: products,
   } = useGetAllProductsQuery(
-    { limit: 20, sortQueries: "price,-discount" },
+    { limit: 10, sortQueries: "price,-discount", page: 1 },
     {
       selectFromResult: ({ data, isSuccess, isError, isLoading }) => {
         if (isSuccess) {

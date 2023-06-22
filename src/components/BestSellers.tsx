@@ -29,7 +29,7 @@ const BestSellers = (props: Props) => {
     isLoading,
     data: products,
   } = useGetAllProductsQuery(
-    { limit: 20 },
+    { limit: 10, sortQueries: "-name", page: 1 },
     {
       selectFromResult: ({ data, isSuccess, isError, isLoading }) => {
         if (isSuccess) {
