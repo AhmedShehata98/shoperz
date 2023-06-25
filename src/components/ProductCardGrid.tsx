@@ -16,11 +16,7 @@ const ProductCardGrid = ({ onAddToCart, productData }: Props) => {
     push(`${shop}/${productData._id}`);
   }
   return (
-    <li
-      className="h-80 p-4 flex flex-col items-start justify-between relative cursor-pointer border-Grey-200 group border-[1px] hover:border-transparent hover:shadow-md rounded"
-      onClick={getProductPreview}
-    >
-      {" "}
+    <li className="h-80 p-4 flex flex-col items-start justify-between relative cursor-pointer border-Grey-200 group border-[1px] hover:border-transparent hover:shadow-md rounded">
       <span className="w-full flex justify-between items-center">
         <h6 className="text-xs text-Grey-700">
           {productData?.category_id?.name || "NA-NA"}
@@ -39,12 +35,18 @@ const ProductCardGrid = ({ onAddToCart, productData }: Props) => {
           )}
         </span>
       </span>
-      <h5 className="text-Primary-600 font-semibold text-sm py-2 items-center  leading-4">
+      <h5
+        className="text-Primary-600 font-semibold text-sm py-2 items-center  leading-4"
+        onClick={getProductPreview}
+      >
         {productData?.name.length > 20
           ? productData.name.slice(0, 34).concat("...")
           : productData.name}
       </h5>
-      <div className="flex items-center justify-center p-3 aspect-square overflow-hidden self-center">
+      <div
+        className="flex items-center justify-center p-3 aspect-square overflow-hidden self-center"
+        onClick={getProductPreview}
+      >
         <Image
           className="object-cover max-w-full rounded group-hover:scale-110 transition-all duration-500"
           src={productData?.thumbnail}

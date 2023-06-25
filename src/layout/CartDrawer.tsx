@@ -13,11 +13,12 @@ import { useDispatch } from "react-redux";
 import { setShowCartDrawer } from "@/redux/slices/app.slice";
 import CartDrowerItems from "./components/CartDrowerItems";
 import CartItem from "./components/CartItem";
+import useGetToken from "@/hooks/useGetToken";
 
 function CartDrawer() {
   const dispatch = useDispatch();
 
-  const [token, setToken] = useState<string | undefined>(undefined);
+  const { token } = useGetToken();
   const cartVariants = {
     visible: { opacity: 1, translateX: "0px" },
     hidden: { opacity: 0, translateX: "-35px" },
@@ -31,33 +32,27 @@ function CartDrawer() {
   } = useGetCartItemsQuery(token!, { skip: !token ? true : false });
 
   useEffect(() => {
-    window.scrollBy({ top: 0, behavior: "smooth" });
-    document.body.classList.add("prevent-scroll");
-
+    const scrollY =
+        window.pageYOffset || window.document.documentElement.scrollTop,
+      scrollX =
+        window.pageXOffset || window.document.documentElement.scrollLeft;
+    function preventScroll() {
+      window.scrollTo({ top: scrollY, left: scrollX });
+    }
+    window.addEventListener("scroll", preventScroll);
     return () => {
-      document.body.classList.remove("prevent-scroll");
+      window.removeEventListener("scroll", preventScroll);
     };
   }, []);
   const handleHideCart = () => {
     dispatch(setShowCartDrawer(false));
   };
 
-  // get token from cookie and set token state
-  // this is important to get cart items
-  useEffect(() => {
-    const token = document.cookie.split("=")[1];
-    if (token) {
-      setToken(token);
-    } else {
-      setToken(undefined);
-    }
-  }, []);
-
   return (
-    <div className="absolute z-20 bg-slate-700 inset-0 bg-opacity-60 flex flex-col md:flex-row items-start justify-start md:justify-end gap-2 overflow-hidden">
+    <div className="fixed top-0 left-0 z-20 bg-slate-700 inset-0 bg-opacity-60 flex flex-col md:flex-row items-start justify-start md:justify-end gap-2 overflow-hidden">
       <div className="w-max h-screen max-md:h-max max-md:w-full flex items-center justify-center">
         <button
-          className="flex items-center justify-center bg-white w-11 h-11 rounded-full shadow-xl text-lg max-md:my-2"
+          className="flex items-center justify-center bg-red-600 text-white w-11 h-11 rounded-full shadow-xl text-lg max-md:my-2"
           title="go back"
           onClick={() => handleHideCart()}
         >
@@ -103,15 +98,26 @@ function CartDrawer() {
                 ))}
               </CartDrowerItems>
               <TotalElement total={cartItems?.cartTotal} />
-              <Link
-                href={{
-                  pathname: routes.shoppingCart,
-                }}
-                className="custom-button mb-4"
-                onClick={handleHideCart}
-              >
-                <p>shopping cart</p>
-              </Link>
+              <div className="w-full grid grid-cols-2 items-center justify-between gap-2">
+                <Link
+                  href={{
+                    pathname: routes.shoppingCart,
+                  }}
+                  className="custom-button mb-4 text-xs"
+                  onClick={handleHideCart}
+                >
+                  <p>Continue shopping</p>
+                </Link>
+                <Link
+                  href={{
+                    pathname: routes.shoppingCart,
+                  }}
+                  className="custom-button bg-Grey-800 mb-4 text-xs"
+                  onClick={handleHideCart}
+                >
+                  <p>Purchase completion</p>
+                </Link>
+              </div>
             </div>
           )}
       </motion.article>

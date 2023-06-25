@@ -171,7 +171,7 @@ export const shoperzApi = createApi({
           authorization: token,
         },
       }),
-      invalidatesTags: ["Cart"],
+      invalidatesTags: ["Cart", "OneProduct", "Products"],
     }),
     updateCartQuantity: builder.mutation<
       any,
@@ -252,7 +252,7 @@ export const shoperzApi = createApi({
           authorization: token,
         },
       }),
-      invalidatesTags: ["Address", "OneProduct"],
+      invalidatesTags: ["Address"],
     }),
   }),
 });
