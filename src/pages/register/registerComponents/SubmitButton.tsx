@@ -19,7 +19,7 @@ export default function SubmitButton({
       {isLoading ? (
         <label className="flex items-center justify-around gap-3">
           <span className="spinner-loading w-6 h-6 border-white"></span>
-          <small>wait a moment ..</small>
+          <small>sending ..</small>
         </label>
       ) : (
         title
