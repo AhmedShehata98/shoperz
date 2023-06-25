@@ -1,9 +1,11 @@
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 
-interface BreadcrumbProps {}
-function Breadcrumb() {
-  const { route, pathname } = useRouter();
+interface Props {
+  name: string;
+}
+function Breadcrumb({ name }: Props) {
+  const { pathname, asPath } = useRouter();
   const [bredcrumbData, setBredcrumbData] = useState([
     "shop",
     ...pathname.split("/"),

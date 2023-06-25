@@ -3,9 +3,16 @@ import SpecificationsContent from "./SpecificationsContent";
 import DescriptionContent from "./DescriptionContent";
 import ReviewsContent from "./ReviewsContent";
 
-export default function InformationData() {
+type Props = {
+  description: string;
+  specifications: string;
+};
+export default function InformationData({
+  description,
+  specifications,
+}: Props) {
   const [contentSelectNavbar, setContentSelectNavbar] = useState<
-    "description" | "specifications" | "reviews"
+    "description" | "specifications"
   >("description");
   return (
     <section className="container max-w-5xl mx-auto flex flex-col py-4">
@@ -30,20 +37,13 @@ export default function InformationData() {
         >
           specifications
         </button>
-        <button
-          className={
-            contentSelectNavbar === "reviews"
-              ? "px-4 py-3 border-y hover:bg-gray-200 capitalize font-bold bg-gray-200"
-              : "px-4 py-3 border-y hover:bg-gray-200 capitalize font-medium"
-          }
-          onClick={() => setContentSelectNavbar("reviews")}
-        >
-          reviews
-        </button>
       </nav>
-      {contentSelectNavbar === "description" && <DescriptionContent />}
-      {contentSelectNavbar === "specifications" && <SpecificationsContent />}
-      {contentSelectNavbar === "reviews" && <ReviewsContent />}
+      {contentSelectNavbar === "description" && (
+        <DescriptionContent description={description} />
+      )}
+      {contentSelectNavbar === "specifications" && (
+        <SpecificationsContent specifications={specifications} />
+      )}
     </section>
   );
 }

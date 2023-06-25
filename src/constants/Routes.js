@@ -7,6 +7,7 @@ export const routes = {
     register: "/register",
     login: "login",
     signup: "signup",
+    forgetPassword: "forget-password",
   },
   shop: "/shop",
   faq: "/faq",

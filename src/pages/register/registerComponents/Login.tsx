@@ -9,11 +9,12 @@ import SubmitButton from "./SubmitButton";
 import FormInputWrapper from "@/components/FormInputWrapper";
 import { useDispatch } from "react-redux";
 import { setToken } from "@/redux/slices/app.slice";
+import { routes } from "@/constants/Routes";
 
 function Login() {
   const { push } = useRouter();
   const dispatch = useDispatch();
-
+  const { forgetPassword } = routes.register;
   const [fetchLoginUser, loginResponse] = useLoginUserMutation();
   function handleStartLogin(ev: React.FormEvent<HTMLFormElement>) {
     ev.preventDefault();
@@ -25,34 +26,19 @@ function Login() {
       .unwrap()
       .then((res) => {
         dispatch(setToken({ token: res.data.token }));
-        setTimeout(() => {
-          push("/");
-        }, 5050);
+        toast.success("Logged in successfuly .");
+      })
+      .then(() => {
+        push("/");
+      })
+      .catch((err) => {
+        toast.error(err.data.message || err.data.error);
       });
   }
 
-  useEffect(() => {
-    if (loginResponse.isLoading === false) {
-      if (loginResponse.isError) {
-        toast.error("Oops , e-mail address or password in incorrect", {
-          position: "bottom-center",
-          className: "w-11/12 bottom-5 mx-auto lg:m-0 lg:w-auto",
-        });
-      }
-      if (loginResponse.isSuccess) {
-        toast.success(
-          "You have been successfully logged in and will now be redirected to the home page",
-          {
-            position: "bottom-center",
-            className: "w-11/12 bottom-5 mx-auto lg:m-0 lg:w-auto",
-          }
-        );
-      }
-    }
-  }, [loginResponse]);
   return (
     <form action="" className="lg:w-4/5 mb-14" onSubmit={handleStartLogin}>
-      <p className="my-5 lg:my-8 pb-2 lg:pb-3 capitalize">
+      <p className="mb-3 lg:my-4 text-sm capitalize text-Grey-600">
         login with your account and start your shopping tour in your favorate
         place .
       </p>
@@ -105,7 +91,7 @@ function Login() {
           forget password ?
         </Link>
       </div>
-      <div className="flex items-stretch justify-end pt-14">
+      <div className="flex items-stretch justify-end pt-6">
         <SubmitButton isLoading={loginResponse.isLoading} title="login" />
       </div>
     </form>

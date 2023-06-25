@@ -14,30 +14,7 @@ function Signup() {
   const dispatch = useDispatch();
   let timeoutRef = useRef(0);
   const [fetchSignupUser, signupResponse] = useSignupUserMutation();
-  useEffect(
-    function () {
-      if (!signupResponse.isLoading) {
-        //
-        if (signupResponse.isError) {
-          toast.error("Error , There's something wrong check signup data", {
-            position: "bottom-center",
-            className: "w-11/12 bottom-5 mx-auto lg:m-0 lg:w-auto",
-          });
-        }
-        if (signupResponse.isSuccess) {
-          toast.success(
-            "Congratulations, account is created successfully ,Please check your email inbox for activating account",
-            {
-              position: "bottom-center",
-              className: "w-11/12 bottom-5 mx-auto lg:m-0 lg:w-auto",
-            }
-          );
-        }
-        //
-      }
-    },
-    [signupResponse]
-  );
+
   const handleSendSingupData = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const data = new FormData(e.currentTarget);
@@ -53,21 +30,23 @@ function Signup() {
         const domain = window.document.location.hostname;
         document.cookie = `${domain}=${res.data.token}`;
         dispatch(setToken({ token: res.data.token }));
+        toast.success("your account created success .");
       })
       .then(() => {
-        timeoutRef.current = +setTimeout(() => {
-          router.push("/");
-        }, 6000);
+        router.push("/");
+      })
+      .catch((err) => {
+        toast.error(err.data.message);
       });
   };
 
   return (
     <form action="" className="lg:w-4/5 mb-14" onSubmit={handleSendSingupData}>
-      <p className="mb-3 lg:my-8 pb-3 lg:pb-3 capitalize text-Grey-700">
+      <p className="mb-3 lg:my-4 text-sm capitalize text-Grey-600">
         lets create new account in your favorate place and start your shopping
         and create new order .
       </p>
-      <div className="flex flex-col lg:flex-row items-stretch justify-between gap-2 lg:gap-5 max-lg:mb-1 mb-4">
+      <div className="flex flex-col lg:flex-row items-stretch justify-between gap-2 lg:gap-3 max-lg:mb-1 mb-2">
         <FormInputWrapper dir="col" extraClassName="basis-1/2">
           <label
             htmlFor="fullname"
@@ -79,7 +58,7 @@ function Signup() {
             type="text"
             id="fullname"
             placeholder="enter your fullname .."
-            className="input-field"
+            extraClassName="rounded-full py-2"
             name="fullname"
           />
         </FormInputWrapper>
@@ -96,7 +75,7 @@ function Signup() {
             placeholder="phone number .."
             min={11}
             max={11}
-            className="input-field"
+            extraClassName="rounded-full py-2"
             name="phone"
           />
         </FormInputWrapper>
@@ -112,7 +91,7 @@ function Signup() {
           type="text"
           id="email"
           placeholder="enter your email .."
-          className="input-field"
+          extraClassName="rounded-full py-2"
           name="email"
         />
       </FormInputWrapper>
@@ -130,7 +109,7 @@ function Signup() {
           type="password"
           id="password"
           placeholder="enter your password .."
-          className="input-field"
+          extraClassName="rounded-full py-2"
           name="password"
         />
       </FormInputWrapper>

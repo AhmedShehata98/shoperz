@@ -211,11 +211,14 @@ export default Shop;
 export const getStaticProps = wrapper.getStaticProps(
   ({ dispatch, getState }) =>
     async (context) => {
+      console.log("#".repeat(35));
+      console.log(context);
+      console.log("#".repeat(35));
       dispatch(shoperzApi.endpoints.getAllProducts.initiate({ limit: 20 }));
-      await Promise.all(dispatch(getRunningQueriesThunk()));
+      const [{ data }] = await Promise.all(dispatch(getRunningQueriesThunk()));
 
       return {
-        props: {},
+        props: { data },
       };
     }
 );

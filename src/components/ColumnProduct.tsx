@@ -31,14 +31,16 @@ const ColumnProduct = ({ product }: Props) => {
   const { name, thumbnail, rating, discount, price, isInCart } = product;
   return (
     <li className="relative flex items-center justify-between gap-3 bg-white transition-all duration-500 shadow p-3 mb-3 hover:shadow-lg hover:scale-105">
-      <span className="absolute top-0 left-0 flex items-center gap-2 rounded-br-full shadow-xl font-semibold bg-orange-600 text-white px-4 py-1.5">
-        <p>
-          {discount.toLocaleString("en-EG", {
-            style: "percent",
-          })}
-        </p>
-        <MdDiscount />
-      </span>
+      {!discount && discount > 0 ? (
+        <span className="absolute z-10 top-0 left-0 flex items-center gap-2 rounded-br-full shadow-xl font-semibold bg-orange-600 text-white px-4 py-1.5">
+          <p>
+            {(discount || "0").toLocaleString("en-EG", {
+              style: "percent",
+            })}
+          </p>
+          <MdDiscount />
+        </span>
+      ) : null}
       <figure className="w-28 h-28 grid place-content-center place-items-center aspect-square">
         <img
           src={thumbnail}

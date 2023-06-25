@@ -7,6 +7,7 @@ import QuickLoadingModul from "@/layout/QuickLoadingModul";
 import signupImg from "../../assets/img/signup.webp";
 import loginImg from "../../assets/img/login.webp";
 import Image from "next/image";
+import ResetPassword from "./registerComponents/ResetPassword";
 
 const Logo = dynamic(() => import("../../components/Logo"), {
   loading: () => <QuickLoadingModul />,
@@ -24,7 +25,7 @@ function Register() {
     pathname,
     query: { target },
   } = useRouter();
-  const { login, register, signup } = routes.register;
+  const { login, register, signup, forgetPassword } = routes.register;
   const handleChangePage = (data: string) => {
     push({
       pathname: register,
@@ -61,7 +62,7 @@ function Register() {
             <Logo />
           </header>
           <h3 className="font-semibold uppercase my-8">welcome to shoperz</h3>
-          <nav className="w-full lg:w-max flex items-center justify-between bg-sky-300 gap-2 rounded-full p-2 mb-3">
+          <nav className="relative w-full lg:w-max flex items-center justify-between bg-sky-300 gap-2 rounded-full p-2 mb-3">
             <button
               onClick={() => handleChangePage(signup)}
               className={
@@ -82,9 +83,20 @@ function Register() {
             >
               login
             </button>
+            <button
+              onClick={() => handleChangePage(forgetPassword)}
+              className={
+                target === forgetPassword
+                  ? "register-navlink register-navlink-active"
+                  : "register-navlink"
+              }
+            >
+              reset password
+            </button>
           </nav>
           {target === login && <Login />}
           {target === signup && <Signup />}
+          {target === forgetPassword && <ResetPassword />}
         </div>
       </main>
     </>

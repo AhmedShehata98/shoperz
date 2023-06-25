@@ -61,6 +61,8 @@ type Products = {
   isInCart: boolean;
   createdAt: string;
   updatedAt: string;
+  specifications: string;
+  deliveryCost: "free" | number;
   __v: number;
 };
 
@@ -79,11 +81,18 @@ type ProductsResponse = {
   message: string;
 };
 
+interface ProductByIdResponse extends ApiResponse {
+  data: {
+    product: Products;
+  };
+}
+
 type productQueriesParameter = {
   limit: number;
   page?: number;
   sortQueries?: Object;
 };
+
 interface TopRatedProductsResponse extends ApiResponse {
   data: {
     products: Array<Products>;

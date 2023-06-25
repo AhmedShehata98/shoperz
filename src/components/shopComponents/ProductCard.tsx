@@ -33,13 +33,13 @@ export default function ProductCard({ productData, onAddToCart }: Props) {
   const { push } = useRouter();
   const { shop: shopRoute } = routes;
 
-  function getCurrentProductPreview() {
-    push(shopRoute, { query: { id: _id } });
+  function getProductPreview() {
+    push(`${shopRoute}/${_id}`);
   }
   return (
     <li
       className="flex max-sm:flex-col max-md:w-full border shadow p-3 cursor-pointer hover:scale-105 duration-300 max-lg:justify-between"
-      onClick={getCurrentProductPreview}
+      onClick={getProductPreview}
     >
       <figure className="flex max-sm:grid w-full">
         <div className="p-6">

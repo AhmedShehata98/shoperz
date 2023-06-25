@@ -9,7 +9,7 @@ import { HYDRATE } from "next-redux-wrapper";
 
 export const shoperzApi = createApi({
   reducerPath: "shoperz",
-  tagTypes: ["Products", "Users", "Cart", "Address"],
+  tagTypes: ["Products", "Users", "Cart", "Address", "OneProduct"],
   baseQuery: fetchBaseQuery({ baseUrl: API_BASE_URL }),
   extractRehydrationInfo(action, { reducerPath }) {
     if (action.type === HYDRATE) {
@@ -74,7 +74,7 @@ export const shoperzApi = createApi({
         `${ENDPOINTS.products.products}/?sort=${
           sortQueries || "-createdAt"
         }&limit=${limit || 10}&page=${page || 1}`,
-      providesTags: ["Products"],
+      providesTags: ["OneProduct"],
     }),
     getTopRatedProducts: builder.query<
       TopRatedProductsResponse,
@@ -92,9 +92,9 @@ export const shoperzApi = createApi({
         `${ENDPOINTS.products.megaOfferProduct}/?limit=${limit || 5}`,
       providesTags: ["Products"],
     }),
-    getProductById: builder.query<ProductsResponse, string>({
+    getProductById: builder.query<ProductByIdResponse, string | undefined>({
       query: (id) => `${ENDPOINTS.products.products}/${id}`,
-      providesTags: ["Products"],
+      providesTags: ["OneProduct"],
     }),
     searchProducts: builder.mutation<SearchBox, string>({
       query: (query) => ({
@@ -121,6 +121,18 @@ export const shoperzApi = createApi({
           dispatch(setShoppingCart({ cart: cartIds }));
         });
       },
+    }),
+    getCartById: builder.query<
+      any,
+      { productId: string | undefined; token: string | undefined }
+    >({
+      query: ({ productId, token }) => ({
+        url: `${ENDPOINTS.cart}/${productId}`,
+        method: "GET",
+        headers: {
+          authorization: token,
+        },
+      }),
     }),
     addToCart: builder.mutation<
       AddToCartResponse,
@@ -176,7 +188,7 @@ export const shoperzApi = createApi({
           authorization: token,
         },
       }),
-      invalidatesTags: ["Cart"],
+      invalidatesTags: ["Cart", "OneProduct"],
     }),
     getUserAddressList: builder.query<
       ShippingAddressResponse,
@@ -240,7 +252,7 @@ export const shoperzApi = createApi({
           authorization: token,
         },
       }),
-      invalidatesTags: ["Address"],
+      invalidatesTags: ["Address", "OneProduct"],
     }),
   }),
 });
@@ -258,6 +270,7 @@ export const {
   useAddToCartMutation,
   useRemoveFromCartMutation,
   useGetCartItemsQuery,
+  useGetCartByIdQuery,
   useUpdateCartQuantityMutation,
   useGetUserAddressListQuery,
   useAddUserAddressMutation,

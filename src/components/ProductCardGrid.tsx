@@ -3,13 +3,24 @@ import Image from "next/image";
 import { AiTwotoneHeart } from "react-icons/ai";
 import { BsCartCheckFill, BsFillCartPlusFill } from "react-icons/bs";
 import { MdDiscount } from "react-icons/md";
+import { routes } from "@/constants/Routes";
+import { useRouter } from "next/router";
 type Props = {
   productData: Products;
   onAddToCart: React.MouseEventHandler;
 };
 const ProductCardGrid = ({ onAddToCart, productData }: Props) => {
+  const { push } = useRouter();
+  const { shop } = routes;
+  function getProductPreview() {
+    push(`${shop}/${productData._id}`);
+  }
   return (
-    <li className="h-80 p-4 flex flex-col items-start justify-between relative cursor-pointer border-Grey-200 group border-[1px] hover:border-transparent hover:shadow-md rounded">
+    <li
+      className="h-80 p-4 flex flex-col items-start justify-between relative cursor-pointer border-Grey-200 group border-[1px] hover:border-transparent hover:shadow-md rounded"
+      onClick={getProductPreview}
+    >
+      {" "}
       <span className="w-full flex justify-between items-center">
         <h6 className="text-xs text-Grey-700">
           {productData?.category_id?.name || "NA-NA"}

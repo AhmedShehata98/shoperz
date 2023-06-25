@@ -24,10 +24,10 @@
     @apply relative w-44 h-44 flex flex-col gap-3 items-center justify-center bg-white shadow-lg rounded-full p-3;
   }
   .register-navlink {
-    @apply w-1/2 lg:w-40 block py-1.5 lg:py-2 px-4 text-lg text-center uppercase rounded-full hover:bg-sky-400 hover:shadow;
+    @apply relative isolate w-max lg:w-36 block py-1.5 lg:py-2 px-6 lg:px-3 text-center capitalize rounded-full overflow-hidden duration-500 after:transition-all after:content-[""] after:absolute after:w-full after:h-full after:inset-0 after:bg-Primary-700 after:z-[-1] after:rounded-full after:translate-y-full hover:after:translate-y-0 after:bg-opacity-0 hover:text-white hover:after:bg-opacity-100;
   }
   .register-navlink-active {
-    @apply text-white bg-sky-600  shadow-md hover:bg-sky-600;
+    @apply text-white after:translate-y-0 after:bg-opacity-100;
   }
   .swiper-prev {
     @apply w-7 h-7 flex items-center justify-center border rounded-md text-lg;
@@ -37,7 +37,7 @@
   }
   .input-field {
     @apply w-full px-5 py-2 lg:py-3 rounded-full shadow-sm border border-sky-700 focus:outline-none focus:shadow-blue-400
-    w-full px-5 py-3 rounded-full shadow-sm border border-sky-700 focus:outline-none focus:shadow-blue-400;
+     px-5 py-3 rounded-full shadow-sm border border-sky-700 focus:outline-none focus:shadow-blue-400;
   }
   .shopping-cart-wrapper {
     @apply w-full flex flex-col items-center justify-center gap-7;
