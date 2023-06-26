@@ -55,7 +55,7 @@ function UserAddressForm({ setIsShowing }: AddressForm) {
     fetchAddUserAddress({ address: formData, token: token })
       .unwrap()
       .then((res) => {
-        toast.done("Ok , Address is added successfully .");
+        toast.done("Ok , Your address is added successfully .");
         setIsShowing(false);
       })
       .catch((err) => {
@@ -65,7 +65,16 @@ function UserAddressForm({ setIsShowing }: AddressForm) {
       });
   };
   return (
-    <div className="absolute z-10 inset-0 flex items-start md:items-center justify-center bg-Grey-800 bg-opacity-60 overflow-y-auto">
+    <motion.div
+      variants={{
+        hidden: { opacity: 0 },
+        visible: { opacity: 1 },
+      }}
+      initial={"hidden"}
+      animate={"visible"}
+      exit={"hidden"}
+      className="absolute z-10 inset-0 flex items-start md:items-center justify-center bg-Grey-800 bg-opacity-60 overflow-y-auto"
+    >
       <motion.form
         action=""
         variants={{
@@ -74,6 +83,7 @@ function UserAddressForm({ setIsShowing }: AddressForm) {
         }}
         initial={"hidden"}
         animate={"visible"}
+        exit={"hidden"}
         className="flex flex-col items-stretch justify-start w-full md:w-3/5 bg-white p-3 rounded-md"
         onSubmit={handleSubmit}
       >
@@ -267,7 +277,7 @@ function UserAddressForm({ setIsShowing }: AddressForm) {
           </button>
         </div>
       </motion.form>
-    </div>
+    </motion.div>
   );
 }
 

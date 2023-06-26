@@ -7,6 +7,7 @@ import {
   selectAppState,
   setCartLength,
   setIsLoggedIn,
+  setShowCartDrawer,
 } from "@/redux/slices/app.slice";
 import Link from "next/link";
 import { routes } from "@/constants/Routes";
@@ -47,11 +48,7 @@ function HeaderControlsActions({ setShowMenu }: Props) {
     skip: !token ? true : false,
   });
 
-  const {
-    shoppingCart,
-
-    wishList,
-  } = routes;
+  const { wishList } = routes;
   const [showUserMenu, setShowUserMenu] = useState(false);
   const handleBodyClickEvent = (ev: MouseEvent) => {
     const clickArea = ev.target as HTMLElement;
@@ -86,6 +83,10 @@ function HeaderControlsActions({ setShowMenu }: Props) {
     }
   }, [cartItems, dispacth]);
 
+  const hanleShowCartDrower = () => {
+    dispacth(setShowCartDrawer(true));
+  };
+
   return (
     <div className="header-control-actions">
       <span className="flex items-center justify-center max-md:gap-4 gap-8">
@@ -118,13 +119,14 @@ function HeaderControlsActions({ setShowMenu }: Props) {
           <BsFillHeartFill />
           <ItemsCountingLength length={0} />
         </Link>
-        <Link
-          href={{ pathname: shoppingCart }}
+        <button
+          type="button"
           className="flex items-center gap-2"
+          onClick={hanleShowCartDrower}
         >
           <FaShoppingCart />
           <ItemsCountingLength length={cartLength} />
-        </Link>
+        </button>
       </span>
     </div>
   );

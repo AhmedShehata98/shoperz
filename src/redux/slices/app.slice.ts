@@ -4,18 +4,17 @@ import { SinglyLinkedList } from "@/utils/SinglyLinkedList";
 import { ICreditCard } from "@/models/shopperz.model";
 
 interface AppStateProps {
-  currentComponent: "shopping-cart" | "checkout" | "order-complete";
+  paymentStatusbarState: "shopping-cart" | "checkout" | "order-complete";
   showCartDrawer: boolean;
   paymentMethod: IPaymentMethod[];
   creditCardsList: ICreditCard[];
   cartLength: number;
   isLoggedIn: boolean;
   shoppingCart: { _id: string }[] | [];
-  token: string | null;
 }
 
 const initialState: AppStateProps = {
-  currentComponent: "shopping-cart",
+  paymentStatusbarState: "shopping-cart",
   cartLength: 0,
   showCartDrawer: false,
   isLoggedIn: false,
@@ -33,16 +32,12 @@ const initialState: AppStateProps = {
   ],
   creditCardsList: [],
   shoppingCart: [],
-  token: null,
 };
 
 export const appSlice = createSlice({
   name: "app",
   initialState,
   reducers: {
-    changeCurrentOrderComponent: (state, action) => {
-      state.currentComponent = action.payload;
-    },
     selectPatmentMethod: (state, action) => {
       let newPaymentMethod = state.paymentMethod.map((method) =>
         method.id === action.payload
@@ -87,21 +82,27 @@ export const appSlice = createSlice({
     },
     setShoppingCart: (state, action) => {
       let cart = action.payload.cart as [];
-      state.shoppingCart?.push(...cart);
+      state.shoppingCart = [...cart];
       state.cartLength = action.payload.cart?.length;
+    },
+    removeFromShoppingCart: (state, action) => {
+      const newShoppingCart = state.shoppingCart.filter(
+        (cartItem) => cartItem._id !== action.payload._id
+      );
+      state.shoppingCart = newShoppingCart;
+      state.cartLength = newShoppingCart.length;
     },
     setIsLoggedIn: (state, action) => {
       state.isLoggedIn = action.payload;
     },
-    setToken: (state, action) => {
-      state.token = action.payload.token;
+    setPaymentStatusbarState: (state, action) => {
+      state.paymentStatusbarState = action.payload.currentState;
     },
   },
 });
 
 export const selectAppState = (state: AppState) => state.app;
 export const {
-  changeCurrentOrderComponent,
   setIsLoggedIn,
   addPaymentData,
   selectPatmentMethod,
@@ -109,6 +110,7 @@ export const {
   removeFromCreditCardsList,
   setShowCartDrawer,
   setCartLength,
-  setToken,
   setShoppingCart,
+  removeFromShoppingCart,
+  setPaymentStatusbarState,
 } = appSlice.actions;

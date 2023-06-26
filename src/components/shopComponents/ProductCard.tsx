@@ -1,10 +1,13 @@
 import CustomButton from "@/components/CustomButton";
 import { routes } from "@/constants/Routes";
+import useInShoppingCart from "@/hooks/useInShoppingCart";
+import { selectAppState } from "@/redux/slices/app.slice";
 import { Rating } from "flowbite-react";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { BsFillCartCheckFill, BsFillCartPlusFill } from "react-icons/bs";
+import { useSelector } from "react-redux";
 
 type Props = {
   productData: Products;
@@ -26,26 +29,25 @@ export default function ProductCard({ productData, onAddToCart }: Props) {
     rating,
     sku,
     stock,
-    isInCart,
     thumbnail,
     updatedAt,
   } = productData;
   const { push } = useRouter();
   const { shop: shopRoute } = routes;
-
+  const { isInCart, setIsInCart } = useInShoppingCart(_id);
   function getProductPreview() {
     push(`${shopRoute}/${_id}`);
   }
+
   return (
-    <li
-      className="flex max-sm:flex-col max-md:w-full border shadow p-3 cursor-pointer hover:scale-105 duration-300 max-lg:justify-between"
-      onClick={getProductPreview}
-    >
+    <li className="flex max-sm:flex-col max-md:w-full border shadow p-3 hover:scale-105 duration-300 max-lg:justify-between">
       <figure className="flex max-sm:grid w-full">
-        <div className="p-6">
-          <img
+        <div className="p-6 cursor-pointer" onClick={getProductPreview}>
+          <Image
             className="object-cover min-w-[200px] md:max-h-36 rounded"
             src={thumbnail}
+            width={200}
+            height={235}
             alt="product-img-thumbnail"
           />
         </div>
@@ -53,7 +55,10 @@ export default function ProductCard({ productData, onAddToCart }: Props) {
           <h6 className="text-gray-500 text-sm">
             {category_id?.name || "NA-NA"}
           </h6>
-          <h5 className="text-Primary-600 font-semibold text-sm py-2 items-center">
+          <h5
+            className="text-Primary-600 font-semibold text-sm py-2 items-center cursor-pointer"
+            onClick={getProductPreview}
+          >
             {name}
           </h5>
           <Rating className="py-1">

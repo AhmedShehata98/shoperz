@@ -26,13 +26,11 @@ function ProfileSettings({ title }: Props) {
       fullname: "",
       phone: "",
       email: "",
-      "uid-code": "",
       "current-password": "",
       "new-password": "",
       "confirm-password": "",
     }
   );
-  const [uidCode, setUidCode] = React.useState("");
   const [fetchChangePassword, chpwdResponse] =
     useChangeCurrentPasswordMutation();
 

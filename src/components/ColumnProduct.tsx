@@ -8,6 +8,7 @@ import useGetToken from "@/hooks/useGetToken";
 import { selectAppState, setShowCartDrawer } from "@/redux/slices/app.slice";
 import { BsFillCartCheckFill } from "react-icons/bs";
 import { MdDiscount } from "react-icons/md";
+import useInShoppingCart from "@/hooks/useInShoppingCart";
 
 type Props = {
   product: Products;
@@ -16,9 +17,8 @@ type Props = {
 const ColumnProduct = ({ product }: Props) => {
   const { isLoggedIn } = useSelector(selectAppState);
   const [fetchAddToCart, addToCartResponse] = useAddToCartMutation();
-  const dispatch = useDispatch();
   const { token } = useGetToken();
-
+  const { isInCart } = useInShoppingCart(product._id);
   const handleAddToCart = (productId: string, quantity: number) => {
     if (isLoggedIn) {
       fetchAddToCart({ productId, quantity, token: token! });
@@ -28,7 +28,7 @@ const ColumnProduct = ({ product }: Props) => {
       );
     }
   };
-  const { name, thumbnail, rating, discount, price, isInCart } = product;
+  const { name, thumbnail, rating, discount, price } = product;
   return (
     <li className="relative flex items-center justify-between gap-3 bg-white transition-all duration-500 shadow p-3 mb-3 hover:shadow-lg hover:scale-105">
       {!discount && discount > 0 ? (

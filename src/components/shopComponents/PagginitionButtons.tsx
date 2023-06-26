@@ -31,7 +31,7 @@ function PagginitionButtons({
               "paggination-index",
               page + 1 === currentPage && "paggination-index-active"
             )}
-            data-pageNumber={page + 1}
+            data-pagenumber={page + 1}
             onClick={onChangePage}
           >
             {page + 1}

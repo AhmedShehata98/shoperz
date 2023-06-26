@@ -4,7 +4,7 @@ import {
   useGetCartByIdQuery,
   useUpdateCartQuantityMutation,
 } from "@/services/shoperzApi.service";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { toast } from "react-toastify";
 
@@ -15,49 +15,67 @@ function CarttQuantity({ product_id }: Props) {
   const { token } = useGetToken();
   const [fetchUpdateQuantity, updateQuantityResponse] =
     useUpdateCartQuantityMutation();
-  const { quantity, isLoading, refetch } = useGetCartByIdQuery(
-    { productId: product_id, token },
-    {
-      selectFromResult: ({ isLoading, isError, data, isSuccess }) => {
-        if (isSuccess) {
-          return {
-            isError,
-            isLoading,
-            quantity: data.data.cartItem.quantity,
-          };
-        } else {
-          return {
-            isError,
-            isLoading,
-            quantity: [],
-          };
-        }
-      },
-    }
-  );
+
+  const { data, isLoading, isSuccess, refetch } = useGetCartByIdQuery({
+    productId: product_id,
+    token,
+  });
+
+  const [quantity, setQuantity] = useState(0);
+
   function handleChangeQuantity(event: React.MouseEvent) {
     const target = event.target as HTMLButtonElement;
     const quantityBtn = target.dataset.quantity as "increase" | "descrease";
-    let newQuantity = quantity;
 
-    if (newQuantity !== 0) {
-      fetchUpdateQuantity({
-        token,
-        productId: product_id,
-        quantity:
-          quantityBtn === "increase" ? newQuantity + 1 : newQuantity - 1,
-      })
-        .then((res) => {
-          refetch();
-          toast.success("increased quantity success.", {
-            position: "bottom-center",
-          });
+    if (quantityBtn === "increase") {
+      setQuantity((q) => {
+        fetchUpdateQuantity({
+          token,
+          productId: product_id,
+          quantity: q + 1,
         })
-        .catch((err) => {
-          toast.error(`something happend worng ${err.message}`);
-        });
+          .then((res) => {
+            refetch();
+            toast.success("increased quantity success.", {
+              position: "bottom-center",
+            });
+          })
+          .catch((err) => {
+            toast.error(`something happend worng ${err.message}`);
+          });
+
+        return q + 1;
+      });
+    } else {
+      setQuantity((q) => {
+        if (quantity !== 0) {
+          fetchUpdateQuantity({
+            token,
+            productId: product_id,
+            quantity,
+          })
+            .then((res) => {
+              refetch();
+              toast.success("increased quantity success.", {
+                position: "bottom-center",
+              });
+            })
+            .catch((err) => {
+              toast.error(`something happend worng ${err.message}`);
+            });
+        }
+
+        return q - 1;
+      });
     }
   }
+
+  useEffect(() => {
+    if (isSuccess && !isLoading) {
+      setQuantity(data?.data.cartItem.quantity);
+    }
+  }, [isLoading, isSuccess]);
+
   return (
     <span
       className="w-max flex items-center justify-between border border-zinc-300 rounded-full p-1 my-3"
@@ -69,7 +87,7 @@ function CarttQuantity({ product_id }: Props) {
         type="button"
         data-quantity="increase"
       >
-        <AiOutlinePlus />
+        <AiOutlinePlus className="pointer-events-none" />
       </button>
       {isLoading ? (
         <span className="block w-6 h-6 border-4 border-black border-t-Grey-400 rounded-full animate-spin"></span>
@@ -83,7 +101,7 @@ function CarttQuantity({ product_id }: Props) {
         data-quantity="descrease"
         disabled={quantity === 1}
       >
-        <AiOutlineMinus />
+        <AiOutlineMinus className="pointer-events-none" />
       </button>
     </span>
   );

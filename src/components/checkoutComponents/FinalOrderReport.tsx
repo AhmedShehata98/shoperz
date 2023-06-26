@@ -3,10 +3,7 @@ import visaLogo from "../../assets/icons/visa.png";
 import mastercardLogo from "../../assets/icons/mastercard.svg";
 import paypalLogo from "../../assets/icons/paypal.svg";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  changeCurrentOrderComponent,
-  selectAppState,
-} from "@/redux/slices/app.slice";
+import { selectAppState } from "@/redux/slices/app.slice";
 
 import Link from "next/link";
 import { routes } from "@/constants/Routes";
@@ -26,7 +23,6 @@ function FinalOrderReport({ discountedTotal, children }: OrderReportProps) {
     if (isAgreement === false) {
       confirmationLabel.current?.classList.add("text-red-700");
     } else {
-      dispatch(changeCurrentOrderComponent("order-complete"));
     }
     if (isAgreement) {
       confirmationLabel.current?.classList.remove("text-red-700");

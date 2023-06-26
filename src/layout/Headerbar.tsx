@@ -30,8 +30,8 @@ const Headerbar = () => {
 
   return (
     <header ref={headerbarRef} className="flex flex-col w-full h-fit bg-white">
-      {showCartDrawer ? <CartDrawer /> : null}
       <AnimatePresence mode="wait">
+        {showCartDrawer ? <CartDrawer /> : null}
         {showMenu && <ActionMenu setShowMenu={setShowMenu} />}
       </AnimatePresence>
       <section className="container max-w-5xl mx-auto flex flex-col justify-between items-center gap-3">

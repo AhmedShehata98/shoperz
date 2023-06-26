@@ -8,7 +8,7 @@ const ButtonFilter = ({ onClick }: Props) => {
   return (
     <button
       type="button"
-      className="bg-slate-400 rounded-full p-4 fixed bottom-4 left-4"
+      className="fixed z-10 bottom-4 right-4 bg-slate-400 rounded-full p-4 transition-transform translate-x-[200%] max-lg:translate-x-0"
       onClick={onClick}
     >
       <svg

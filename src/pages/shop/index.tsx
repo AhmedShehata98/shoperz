@@ -42,41 +42,21 @@ const Shop = (props: Props) => {
   const [sortMethod, setSortMethod] = useState<sortMethods>("-createdAt");
   const [productsView, setProductsView] = useState<"list" | "grid">("list");
 
-  const { isProductsError, isLoadingProducts, products, isSuccessProducts } =
-    useGetAllProductsQuery(
-      {
-        limit: productsLimitSelect,
-        sortQueries: sortMethod,
-        page,
-      },
-      {
-        refetchOnFocus: true,
-        selectFromResult: ({ data, isSuccess, isError, isLoading }) => {
-          if (isSuccess) {
-            return {
-              products: {
-                products: isInCartMiddleware(data?.data.products, shoppingCart),
-                paginition: data?.data.paginition,
-              },
-              isSuccessProducts: isSuccess,
-              isProductsError: isError,
-              isLoadingProducts: isLoading,
-            };
-          } else {
-            return {
-              data: {
-                products: undefined,
-                paginition: undefined,
-              },
-              isSuccessProducts: isSuccess,
-              isProductsError: isError,
-              isLoadingProducts: isLoading,
-            };
-          }
-        },
-      }
-    );
-
+  const {
+    isError: isProductsError,
+    isLoading: isLoadingProducts,
+    data: products,
+    isSuccess: isSuccessProducts,
+  } = useGetAllProductsQuery(
+    {
+      limit: productsLimitSelect,
+      sortQueries: sortMethod,
+      page,
+    },
+    {
+      refetchOnFocus: true,
+    }
+  );
   const handleShowFilterbar = () => {
     filterRef.current?.classList.toggle("filter-sidebar-show");
     document.body.classList.toggle("prevent-scroll");
@@ -152,8 +132,8 @@ const Shop = (props: Props) => {
             onChangeProductsView={handleChangeProductsView}
             currentProductView={productsView}
             title={"tv & audio"}
-            count={products?.paginition?.length || 0}
-            fromCount={products?.paginition?.actualProductsLength || 0}
+            count={products?.data.paginition?.length || 0}
+            fromCount={products?.data.paginition?.actualProductsLength || 0}
             productsLimitSelect={productsLimitSelect}
             sortMethod={sortMethod}
             onSortSelect={(ev: React.ChangeEvent<HTMLSelectElement>) =>
@@ -169,9 +149,9 @@ const Shop = (props: Props) => {
               isError: isProductsError,
               isLoading: isLoadingProducts,
             }}
-            productsLength={products?.products?.length}
+            productsLength={products?.data.products?.length}
           >
-            {products?.products?.map((product) =>
+            {products?.data.products?.map((product) =>
               productsView === "list" ? (
                 <ProductCard
                   key={product._id}
@@ -193,10 +173,10 @@ const Shop = (props: Props) => {
           </ProductsListWrapper>
           <PagginitionButtons
             actualProductsLength={
-              products?.paginition.actualProductsLength || 0
+              products?.data.paginition.actualProductsLength || 0
             }
-            remainingPages={products?.paginition.remainingPages || 0}
-            currentPage={+products?.paginition?.currentPage! || page}
+            remainingPages={products?.data.paginition.remainingPages || 0}
+            currentPage={+products?.data.paginition?.currentPage! || page}
             onChangePage={(event) => handleChangePage(event)}
           />
         </section>
@@ -208,17 +188,17 @@ const Shop = (props: Props) => {
 
 export default Shop;
 
-export const getStaticProps = wrapper.getStaticProps(
-  ({ dispatch, getState }) =>
-    async (context) => {
-      console.log("#".repeat(35));
-      console.log(context);
-      console.log("#".repeat(35));
-      dispatch(shoperzApi.endpoints.getAllProducts.initiate({ limit: 20 }));
-      const [{ data }] = await Promise.all(dispatch(getRunningQueriesThunk()));
+// export const getStaticProps = wrapper.getStaticProps(
+//   ({ dispatch, getState }) =>
+//     async (context) => {
+//       console.log("#".repeat(35));
+//       console.log(context);
+//       console.log("#".repeat(35));
+//       dispatch(shoperzApi.endpoints.getAllProducts.initiate({ limit: 20 }));
+//       const [{ data }] = await Promise.all(dispatch(getRunningQueriesThunk()));
 
-      return {
-        props: { data },
-      };
-    }
-);
+//       return {
+//         props: { data },
+//       };
+//     }
+// );

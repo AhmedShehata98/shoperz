@@ -19,6 +19,7 @@ import {
   getRunningQueriesThunk,
   shoperzApi,
 } from "@/services/shoperzApi.service";
+import useInShoppingCart from "@/hooks/useInShoppingCart";
 
 type Props = {
   product: Products;
@@ -27,6 +28,8 @@ type Props = {
 };
 
 const ProductPage: NextPage<Props> = ({ product }) => {
+  const { isInCart } = useInShoppingCart(product._id);
+
   return (
     <>
       <Head>
@@ -51,6 +54,7 @@ const ProductPage: NextPage<Props> = ({ product }) => {
             />
             <ProductSalary
               product_id={product._id}
+              isInCart={isInCart}
               price={product.price || 0}
               stock={product.stock}
               deliveryCost={product.deliveryCost}

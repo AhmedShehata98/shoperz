@@ -49,7 +49,15 @@ function CartDrawer() {
   };
 
   return (
-    <div className="fixed top-0 left-0 z-20 bg-slate-700 inset-0 bg-opacity-60 flex flex-col md:flex-row items-start justify-start md:justify-end gap-2 overflow-hidden">
+    <motion.div
+      initial={"hidden"}
+      animate={"visible"}
+      variants={{
+        hidden: { opacity: 0 },
+        visible: { opacity: 1 },
+      }}
+      className="fixed top-0 left-0 z-30 bg-slate-700 inset-0 bg-opacity-60 flex flex-col md:flex-row items-start justify-start md:justify-end gap-2 overflow-hidden"
+    >
       <div className="w-max h-screen max-md:h-max max-md:w-full flex items-center justify-center">
         <button
           className="flex items-center justify-center bg-red-600 text-white w-11 h-11 rounded-full shadow-xl text-lg max-md:my-2"
@@ -71,7 +79,7 @@ function CartDrawer() {
             ( {cartItems?.userCart.items.length} )
           </p>
         </header>
-        {cartItems?.userCart.items?.length! < 1 && errorFetchCartItems && (
+        {cartItems?.userCart.items?.length! < 1 && (
           <div className="w-full h-3/4 flex flex-col justify-center items-center">
             <span className="flex bg-sky-100 text-6xl text-sky-700 rounded-full shadow p-7">
               <HiOutlineShoppingBag />
@@ -121,7 +129,7 @@ function CartDrawer() {
             </div>
           )}
       </motion.article>
-    </div>
+    </motion.div>
   );
 }
 

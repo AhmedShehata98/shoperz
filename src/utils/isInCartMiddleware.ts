@@ -5,9 +5,7 @@ export const isInCartMiddleware = (
   // loop over the products list
   // compare each product id with list of shopping cart id's
   // if equals id's return all products contains that id with extra property "isInCart" else return all without modify
-  console.log("&".repeat(25));
-  console.log(shoppingCart);
-  console.log("&".repeat(25));
+
   if (Array.isArray(products)) {
     let newProduct = products.map((product) =>
       shoppingCart.some((item) => item?._id === product._id)

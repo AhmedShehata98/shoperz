@@ -14,7 +14,6 @@ import {
 } from "@/services/shoperzApi.service";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import useGetToken from "@/hooks/useGetToken";
-import { isInCartMiddleware } from "@/utils/isInCartMiddleware";
 import { useSelector } from "react-redux";
 import { selectAppState } from "@/redux/slices/app.slice";
 import ErrorHappened from "./ErrorHappened";
@@ -25,40 +24,13 @@ type Props = {};
 const FeaturedProducts = (props: Props) => {
   const { shoppingCart } = useSelector(selectAppState);
   const { token } = useGetToken();
+
   const {
     isError,
     error,
     isLoading,
     data: products,
-  } = useGetAllProductsQuery(
-    { limit: 12, sortQueries: "createdAt" },
-
-    {
-      selectFromResult: ({ data, isSuccess, isError, error, isLoading }) => {
-        if (isSuccess) {
-          return {
-            data: {
-              products: isInCartMiddleware(data?.data.products, shoppingCart),
-              paginition: data?.data.paginition,
-            },
-            isError,
-            error,
-            isLoading,
-          };
-        }
-
-        return {
-          data: {
-            products: undefined,
-            paginition: undefined,
-          },
-          isError,
-          error,
-          isLoading,
-        };
-      },
-    }
-  );
+  } = useGetAllProductsQuery({ limit: 12, sortQueries: "createdAt" });
   const [FetchaddToCart, addToCartResponse] = useAddToCartMutation();
 
   const [isEndOfList, setIsEndOfList] = useState(false);
@@ -129,7 +101,7 @@ const FeaturedProducts = (props: Props) => {
                 <ProductCardSkeleton dir={"grid"} />
               </SwiperSlide>
             ))
-          : products?.products?.map((product) => (
+          : products?.data.products?.map((product) => (
               <SwiperSlide key={product._id}>
                 <Product
                   productData={product}

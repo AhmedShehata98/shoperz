@@ -5,12 +5,14 @@ import { BsCartCheckFill, BsFillCartPlusFill } from "react-icons/bs";
 import { MdDiscount } from "react-icons/md";
 import { routes } from "@/constants/Routes";
 import { useRouter } from "next/router";
+import useInShoppingCart from "@/hooks/useInShoppingCart";
 type Props = {
   productData: Products;
   onAddToCart: React.MouseEventHandler;
 };
 const ProductCardGrid = ({ onAddToCart, productData }: Props) => {
   const { push } = useRouter();
+  const { isInCart, setIsInCart } = useInShoppingCart(productData._id);
   const { shop } = routes;
   function getProductPreview() {
     push(`${shop}/${productData._id}`);
@@ -72,17 +74,13 @@ const ProductCardGrid = ({ onAddToCart, productData }: Props) => {
           </button>
           <button
             className={`product-grid-card-btn ${
-              productData.isInCart ? "bg-Primary-700" : "bg-Grey-600"
+              isInCart ? "bg-Primary-700" : "bg-Grey-600"
             }`}
             onClick={onAddToCart}
             title="add to cart"
-            disabled={productData.isInCart}
+            disabled={isInCart}
           >
-            {productData.isInCart ? (
-              <BsCartCheckFill />
-            ) : (
-              <BsFillCartPlusFill />
-            )}
+            {isInCart ? <BsCartCheckFill /> : <BsFillCartPlusFill />}
           </button>
         </div>
       </div>

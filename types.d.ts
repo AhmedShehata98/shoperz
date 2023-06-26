@@ -13,6 +13,21 @@ type Cart = {
   discountedTotal: number;
 };
 
+interface GetCartByIdResponse extends ApiResponse {
+  data: {
+    cartItem: {
+      productId: string;
+      quantity: number;
+      _id: string;
+    };
+  };
+}
+interface RemoveCartitemResponse extends ApiResponse {
+  data: {
+    userCart: { _id: string };
+  };
+}
+
 interface AddToCartResponse extends ApiResponse {
   data: {
     cart: Array<{ _id: string }>;

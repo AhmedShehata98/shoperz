@@ -4,8 +4,10 @@ import {
   setShoppingCart,
   setIsLoggedIn,
   setShowCartDrawer,
+  removeFromShoppingCart,
 } from "@/redux/slices/app.slice";
 import { HYDRATE } from "next-redux-wrapper";
+import { isInCartMiddleware } from "@/utils/isInCartMiddleware";
 
 export const shoperzApi = createApi({
   reducerPath: "shoperz",
@@ -74,7 +76,7 @@ export const shoperzApi = createApi({
         `${ENDPOINTS.products.products}/?sort=${
           sortQueries || "-createdAt"
         }&limit=${limit || 10}&page=${page || 1}`,
-      providesTags: ["OneProduct"],
+      providesTags: ["Products"],
     }),
     getTopRatedProducts: builder.query<
       TopRatedProductsResponse,
@@ -123,7 +125,7 @@ export const shoperzApi = createApi({
       },
     }),
     getCartById: builder.query<
-      any,
+      GetCartByIdResponse,
       { productId: string | undefined; token: string | undefined }
     >({
       query: ({ productId, token }) => ({
@@ -161,7 +163,7 @@ export const shoperzApi = createApi({
       },
     }),
     removeFromCart: builder.mutation<
-      ApiResponse,
+      RemoveCartitemResponse,
       { productId: string | undefined; token: string | undefined }
     >({
       query: ({ productId, token }) => ({
@@ -172,6 +174,10 @@ export const shoperzApi = createApi({
         },
       }),
       invalidatesTags: ["Cart", "OneProduct", "Products"],
+      onQueryStarted: async (arg, { queryFulfilled, dispatch }) => {
+        await queryFulfilled;
+        dispatch(removeFromShoppingCart({ _id: arg.productId }));
+      },
     }),
     updateCartQuantity: builder.mutation<
       any,
@@ -192,9 +198,9 @@ export const shoperzApi = createApi({
     }),
     getUserAddressList: builder.query<
       ShippingAddressResponse,
-      string | undefined
+      { token: string | undefined }
     >({
-      query: (token) => ({
+      query: ({ token }) => ({
         method: "GET",
         url: ENDPOINTS.address,
         headers: {

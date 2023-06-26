@@ -11,6 +11,8 @@ import { TbBrandCashapp } from "react-icons/tb";
 import CustomButton from "@/components/CustomButton";
 import { routes } from "@/constants/Routes";
 import Image from "next/image";
+import { setPaymentStatusbarState } from "@/redux/slices/app.slice";
+import { useDispatch } from "react-redux";
 
 /**
  *
@@ -33,6 +35,7 @@ function OrderSummery({
   setShowConfirmIsUser,
 }: OrderSummeryProps) {
   const shippingCost = 50;
+  const dispatch = useDispatch();
   const { push } = useRouter();
   const { checkout } = routes;
   const numberFormatOptions: Intl.NumberFormatOptions = {
@@ -45,6 +48,7 @@ function OrderSummery({
   const getNextPage = () => {
     if (loggedin) {
       push({ pathname: checkout });
+      dispatch(setPaymentStatusbarState({ currentState: checkout }));
     } else {
       setShowConfirmIsUser(true);
     }

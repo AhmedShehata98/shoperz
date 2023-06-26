@@ -12,9 +12,12 @@ import useGetToken from "@/hooks/useGetToken";
 import { useGetCartItemsQuery } from "@/services/shoperzApi.service";
 import { MdDiscount } from "react-icons/md";
 import OrdersPreviewList from "../../components/checkoutComponents/OrdersPreviewList";
+import { useRouter } from "next/router";
+import PaymentStatusbar from "@/components/PaymentStatusbar";
 
 const Checkout = () => {
   const { token } = useGetToken();
+  const { pathname } = useRouter();
   const [showAddressForm, setShowAddressForm] = React.useState(false);
   const shippingCost = 50;
   const { data: userCart, isLoading: loadingUserCart } = useGetCartItemsQuery(
@@ -28,9 +31,10 @@ const Checkout = () => {
   return (
     <>
       <Head>
-        <title>checkout</title>
+        <title>{pathname.split("/")[1]}</title>
       </Head>
       <main>
+        <PaymentStatusbar currentPage={pathname.split("/")[1] as "checkout"} />
         <section className="checkout">
           <div className="basis-2/3 max-lg:w-full flex flex-col pt-5">
             <UserAddress />

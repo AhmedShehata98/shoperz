@@ -12,18 +12,22 @@ import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import CarttQuantity from "./CarttQuantity";
 import CustomButton from "@/components/CustomButton";
-import { isInCartMiddleware } from "@/utils/isInCartMiddleware";
 import { IoTrash } from "react-icons/io5";
 
 type Props = {
   price: number;
   product_id: string;
   stock: number;
+  isInCart: boolean;
   deliveryCost: "free" | number;
 };
-function ProductSalary({ price, stock, deliveryCost, product_id }: Props) {
-  const { shoppingCart } = useSelector(selectAppState);
-  const isInCart = shoppingCart.findIndex((item) => item._id === product_id);
+function ProductSalary({
+  price,
+  stock,
+  deliveryCost,
+  isInCart,
+  product_id,
+}: Props) {
   const [fetchRemoveFromCart, removeItemResponse] = useRemoveFromCartMutation();
   const { isLoggedIn } = useSelector(selectAppState);
   const { token } = useGetToken();

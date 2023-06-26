@@ -1,24 +1,17 @@
 import React from "react";
 import ColumnProduct from "./ColumnProduct";
 import {
-  shoperzApi,
   useGetMegaOfferProductsQuery,
   useGetTopRatedProductsQuery,
 } from "@/services/shoperzApi.service";
 import Headtitle from "./Headtitle";
 import { useInView } from "react-intersection-observer";
-import { wrapper } from "@/redux/store";
-import { useSelector } from "react-redux";
-import { selectAppState } from "@/redux/slices/app.slice";
-import { isInCartMiddleware } from "@/utils/isInCartMiddleware";
 import ErrorHappened from "./ErrorHappened";
 
 type Props = {};
 
 const ProductLists = (props: Props) => {
   const { ref, inView, entry } = useInView();
-  const { shoppingCart } = useSelector(selectAppState);
-  console.log(props);
   const {
     data: topRatedProducts,
     isLoading: loadingTopRatedProducts,
@@ -28,28 +21,6 @@ const ProductLists = (props: Props) => {
     { limit: 5 },
     {
       skip: !inView ? true : false,
-      selectFromResult: ({ data, isSuccess, isError, isLoading }) => {
-        if (isSuccess) {
-          return {
-            data: {
-              products: isInCartMiddleware(data?.data.products, shoppingCart),
-            },
-            isError,
-            isLoading,
-            isSuccess,
-          };
-        }
-
-        return {
-          data: {
-            products: undefined,
-            paginition: undefined,
-          },
-          isError,
-          isLoading,
-          isSuccess,
-        };
-      },
     }
   ); // if this section is not in view dont fetch data
   const {
@@ -61,28 +32,6 @@ const ProductLists = (props: Props) => {
     { limit: 5 },
     {
       skip: !inView ? true : false,
-      selectFromResult: ({ data, isSuccess, isError, isLoading }) => {
-        if (isSuccess) {
-          return {
-            data: {
-              products: isInCartMiddleware(data?.data.products, shoppingCart),
-            },
-            isError,
-            isLoading,
-            isSuccess,
-          };
-        }
-
-        return {
-          data: {
-            products: undefined,
-            paginition: undefined,
-          },
-          isError,
-          isLoading,
-          isSuccess,
-        };
-      },
     }
   ); // if this section is not in view dont fetch data
 
@@ -104,7 +53,7 @@ const ProductLists = (props: Props) => {
               : null}
 
             {!loadingTopRatedProducts && successTopRatedProducts
-              ? topRatedProducts?.products?.map((product) => (
+              ? topRatedProducts?.data?.products?.map((product) => (
                   <ColumnProduct key={product._id} product={product} />
                 ))
               : null}
@@ -117,7 +66,7 @@ const ProductLists = (props: Props) => {
                 ))
               : null}
             {!loadingTopRatedProducts && successTopRatedProducts
-              ? topRatedProducts?.products?.map((product) => (
+              ? topRatedProducts?.data.products?.map((product) => (
                   <ColumnProduct key={product._id} product={product} />
                 ))
               : null}
@@ -130,7 +79,7 @@ const ProductLists = (props: Props) => {
                 ))
               : null}
             {!loadingMegaOfferProducts && successMegaOfferProducts
-              ? megaOfferProducts?.products?.map((product) => (
+              ? megaOfferProducts?.data?.products?.map((product) => (
                   <ColumnProduct key={product._id} product={product} />
                 ))
               : null}

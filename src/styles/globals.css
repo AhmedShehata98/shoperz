@@ -139,7 +139,7 @@
     @apply w-full flex items-center justify-start gap-3 py-2 px-3 font-medium cursor-pointer capitalize text-sm hover:bg-Grey-100;
   }
   .filter-sidebar {
-    @apply sticky z-30 -top-[32rem] max-lg:fixed max-lg:w-full max-lg:top-0 max-lg:mt-0 max-lg:h-screen max-lg:overflow-y-auto max-lg:z-20 max-lg:bg-white max-lg:-translate-x-full max-lg:pointer-events-none w-1/4 space-y-4 h-full flex flex-col items-start justify-start transition-transform duration-500 bg-white my-4 py-2;
+    @apply sticky z-20 -top-[32rem] max-lg:fixed max-lg:w-full max-lg:top-0 max-lg:mt-0 max-lg:h-screen max-lg:overflow-y-auto max-lg:z-20 max-lg:bg-white max-lg:-translate-x-full max-lg:pointer-events-none w-1/4 space-y-4 h-full flex flex-col items-start justify-start transition-transform duration-500 bg-white my-4 py-2;
   }
   .filter-sidebar-show {
     @apply !translate-x-0 pointer-events-auto;

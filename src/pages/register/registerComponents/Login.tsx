@@ -1,14 +1,12 @@
 import InputField from "@/components/InputField";
-import useFormData from "@/hooks/useFormData";
 import { useLoginUserMutation } from "@/services/shoperzApi.service";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { useEffect } from "react";
+import React from "react";
 import { toast } from "react-toastify";
 import SubmitButton from "./SubmitButton";
 import FormInputWrapper from "@/components/FormInputWrapper";
 import { useDispatch } from "react-redux";
-import { setToken } from "@/redux/slices/app.slice";
 import { routes } from "@/constants/Routes";
 
 function Login() {
@@ -25,7 +23,6 @@ function Login() {
     })
       .unwrap()
       .then((res) => {
-        dispatch(setToken({ token: res.data.token }));
         toast.success("Logged in successfuly .");
       })
       .then(() => {

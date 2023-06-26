@@ -18,6 +18,7 @@ import { BsBoxSeam } from "react-icons/bs";
 import { MdOutlineLocalShipping } from "react-icons/md";
 import { wrapper } from "@/redux/store";
 import CartDetailsWrapper from "@/components/shoppingCartComponents/CartDetailsWrapper";
+import { useRouter } from "next/router";
 
 const OfferItem = dynamic(
   () => import("../../components/shoppingCartComponents/OfferItem"),
@@ -48,7 +49,8 @@ const AlertDialog = dynamic(
 
 function ShoppingCart(props: any) {
   const { token } = useGetToken();
-  const { currentComponent, isLoggedIn } = useSelector(selectAppState);
+  const { isLoggedIn } = useSelector(selectAppState);
+  const { pathname } = useRouter();
   const {
     data: userCartData,
     isLoading,
@@ -63,10 +65,12 @@ function ShoppingCart(props: any) {
   return (
     <>
       <Head>
-        <title>order</title>
+        <title>{pathname.split("/")[1]}</title>
       </Head>
       <main className="w-full min-h-screen flex items-center justify-start flex-col">
-        <PaymentStatusbar currentPage={currentComponent} />
+        <PaymentStatusbar
+          currentPage={pathname.split("/")[1] as "shopping-cart"}
+        />
         <section className="shopping-cart-wrapper">
           <CartDetailsWrapper
             cartItems={userCartData?.userCart.items?.length || 0}

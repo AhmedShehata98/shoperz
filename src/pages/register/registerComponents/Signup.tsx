@@ -1,18 +1,13 @@
-import React, { useState, useRef, useEffect } from "react";
+import React from "react";
 import { useSignupUserMutation } from "@/services/shoperzApi.service";
-import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
 import SubmitButton from "./SubmitButton";
 import InputField from "@/components/InputField";
 import FormInputWrapper from "@/components/FormInputWrapper";
-import useFormData from "@/hooks/useFormData";
-import { setToken } from "@/redux/slices/app.slice";
 
 function Signup() {
   const router = useRouter();
-  const dispatch = useDispatch();
-  let timeoutRef = useRef(0);
   const [fetchSignupUser, signupResponse] = useSignupUserMutation();
 
   const handleSendSingupData = (e: React.FormEvent<HTMLFormElement>) => {
@@ -29,7 +24,6 @@ function Signup() {
       .then((res) => {
         const domain = window.document.location.hostname;
         document.cookie = `${domain}=${res.data.token}`;
-        dispatch(setToken({ token: res.data.token }));
         toast.success("your account created success .");
       })
       .then(() => {

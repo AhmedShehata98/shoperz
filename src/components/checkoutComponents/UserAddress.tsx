@@ -16,9 +16,12 @@ function UserAddress() {
     data: userAddressList,
     isLoading: loadingUserAddress,
     isError: ErrorFetchUserAddress,
-  } = useGetUserAddressListQuery(token, {
-    skip: !token ? true : false,
-  });
+  } = useGetUserAddressListQuery(
+    { token },
+    {
+      skip: !token ? true : false,
+    }
+  );
   const [fetchUpdateAddress, ResponseAddressUpdate] =
     useUpdateAddressDataMutation();
   const [fetchRemoveAddress, ResponseAddressRemove] =

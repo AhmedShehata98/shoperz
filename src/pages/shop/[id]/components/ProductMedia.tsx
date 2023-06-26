@@ -21,9 +21,11 @@ function ProductMedia({ images, thumbnail }: Props) {
         </figure>
         <ul className="grid grid-flow-col gap-2 my-3 overflow-y-auto max-w-full">
           {images.map((img) => (
-            <li className="shadow-md rounded-lg overflow-hidden cursor-pointer border-2 hover:border-sky-500">
+            <li
+              key={img}
+              className="shadow-md rounded-lg overflow-hidden cursor-pointer border-2 hover:border-sky-500"
+            >
               <Image
-                key={img}
                 className="grid max-w-full object-cover object-center"
                 src={img}
                 width={70}
