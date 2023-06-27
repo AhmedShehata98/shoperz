@@ -82,10 +82,10 @@ function ProductSalary({
         </span>
         <div className="w-full my-3">
           <b className="text-2xl ">
-            {price.toLocaleString("en-EG", {
+            {Intl.NumberFormat("en-EG", {
               style: "currency",
               currency: "EGP",
-            })}
+            }).format(price)}
           </b>
         </div>
         <div className="w-full flex items-center my-4">

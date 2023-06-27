@@ -57,7 +57,7 @@ const ProductPage: NextPage<Props> = ({ product }) => {
               isInCart={isInCart}
               price={product.price || 0}
               stock={product.stock}
-              deliveryCost={product.deliveryCost}
+              deliveryCost={product.deliveryCost || 0}
             />
           </div>
         </section>

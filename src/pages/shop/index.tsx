@@ -8,21 +8,16 @@ import {
   useAddToCartMutation,
   useGetAllProductsQuery,
 } from "@/services/shoperzApi.service";
-import clsx from "clsx";
 import ButtonFilter from "../../components/shopComponents/ButtonFilter";
 import FiltersSidebar from "../../components/shopComponents/FiltersSidebar";
 import { toast } from "react-toastify";
 import { selectAppState } from "@/redux/slices/app.slice";
 import { useSelector } from "react-redux";
 import { wrapper } from "@/redux/store";
-import { isInCartMiddleware } from "@/utils/isInCartMiddleware";
-import { useRouter } from "next/router";
 import useGetToken from "@/hooks/useGetToken";
 import PagginitionButtons from "@/components/shopComponents/PagginitionButtons";
 import dynamic from "next/dynamic";
 import QuickLoadingModul from "@/layout/QuickLoadingModul";
-import ErrorHappened from "@/components/ErrorHappened";
-import ProductCardSkeleton from "@/components/ProductCardSkeleton";
 import ProductsListWrapper from "@/components/shopComponents/ProductsListWrapper";
 
 const ProductCardGrid = dynamic(() => import("@/components/ProductCardGrid"), {
@@ -32,9 +27,8 @@ const ProductCardGrid = dynamic(() => import("@/components/ProductCardGrid"), {
 type Props = {};
 
 const Shop = (props: Props) => {
-  const { isLoggedIn, shoppingCart } = useSelector(selectAppState);
+  const { isLoggedIn } = useSelector(selectAppState);
   const { token } = useGetToken();
-  const { query } = useRouter();
   const [fetchAddToCart, addToCartResponse] = useAddToCartMutation();
   const filterRef = useRef<HTMLElement | undefined>(undefined);
   const [productsLimitSelect, setProductsLimitSelect] = useState(20);
@@ -96,9 +90,7 @@ const Shop = (props: Props) => {
       handleSwitchVisibality(btn);
       fetchAddToCart({ productId, quantity, token: token! });
     } else {
-      toast.warning(
-        "You are not registered! ,ARegister first and start your shoping journy"
-      );
+      toast.warning("You are not registered! .");
     }
   };
   const handleChangeProductsView = (event: MouseEvent) => {
@@ -188,17 +180,14 @@ const Shop = (props: Props) => {
 
 export default Shop;
 
-// export const getStaticProps = wrapper.getStaticProps(
-//   ({ dispatch, getState }) =>
-//     async (context) => {
-//       console.log("#".repeat(35));
-//       console.log(context);
-//       console.log("#".repeat(35));
-//       dispatch(shoperzApi.endpoints.getAllProducts.initiate({ limit: 20 }));
-//       const [{ data }] = await Promise.all(dispatch(getRunningQueriesThunk()));
+export const getStaticProps = wrapper.getStaticProps(
+  ({ dispatch }) =>
+    async (context) => {
+      dispatch(shoperzApi.endpoints.getAllProducts.initiate({ limit: 20 }));
+      const [{ data }] = await Promise.all(dispatch(getRunningQueriesThunk()));
 
-//       return {
-//         props: { data },
-//       };
-//     }
-// );
+      return {
+        props: { data },
+      };
+    }
+);

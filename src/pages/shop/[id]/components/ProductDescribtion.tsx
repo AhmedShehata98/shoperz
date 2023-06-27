@@ -70,7 +70,7 @@ function ProductDescribtion({
       <div className="w-full flex flex-col gap-2 capitalize my-3">
         <b className="mb-3">colors</b>
         <ul className="w-full flex items-center justify-start gap-4 flex-wrap">
-          {colors.map((color) => (
+          {colors?.map((color) => (
             <li
               key={color}
               data-color={color.includes("#") ? `#${color}` : color}
