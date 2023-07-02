@@ -34,7 +34,9 @@ Technologies & library's :
 
 
 ## Deploy on Vercel
-- [live Demo ]() - the live preview production build.
+- [live Demo ](https://shoperz.vercel.app) - the live preview production build.
+
+- [backend repo](https://github.com/7odadocoding/shoperz) - the backend API repo of this project 
 
 ## Design
 - [shoperz](https://www.figma.com/file/UU47vI6kMei6yCO0HK6jEx/eCommerce---Demo-UI-Kit---FREE-(Community)?type=design&node-id=1627%3A37733&t=Bt4XY8y573YCoS85-1)- figma design 
