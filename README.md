@@ -19,7 +19,7 @@ pnpm dev
 
 
 ## Status :
-under development process ....
+⏱️👨‍💻 under development process ....
 
 ## learn more : 
 Technologies & library's :
