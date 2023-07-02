@@ -18,6 +18,9 @@ pnpm dev
 ```
 
 
+## Status :
+under development process ....
+
 ## learn more : 
 Technologies & library's :
 
