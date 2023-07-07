@@ -3,6 +3,12 @@ type ApiResponse = {
   data: null;
   error: null;
 };
+
+/**
+ *
+ * Shoppingcart Types
+ *
+ */
 interface CartResponse {
   message: string;
   data: Cart;
@@ -50,12 +56,17 @@ type CartProducts = {
   quantity: number;
 };
 
-type IPaymentMethod = {
-  id: string;
-  value: boolean;
-  paymentData: {};
-};
+/**
+ *
+ * End Shoppingcart Types
+ *
+ */
 
+/**
+ *
+ * Products Types
+ *
+ */
 type Products = {
   _id: string;
   name: string;
@@ -105,7 +116,6 @@ interface ProductByIdResponse extends ApiResponse {
 type productQueriesParameter = {
   limit: number;
   page?: number;
-  sortQueries?: Object;
 };
 
 interface TopRatedProductsResponse extends ApiResponse {
@@ -115,34 +125,18 @@ interface TopRatedProductsResponse extends ApiResponse {
   };
 }
 
-interface SearchBox extends Omit<ProductsResponse, "data"> {
-  data: {
-    products: Array<
-      Omit<
-        Products,
-        | "description"
-        | "price"
-        | "images"
-        | "category_id"
-        | "sku"
-        | "brand"
-        | "colors"
-        | "stock"
-        | "discount"
-        | "rating"
-        | "createdAt"
-        | "updatedAt"
-        | "__v"
-      >
-    >;
-    paginition: {
-      length: number;
-      page;
-    };
-  };
-}
+/**
+ *
+ * End Products Types
+ *
+ */
 
-type sortMethods = "-createdAt" | "price" | "-price" | "reviews" | "discount";
+/**
+ *
+ * User Types
+ *
+ */
+
 type UserData = {
   _id: string;
   fullname: string;
@@ -172,6 +166,17 @@ type UserAddress = {
   __v: 0;
 };
 
+/**
+ *
+ * End User Types
+ *
+ */
+
+/**
+ *
+ * Auth Types
+ *
+ */
 type Signup = {
   fullname: string;
   phone: string;
@@ -208,19 +213,41 @@ type Login = {
   password: string;
 };
 
-type VertifyPayload = {
-  token: string;
-  uid: string;
-};
-
 type ChangeUserPassword = {
   currentPassword: string;
   newPassword: string;
   newPasswordRepeat: string;
 };
+/**
+ *
+ * End Auth Types
+ *
+ */
+interface SearchBox extends Omit<ProductsResponse, "data"> {
+  data: {
+    products: Array<
+      Omit<
+        Products,
+        | "description"
+        | "price"
+        | "images"
+        | "category_id"
+        | "sku"
+        | "brand"
+        | "colors"
+        | "stock"
+        | "discount"
+        | "rating"
+        | "createdAt"
+        | "updatedAt"
+        | "__v"
+      >
+    >;
+    paginition: {
+      length: number;
+      page;
+    };
+  };
+}
 
-type AlertComponent = {
-  show: boolean;
-  alertType: "error" | "success" | "warning";
-  message: string;
-};
+type sortMethods = "-createdAt" | "price" | "-price" | "reviews" | "discount";

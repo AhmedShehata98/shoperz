@@ -79,21 +79,6 @@ export default function HeaderUpperbar() {
               shop
             </p>
           </Link>
-
-          <Link
-            href={{
-              pathname: routes.myAccount.account,
-              query: {
-                section: routes.myAccount.profile,
-              },
-            }}
-            className="flex group items-center justify-center gap-2 px-2"
-          >
-            <AiFillSetting className="group-hover:text-Grey-800" />
-            <p className="text-xs uppercase group-hover:text-Grey-800  text-gray-400">
-              settings
-            </p>
-          </Link>
           <Link
             href={routes.faq}
             className="flex group hover:text-Grey-700 items-center justify-center gap-2 px-2"
