@@ -44,7 +44,6 @@ const Shop = (props: Props) => {
   } = useGetAllProductsQuery(
     {
       limit: productsLimitSelect,
-      sortQueries: sortMethod,
       page,
     },
     {

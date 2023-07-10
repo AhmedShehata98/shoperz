@@ -7,7 +7,6 @@ import ColumnProduct from "@/components/ColumnProduct";
 function BestSellerProducts() {
   const { data, isLoading, isSuccess } = useGetAllProductsQuery({
     limit: 5,
-    sortQueries: "-price",
   });
   return (
     <div>

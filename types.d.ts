@@ -250,4 +250,10 @@ interface SearchBox extends Omit<ProductsResponse, "data"> {
   };
 }
 
+interface IPaymentMethod {
+  id: string;
+  value: boolean;
+  paymentData: Object;
+}
+
 type sortMethods = "-createdAt" | "price" | "-price" | "reviews" | "discount";
