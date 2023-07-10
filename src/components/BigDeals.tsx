@@ -29,7 +29,6 @@ const BigDeals = (props: Props) => {
     data: products,
   } = useGetAllProductsQuery({
     limit: 10,
-    sortQueries: "price,-discount",
     page: 1,
   });
   const [FetchaddToCart, addToCartResponse] = useAddToCartMutation();

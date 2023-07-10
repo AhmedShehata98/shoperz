@@ -15,7 +15,7 @@ type Props = {};
 const Brands = (props: Props) => {
   return (
     <div className="container max-w-5xl py-10 mx-auto px-4">
-      <ul className="grid justify-center items-center max-sm:grid-cols-2 max-md:grid-cols-3 max-lg:grid-cols-4 grid-cols-5">
+      <ul className="max-md:flex max-lg:flex-col max-md:gap-3 grid justify-center items-center max-sm:grid-cols-2 max-md:grid-cols-3 max-lg:grid-cols-4 grid-cols-5">
         <li className="mb-10">
           <Image src={wofactBrand} alt="brand" />
         </li>

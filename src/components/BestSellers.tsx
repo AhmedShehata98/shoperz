@@ -24,7 +24,7 @@ const BestSellers = (props: Props) => {
     isError,
     isLoading,
     data: products,
-  } = useGetAllProductsQuery({ limit: 10, sortQueries: "-name", page: 1 });
+  } = useGetAllProductsQuery({ limit: 10, page: 2 });
   const [FetchaddToCart, addToCartResponse] = useAddToCartMutation();
   const [isEndOfList, setIsEndOfList] = useState(false);
   const [isStartOfList, setIsStartOfList] = useState(true);

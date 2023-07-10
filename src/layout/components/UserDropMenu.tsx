@@ -10,6 +10,7 @@ import { BsBoxSeam } from "react-icons/bs";
 import { FaRegAddressCard } from "react-icons/fa";
 import { IoCartOutline } from "react-icons/io5";
 import { setIsLoggedIn } from "@/redux/slices/app.slice";
+import useLogout from "@/hooks/useLogout";
 
 type DropMenuOptionProps = {
   title: string;
@@ -38,17 +39,13 @@ function DropMenuOption({
 }
 
 function UserDropMenu() {
+  const { logout } = useLogout();
+
   const {
-    logout,
     myAccount: { account, myAddress, myOrders, profile },
     shoppingCart,
   } = routes;
 
-  function handleLogout() {
-    const domain = document.location.hostname;
-    document.cookie = `${domain}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
-    setIsLoggedIn(false);
-  }
   return (
     <div className="absolute z-10 top-full w-40 ">
       <motion.ul
@@ -84,7 +81,7 @@ function UserDropMenu() {
           extraClassName={"text-Danger-700 hover:bg-Danger-200"}
           title="logout"
           href={{ pathname: "/" }}
-          onClick={handleLogout}
+          onClick={logout}
           Icon={<BiLogOutCircle />}
         />
       </motion.ul>
