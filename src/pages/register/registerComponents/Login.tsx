@@ -34,13 +34,13 @@ function Login() {
   }
 
   return (
-    <form action="" className="lg:w-4/5 mb-14" onSubmit={handleStartLogin}>
+    <form action="" className="reg-form-wrapper" onSubmit={handleStartLogin}>
       <p className="mb-3 lg:my-4 text-sm capitalize text-Grey-600">
         login with your account and start your shopping tour in your favorate
         place .
       </p>
       <FormInputWrapper dir="col">
-        <label htmlFor="email" className="capitalize font-medium ms-2">
+        <label htmlFor="email" className="reg-form-label">
           email
         </label>
         <InputField
@@ -52,7 +52,7 @@ function Login() {
         />
       </FormInputWrapper>
       <FormInputWrapper dir="col">
-        <label htmlFor="password" className="capitalize font-medium ms-2">
+        <label htmlFor="password" className="reg-form-label">
           password
         </label>
         <InputField

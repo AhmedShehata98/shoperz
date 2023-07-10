@@ -35,17 +35,18 @@ function Signup() {
   };
 
   return (
-    <form action="" className="lg:w-4/5 mb-14" onSubmit={handleSendSingupData}>
+    <form
+      action=""
+      className="reg-form-wrapper"
+      onSubmit={handleSendSingupData}
+    >
       <p className="mb-3 lg:my-4 text-sm capitalize text-Grey-600">
         lets create new account in your favorate place and start your shopping
         and create new order .
       </p>
       <div className="flex flex-col lg:flex-row items-stretch justify-between gap-2 lg:gap-3 max-lg:mb-1 mb-2">
         <FormInputWrapper dir="col" extraClassName="basis-1/2">
-          <label
-            htmlFor="fullname"
-            className="capitalize font-medium ms-2 text-Grey-900"
-          >
+          <label htmlFor="fullname" className="reg-form-label">
             full name
           </label>
           <InputField
@@ -57,10 +58,7 @@ function Signup() {
           />
         </FormInputWrapper>
         <FormInputWrapper dir="col" extraClassName="basis-1/2">
-          <label
-            htmlFor="phonenumber"
-            className="capitalize font-medium ms-2 text-Grey-900"
-          >
+          <label htmlFor="phonenumber" className="reg-form-label">
             phone number
           </label>
           <InputField
@@ -75,10 +73,7 @@ function Signup() {
         </FormInputWrapper>
       </div>
       <FormInputWrapper dir="col">
-        <label
-          htmlFor="email"
-          className="capitalize font-medium ms-2 text-Grey-900"
-        >
+        <label htmlFor="email" className="reg-form-label">
           email
         </label>
         <InputField
@@ -93,10 +88,7 @@ function Signup() {
         dir="col"
         className="flex flex-col items-stretch justify-start gap-2 mb-5"
       >
-        <label
-          htmlFor="password"
-          className="capitalize font-medium ms-2 text-Grey-900"
-        >
+        <label htmlFor="password" className="reg-form-label">
           password
         </label>
         <InputField

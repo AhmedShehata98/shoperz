@@ -14,7 +14,7 @@ function ResetPassword() {
         reset password .
       </p>
       <FormInputWrapper dir="col">
-        <label htmlFor="email" className="capitalize font-medium ms-2">
+        <label htmlFor="email" className="reg-form-label">
           email address
         </label>
         <InputField
