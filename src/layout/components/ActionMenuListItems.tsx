@@ -76,16 +76,18 @@ function ActionMenuListItems() {
         </span>
         <p>track order</p>
       </Link>
-      <button
-        type="button"
-        className="flex items-center justify-start gap-3 px-3 py-3 text-red-500 hover:bg-red-700 capitalize"
-        onClick={logout}
-      >
-        <span className="!text-2xl text-Grey-800">
-          <IoLogOut />
-        </span>
-        <p>logout</p>
-      </button>
+      {isLoggedIn && (
+        <button
+          type="button"
+          className="flex items-center justify-start gap-3 px-3 py-3 text-red-500 hover:bg-red-200 capitalize"
+          onClick={logout}
+        >
+          <span className="!text-2xl text-red-800">
+            <IoLogOut />
+          </span>
+          <p>logout</p>
+        </button>
+      )}
     </nav>
   );
 }
