@@ -30,7 +30,7 @@ const FeaturedProducts = (props: Props) => {
     error,
     isLoading,
     data: products,
-  } = useGetAllProductsQuery({ limit: 12, sortQueries: "createdAt" });
+  } = useGetAllProductsQuery({ limit: 10, page: 3 });
   const [FetchaddToCart, addToCartResponse] = useAddToCartMutation();
 
   const [isEndOfList, setIsEndOfList] = useState(false);
