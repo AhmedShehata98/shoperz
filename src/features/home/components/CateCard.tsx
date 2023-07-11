@@ -1,5 +1,5 @@
 import React from "react";
-import card1 from "../assets/Categories Card/03 2.png";
+import card1 from "@/assets/Categories Card/03 2.png";
 import Image, { StaticImageData } from "next/image";
 type Props = {
   //   cate: string;

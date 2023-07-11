@@ -1,5 +1,5 @@
 import React from "react";
-import Headtitle from "./Headtitle";
+import Headtitle from "@/components/Headtitle";
 import CateCard from "./CateCard";
 
 type Props = {};

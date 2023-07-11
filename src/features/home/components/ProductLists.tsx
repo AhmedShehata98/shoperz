@@ -1,12 +1,12 @@
 import React from "react";
-import ColumnProduct from "./ColumnProduct";
+import ColumnProduct from "../../../components/ColumnProduct";
 import {
   useGetMegaOfferProductsQuery,
   useGetTopRatedProductsQuery,
 } from "@/services/shoperzApi.service";
-import Headtitle from "./Headtitle";
+import Headtitle from "../../../components/Headtitle";
 import { useInView } from "react-intersection-observer";
-import ErrorHappened from "./ErrorHappened";
+import ErrorHappened from "../../../components/ErrorHappened";
 
 type Props = {};
 

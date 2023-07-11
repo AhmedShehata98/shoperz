@@ -1,10 +1,10 @@
 import React from "react";
 import ShopFeat from "./ShopFeat";
-import brand from "../assets/icons-feat/brand.svg";
-import card from "../assets/icons-feat/card.svg";
-import payment from "../assets/icons-feat/payment.svg";
-import shield from "../assets/icons-feat/shoping.svg";
-import secure from "../assets/icons-feat/shield.svg";
+import brand from "@/assets/icons-feat/brand.svg";
+import card from "@/assets/icons-feat/card.svg";
+import payment from "@/assets/icons-feat/payment.svg";
+import shield from "@/assets/icons-feat/shoping.svg";
+import secure from "@/assets/icons-feat/shield.svg";
 
 type Props = {};
 

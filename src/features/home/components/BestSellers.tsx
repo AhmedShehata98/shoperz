@@ -5,16 +5,16 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import "swiper/css";
-import Product from "./ProductCardGrid";
-import Headtitle from "./Headtitle";
+import Product from "../../../components/ProductCardGrid";
+import Headtitle from "../../../components/Headtitle";
 import {
   useAddToCartMutation,
   useGetAllProductsQuery,
 } from "@/services/shoperzApi.service";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import useGetToken from "@/hooks/useGetToken";
-import ErrorHappened from "./ErrorHappened";
-import ProductCardSkeleton from "./ProductCardSkeleton";
+import ErrorHappened from "../../../components/ErrorHappened";
+import ProductCardSkeleton from "../../../components/ProductCardSkeleton";
 
 type Props = {};
 
@@ -30,7 +30,7 @@ const BestSellers = (props: Props) => {
   const [isStartOfList, setIsStartOfList] = useState(true);
 
   return (
-    <div className="container max-w-5xl pb-10 mx-auto px-4">
+    <div className="container max-w-5xl pb-10 mx-auto px-4 mb-5">
       <div className="flex justify-between items-center py-6">
         <Headtitle title="Bestsellers" />
         <div className="flex gap-x-3">

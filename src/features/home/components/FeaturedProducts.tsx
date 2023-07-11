@@ -6,8 +6,8 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import "swiper/css";
-import Product from "./ProductCardGrid";
-import Headtitle from "./Headtitle";
+import Product from "../../../components/ProductCardGrid";
+import Headtitle from "../../../components/Headtitle";
 import {
   useAddToCartMutation,
   useGetAllProductsQuery,
@@ -16,8 +16,8 @@ import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import useGetToken from "@/hooks/useGetToken";
 import { useSelector } from "react-redux";
 import { selectAppState } from "@/redux/slices/app.slice";
-import ErrorHappened from "./ErrorHappened";
-import ProductCardSkeleton from "./ProductCardSkeleton";
+import ErrorHappened from "../../../components/ErrorHappened";
+import ProductCardSkeleton from "../../../components/ProductCardSkeleton";
 
 type Props = {};
 

@@ -1,7 +1,7 @@
 import React from "react";
-import controller from "../assets/sliders/ds4_controller1-slide.png";
-import iphone from "../assets/sliders/iph1-slide.png";
-import Watches from "../assets/sliders/Watche1-slide.png";
+import controller from "@/assets/sliders/ds4_controller1-slide.png";
+import iphone from "@/assets/sliders/iph1-slide.png";
+import Watches from "@/assets/sliders/Watche1-slide.png";
 import { Swiper, SwiperSlide, useSwiper } from "swiper/react";
 import { Navigation, Pagination, Autoplay, Scrollbar, A11y } from "swiper";
 import "swiper/css/navigation";

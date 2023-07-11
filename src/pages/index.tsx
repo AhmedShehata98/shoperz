@@ -1,35 +1,47 @@
-import Slider from "@/components/Slider";
+import Slider from "@/features/home/components/Slider";
 import Head from "next/head";
 import dynamic from "next/dynamic";
 import QuickLoadingModul from "@/layout/QuickLoadingModul";
 
-const ShopFeats = dynamic(() => import("@/components/ShopFeats"), {
-  loading: () => <QuickLoadingModul />,
-});
-const FeaturedProducts = dynamic(
-  () => import("@/components/FeaturedProducts"),
+const ShopFeats = dynamic(
+  () => import("@/features/home/components/ShopFeats"),
   {
     loading: () => <QuickLoadingModul />,
   }
 );
-const CategorySection = dynamic(() => import("@/components/CategorySection"), {
+const FeaturedProducts = dynamic(
+  () => import("@/features/home/components/FeaturedProducts"),
+  {
+    loading: () => <QuickLoadingModul />,
+  }
+);
+const CategorySection = dynamic(
+  () => import("@/features/home/components/CategorySection"),
+  {
+    loading: () => <QuickLoadingModul />,
+  }
+);
+const Banners = dynamic(() => import("@/features/home/components/Banners"), {
   loading: () => <QuickLoadingModul />,
 });
-const Banners = dynamic(() => import("@/components/Banners"), {
+const BigDeals = dynamic(() => import("@/features/home/components/BigDeals"), {
   loading: () => <QuickLoadingModul />,
 });
-const BigDeals = dynamic(() => import("@/components/BigDeals"), {
+const Brands = dynamic(() => import("@/features/home/components/Brands"), {
   loading: () => <QuickLoadingModul />,
 });
-const Brands = dynamic(() => import("@/components/Brands"), {
-  loading: () => <QuickLoadingModul />,
-});
-const BestSellers = dynamic(() => import("@/components/BestSellers"), {
-  loading: () => <QuickLoadingModul />,
-});
-const ProductLists = dynamic(() => import("@/components/ProductLists"), {
-  loading: () => <QuickLoadingModul />,
-});
+const BestSellers = dynamic(
+  () => import("@/features/home/components/BestSellers"),
+  {
+    loading: () => <QuickLoadingModul />,
+  }
+);
+const ProductLists = dynamic(
+  () => import("@/features/home/components/ProductLists"),
+  {
+    loading: () => <QuickLoadingModul />,
+  }
+);
 
 export default function Home(props: any) {
   return (

@@ -8,7 +8,7 @@ type Props = {};
 const Banners = (props: Props) => {
   return (
     <div className="container max-w-5xl pb-10 mx-auto px-4">
-      <div className="grid lg:grid-cols-2 justify-center items-center gap-x-8 max-lg:gap-y-8">
+      <ul className="flex items-center justify-evenly max-lg:flex-col gap-8">
         <Banner
           bannerImage={JBL}
           title={
@@ -29,7 +29,7 @@ const Banners = (props: Props) => {
           }
           gradiantColot={{ from: "#FAF1FE", to: "#D0D1FF" }}
         />
-      </div>
+      </ul>
     </div>
   );
 };
