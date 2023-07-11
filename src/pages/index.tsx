@@ -9,6 +9,7 @@ const ShopFeats = dynamic(
     loading: () => <QuickLoadingModul />,
   }
 );
+
 const FeaturedProducts = dynamic(
   () => import("@/features/home/components/FeaturedProducts"),
   {
