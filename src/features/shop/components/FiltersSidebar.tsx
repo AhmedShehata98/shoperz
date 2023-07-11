@@ -1,5 +1,5 @@
 /* eslint-disable react/display-name */
-import React, { LegacyRef, forwardRef, useEffect } from "react";
+import React, { forwardRef } from "react";
 import SidebarCategories from "./SidebarCategories";
 import Brands from "./Brands";
 import Price from "./Price";

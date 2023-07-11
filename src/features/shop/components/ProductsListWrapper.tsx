@@ -1,8 +1,8 @@
 import clsx from "clsx";
 import React, { ReactNode } from "react";
-import ProductCardSkeleton from "../ProductCardSkeleton";
+import ProductCardSkeleton from "@/components/ProductCardSkeleton";
 import dynamic from "next/dynamic";
-const ErrorHappened = dynamic(() => import("../ErrorHappened"), {
+const ErrorHappened = dynamic(() => import("@/components/ErrorHappened"), {
   loading: () => <ProductCardSkeleton dir="list" />,
 });
 
