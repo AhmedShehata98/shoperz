@@ -45,11 +45,7 @@ const FiltersSidebar = forwardRef(({ handleClose }: Props, ref: any) => {
       <Price />
       <Colors />
       <div className="w-full grid max-lg:grid-cols-2 grid-cols-1 items-center justify-center gap-3 py-4 px-4">
-        <CustomButton
-          type="submit"
-          extraClassName="rounded-full py-3"
-          // onClick={handleApply}
-        >
+        <CustomButton type="submit" extraClassName="rounded-full py-3">
           <p>apply</p>
           <BiFilterAlt />
         </CustomButton>
