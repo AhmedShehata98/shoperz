@@ -53,6 +53,7 @@ export default function ProductCard({ productData, onAddToCart }: Props) {
           width={400}
           height={400}
           alt="product-img-thumbnail"
+          onClick={getProductPreview}
         />
       </figure>
       <div className="product-row-card-content">
