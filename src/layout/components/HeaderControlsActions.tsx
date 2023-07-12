@@ -30,8 +30,14 @@ const UserDropMenu = dynamic(() => import("./UserDropMenu"), {
 
 type Props = {
   setShowMenu: Dispatch<SetStateAction<boolean>>;
+  setSearchQuery: (value: string) => void;
+  searchQuery: string | undefined;
 };
-function HeaderControlsActions({ setShowMenu }: Props) {
+function HeaderControlsActions({
+  setShowMenu,
+  searchQuery,
+  setSearchQuery,
+}: Props) {
   const { cartLength, isLoggedIn } = useSelector(selectAppState);
   const dispacth = useDispatch();
   const [token, setToken] = useState<string | undefined>(undefined);
@@ -101,7 +107,7 @@ function HeaderControlsActions({ setShowMenu }: Props) {
           <Logo />
         </div>
       </span>
-      <SearchBox />
+      <SearchBox setSearchQuery={setSearchQuery} searchQuery={searchQuery} />
       <span className="headerar-actionsbtns-wrapper">
         {loadingUserData ? (
           <SkeletonUserBtn />

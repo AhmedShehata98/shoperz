@@ -38,13 +38,22 @@ export default function SidebarCategories() {
       <h4 className="capitalize mb-4 font-semibold">categories</h4>
       <ul className="grid grid-flow-row gap-2">
         {categories.map((cate, i) => (
-          <li key={i} className="flex items-center justify-start">
-            <Link
+          <li key={i} className="flex items-center justify-start gap-3">
+            <input
+              className="text-sm text-Grey-700 capitalize hover:text-Grey-900 "
+              type="radio"
+              name={"cate.title"}
+              id={cate.title}
+              value={cate.pathname}
+            />
+
+            <label htmlFor={cate.title}>{cate.title}</label>
+            {/* <Link
               href={cate.pathname}
               className="text-sm text-Grey-700 capitalize hover:text-Grey-900"
             >
               {cate.title}
-            </Link>
+            </Link> */}
           </li>
         ))}
       </ul>

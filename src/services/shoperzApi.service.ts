@@ -72,12 +72,14 @@ export const shoperzApi = createApi({
       invalidatesTags: ["Users"],
     }),
     getAllProducts: builder.query<ProductsResponse, productQueriesParameter>({
-      query: ({ limit, page }) => ({
+      query: ({ limit, page, q, parts }) => ({
         method: "GET",
         url: ENDPOINTS.products.products,
         params: {
           limit,
           page,
+          q,
+          parts,
         },
       }),
       providesTags: ["Products"],

@@ -95,12 +95,12 @@ type Products = {
 type ProductsResponse = {
   data: {
     products: Array<Products>;
-    paginition: {
-      limit: number;
-      currentPage: number;
+    pagination: {
+      limit: string;
       remainingPages: number;
       length: number;
       actualProductsLength: number;
+      currentPage: string;
     };
   };
   error: string | null;
@@ -116,6 +116,8 @@ interface ProductByIdResponse extends ApiResponse {
 type productQueriesParameter = {
   limit: number;
   page?: number;
+  q?: string | undefined;
+  parts: "pagination" | "filter" | "pagination,filter";
 };
 
 interface TopRatedProductsResponse extends ApiResponse {

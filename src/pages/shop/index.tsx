@@ -1,4 +1,10 @@
-import React, { useRef, useState, MouseEvent } from "react";
+import React, {
+  useRef,
+  useState,
+  MouseEvent,
+  useEffect,
+  useLayoutEffect,
+} from "react";
 import Head from "next/head";
 import ShopUpperbar from "@/features/shop/components/ShopUpperbar";
 import ProductCard from "@/features/shop/components/ProductCard";
@@ -19,6 +25,7 @@ import { wrapper } from "@/redux/store";
 import useGetToken from "@/hooks/useGetToken";
 import dynamic from "next/dynamic";
 import QuickLoadingModul from "@/layout/QuickLoadingModul";
+import useResize from "@/hooks/useResize";
 
 const ProductCardGrid = dynamic(() => import("@/components/ProductCardGrid"), {
   loading: () => <QuickLoadingModul />,
@@ -28,13 +35,16 @@ type Props = {};
 
 const Shop = (props: Props) => {
   const { isLoggedIn } = useSelector(selectAppState);
+  const { screenWidth } = useResize();
   const { token } = useGetToken();
   const [fetchAddToCart, addToCartResponse] = useAddToCartMutation();
   const filterRef = useRef<HTMLElement | undefined>(undefined);
   const [productsLimitSelect, setProductsLimitSelect] = useState(20);
   const [page, setPage] = useState(1);
   const [sortMethod, setSortMethod] = useState<sortMethods>("-createdAt");
-  const [productsView, setProductsView] = useState<"list" | "grid">("list");
+  const [productsView, setProductsView] = useState<"list" | "grid">(
+    screenWidth <= 768 ? "grid" : "list"
+  );
 
   const {
     isError: isProductsError,
@@ -45,6 +55,7 @@ const Shop = (props: Props) => {
     {
       limit: productsLimitSelect,
       page,
+      parts: "pagination,filter",
     },
     {
       refetchOnFocus: true,
@@ -54,8 +65,12 @@ const Shop = (props: Props) => {
     filterRef.current?.classList.toggle("filter-sidebar-show");
     document.body.classList.toggle("prevent-scroll");
   };
-  const handleApplyFilter = () => {
+  const handleApplyFilter = (ev: React.FormEvent<HTMLFormElement>) => {
     console.log("apply filter");
+    ev?.preventDefault();
+    const formdata = new FormData(ev.currentTarget);
+
+    formdata.forEach((el) => console.log(el));
   };
   const handleSortProducts = React.useCallback(
     (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -71,7 +86,6 @@ const Shop = (props: Props) => {
     },
     []
   );
-
   function handleSwitchVisibality(btn: HTMLButtonElement): void {
     btn.disabled = true;
     btn.firstElementChild?.classList.replace("flex", "hidden");
@@ -107,6 +121,14 @@ const Shop = (props: Props) => {
     }
   };
 
+  useLayoutEffect(() => {
+    if (screenWidth <= 768) {
+      setProductsView("grid");
+    } else {
+      setProductsView("list");
+    }
+  }, [screenWidth]);
+
   return (
     <>
       <Head>
@@ -123,8 +145,8 @@ const Shop = (props: Props) => {
             onChangeProductsView={handleChangeProductsView}
             currentProductView={productsView}
             title={"tv & audio"}
-            count={products?.data.paginition?.length || 0}
-            fromCount={products?.data.paginition?.actualProductsLength || 0}
+            count={products?.data.pagination.length ?? 0}
+            fromCount={products?.data.pagination.actualProductsLength ?? 0}
             productsLimitSelect={productsLimitSelect}
             sortMethod={sortMethod}
             onSortSelect={(ev: React.ChangeEvent<HTMLSelectElement>) =>
@@ -164,10 +186,10 @@ const Shop = (props: Props) => {
           </ProductsListWrapper>
           <PagginitionButtons
             actualProductsLength={
-              products?.data.paginition.actualProductsLength || 0
+              products?.data.pagination.actualProductsLength ?? 0
             }
-            remainingPages={products?.data.paginition.remainingPages || 0}
-            currentPage={+products?.data.paginition?.currentPage! || page}
+            remainingPages={products?.data.pagination.remainingPages ?? 0}
+            currentPage={page}
             onChangePage={(event) => handleChangePage(event)}
           />
         </section>
@@ -182,7 +204,12 @@ export default Shop;
 export const getStaticProps = wrapper.getStaticProps(
   ({ dispatch }) =>
     async (context) => {
-      dispatch(shoperzApi.endpoints.getAllProducts.initiate({ limit: 20 }));
+      dispatch(
+        shoperzApi.endpoints.getAllProducts.initiate({
+          limit: 20,
+          parts: "pagination,filter",
+        })
+      );
       const [{ data }] = await Promise.all(dispatch(getRunningQueriesThunk()));
 
       return {

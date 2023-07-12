@@ -8,22 +8,11 @@ const SearchResultList = dynamic(() => import("./SearchResultList"), {
   loading: () => <QuickLoadingModul />,
 });
 
-export default function SearchBox() {
-  const [query, setquery] = useState("");
-  const [fetchSearchProducts, productsResponse] = useSearchProductsMutation();
-  useEffect(() => {
-    let handlerId: NodeJS.Timeout;
-    if (Boolean(query)) {
-      handlerId = setTimeout(() => {
-        fetchSearchProducts(query);
-      }, 600);
-    }
-
-    return () => {
-      clearTimeout(handlerId);
-    };
-  }, [query, fetchSearchProducts]);
-
+type Props = {
+  setSearchQuery: (value: string) => void;
+  searchQuery: string | undefined;
+};
+export default function SearchBox({ searchQuery, setSearchQuery }: Props) {
   return (
     <form action="" className="shoperz-searchbox">
       <input
@@ -32,8 +21,8 @@ export default function SearchBox() {
         id="app-search-field"
         placeholder="search for products .."
         className="shoperz-searchbox-input "
-        value={query}
-        onChange={({ target: { value } }) => setquery(value)}
+        value={searchQuery}
+        onChange={(ev) => setSearchQuery(ev.target.value)}
       />
       <select
         name="select-category"
@@ -58,15 +47,6 @@ export default function SearchBox() {
       <button type="submit" id="search0btn" className="shoperz-searchbox-btn">
         <BsSearch />
       </button>
-      {productsResponse.data?.data.products &&
-      query !== "" &&
-      productsResponse.data?.data.paginition.length >= 1 ? (
-        <SearchResultList
-          setQueryField={setquery}
-          searchData={productsResponse.data?.data.products || []}
-          resultsLength={productsResponse.data?.data.paginition.length || 0}
-        />
-      ) : null}
     </form>
   );
 }
