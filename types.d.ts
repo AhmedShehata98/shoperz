@@ -117,7 +117,11 @@ type productQueriesParameter = {
   limit: number;
   page?: number;
   q?: string | undefined;
+<<<<<<< HEAD
   parts?: "pagination" | "filter" | "pagination,filter";
+=======
+  parts: "pagination" | "filter" | "pagination,filter";
+>>>>>>> 01d9c54df3b6c003da84e331939ed967dde781e0
 };
 
 interface TopRatedProductsResponse extends ApiResponse {
