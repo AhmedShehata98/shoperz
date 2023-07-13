@@ -1,7 +1,7 @@
 import React, { useCallback, useRef, useState } from "react";
-import visaLogo from "../../assets/icons/visa.png";
-import mastercardLogo from "../../assets/icons/mastercard.svg";
-import paypalLogo from "../../assets/icons/paypal.svg";
+import visaLogo from "@/assets/icons/visa.png";
+import mastercardLogo from "@/assets/icons/mastercard.svg";
+import paypalLogo from "@/assets/icons/paypal.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { selectAppState } from "@/redux/slices/app.slice";
 

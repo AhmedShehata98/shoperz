@@ -5,10 +5,9 @@ import ChashMethodItem from "./ChashMethodItem";
 import { useDispatch, useSelector } from "react-redux";
 import { selectAppState, selectPatmentMethod } from "@/redux/slices/app.slice";
 
-export default function PaymentMethods() {
+export default function PaymentMethodsForm() {
   const { paymentMethod } = useSelector(selectAppState);
   const dispatch = useDispatch();
-
   const handleSelectPaymentMethod = useCallback(
     (e: React.ChangeEvent) => {
       const target = e.target as HTMLInputElement;
@@ -16,6 +15,8 @@ export default function PaymentMethods() {
     },
     [dispatch]
   );
+
+  // create payment method
 
   return (
     <div className="mt-6">
@@ -33,5 +34,9 @@ export default function PaymentMethods() {
         />
       </ul>
     </div>
+    // <form action="" className="flex w-full h-full" onSubmit={handleSubmitPay}>
+    //   <CardElement />
+    //   <button type="submit">pay now</button>
+    // </form>
   );
 }

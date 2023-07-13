@@ -3,45 +3,34 @@ import Head from "next/head";
 import React, { useState } from "react";
 import { selectAppState } from "@/redux/slices/app.slice";
 import { useSelector } from "react-redux";
-import { routes } from "@/constants/Routes";
 import dynamic from "next/dynamic";
 import QuickLoadingModul from "@/layout/QuickLoadingModul";
 import useGetToken from "@/hooks/useGetToken";
-import {
-  getRunningQueriesThunk,
-  shoperzApi,
-  useGetCartItemsQuery,
-} from "@/services/shoperzApi.service";
+import { useGetCartItemsQuery } from "@/services/shoperzApi.service";
 import Portal from "@/hooks/Protal";
 import { AiOutlineTransaction } from "react-icons/ai";
 import { BsBoxSeam } from "react-icons/bs";
 import { MdOutlineLocalShipping } from "react-icons/md";
-import { wrapper } from "@/redux/store";
-import CartDetailsWrapper from "@/components/shoppingCartComponents/CartDetailsWrapper";
+import CartDetailsWrapper from "@/features/Cart/components/CartDetailsWrapper";
 import { useRouter } from "next/router";
 
 const OfferItem = dynamic(
-  () => import("../../components/shoppingCartComponents/OfferItem"),
-  {
-    loading() {
-      return <QuickLoadingModul />;
-    },
-  }
-);
-const Cart = dynamic(
-  () => import("../../components/shoppingCartComponents/Cart"),
+  () => import("@/features/Cart/components/OfferItem"),
   {
     loading: () => <QuickLoadingModul />,
   }
 );
+const Cart = dynamic(() => import("@/features/Cart/components/Cart"), {
+  loading: () => <QuickLoadingModul />,
+});
 const OrderReport = dynamic(
-  () => import("../../components/shoppingCartComponents/OrderSummery"),
+  () => import("@/features/Cart/components/OrderSummery"),
   {
     loading: () => <QuickLoadingModul />,
   }
 );
 const AlertDialog = dynamic(
-  () => import("../../components/shoppingCartComponents/AlertDialog"),
+  () => import("../../features/Cart/components/AlertDialog"),
   {
     loading: () => <QuickLoadingModul />,
   }

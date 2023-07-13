@@ -1,19 +1,19 @@
 import Head from "next/head";
-import React from "react";
-import UserAddress from "../../components/checkoutComponents/UserAddress";
-import PaymentMethods from "../../components/checkoutComponents/PaymentMethods";
-import Portal from "@/hooks/Protal";
+import React, { useEffect, useState } from "react";
+import UserAddress from "@/features/checkout/components/UserAddress";
+import OrderBoxItem from "@/components/OrderBoxItem";
 import UserAddressForm from "@/components/UserAddressForm";
-import FinalOrderReport from "../../components/checkoutComponents/FinalOrderReport";
-import OrderBoxItem from "../../components/checkoutComponents/OrderBoxItem";
-import { IoIosCash } from "react-icons/io";
+import FinalOrderReport from "@/features/checkout/components/FinalOrderReport";
+import OrdersPreviewList from "@/features/checkout/components/OrdersPreviewList";
+import PaymentMethodsForm from "@/features/checkout/components/PaymentMethodsForm";
+import PaymentStatusbar from "@/components/PaymentStatusbar";
 import { FaShippingFast } from "react-icons/fa";
+import { IoIosCash } from "react-icons/io";
+import Portal from "@/hooks/Protal";
 import useGetToken from "@/hooks/useGetToken";
 import { useGetCartItemsQuery } from "@/services/shoperzApi.service";
 import { MdDiscount } from "react-icons/md";
-import OrdersPreviewList from "../../components/checkoutComponents/OrdersPreviewList";
 import { useRouter } from "next/router";
-import PaymentStatusbar from "@/components/PaymentStatusbar";
 
 const Checkout = () => {
   const { token } = useGetToken();
@@ -38,7 +38,8 @@ const Checkout = () => {
         <section className="checkout">
           <div className="basis-2/3 max-lg:w-full flex flex-col pt-5">
             <UserAddress />
-            <PaymentMethods />
+            <PaymentMethodsForm />
+
             {showAddressForm ? (
               <Portal>
                 <UserAddressForm setIsShowing={showAddressFormModel} />
