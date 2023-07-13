@@ -276,6 +276,12 @@ export const shoperzApi = createApi({
       }),
       invalidatesTags: ["Address"],
     }),
+
+    getAllCategories: builder.query<CategoryResponse, void>({
+      query: () => ({
+        url: ENDPOINTS.categories.category,
+      }),
+    }),
   }),
 });
 
@@ -298,5 +304,6 @@ export const {
   useAddUserAddressMutation,
   useRemoveAddressMutation,
   useUpdateAddressDataMutation,
+  useGetAllCategoriesQuery,
 } = shoperzApi;
 export const { getRunningQueriesThunk } = shoperzApi.util;

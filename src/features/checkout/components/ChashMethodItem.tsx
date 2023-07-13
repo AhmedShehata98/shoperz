@@ -1,5 +1,5 @@
 import { useState } from "react";
-import cashLogo from "../../assets/icons/cash-on-delivery.png";
+import cashLogo from "@/assets/icons/cash-on-delivery.png";
 import { useDispatch } from "react-redux";
 import { ICreditCard } from "@/models/shopperz.model";
 import { addPaymentData } from "@/redux/slices/app.slice";

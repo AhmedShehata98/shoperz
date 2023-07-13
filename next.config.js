@@ -9,6 +9,13 @@ const nextConfig = {
         port: "",
         pathname: "/data/products/*/**",
       },
+      {
+        protocol: "https",
+        hostname: "firebasestorage.googleapis.com",
+        port: "",
+        pathname:
+          "/v0/b/shoperz-385915.appspot.com/o/categories/[image].svg?alt=media&token=[token]",
+      },
     ],
   },
 };

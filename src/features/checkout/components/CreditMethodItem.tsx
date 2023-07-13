@@ -1,8 +1,8 @@
 import Portal from "@/hooks/Protal";
 import CardDataForm from "./CardDataForm";
 import CreditCardItem from "./CreditCardItem";
-import mastercardLogo from "../../assets/icons/mastercard.svg";
-import visaLogo from "../../assets/icons/visa.png";
+import mastercardLogo from "@/assets/icons/mastercard.svg";
+import visaLogo from "@/assets/icons/visa.png";
 import { useCallback, useState } from "react";
 import { ICreditCard } from "@/models/shopperz.model";
 import { addPaymentData, selectAppState } from "@/redux/slices/app.slice";

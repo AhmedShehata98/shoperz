@@ -1,7 +1,7 @@
 import { ICreditCard } from "@/models/shopperz.model";
 import { BsTrash } from "react-icons/bs";
-import mastercardLogo from "../../assets/icons/mastercard.svg";
-import visaLogo from "../../assets/icons/visa.png";
+import mastercardLogo from "@/assets/icons/mastercard.svg";
+import visaLogo from "@/assets/icons/visa.png";
 import { useDispatch } from "react-redux";
 import { removeFromCreditCardsList } from "@/redux/slices/app.slice";
 
