@@ -1,5 +1,5 @@
 /* eslint-disable react/display-name */
-import React, { FormEventHandler, forwardRef } from "react";
+import React, { useEffect, forwardRef } from "react";
 import SidebarCategories from "./SidebarCategories";
 import Brands from "./Brands";
 import Price from "./Price";
@@ -14,23 +14,45 @@ type Props = {
 };
 
 const FiltersSidebar = forwardRef(({ handleClose }: Props, ref: any) => {
-  const { push, pathname } = useRouter();
+  const { push, pathname, query } = useRouter();
 
   const submitHandler = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const fd = new FormData(event.currentTarget);
-    const values = [...fd.values()].map((value) =>
-      value === "on" ? true : false
+    const category = fd.get("category")?.toString();
+    const brands = fd.getAll("brand") as string[];
+    const price = {
+      pmin: fd.get("pmin")?.toString(),
+      pmax: fd.get("pmax")?.toString(),
+    };
+    const colors = fd.get("color")?.toString();
+
+    // const queries = ['category',category, 'brands',brands.join(","),"pmin", price.pmin,"pmax", price.pmax, 'color',colors];
+    const searchParams = new URLSearchParams();
+    if (category) searchParams.append("category", category!);
+    if (brands.length >= 1) searchParams.append("brands", brands.join(",")!);
+    if (price.pmin > 50) searchParams.append("pmin", price.pmin!);
+    if (price.pmax) searchParams.append("pmax", price.pmax!);
+    if (colors !== "") searchParams.append("colors", colors!);
+
+    // const queries = {
+    //   category: category ? category : undefined,
+    //   brands: brands.length >= 1 ? brands.join(",") : undefined,
+    //   pmin: price.pmin ? price.pmin : undefined,
+    //   pmax: price.pmax ? price.pmax : undefined,
+    //   colors: colors ? colors : undefined,
+    // };
+
+    push(
+      {
+        pathname,
+        // query: searchParams.toString(),
+        search: searchParams,
+        // query: queries,
+      },
+      undefined,
+      { shallow: true }
     );
-    const keys = [...fd.keys()];
-    const newEntries = [keys, values];
-    console.log(keys);
-    console.log(Object.fromEntries(newEntries));
-    const queries = Object.fromEntries([...fd.entries()]);
-    // push({
-    //   pathname,
-    //   query: queries!,
-    // });
   };
 
   return (

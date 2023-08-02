@@ -26,6 +26,7 @@ import useGetToken from "@/hooks/useGetToken";
 import dynamic from "next/dynamic";
 import QuickLoadingModul from "@/layout/QuickLoadingModul";
 import useResize from "@/hooks/useResize";
+import { useRouter } from "next/router";
 
 const ProductCardGrid = dynamic(() => import("@/components/ProductCardGrid"), {
   loading: () => <QuickLoadingModul />,
@@ -36,6 +37,7 @@ type Props = {};
 const Shop = (props: Props) => {
   const { isLoggedIn } = useSelector(selectAppState);
   const { screenWidth } = useResize();
+  const { query } = useRouter();
   const { token } = useGetToken();
   const [fetchAddToCart, addToCartResponse] = useAddToCartMutation();
   const filterRef = useRef<HTMLElement | undefined>(undefined);
@@ -56,11 +58,15 @@ const Shop = (props: Props) => {
       limit: productsLimitSelect,
       page,
       parts: "pagination,filter",
+      q: Object.entries(query).length >= 1 ? query : undefined,
     },
     {
       refetchOnFocus: true,
     }
   );
+
+  console.log(query);
+
   const handleShowFilterbar = () => {
     filterRef.current?.classList.toggle("filter-sidebar-show");
     document.body.classList.toggle("prevent-scroll");

@@ -1,34 +1,24 @@
 import React from "react";
 const price = [
   {
-    title: "< 50",
-    value: true,
-    name: "< 50",
+    title: "grater than 100",
+    value: "100",
   },
   {
-    title: "100 200",
-    value: false,
-    name: "100 200",
+    title: "grater than 200",
+    value: "200",
   },
   {
-    title: "200 300",
-    value: false,
-    name: "200 300",
+    title: "grater than 300",
+    value: "300",
   },
   {
-    title: "300 400",
-    value: false,
-    name: "300 400",
+    title: "grater than 400",
+    value: "400",
   },
   {
-    title: "400 500",
-    value: false,
-    name: "400 500",
-  },
-  {
-    title: "> 500",
-    value: false,
-    name: "> 500",
+    title: "grater than 500",
+    value: "500",
   },
 ];
 function Price() {
@@ -40,7 +30,7 @@ function Price() {
         {price.map(
           (
             prc: {
-              name: string | undefined;
+              value: string | undefined;
               title:
                 | string
                 | number
@@ -53,7 +43,6 @@ function Price() {
                 | React.ReactPortal
                 | null
                 | undefined;
-              value: boolean | undefined;
             },
             i: React.Key | null | undefined
           ) => (
@@ -62,16 +51,16 @@ function Price() {
               className="flex items-center justify-start flex-row-reverse gap-2 "
             >
               <label
-                htmlFor={prc.name}
+                htmlFor={prc.value}
                 className="text-Grey-700 capitalize text-sm hover:text-Grey-900 cursor-pointer"
               >
                 {prc.title}
               </label>
               <input
-                type="checkbox"
-                name={prc.name}
-                id={prc.name}
-                checked={prc.value}
+                type="radio"
+                name={"pmax"}
+                id={prc.value}
+                value={prc.value}
                 className="accent-Primary-700 w-4 cursor-pointer"
               />
             </li>
@@ -79,24 +68,10 @@ function Price() {
         )}
       </ul>
       <div className="w-full border-t my-3 py-3">
-        <span className="flex items-center gap-2">
-          <input
-            type="checkbox"
-            name="price-interval"
-            id="price-interval"
-            className="accent-Primary-700 w-4 cursor-pointer"
-          />
-          <label
-            htmlFor="price-interval"
-            className="text-Grey-700 capitalize text-sm hover:text-Grey-900 cursor-pointer"
-          >
-            price interval
-          </label>
-        </span>
         <span>
           <input
             type="range"
-            name="price-interval"
+            name="pmin"
             id="price-interval"
             className="accent-Primary-700"
             min={50}

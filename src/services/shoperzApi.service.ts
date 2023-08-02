@@ -78,7 +78,7 @@ export const shoperzApi = createApi({
         params: {
           limit,
           page,
-          q,
+          q: JSON.parse(q),
           parts,
         },
       }),
