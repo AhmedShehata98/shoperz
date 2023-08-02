@@ -88,7 +88,7 @@ type Products = {
   createdAt: string;
   updatedAt: string;
   specifications: string;
-  deliveryCost: "free" | number;
+  deliveryCost: number;
   __v: number;
 };
 
@@ -284,3 +284,12 @@ interface IPaymentMethod {
 }
 
 type sortMethods = "-createdAt" | "price" | "-price" | "reviews" | "discount";
+
+/**
+ *
+ * Others Types
+ *
+ */
+
+type Token = string | undefined;
+type Id = string | undefined;

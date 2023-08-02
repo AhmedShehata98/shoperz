@@ -1,4 +1,10 @@
-import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
+import React, {
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useLayoutEffect,
+  useState,
+} from "react";
 import { BsFillHeartFill, BsSearch } from "react-icons/bs";
 import { FaShoppingCart, FaUserAlt } from "react-icons/fa";
 import { RiMenu2Fill } from "react-icons/ri";
@@ -18,6 +24,7 @@ import {
 import SearchBox from "./SearchBox";
 import dynamic from "next/dynamic";
 import QuickLoadingModul from "../QuickLoadingModul";
+import useGetToken from "@/hooks/useGetToken";
 const Logo = dynamic(() => import("../../components/Logo"), {
   loading: () => <QuickLoadingModul />,
 });
@@ -40,11 +47,10 @@ function HeaderControlsActions({
 }: Props) {
   const { cartLength, isLoggedIn } = useSelector(selectAppState);
   const dispacth = useDispatch();
-  const [token, setToken] = useState<string | undefined>(undefined);
-
+  const { token } = useGetToken();
   const {
     data: userData,
-    isSuccess: successUserData,
+    isSuccess: isSuccessUserData,
     isLoading: loadingUserData,
     isError: errorUserData,
   } = useUserDataQuery(token, {
@@ -72,17 +78,13 @@ function HeaderControlsActions({
       });
     };
   }, []);
-  useEffect(() => {
-    const token = document.cookie.split("=")[1];
-    if (token) {
-      setToken(token);
+
+  useLayoutEffect(() => {
+    if (isSuccessUserData) {
       dispacth(setIsLoggedIn(true));
     }
-    if (errorUserData || !token) {
-      setToken(undefined);
-      dispacth(setIsLoggedIn(false));
-    }
-  }, [successUserData, loadingUserData, errorUserData, dispacth]);
+  }, [loadingUserData, isSuccessUserData]);
+
   useEffect(() => {
     if (cartItems?.userCart) {
       dispacth(setCartLength(cartItems?.userCart.items.length));

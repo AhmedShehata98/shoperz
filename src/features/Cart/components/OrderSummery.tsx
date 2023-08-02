@@ -5,7 +5,7 @@ import paypalLogo from "@/assets/icons/paypal.svg";
 import { useRouter } from "next/router";
 import OrderBoxItem from "@/components/OrderBoxItem";
 import { BsCashStack, BsFillBoxSeamFill } from "react-icons/bs";
-import { ImPriceTags } from "react-icons/im";
+import { ImPriceTags, ImSpinner8 } from "react-icons/im";
 import { MdOutlineLocalShipping } from "react-icons/md";
 import { TbBrandCashapp } from "react-icons/tb";
 import CustomButton from "@/components/CustomButton";
@@ -13,6 +13,7 @@ import { routes } from "@/constants/Routes";
 import Image from "next/image";
 import { setPaymentStatusbarState } from "@/redux/slices/app.slice";
 import { useDispatch } from "react-redux";
+import { useCreateOrderMutation } from "@/services/shoperzApi.service";
 
 /**
  *
@@ -38,6 +39,7 @@ function OrderSummery({
   const dispatch = useDispatch();
   const { push } = useRouter();
   const { checkout } = routes;
+
   const numberFormatOptions: Intl.NumberFormatOptions = {
     style: "currency",
     currency: "EGP", // display price as country like => EGP , $
@@ -45,7 +47,7 @@ function OrderSummery({
     notation: "standard", // displays price in title => 100K ,2M ,4B
   };
 
-  const getNextPage = () => {
+  const goCheckoutPage = () => {
     if (loggedin) {
       push({ pathname: checkout });
       dispatch(setPaymentStatusbarState({ currentState: checkout }));
@@ -118,11 +120,16 @@ function OrderSummery({
         </span>
       </div>
       <CustomButton
-        onClick={getNextPage}
+        onClick={goCheckoutPage}
         type="button"
         extraClassName="w-full my-4"
       >
-        checkout
+        <p>checkout</p>
+        <code>
+          {Intl.NumberFormat("en-EG", numberFormatOptions).format(
+            discountedTotal || 0
+          )}
+        </code>
       </CustomButton>
       <div className="flex  flex-col max-lg:items-center mt-1 mb-3">
         <p className="text-gray-400 font-medium text-sm">

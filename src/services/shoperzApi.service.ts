@@ -212,6 +212,29 @@ export const shoperzApi = createApi({
       }),
       invalidatesTags: ["Cart", "OneProduct"],
     }),
+
+    createOrder: builder.mutation<
+      ApiResponse,
+      { address: UserAddress; method: any; token: Token }
+    >({
+      query: ({ address, method, token }) => ({
+        method: "POST",
+        url: ENDPOINTS.order,
+        headers: {
+          authorization: token,
+        },
+        body: { address, method },
+      }),
+    }),
+    createPaymentIntent: builder.mutation({
+      query: (cartItems: CartProducts[] | undefined) => ({
+        url: ENDPOINTS.checkout["create-payment-intent"],
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: cartItems,
+      }),
+    }),
+
     getUserAddressList: builder.query<
       ShippingAddressResponse,
       { token: string | undefined }
@@ -300,6 +323,8 @@ export const {
   useGetCartItemsQuery,
   useGetCartByIdQuery,
   useUpdateCartQuantityMutation,
+  useCreateOrderMutation,
+  useCreatePaymentIntentMutation,
   useGetUserAddressListQuery,
   useAddUserAddressMutation,
   useRemoveAddressMutation,

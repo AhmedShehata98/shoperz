@@ -25,6 +25,10 @@ export const ENDPOINTS = {
     myData: "/users/me",
   },
   address: "/address",
+  checkout: {
+    "create-payment-intent": "/create-payment-intent",
+  },
+  order: "/orders",
 };
 
 export const sendSignupData = async (body: any) => {

@@ -30,7 +30,7 @@ const OrderReport = dynamic(
   }
 );
 const AlertDialog = dynamic(
-  () => import("../../features/Cart/components/AlertDialog"),
+  () => import("@/features/Cart/components/AlertDialog"),
   {
     loading: () => <QuickLoadingModul />,
   }
@@ -50,7 +50,6 @@ function ShoppingCart(props: any) {
     refetchOnMountOrArgChange: 900,
   });
   const [showConfirmIsUser, setShowConfirmIsUser] = useState(false);
-
   return (
     <>
       <Head>

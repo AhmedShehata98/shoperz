@@ -11,8 +11,7 @@ import dynamic from "next/dynamic";
 import QuickLoadingModul from "@/layout/QuickLoadingModul";
 
 import "react-toastify/dist/ReactToastify.css";
-import { loadStripe } from "@stripe/stripe-js";
-import { Elements } from "@stripe/react-stripe-js";
+
 const Headerbar = dynamic(() => import("@/layout/Headerbar"), {
   loading: () => <QuickLoadingModul />,
 });
@@ -36,7 +35,6 @@ function App({ Component, pageProps }: AppProps) {
   const { store, props } = wrapper.useWrappedStore(pageProps);
   const [isRouting, setIsRouting] = useState(false);
   const { pathname, events } = useRouter();
-  const stripePromise = loadStripe("pk_test_...");
 
   useEffect(() => {
     events.on("routeChangeStart", () => {
@@ -49,30 +47,28 @@ function App({ Component, pageProps }: AppProps) {
 
   return (
     <Provider store={store}>
-      <Elements stripe={stripePromise}>
-        <div className={roboto.className}>
-          {pathname === "/register" ? null : <Headerbar />}
-          <Component {...pageProps} />
-          <Footer />
-          <ToastContainer
-            position="bottom-center"
-            autoClose={5000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-            theme="light"
-          />
-          {isRouting ? (
-            <Portal>
-              <LoadingModal />
-            </Portal>
-          ) : null}
-        </div>
-      </Elements>
+      <div className={roboto.className}>
+        {pathname === "/register" ? null : <Headerbar />}
+        <Component {...pageProps} />
+        <Footer />
+        <ToastContainer
+          position="bottom-center"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        />
+        {isRouting ? (
+          <Portal>
+            <LoadingModal />
+          </Portal>
+        ) : null}
+      </div>
     </Provider>
   );
 }

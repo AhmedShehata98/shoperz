@@ -11,7 +11,6 @@ type Props = {
 function CartItem({ product, quantity }: Props) {
   const { token } = useGetToken();
   const [fetchRemoveCartItem, responseRemoveCart] = useRemoveFromCartMutation();
-
   return (
     <>
       <li
@@ -20,7 +19,11 @@ function CartItem({ product, quantity }: Props) {
       >
         <figure className="w-16 rounded-md">
           <img
-            src={product.thumbnail}
+            src={
+              typeof product?.thumbnail === "string"
+                ? product?.thumbnail
+                : (product?.thumbnail as any)?.url
+            }
             alt="cart-item-image"
             className="w-full object-cover object-center"
           />

@@ -54,13 +54,19 @@ export default function CartItem({ quantity, itemData }: CartItemProps) {
   return (
     <li key={itemData?._id} className="cart-item">
       <div className="cart-product-info">
-        <figure className="w-16 rounded-md">
-          <img
-            src={itemData?.thumbnail}
-            alt="cart-item-image"
-            className="w-full object-cover object-center"
-          />
-        </figure>
+        {itemData?.thumbnail && (
+          <figure className="w-16 rounded-md">
+            <img
+              src={
+                typeof itemData?.thumbnail === "string"
+                  ? itemData?.thumbnail
+                  : (itemData?.thumbnail as any)?.url
+              }
+              alt="cart-item-image"
+              className="w-full object-cover object-center"
+            />
+          </figure>
+        )}
         <figcaption className="w-10/12 flex items-start justify-between">
           <div className="basis-2/3 flex items-start flex-col">
             <p className="text-sky-700 font-semibold capitalize m-0">

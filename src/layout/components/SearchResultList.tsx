@@ -26,20 +26,37 @@ export default function SearchResultList({ query, searchResult }: Props) {
           className="flex gap-4 justify-between items-start p-2 border border-transparent cursor-pointer hover:border-gray-300 rounded-md hover:bg-gray-200"
           onClick={() => getProductPreview(product._id)}
         >
-          <figure className="w-16 rounded-md overflow-hidden shadow-md">
-            <Image
-              src={product.thumbnail}
+          <figure className="w-16 h-16 flex items-stretch rounded-md overflow-hidden shadow-md">
+            <img
+              src={
+                typeof product.thumbnail === "object"
+                  ? (product.thumbnail as any).url
+                  : product.thumbnail
+              }
               alt={product.name}
               width={64}
               height={64}
-              className="max-w-full object-cover"
+              className="w-full object-center object-cover"
             />
           </figure>
-          <span className="w-4/5">
-            <p className="text-sm text-Grey-700 uppercase">
-              {product.category_id.name ?? "NA-NA"}
+          <span className="w-4/5 lg:w-11/12">
+            <p className="text-sm text-Grey-700 font-semibold uppercase">
+              {product?.category_id?.name ?? "NA-NA"}
             </p>
-            <h5 className="text-Grey-800 capitalize">{product.name}</h5>
+            <h5 className="max-w-full overflow-x-hidden text-Grey-800 uppercase">
+              {product.name}
+            </h5>
+            <span className="flex items-center justify-start gap-3">
+              <p>delivery cost : </p>
+              <b>
+                {product.deliveryCost <= 0
+                  ? "free"
+                  : product.deliveryCost?.toLocaleString("en-Eg", {
+                      style: "currency",
+                      currency: "EGP",
+                    })}
+              </b>
+            </span>
           </span>
         </li>
       ))}

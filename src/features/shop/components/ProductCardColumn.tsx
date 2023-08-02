@@ -16,17 +16,14 @@ type Props = {
   productData: Products;
   onAddToCart: React.MouseEventHandler;
 };
-export default function ProductCard({ productData, onAddToCart }: Props) {
+export default function ProductCardColumn({ productData, onAddToCart }: Props) {
   const {
     _id,
-    brand,
-    __v,
     category_id,
     colors,
     createdAt,
     description,
     discount,
-    images,
     name,
     price,
     rating,
@@ -48,8 +45,10 @@ export default function ProductCard({ productData, onAddToCart }: Props) {
         {/* <figure className="px-4 cursor-pointer" onClick={getProductPreview}>
           </figure> */}
         <Image
-          className="aspect-square object-cover w-full rounded overflow-hidden"
-          src={thumbnail}
+          className="w-full grid aspect-square object-cover object-top rounded-md overflow-hidden"
+          src={
+            typeof thumbnail === "string" ? thumbnail : (thumbnail as any).url
+          }
           width={400}
           height={400}
           alt="product-img-thumbnail"
@@ -57,7 +56,7 @@ export default function ProductCard({ productData, onAddToCart }: Props) {
         />
       </figure>
       <div className="product-row-card-content">
-        <h6 className="text-gray-500 text-sm uppercase">
+        <h6 className="text-gray-500 text-sm uppercase ">
           {category_id?.name || "NA-NA"}
         </h6>
         <h5
@@ -77,11 +76,17 @@ export default function ProductCard({ productData, onAddToCart }: Props) {
           </p>
         </Rating>
 
-        <div className=" w-full">
-          <ul className="text-gray-500 text-sm list-disc mx-4 py-2">
-            <li>{description}</li>
+        <div className="w-full">
+          <ul className="relative h-16 overflow-hidden text-gray-500 text-sm list-disc py-2 px-1">
+            {description.split("\n").map((descrip, idx) => (
+              <li key={idx}>{descrip}</li>
+            ))}
+            <span className="absolute bottom-0 left-0 inline-block w-full h-3 bg-gradient-to-t from-slate-200 to-transparent bg-opacity-50"></span>
           </ul>
-          <div className="text-gray-500 text-xs  p-1">SKU : {sku}</div>
+          <div className="flex gap-3 text-xs pb-2 mt-4">
+            <p>SKU :</p>
+            <code className="text-gray-500 font-bold uppercase">{sku}</code>
+          </div>
         </div>
       </div>
       <div className="product-row-card-actions">

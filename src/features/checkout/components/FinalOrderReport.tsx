@@ -7,6 +7,7 @@ import { selectAppState } from "@/redux/slices/app.slice";
 
 import Link from "next/link";
 import { routes } from "@/constants/Routes";
+import Image from "next/image";
 
 interface OrderReportProps {
   discountedTotal: number;
@@ -14,7 +15,6 @@ interface OrderReportProps {
 }
 function FinalOrderReport({ discountedTotal, children }: OrderReportProps) {
   const dispatch = useDispatch();
-  const { paymentMethod } = useSelector(selectAppState);
   const [isAgreement, setIsAgreement] = useState(false);
   const confirmationLabel = useRef<HTMLLabelElement | null>(null);
   const { order } = routes;
@@ -60,7 +60,7 @@ function FinalOrderReport({ discountedTotal, children }: OrderReportProps) {
             Shelf BC liable if this shipment is sent to an incorrect address. *
           </label>
         </span>
-        <span className="w-full flex items-start justify-center gap-4">
+        {/* <span className="w-full flex items-start justify-center gap-4">
           <input
             type="checkbox"
             name="email-newsletter"
@@ -73,30 +73,16 @@ function FinalOrderReport({ discountedTotal, children }: OrderReportProps) {
           >
             Sign me up to receive email updates and news (optional)
           </label>
-        </span>
+        </span> */}
       </form>
-      <Link
-        className="custom-button mt-4 py-2 text-sm"
-        href={{
-          pathname: order,
-        }}
-      >
-        <p>checkout</p>
-        <p>
-          {Intl.NumberFormat("en-EG", {
-            style: "currency",
-            currency: "EGP",
-          }).format(discountedTotal || 0)}
-        </p>
-      </Link>
       <div className="flex flex-col max-lg:items-center mt-8 mb-3">
         <p className="text-gray-400 font-medium text-sm">
           SECURE PAYMENTS PROVIDED BY
         </p>
         <span className="flex items-center gap-9 lg:gap-6">
-          <img src={visaLogo.src} alt="payments-logo" />
-          <img src={mastercardLogo.src} alt="payments-logo" />
-          <img src={paypalLogo.src} alt="payments-logo" />
+          <Image src={visaLogo} alt="payments-logo" />
+          <Image src={mastercardLogo} alt="payments-logo" />
+          <Image src={paypalLogo} alt="payments-logo" />
         </span>
       </div>
     </ul>

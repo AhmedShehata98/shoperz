@@ -11,23 +11,63 @@ import { FaShippingFast } from "react-icons/fa";
 import { IoIosCash } from "react-icons/io";
 import Portal from "@/hooks/Protal";
 import useGetToken from "@/hooks/useGetToken";
-import { useGetCartItemsQuery } from "@/services/shoperzApi.service";
+import {
+  useCreateOrderMutation,
+  useCreatePaymentIntentMutation,
+  useGetCartItemsQuery,
+} from "@/services/shoperzApi.service";
 import { MdDiscount } from "react-icons/md";
 import { useRouter } from "next/router";
+
+// Stripe
+import { Appearance, loadStripe } from "@stripe/stripe-js";
+import { Elements } from "@stripe/react-stripe-js";
+import CheckoutForm from "@/features/checkout/components/CheckoutForm";
+import { StripeElementsOptionsClientSecret } from "@stripe/stripe-js";
+import Invoices from "@/features/checkout/components/Invoices";
+import PaymentAndAddressWrapper from "@/features/checkout/components/PaymentAndAddressWrapper";
+import OrderItem from "@/features/checkout/components/OrderItem";
+
+const stripePromise = loadStripe(
+  process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY as string
+);
 
 const Checkout = () => {
   const { token } = useGetToken();
   const { pathname } = useRouter();
+  const [sendOrder, { isError: isErrorOrder, isLoading: isLoadingOrder }] =
+    useCreateOrderMutation();
   const [showAddressForm, setShowAddressForm] = React.useState(false);
   const shippingCost = 50;
-  const { data: userCart, isLoading: loadingUserCart } = useGetCartItemsQuery(
-    token!,
-    { skip: !token ? true : false }
+  const {
+    data: userCart,
+    isLoading: loadingUserCart,
+    isSuccess: isSuccessUserCart,
+  } = useGetCartItemsQuery(token!, { skip: !token ? true : false });
+  const [
+    sendPaymentIntentResponse,
+    { data: clientSecret, isLoading, isSuccess, isError },
+  ] = useCreatePaymentIntentMutation();
+  const appearance: Appearance = {
+    theme: "flat",
+  };
+  const stripeOptions: StripeElementsOptionsClientSecret = {
+    clientSecret: clientSecret as string,
+
+    appearance,
+  };
+
+  const showAddressFormModel = React.useCallback(
+    (state: boolean) => setShowAddressForm(state),
+    []
   );
 
-  const showAddressFormModel = React.useCallback((state: boolean) => {
-    setShowAddressForm(state);
-  }, []);
+  useEffect(() => {
+    if (isSuccessUserCart) {
+      //sendPaymentIntentResponse(userCart?.userCart.items);
+    }
+  }, [loadingUserCart, isSuccessUserCart]);
+
   return (
     <>
       <Head>
@@ -36,18 +76,24 @@ const Checkout = () => {
       <main>
         <PaymentStatusbar currentPage={pathname.split("/")[1] as "checkout"} />
         <section className="checkout">
-          <div className="basis-2/3 max-lg:w-full flex flex-col pt-5">
+          <PaymentAndAddressWrapper>
             <UserAddress />
-            <PaymentMethodsForm />
-
-            {showAddressForm ? (
+            {/* <PaymentMethodsForm /> */}
+            {clientSecret && (
+              <Elements options={stripeOptions} stripe={stripePromise}>
+                <CheckoutForm />
+              </Elements>
+            )}
+            {showAddressForm && (
               <Portal>
                 <UserAddressForm setIsShowing={showAddressFormModel} />
               </Portal>
-            ) : null}
-          </div>
-          <div className="basis-1/3 max-lg:basis-full flex flex-col items-center justify-between gap-2">
-            <OrdersPreviewList cartItems={userCart?.userCart.items || []} />
+            )}
+          </PaymentAndAddressWrapper>
+          <Invoices>
+            <OrdersPreviewList cartItems={userCart?.userCart.items || []}>
+              <OrderItem />
+            </OrdersPreviewList>
             <FinalOrderReport discountedTotal={userCart?.discountedTotal || 0}>
               <OrderBoxItem
                 data={{
@@ -71,7 +117,7 @@ const Checkout = () => {
                 Icon={<MdDiscount className="text-xl" />}
               />
             </FinalOrderReport>
-          </div>
+          </Invoices>
         </section>
       </main>
     </>

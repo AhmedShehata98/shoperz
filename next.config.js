@@ -17,6 +17,7 @@ const nextConfig = {
           "/v0/b/shoperz-385915.appspot.com/o/categories/[image].svg?alt=media&token=[token]",
       },
     ],
+    domains: ["firebasestorage.googleapis.com"],
   },
 };
 

@@ -1,10 +1,15 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useEffect, useState } from "react";
 
 function useGetToken() {
   const [token, setTokenState] = useState<string | undefined>(undefined);
   useEffect(() => {
-    const token = document.cookie.split("=")[1];
+    const cookies = document.cookie.split(" ");
+    const hostname = document.location.hostname;
+    const token = cookies
+      .find((cookie) => cookie.startsWith(hostname))
+      ?.split(`${hostname}=`)
+      .at(1);
+
     if (token) {
       setTokenState(token);
     } else {

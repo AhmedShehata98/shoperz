@@ -7,7 +7,7 @@ import React, {
 } from "react";
 import Head from "next/head";
 import ShopUpperbar from "@/features/shop/components/ShopUpperbar";
-import ProductCard from "@/features/shop/components/ProductCard";
+import ProductCardColumn from "@/features/shop/components/ProductCardColumn";
 import ButtonFilter from "@/features/shop/components/ButtonFilter";
 import FiltersSidebar from "@/features/shop/components/FiltersSidebar";
 import PagginitionButtons from "@/features/shop/components/PagginitionButtons";
@@ -155,7 +155,7 @@ const Shop = (props: Props) => {
           >
             {products?.data.products?.map((product) =>
               productsView === "list" ? (
-                <ProductCard
+                <ProductCardColumn
                   key={product._id}
                   productData={product}
                   onAddToCart={(ev: MouseEvent<HTMLButtonElement>) =>
