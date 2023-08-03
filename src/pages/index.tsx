@@ -1,8 +1,11 @@
-import Slider from "@/features/home/components/Slider";
+// import Slider from "@/features/home/components/Slider";
 import Head from "next/head";
 import dynamic from "next/dynamic";
 import QuickLoadingModul from "@/layout/QuickLoadingModul";
 
+const Slider = dynamic(() => import("@/features/home/components/Slider"), {
+  loading: () => <QuickLoadingModul />,
+});
 const ShopFeats = dynamic(
   () => import("@/features/home/components/ShopFeats"),
   {

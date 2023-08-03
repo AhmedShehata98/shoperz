@@ -11,31 +11,49 @@ export default function SidebarCategories() {
     isSuccess,
   } = useGetAllCategoriesQuery();
 
+  const nonOption: Categories = {
+    _id: "none",
+    name: "none",
+    image: "",
+    description: "",
+    slug: "none",
+  };
+
+  const handleCheckValue = (ev: React.ChangeEvent) => {
+    const parents = ev.target.closest("li");
+    console.log(parents);
+  };
+
   return (
-    <div className="w-full p-3 bg-white flex flex-col items-start justify-center border border-Grey-300">
-      <h4 className="capitalize mb-4 font-semibold">categories :</h4>
-      <ul className="grid grid-flow-row gap-2">
+    <div className="w-full bg-white flex flex-col items-start justify-center border border-Grey-300 divide-y-2">
+      <h4 className="w-full inline-block capitalize my-2 font-semibold px-4">
+        categories :
+      </h4>
+      <ul className="w-full grid grid-flow-row gap-2 p-3">
         {isLoading && (
           <ImSpinner8 className="text-2xl animate-spin mx-auto py-3" />
         )}
         {isSuccess &&
-          categoriesResponse?.data.categories.map((category, i) => (
-            <li key={i} className="flex items-center justify-start gap-3">
-              <input
-                type="radio"
-                name="category"
-                id={category._id}
-                value={category._id}
-                className="accent-Primary-700"
-              />
-              <label
-                htmlFor={category._id}
-                className="text-sm uppercase text-gray-600 font-medium"
-              >
-                {category.name}
-              </label>
-            </li>
-          ))}
+          [nonOption, ...categoriesResponse?.data.categories].map(
+            (category, i) => (
+              <li key={i} className="flex items-center justify-start gap-3">
+                <input
+                  type="radio"
+                  name="category"
+                  id={category._id}
+                  value={category._id}
+                  onChange={handleCheckValue}
+                  className="accent-Primary-700"
+                />
+                <label
+                  htmlFor={category._id}
+                  className="text-sm uppercase text-gray-600 font-medium"
+                >
+                  {category.name}
+                </label>
+              </li>
+            )
+          )}
       </ul>
     </div>
   );

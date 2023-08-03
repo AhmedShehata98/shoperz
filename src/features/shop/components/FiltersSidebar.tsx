@@ -22,33 +22,23 @@ const FiltersSidebar = forwardRef(({ handleClose }: Props, ref: any) => {
     const category = fd.get("category")?.toString();
     const brands = fd.getAll("brand") as string[];
     const price = {
-      pmin: fd.get("pmin")?.toString(),
-      pmax: fd.get("pmax")?.toString(),
+      pmin: Number(fd.get("pmin")) ?? 50,
+      pmax: Number(fd.get("pmax")),
     };
     const colors = fd.get("color")?.toString();
 
     // const queries = ['category',category, 'brands',brands.join(","),"pmin", price.pmin,"pmax", price.pmax, 'color',colors];
     const searchParams = new URLSearchParams();
-    if (category) searchParams.append("category", category!);
+    if (category !== "none") searchParams.append("category", category!);
     if (brands.length >= 1) searchParams.append("brands", brands.join(",")!);
-    if (price.pmin > 50) searchParams.append("pmin", price.pmin!);
-    if (price.pmax) searchParams.append("pmax", price.pmax!);
+    if (price.pmin !== 0) searchParams.append("pmin", price.pmin.toString());
+    if (price.pmax !== 0) searchParams.append("pmax", price.pmax.toString());
     if (colors !== "") searchParams.append("colors", colors!);
-
-    // const queries = {
-    //   category: category ? category : undefined,
-    //   brands: brands.length >= 1 ? brands.join(",") : undefined,
-    //   pmin: price.pmin ? price.pmin : undefined,
-    //   pmax: price.pmax ? price.pmax : undefined,
-    //   colors: colors ? colors : undefined,
-    // };
 
     push(
       {
         pathname,
-        // query: searchParams.toString(),
-        search: searchParams,
-        // query: queries,
+        search: searchParams as any,
       },
       undefined,
       { shallow: true }

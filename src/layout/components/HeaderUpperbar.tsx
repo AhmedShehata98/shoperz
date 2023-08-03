@@ -7,7 +7,7 @@ import {
 } from "react-icons/fa";
 import { IoLocation, IoLanguageOutline } from "react-icons/io5";
 import { ImEarth } from "react-icons/im";
-import { AiFillSetting, AiFillYoutube } from "react-icons/ai";
+import { AiFillYoutube } from "react-icons/ai";
 import Link from "next/link";
 import { routes } from "@/constants/Routes";
 

@@ -1,3 +1,4 @@
+import { useGetAllProductsQuery } from "@/services/shoperzApi.service";
 import React, { useState } from "react";
 
 type Props = {};
@@ -14,51 +15,65 @@ const data = [
   { id: 10, color: "#17D1DD", isSelected: false },
 ];
 const Colors = (props: Props) => {
-  const [color, setColor] = useState(data);
+  const [colors, setColors] = useState<string[]>([]);
+  const {
+    data: ProductsResponse,
+    isLoading,
+    isSuccess,
+  } = useGetAllProductsQuery({ limit: 6 });
 
-  const handleSelectColor = (id: string | Number) => {
-    setColor((prev) => {
-      const newColorData = prev.map((e) =>
-        e.id === id
-          ? {
-              ...e,
-              isSelected: true,
-            }
-          : {
-              ...e,
-              isSelected: false,
-            }
-      );
+  React.useEffect(() => {
+    if (isSuccess) {
+      const products = ProductsResponse.data.products;
+      const colorsList = products.flatMap((prod) => prod.colors);
+      const colorsSet = new Set(["", ...colorsList]);
+      setColors(Array.from(colorsSet));
+    }
+  }, [isLoading, isSuccess]);
 
-      return newColorData;
-    });
-  };
+  // const handleSelectColor = (id: string | Number) => {
+  //   setColors((prev) => {
+  //     const newColorData = prev.map((e) =>
+  //       e.id === id
+  //         ? {
+  //             ...e,
+  //             isSelected: true,
+  //           }
+  //         : {
+  //             ...e,
+  //             isSelected: false,
+  //           }
+  //     );
+
+  //     return newColorData;
+  //   });
+  // };
 
   return (
     <div className="w-full shadow-md p-4">
       <h4 className="capitalize mb-4 font-semibold">Colours</h4>
       <div className="grid grid-cols-5 w-full gap-y-4">
-        {color.map((color) => {
+        {colors.map((color, idx) => {
           return (
             <li
-              key={color.id}
-              className={`${
-                color.color === "" ? "hidden" : "flex"
-              }  items-center justify-center flex-col gap-2`}
+              key={idx}
+              className={`flex items-center justify-center flex-col gap-2`}
             >
               <label
-                htmlFor={color.id.toString()}
-                style={{ backgroundColor: color.color }}
-                className="block w-8 h-8 rounded-lg shadow-2xl border-[1px] cursor-pointer"
-              ></label>
+                htmlFor={color}
+                style={{ backgroundColor: color }}
+                className="block w-8 h-8 rounded-lg shadow-2xl border-[1px] cursor-pointer capitalize font-bold"
+              >
+                {color === "" ? "none" : null}
+              </label>
               <input
                 type="radio"
                 name="color"
-                id={color.id.toString()}
-                value={color.color}
+                id={color}
+                value={color}
                 className="accent-Primary-700"
-                checked={color.isSelected}
-                onClick={() => handleSelectColor(color.id)}
+                // checked={color}
+                // onClick={() => handleSelectColor(color)}
               />
             </li>
           );

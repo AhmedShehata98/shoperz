@@ -5,7 +5,6 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import "swiper/css";
-import Product from "../../../components/ProductCardGrid";
 import Headtitle from "../../../components/Headtitle";
 import {
   useAddToCartMutation,
@@ -13,8 +12,17 @@ import {
 } from "@/services/shoperzApi.service";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import useGetToken from "@/hooks/useGetToken";
-import ErrorHappened from "../../../components/ErrorHappened";
-import ProductCardSkeleton from "../../../components/ProductCardSkeleton";
+import ProductCardSkeleton from "@/components/ProductCardSkeleton";
+import QuickLoadingModul from "@/layout/QuickLoadingModul";
+import dynamic from "next/dynamic";
+
+const ErrorHappened = dynamic(
+  () => import("../../../components/ErrorHappened"),
+  { loading: () => <QuickLoadingModul /> }
+);
+const Product = dynamic(() => import("../../../components/ProductCardGrid"), {
+  loading: () => <QuickLoadingModul />,
+});
 
 type Props = {};
 

@@ -1,13 +1,21 @@
 import React from "react";
-import ColumnProduct from "../../../components/ColumnProduct";
 import {
   useGetMegaOfferProductsQuery,
   useGetTopRatedProductsQuery,
 } from "@/services/shoperzApi.service";
-import Headtitle from "../../../components/Headtitle";
 import { useInView } from "react-intersection-observer";
-import ErrorHappened from "../../../components/ErrorHappened";
-
+import QuickLoadingModul from "@/layout/QuickLoadingModul";
+import dynamic from "next/dynamic";
+const Headtitle = dynamic(() => import("@/components/Headtitle"), {
+  loading: () => <QuickLoadingModul />,
+});
+const ColumnProduct = dynamic(() => import("@/components/ColumnProduct"), {
+  loading: () => <QuickLoadingModul />,
+});
+const ErrorHappened = dynamic(
+  () => import("../../../components/ErrorHappened"),
+  { loading: () => <QuickLoadingModul /> }
+);
 type Props = {};
 
 const ProductLists = (props: Props) => {

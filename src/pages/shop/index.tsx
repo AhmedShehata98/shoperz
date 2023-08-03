@@ -58,14 +58,15 @@ const Shop = (props: Props) => {
       limit: productsLimitSelect,
       page,
       parts: "pagination,filter",
-      q: Object.entries(query).length >= 1 ? query : undefined,
+      filters:
+        Object.entries(query).length >= 1
+          ? JSON.parse(JSON.stringify(query))
+          : undefined,
     },
     {
       refetchOnFocus: true,
     }
   );
-
-  console.log(query);
 
   const handleShowFilterbar = () => {
     filterRef.current?.classList.toggle("filter-sidebar-show");

@@ -116,6 +116,7 @@ interface ProductByIdResponse extends ApiResponse {
 type productQueriesParameter = {
   limit: number;
   page?: number;
+  filters?: object | undefined;
   q?: string | undefined;
   parts?: "pagination" | "filter" | "pagination,filter";
 };
