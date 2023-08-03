@@ -11,8 +11,8 @@ import { routes } from "../constants/Routes";
 import { useGetCartItemsQuery } from "@/services/shoperzApi.service";
 import { useDispatch } from "react-redux";
 import { setShowCartDrawer } from "@/redux/slices/app.slice";
-import CartDrowerItems from "./components/CartDrowerItems";
-import CartItem from "./components/CartItem";
+import CartDrowerItems from "@/features/header/components/CartDrowerItems";
+import CartItem from "@/features/header/components/CartItem";
 import useGetToken from "@/hooks/useGetToken";
 
 function CartDrawer() {

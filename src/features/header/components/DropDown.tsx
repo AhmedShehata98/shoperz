@@ -1,8 +1,8 @@
 import React from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import FooterCategory from "./FooterCategory";
+import { motion } from "framer-motion";
+import FooterCategory from "@/layout/components/FooterCategory";
 import Image from "next/image";
-import product from "../../assets/products/monitor.png";
+import product from "@/assets/products/monitor.png";
 type Props = {};
 
 const DropDown = (props: Props) => {

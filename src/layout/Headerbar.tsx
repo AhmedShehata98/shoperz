@@ -1,27 +1,30 @@
 import React, { useRef, useState } from "react";
-import CartDrawer from "./CartDrawer";
-import HeaderControlsActions from "@/layout/components/HeaderControlsActions";
 import { useSelector } from "react-redux";
 import { selectAppState } from "@/redux/slices/app.slice";
 import dynamic from "next/dynamic";
 import { AnimatePresence } from "framer-motion";
 import QuickLoadingModul from "./QuickLoadingModul";
-import SearchResultList from "./components/SearchResultList";
 import { useGetAllProductsQuery } from "@/services/shoperzApi.service";
 import { useDebounce } from "use-debounce";
+import CartDrawer from "@/layout/CartDrawer";
+import HeaderControlsActions from "@/features/header/components/HeaderControlsActions";
+import SearchResultList from "@/features/header/components/SearchResultList";
 
-const MobileSearchbar = dynamic(() => import("./components/MobileSearchbar"), {
-  loading: () => <QuickLoadingModul />,
-});
+const MobileSearchbar = dynamic(
+  () => import("@/features/header/components/MobileSearchbar"),
+  {
+    loading: () => <QuickLoadingModul />,
+  }
+);
 const HeaderUpperbar = dynamic(
-  () => import("@/layout/components/HeaderUpperbar"),
+  () => import("@/features/header/components/HeaderUpperbar"),
   { loading: () => <QuickLoadingModul /> }
 );
 const ActionMenu = dynamic(() => import("@/layout/ActionMenu"), {
   loading: () => <QuickLoadingModul />,
 });
 const HeaderCategorybar = dynamic(
-  () => import("@/layout/components/HeaderCategorybar"),
+  () => import("@/features/header/components/HeaderCategorybar"),
   {
     loading: () => <QuickLoadingModul />,
   }

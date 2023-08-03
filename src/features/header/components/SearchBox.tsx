@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { BsSearch } from "react-icons/bs";
-import { useSearchProductsMutation } from "@/services/shoperzApi.service";
 import dynamic from "next/dynamic";
-import QuickLoadingModul from "../QuickLoadingModul";
+import QuickLoadingModul from "@/layout/QuickLoadingModul";
 
 const SearchResultList = dynamic(() => import("./SearchResultList"), {
   loading: () => <QuickLoadingModul />,

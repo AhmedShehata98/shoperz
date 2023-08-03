@@ -17,7 +17,7 @@ type Props = {
 };
 
 const ActionMenuListItems = dynamic(
-  () => import("./components/ActionMenuListItems"),
+  () => import("@/features/header/components/ActionMenuListItems"),
   { loading: () => <QuickLoadingModul /> }
 );
 

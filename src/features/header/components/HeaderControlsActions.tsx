@@ -23,9 +23,11 @@ import {
 } from "@/services/shoperzApi.service";
 import SearchBox from "./SearchBox";
 import dynamic from "next/dynamic";
-import QuickLoadingModul from "../QuickLoadingModul";
 import useGetToken from "@/hooks/useGetToken";
-const Logo = dynamic(() => import("../../components/Logo"), {
+
+import QuickLoadingModul from "@/layout/QuickLoadingModul";
+
+const Logo = dynamic(() => import("@/components/Logo"), {
   loading: () => <QuickLoadingModul />,
 });
 const UserBtn = dynamic(() => import("./UserBtn"), {
