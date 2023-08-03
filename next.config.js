@@ -19,6 +19,10 @@ const nextConfig = {
     ],
     domains: ["firebasestorage.googleapis.com"],
   },
+  env: {
+    NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY:
+      process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY,
+  },
 };
 
 module.exports = nextConfig;

@@ -10,18 +10,29 @@ import {
 import useGetToken from "@/hooks/useGetToken";
 import { TbAddressBookOff } from "react-icons/tb";
 
-function UserAddress() {
+type Props = {
+  address: UserAddress[];
+  apiCallState: {
+    isLoading: boolean;
+    isError: boolean;
+    isSuccess: boolean;
+  };
+};
+function UserAddress({
+  address,
+  apiCallState: { isError, isLoading, isSuccess },
+}: Props) {
   const { token } = useGetToken();
-  const {
-    data: userAddressList,
-    isLoading: loadingUserAddress,
-    isError: ErrorFetchUserAddress,
-  } = useGetUserAddressListQuery(
-    { token },
-    {
-      skip: !token ? true : false,
-    }
-  );
+  // const {
+  //   data: userAddressList,
+  //   isLoading: loadingUserAddress,
+  //   isError: ErrorFetchUserAddress,
+  // } = useGetUserAddressListQuery(
+  //   { token },
+  //   {
+  //     skip: !token ? true : false,
+  //   }
+  // );
   const [fetchUpdateAddress, ResponseAddressUpdate] =
     useUpdateAddressDataMutation();
   const [fetchRemoveAddress, ResponseAddressRemove] =
@@ -33,37 +44,33 @@ function UserAddress() {
       <h3 className="mb-2 text-Grey-700 text-xl font-medium capitalize">
         shopping address :
       </h3>
-      {loadingUserAddress ? (
+      {isLoading ? (
         <div className="flex items-center justify-center gap-2">
           <span className="spinner-loading w-7 h-7 border-Primary-700"></span>
           <small>getting address ..</small>
         </div>
       ) : null}
-      {!loadingUserAddress &&
-      !ErrorFetchUserAddress &&
-      userAddressList?.data.userAddresses?.length! >= 1 ? (
+      {!isLoading && !isError && address.length! >= 1 ? (
         <ul className="grid grid-flow-row gap-2 bg-Grey-100 border border-Grey-200 p-2">
-          {userAddressList?.data.userAddresses.map((address: UserAddress) => (
+          {address?.map((adres: UserAddress) => (
             <AddressCardItem
-              key={address._id}
-              address={address}
+              key={adres._id}
+              address={adres}
               onCheckAddress={() => {
                 fetchUpdateAddress({
-                  payload: { default: !address.default },
-                  addressId: address._id,
+                  payload: { default: !adres.default },
+                  addressId: adres._id,
                   token,
                 });
               }}
               onRemoveAddress={() => {
-                fetchRemoveAddress({ token, addressId: address._id });
+                fetchRemoveAddress({ token, addressId: adres._id });
               }}
             />
           ))}
         </ul>
       ) : null}
-      {!loadingUserAddress &&
-      !ErrorFetchUserAddress &&
-      userAddressList?.data.userAddresses?.length! <= 0 ? (
+      {!isLoading && !isError && address.length! <= 0 ? (
         <NoAddressList />
       ) : null}
       <button

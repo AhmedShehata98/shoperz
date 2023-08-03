@@ -9,19 +9,30 @@ import { toast } from "react-toastify";
 import { StripePaymentElementOptions } from "@stripe/stripe-js";
 import { routes } from "@/constants/Routes";
 import { ImSpinner8 } from "react-icons/im";
+import { useSelector } from "react-redux";
+import { selectAppState } from "@/redux/slices/app.slice";
+import CustomButton from "@/components/CustomButton";
+import { useRouter } from "next/router";
+
+type Props = {};
 
 function CheckoutForm() {
+  const { clientSecret } = useSelector(selectAppState);
   const stripe = useStripe();
   const elements = useElements();
   const [email, setEmail] = useState("");
+  const [originName, setOriginName] = useState("");
   const [isLoading, setIsLoading] = React.useState(false);
+  const router = useRouter();
   const paymentElementOptions: StripePaymentElementOptions = {
-    layout: "tabs",
+    layout: "accordion",
   };
+  console.log(router);
   useEffect(() => {
-    const clientSecret = new URLSearchParams(window.location.search).get(
-      "payment_intent_client_secret"
-    );
+    const origin = window.location.origin;
+    setOriginName(origin);
+  }, []);
+  useEffect(() => {
     if (!stripe) return;
     if (!clientSecret) return;
 
@@ -40,7 +51,7 @@ function CheckoutForm() {
           toast.warn("Something went wrong !!!");
       }
     });
-  }, []);
+  }, [clientSecret]);
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -56,7 +67,7 @@ function CheckoutForm() {
       elements,
       confirmParams: {
         // Make sure to change this to your payment completion page
-        return_url: `${window.location.hostname}/${routes.orderCompleted}`,
+        return_url: `${originName}/${routes.orderCompleted}`,
       },
     });
 
@@ -70,23 +81,28 @@ function CheckoutForm() {
     } else {
       toast.error("An unexpected error occurred.");
     }
-
     setIsLoading(false);
   };
+
   return (
-    <form id="payment-form" onSubmit={handleSubmit}>
+    <form id="payment-form" onSubmit={handleSubmit} className="mt-6 mb-3">
       <LinkAuthenticationElement
         id="link-authentication-element"
         onChange={(e) => setEmail(e.value.email)}
       />
       <PaymentElement id="payment-element" options={paymentElementOptions} />
-      <button disabled={isLoading || !stripe} id="submit">
-        {!isLoading || (stripe && <p>pay now</p>)}
+
+      <CustomButton
+        extraClassName="w-full mt-2"
+        disabled={isLoading || !stripe}
+        id="submit"
+      >
+        {!isLoading && stripe && <p>pay now</p>}
         {isLoading ||
           (!stripe && (
             <ImSpinner8 className="inline-block text-xl animate-spin" />
           ))}
-      </button>
+      </CustomButton>
     </form>
   );
 }

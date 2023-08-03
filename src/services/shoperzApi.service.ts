@@ -5,6 +5,8 @@ import {
   setIsLoggedIn,
   setShowCartDrawer,
   removeFromShoppingCart,
+  setOrder,
+  setClientSecret,
 } from "@/redux/slices/app.slice";
 import { HYDRATE } from "next-redux-wrapper";
 import { isInCartMiddleware } from "@/utils/isInCartMiddleware";
@@ -215,24 +217,28 @@ export const shoperzApi = createApi({
     }),
 
     createOrder: builder.mutation<
-      ApiResponse,
-      { address: UserAddress; method: any; token: Token }
+      CreateOrderResponse,
+      {
+        addressId: string | undefined;
+        method: "cod" | "pypl" | "card";
+        token: Token;
+      }
     >({
-      query: ({ address, method, token }) => ({
+      query: ({ addressId, method, token }) => ({
         method: "POST",
         url: ENDPOINTS.order,
         headers: {
           authorization: token,
         },
-        body: { address, method },
+        body: { address: addressId, method },
       }),
     }),
     createPaymentIntent: builder.mutation({
-      query: (cartItems: CartProducts[] | undefined) => ({
+      query: (orderId: string | undefined) => ({
         url: ENDPOINTS.checkout["create-payment-intent"],
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: cartItems,
+        body: orderId,
       }),
     }),
 
@@ -247,7 +253,37 @@ export const shoperzApi = createApi({
           authorization: token,
         },
       }),
+      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+        const addressResponse = await queryFulfilled;
+        const addressId = addressResponse.data.data.userAddresses.find(
+          (adrs) => adrs.default === true
+        )?._id;
+
+        const orderResponse = await dispatch(
+          shoperzApi.endpoints.createOrder.initiate({
+            addressId,
+            method: "card",
+            token: arg.token,
+          })
+        ).unwrap();
+
+        if (orderResponse.data !== null) {
+          dispatch(setOrder({ order: orderResponse.data.order }));
+          dispatch(
+            setClientSecret({ clientSecret: orderResponse.data.clientSecret })
+          );
+        }
+      },
       providesTags: ["Address"],
+    }),
+    getStripePublishableKey: builder.query<
+      PublishableKeyResponse,
+      { token: Token }
+    >({
+      query: ({ token }) => ({
+        url: ENDPOINTS.payments.pk,
+        headers: { authorization: token },
+      }),
     }),
     addUserAddress: builder.mutation<
       ShippingAddressResponse,
@@ -325,6 +361,7 @@ export const {
   useGetCartByIdQuery,
   useUpdateCartQuantityMutation,
   useCreateOrderMutation,
+  useGetStripePublishableKeyQuery,
   useCreatePaymentIntentMutation,
   useGetUserAddressListQuery,
   useAddUserAddressMutation,

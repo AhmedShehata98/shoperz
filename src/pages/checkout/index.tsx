@@ -12,9 +12,9 @@ import { IoIosCash } from "react-icons/io";
 import Portal from "@/hooks/Protal";
 import useGetToken from "@/hooks/useGetToken";
 import {
-  useCreateOrderMutation,
-  useCreatePaymentIntentMutation,
   useGetCartItemsQuery,
+  useGetStripePublishableKeyQuery,
+  useGetUserAddressListQuery,
 } from "@/services/shoperzApi.service";
 import { MdDiscount } from "react-icons/md";
 import { useRouter } from "next/router";
@@ -27,16 +27,23 @@ import { StripeElementsOptionsClientSecret } from "@stripe/stripe-js";
 import Invoices from "@/features/checkout/components/Invoices";
 import PaymentAndAddressWrapper from "@/features/checkout/components/PaymentAndAddressWrapper";
 import OrderItem from "@/features/checkout/components/OrderItem";
-
-const stripePromise = loadStripe(
-  process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY as string
-);
+import { toast } from "react-toastify";
+import { selectAppState } from "@/redux/slices/app.slice";
+import { useSelector } from "react-redux";
 
 const Checkout = () => {
   const { token } = useGetToken();
   const { pathname } = useRouter();
-  const [sendOrder, { isError: isErrorOrder, isLoading: isLoadingOrder }] =
-    useCreateOrderMutation();
+  const { clientSecret, order } = useSelector(selectAppState);
+  // const [
+  //   sendOrder,
+  //   {
+  //     data: orderResponse,
+  //     isError: isErrorOrder,
+  //     isLoading: isLoadingOrder,
+  //     isSuccess: isSuccessOrder,
+  //   },
+  // ] = useCreateOrderMutation();
   const [showAddressForm, setShowAddressForm] = React.useState(false);
   const shippingCost = 50;
   const {
@@ -44,16 +51,26 @@ const Checkout = () => {
     isLoading: loadingUserCart,
     isSuccess: isSuccessUserCart,
   } = useGetCartItemsQuery(token!, { skip: !token ? true : false });
-  const [
-    sendPaymentIntentResponse,
-    { data: clientSecret, isLoading, isSuccess, isError },
-  ] = useCreatePaymentIntentMutation();
+  const {
+    data: userAddressList,
+    isLoading: loadingUserAddress,
+    isError: ErrorFetchUserAddress,
+    isSuccess: isSuccessFetchUserAddress,
+  } = useGetUserAddressListQuery(
+    { token },
+    {
+      skip: !token ? true : false,
+    }
+  );
+  const { data: PKResponse } = useGetStripePublishableKeyQuery(
+    { token },
+    { skip: token ? false : true }
+  );
   const appearance: Appearance = {
-    theme: "flat",
+    theme: "stripe",
   };
   const stripeOptions: StripeElementsOptionsClientSecret = {
-    clientSecret: clientSecret as string,
-
+    clientSecret,
     appearance,
   };
 
@@ -62,12 +79,32 @@ const Checkout = () => {
     []
   );
 
-  useEffect(() => {
-    if (isSuccessUserCart) {
-      //sendPaymentIntentResponse(userCart?.userCart.items);
-    }
-  }, [loadingUserCart, isSuccessUserCart]);
+  // useEffect(() => {
+  //   if (isSuccessUserCart && !stripeOptions.clientSecret) {
+  //     if (userAddressList?.data.userAddresses?.length! >= 1) {
+  //       const selectedAddressTarget = userAddressList?.data.userAddresses.find(
+  //         (adrs) => adrs.default === true
+  //       );
 
+  //       sendOrder({
+  //         addressId: selectedAddressTarget?._id,
+  //         method: "card",
+  //         token,
+  //       })
+  //         .then(() => {
+  //           if (orderResponse?.data !== null) {
+  //             toast.info("The order has been sent successfully");
+  //           } else {
+  //             toast.info(JSON.stringify(orderResponse.error));
+  //           }
+  //         })
+  //         .catch((err: any) => toast.error(err.message));
+  //     }
+  //   }
+  // }, [isSuccessFetchUserAddress]);
+  // useEffect(() => {
+  //   document.cookie = `CLINT_SCRT=${orderResponse?.data.clientSecret}`;
+  // }, [orderResponse?.data.clientSecret]);
   return (
     <>
       <Head>
@@ -77,10 +114,20 @@ const Checkout = () => {
         <PaymentStatusbar currentPage={pathname.split("/")[1] as "checkout"} />
         <section className="checkout">
           <PaymentAndAddressWrapper>
-            <UserAddress />
+            <UserAddress
+              address={userAddressList?.data.userAddresses ?? []}
+              apiCallState={{
+                isError: ErrorFetchUserAddress,
+                isLoading: loadingUserAddress,
+                isSuccess: isSuccessFetchUserAddress,
+              }}
+            />
             {/* <PaymentMethodsForm /> */}
-            {clientSecret && (
-              <Elements options={stripeOptions} stripe={stripePromise}>
+            {stripeOptions.clientSecret && PKResponse?.data.pk && (
+              <Elements
+                options={stripeOptions}
+                stripe={loadStripe(PKResponse?.data.pk as string)}
+              >
                 <CheckoutForm />
               </Elements>
             )}

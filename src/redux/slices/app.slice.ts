@@ -11,6 +11,8 @@ interface AppStateProps {
   cartLength: number;
   isLoggedIn: boolean;
   shoppingCart: { _id: string }[] | [];
+  order: Order | undefined;
+  clientSecret: string | undefined;
 }
 
 const initialState: AppStateProps = {
@@ -32,6 +34,8 @@ const initialState: AppStateProps = {
   ],
   creditCardsList: [],
   shoppingCart: [],
+  order: undefined,
+  clientSecret: undefined,
 };
 
 export const appSlice = createSlice({
@@ -98,6 +102,12 @@ export const appSlice = createSlice({
     setPaymentStatusbarState: (state, action) => {
       state.paymentStatusbarState = action.payload.currentState;
     },
+    setClientSecret: (state, action) => {
+      state.clientSecret = action.payload.clientSecret;
+    },
+    setOrder: (state, action) => {
+      state.order = action.payload.order;
+    },
   },
 });
 
@@ -113,4 +123,6 @@ export const {
   setShoppingCart,
   removeFromShoppingCart,
   setPaymentStatusbarState,
+  setClientSecret,
+  setOrder,
 } = appSlice.actions;

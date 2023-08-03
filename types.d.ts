@@ -28,6 +28,10 @@ interface GetCartByIdResponse extends ApiResponse {
     };
   };
 }
+
+interface PublishableKeyResponse extends ApiResponse {
+  data: { pk: string };
+}
 interface RemoveCartitemResponse extends ApiResponse {
   data: {
     userCart: { _id: string };
@@ -286,6 +290,30 @@ interface IPaymentMethod {
 }
 
 type sortMethods = "-createdAt" | "price" | "-price" | "reviews" | "discount";
+/**
+ *
+ *
+ * Order Types
+ *
+ *
+ */
+
+interface CreateOrderResponse extends ApiResponse {
+  data: { order: Order; clientSecret: string };
+}
+type Order = {
+  addressId: string;
+  createdAt: string;
+  discountedTotal: number;
+  payment: { method: string; status: string; _id: string };
+  products: { productId: string; quantity: number; _id: string }[];
+  status: string;
+  totalPrice: number;
+  updatedAt: string;
+  userId: string;
+  __v: number;
+  _id: string;
+};
 
 /**
  *

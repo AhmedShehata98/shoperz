@@ -29,6 +29,7 @@ export const ENDPOINTS = {
     "create-payment-intent": "/create-payment-intent",
   },
   order: "/orders",
+  payments: { pk: "payments/pk", payments: "payments" },
 };
 
 export const sendSignupData = async (body: any) => {

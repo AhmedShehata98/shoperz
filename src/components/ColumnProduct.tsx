@@ -9,6 +9,7 @@ import { selectAppState, setShowCartDrawer } from "@/redux/slices/app.slice";
 import { BsFillCartCheckFill } from "react-icons/bs";
 import { MdDiscount } from "react-icons/md";
 import useInShoppingCart from "@/hooks/useInShoppingCart";
+import Image from "next/image";
 
 type Props = {
   product: Products;
@@ -29,6 +30,7 @@ const ColumnProduct = ({ product }: Props) => {
     }
   };
   const { name, thumbnail, rating, discount, price } = product;
+  console.log(product);
   return (
     <li className="relative flex items-center justify-between gap-3 bg-white transition-all duration-500 shadow p-3 mb-3 hover:shadow-lg hover:scale-105">
       {!discount && discount > 0 ? (
@@ -42,9 +44,13 @@ const ColumnProduct = ({ product }: Props) => {
         </span>
       ) : null}
       <figure className="w-28 h-28 grid place-content-center place-items-center aspect-square">
-        <img
-          src={thumbnail}
+        <Image
+          src={
+            typeof thumbnail === "string" ? thumbnail : (thumbnail as any)?.url
+          }
           alt={"product-thumbnail"}
+          width={140}
+          height={140}
           className="max-w-full object-cover"
         />
       </figure>
