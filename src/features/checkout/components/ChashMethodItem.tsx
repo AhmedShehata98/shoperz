@@ -1,21 +1,13 @@
 import { useState } from "react";
 import cashLogo from "@/assets/icons/cash-on-delivery.png";
 import { useDispatch } from "react-redux";
-import { ICreditCard } from "@/models/shopperz.model";
-import { addPaymentData } from "@/redux/slices/app.slice";
 
 type ChashMethodProps = {
-  selectPaymentMethod: (e: React.ChangeEvent) => void;
+  onSelectPaymentMethod: React.ChangeEventHandler;
   value: boolean;
 };
-function ChashMethodItem({ value, selectPaymentMethod }: ChashMethodProps) {
-  const dispatch = useDispatch();
+function ChashMethodItem({ value, onSelectPaymentMethod }: ChashMethodProps) {
   const [feedAmount, setFeedAmount] = useState(15);
-
-  const handleAddPaymentData = (e: React.ChangeEvent) => {
-    const target = e.target as HTMLInputElement;
-    dispatch(addPaymentData({ id: target.id, feedAmount }));
-  };
 
   return (
     <li className="flex flex-col items-center rounded-md border bg-white shadow p-3">
@@ -26,10 +18,7 @@ function ChashMethodItem({ value, selectPaymentMethod }: ChashMethodProps) {
           id="upon-receipt"
           className="block m-3 accent-Primary-700"
           checked={value}
-          onChange={(e: React.ChangeEvent) => {
-            selectPaymentMethod(e);
-            handleAddPaymentData(e);
-          }}
+          onChange={onSelectPaymentMethod}
         />
         <label htmlFor="upon-receipt" className="basis-full flex flex-col p-3">
           <span className="flex items-center justify-between">

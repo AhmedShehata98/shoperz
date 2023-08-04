@@ -6,7 +6,7 @@ import { ICreditCard } from "@/models/shopperz.model";
 interface AppStateProps {
   paymentStatusbarState: "shopping-cart" | "checkout" | "order-complete";
   showCartDrawer: boolean;
-  paymentMethod: IPaymentMethod[];
+  selectedAddressId: string | undefined;
   creditCardsList: ICreditCard[];
   cartLength: number;
   isLoggedIn: boolean;
@@ -20,18 +20,7 @@ const initialState: AppStateProps = {
   cartLength: 0,
   showCartDrawer: false,
   isLoggedIn: false,
-  paymentMethod: [
-    {
-      id: "credit-card",
-      value: true,
-      paymentData: {},
-    },
-    {
-      id: "upon-receipt",
-      value: false,
-      paymentData: {},
-    },
-  ],
+  selectedAddressId: undefined,
   creditCardsList: [],
   shoppingCart: [],
   order: undefined,
@@ -42,22 +31,6 @@ export const appSlice = createSlice({
   name: "app",
   initialState,
   reducers: {
-    selectPatmentMethod: (state, action) => {
-      let newPaymentMethod = state.paymentMethod.map((method) =>
-        method.id === action.payload
-          ? { ...method, value: !method.value }
-          : { ...method, value: false }
-      );
-      state.paymentMethod = newPaymentMethod;
-    },
-    addPaymentData: (state, action) => {
-      let newPaymentData = state.paymentMethod.map((data) =>
-        data.id === action.payload.id
-          ? { ...data, paymentData: action.payload.paymentData }
-          : { ...data }
-      );
-      state.paymentMethod = newPaymentData;
-    },
     addToCreditCardsList: (state, action) => {
       let newCreditCardsList = state.creditCardsList.map((card) => ({
         ...card,
@@ -108,14 +81,16 @@ export const appSlice = createSlice({
     setOrder: (state, action) => {
       state.order = action.payload.order;
     },
+    setAddressId: (state, action) => {
+      state.selectedAddressId = action.payload.addressId;
+    },
   },
 });
 
 export const selectAppState = (state: AppState) => state.app;
 export const {
   setIsLoggedIn,
-  addPaymentData,
-  selectPatmentMethod,
+  setAddressId,
   addToCreditCardsList,
   removeFromCreditCardsList,
   setShowCartDrawer,

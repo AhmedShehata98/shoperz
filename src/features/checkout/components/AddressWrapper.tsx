@@ -4,18 +4,18 @@ import {
   useRemoveAddressMutation,
   useUpdateAddressDataMutation,
 } from "@/services/shoperzApi.service";
-import React, { Children, cloneElement } from "react";
-import UserAddress from "./UserAddress";
-import { JsxElement } from "typescript";
+import React, { Children, cloneElement, useEffect } from "react";
 import { ImSpinner } from "react-icons/im";
 import NoAddressFounded from "./NoAddressFounded";
+import { useDispatch } from "react-redux";
+import { setAddressId } from "@/redux/slices/app.slice";
 
 type Props = {
   children: React.ReactNode | React.ReactNode[];
 };
 function AddressWrpapper({ children }: Props) {
   const { token } = useGetToken();
-
+  const dispatch = useDispatch();
   const {
     data: userAddressList,
     isLoading: loadingUserAddress,
@@ -27,6 +27,16 @@ function AddressWrpapper({ children }: Props) {
       skip: !token ? true : false,
     }
   );
+  useEffect(() => {
+    if (isSuccessFetchUserAddress) {
+      const addressId = userAddressList.data.userAddresses.find(
+        (adrs) => adrs.default === true
+      )?._id;
+      if (addressId) {
+        dispatch(setAddressId({ addressId }));
+      }
+    }
+  }, [loadingUserAddress, isSuccessFetchUserAddress]);
 
   const renderAddressChildren = (address: UserAddress) =>
     Children.map((children as React.ReactNode[])?.at(0), (child: any) =>
@@ -37,6 +47,9 @@ function AddressWrpapper({ children }: Props) {
     );
   return (
     <div className="flex flex-col gap-3 mt-8">
+      <h3 className="mb-2 text-Grey-700 text-xl font-medium capitalize">
+        shopping address :
+      </h3>
       <ul className="grid grid-flow-row gap-2 bg-Grey-100 border border-Grey-200 p-2">
         {!loadingUserAddress &&
           isSuccessFetchUserAddress &&
