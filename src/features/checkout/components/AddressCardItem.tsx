@@ -1,28 +1,33 @@
+import useGetToken from "@/hooks/useGetToken";
+import {
+  useRemoveAddressMutation,
+  useUpdateAddressDataMutation,
+} from "@/services/shoperzApi.service";
 import React from "react";
 import { BsHouseDoor, BsTrash } from "react-icons/bs";
 import { MdOutlineMapsHomeWork } from "react-icons/md";
 
 type Props = {
-  address: UserAddress;
-  onCheckAddress: React.ChangeEventHandler;
-  onRemoveAddress: React.MouseEventHandler;
+  address?: UserAddress;
 };
-export default function AddressCardItem({
-  address,
-  onCheckAddress,
-  onRemoveAddress,
-}: Props) {
-  // const {
-  //   country,
-  //   province,
-  //   postalCode,
-  //   city,
-  //   street,
-  //   contactPhone,
-  //   updatedAt,
-  //   default: isDefault,
-  //   addressLabel,
-  // } = address;
+export default function AddressCardItem({ address }: Props) {
+  const [fetchUpdateAddress, ResponseAddressUpdate] =
+    useUpdateAddressDataMutation();
+  const [fetchRemoveAddress, ResponseAddressRemove] =
+    useRemoveAddressMutation();
+  const { token } = useGetToken();
+
+  const handleRemoveAddress = (id: string | undefined) => {
+    fetchRemoveAddress({ addressId: id, token });
+  };
+  const handleUpdateAddress = (id: string | undefined) => {
+    fetchUpdateAddress({
+      addressId: id,
+      payload: { default: !address?.default },
+      token,
+    });
+  };
+
   return (
     <li className="flex items-start flex-col bg-white p-3 border rounded">
       <span className="w-full flex items-center justify-between rounded mb-2">
@@ -33,7 +38,7 @@ export default function AddressCardItem({
             id="address1"
             className="accent-Primary-700 mx-2"
             checked={address?.default}
-            onChange={onCheckAddress}
+            onChange={() => handleUpdateAddress(address?._id)}
           />
           <label htmlFor="address1" className="flex gap-2 items-center">
             {address?.addressLabel === "Home" ? (
@@ -47,7 +52,7 @@ export default function AddressCardItem({
         <button
           type="button"
           className="p-2 text-red-600 bg-rose-100 rounded hover:bg-red-200"
-          onClick={onRemoveAddress}
+          onClick={() => handleRemoveAddress(address?._id)}
         >
           <BsTrash />
         </button>
@@ -71,7 +76,7 @@ export default function AddressCardItem({
         <span className="w-full flex items-center justify-between">
           <code>{address?.contactPhone}</code>
           <small>
-            last update at :{new Date(address?.updatedAt).toDateString()}
+            last update at :{new Date(address?.updatedAt ?? 0).toDateString()}
           </small>
         </span>
       </span>

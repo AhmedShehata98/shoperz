@@ -25,25 +25,19 @@ import { Elements } from "@stripe/react-stripe-js";
 import CheckoutForm from "@/features/checkout/components/CheckoutForm";
 import { StripeElementsOptionsClientSecret } from "@stripe/stripe-js";
 import Invoices from "@/features/checkout/components/Invoices";
-import PaymentAndAddressWrapper from "@/features/checkout/components/PaymentAndAddressWrapper";
+import PaymentWrapper from "@/features/checkout/components/PaymentWrapper";
 import OrderItem from "@/features/checkout/components/OrderItem";
 import { toast } from "react-toastify";
 import { selectAppState } from "@/redux/slices/app.slice";
 import { useSelector } from "react-redux";
+import AddressWrpapper from "@/features/checkout/components/AddressWrpapper";
+import AddressCardItem from "@/features/checkout/components/AddressCardItem";
+import CustomButton from "@/components/CustomButton";
 
 const Checkout = () => {
   const { token } = useGetToken();
   const { pathname } = useRouter();
   const { clientSecret, order } = useSelector(selectAppState);
-  // const [
-  //   sendOrder,
-  //   {
-  //     data: orderResponse,
-  //     isError: isErrorOrder,
-  //     isLoading: isLoadingOrder,
-  //     isSuccess: isSuccessOrder,
-  //   },
-  // ] = useCreateOrderMutation();
   const [showAddressForm, setShowAddressForm] = React.useState(false);
   const shippingCost = 50;
   const {
@@ -51,17 +45,7 @@ const Checkout = () => {
     isLoading: loadingUserCart,
     isSuccess: isSuccessUserCart,
   } = useGetCartItemsQuery(token!, { skip: !token ? true : false });
-  const {
-    data: userAddressList,
-    isLoading: loadingUserAddress,
-    isError: ErrorFetchUserAddress,
-    isSuccess: isSuccessFetchUserAddress,
-  } = useGetUserAddressListQuery(
-    { token },
-    {
-      skip: !token ? true : false,
-    }
-  );
+
   const { data: PKResponse } = useGetStripePublishableKeyQuery(
     { token },
     { skip: token ? false : true }
@@ -113,30 +97,32 @@ const Checkout = () => {
       <main>
         <PaymentStatusbar currentPage={pathname.split("/")[1] as "checkout"} />
         <section className="checkout">
-          <PaymentAndAddressWrapper>
-            <UserAddress
-              address={userAddressList?.data.userAddresses ?? []}
-              apiCallState={{
-                isError: ErrorFetchUserAddress,
-                isLoading: loadingUserAddress,
-                isSuccess: isSuccessFetchUserAddress,
-              }}
-            />
-            {/* <PaymentMethodsForm /> */}
-            {stripeOptions.clientSecret && PKResponse?.data.pk && (
-              <Elements
-                options={stripeOptions}
-                stripe={loadStripe(PKResponse?.data.pk as string)}
-              >
-                <CheckoutForm />
-              </Elements>
-            )}
-            {showAddressForm && (
-              <Portal>
-                <UserAddressForm setIsShowing={showAddressFormModel} />
-              </Portal>
-            )}
-          </PaymentAndAddressWrapper>
+          <div className="w-4/6 flex flex-col h-full">
+            <AddressWrpapper>
+              <AddressCardItem />
+              <CustomButton extraClassName="w-full">add address</CustomButton>
+              {showAddressForm && (
+                <Portal>
+                  <UserAddressForm setIsShowing={setShowAddressForm} />
+                </Portal>
+              )}
+            </AddressWrpapper>
+            <PaymentWrapper>
+              {stripeOptions.clientSecret && PKResponse?.data.pk && (
+                <Elements
+                  options={stripeOptions}
+                  stripe={loadStripe(PKResponse?.data.pk as string)}
+                >
+                  <CheckoutForm />
+                </Elements>
+              )}
+              {showAddressForm && (
+                <Portal>
+                  <UserAddressForm setIsShowing={showAddressFormModel} />
+                </Portal>
+              )}
+            </PaymentWrapper>
+          </div>
           <Invoices>
             <OrdersPreviewList cartItems={userCart?.userCart.items || []}>
               <OrderItem />

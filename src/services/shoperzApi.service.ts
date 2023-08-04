@@ -253,27 +253,27 @@ export const shoperzApi = createApi({
           authorization: token,
         },
       }),
-      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
-        const addressResponse = await queryFulfilled;
-        const addressId = addressResponse.data.data.userAddresses.find(
-          (adrs) => adrs.default === true
-        )?._id;
+      // async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+      //   const addressResponse = await queryFulfilled;
+      //   const addressId = addressResponse.data.data.userAddresses.find(
+      //     (adrs) => adrs.default === true
+      //   )?._id;
 
-        const orderResponse = await dispatch(
-          shoperzApi.endpoints.createOrder.initiate({
-            addressId,
-            method: "card",
-            token: arg.token,
-          })
-        ).unwrap();
+      //   const orderResponse = await dispatch(
+      //     shoperzApi.endpoints.createOrder.initiate({
+      //       addressId,
+      //       method: "card",
+      //       token: arg.token,
+      //     })
+      //   ).unwrap();
 
-        if (orderResponse.data !== null) {
-          dispatch(setOrder({ order: orderResponse.data.order }));
-          dispatch(
-            setClientSecret({ clientSecret: orderResponse.data.clientSecret })
-          );
-        }
-      },
+      //   if (orderResponse.data !== null) {
+      //     dispatch(setOrder({ order: orderResponse.data.order }));
+      //     dispatch(
+      //       setClientSecret({ clientSecret: orderResponse.data.clientSecret })
+      //     );
+      //   }
+      // },
       providesTags: ["Address"],
     }),
     getStripePublishableKey: builder.query<
@@ -309,8 +309,8 @@ export const shoperzApi = createApi({
       ApiResponse,
       {
         payload: Partial<UserAddress>;
-        token: string | undefined;
-        addressId: string;
+        token: Token;
+        addressId: Id;
       }
     >({
       query: ({ payload, token, addressId }) => ({
@@ -325,7 +325,7 @@ export const shoperzApi = createApi({
     }),
     removeAddress: builder.mutation<
       ApiResponse,
-      { addressId: string; token: string | undefined }
+      { addressId: Id; token: Token }
     >({
       query: ({ addressId, token }) => ({
         url: `${ENDPOINTS.address}/${addressId}`,

@@ -17,6 +17,7 @@ function FooterCategoriesColumn() {
         {isSuccess &&
           categoriesResponse.data.categories.map((category) => (
             <Link
+              key={category._id}
               className="text-Grey-600 hover:underline"
               href={{
                 pathname: routes.shop,

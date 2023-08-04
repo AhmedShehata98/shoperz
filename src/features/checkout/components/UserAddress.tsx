@@ -52,7 +52,7 @@ function UserAddress({
       ) : null}
       {!isLoading && !isError && address.length! >= 1 ? (
         <ul className="grid grid-flow-row gap-2 bg-Grey-100 border border-Grey-200 p-2">
-          {address?.map((adres: UserAddress) => (
+          {/* {address?.map((adres: UserAddress) => (
             <AddressCardItem
               key={adres._id}
               address={adres}
@@ -67,13 +67,11 @@ function UserAddress({
                 fetchRemoveAddress({ token, addressId: adres._id });
               }}
             />
-          ))}
+          ))} */}
         </ul>
       ) : null}
-      {!isLoading && !isError && address.length! <= 0 ? (
-        <NoAddressList />
-      ) : null}
-      <button
+
+      {/* <button
         type="button"
         className="w-full rounded bg-Primary-600 p-2 text-white capitalize mt-4 disabled:pointer-events-none disabled:cursor-not-allowed disabled:bg-gray-400"
         onClick={() => setShowAddressForm((prev) => !prev)}
@@ -84,22 +82,9 @@ function UserAddress({
         <Portal>
           <UserAddressForm setIsShowing={setShowAddressForm} />
         </Portal>
-      ) : null}
+      ) : null} */}
     </div>
   );
 }
 
 export default UserAddress;
-
-function NoAddressList() {
-  return (
-    <div className="flex flex-col items-center justify-center px-2 py-6 bg-Grey-100">
-      <span className="w-14 h-14 flex items-center justify-center bg-orange-100 rounded-full shadow self-center mb-4">
-        <TbAddressBookOff className="block text-4xl text-orange-700" />
-      </span>
-      <p className="capitalize text-sm text-Grey-800">
-        sorry , there is no address information provided in your profile
-      </p>
-    </div>
-  );
-}
