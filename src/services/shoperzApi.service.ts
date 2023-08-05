@@ -215,11 +215,20 @@ export const shoperzApi = createApi({
       }),
       invalidatesTags: ["Cart", "OneProduct"],
     }),
+    clearCart: builder.query({
+      query: (token) => ({
+        method: "DELETE",
+        url: `${ENDPOINTS.cart}/clear`,
+        headers: {
+          authorization: token,
+        },
+      }),
+    }),
 
     createOrder: builder.mutation<
       CreateOrderResponse,
       {
-        addressId: string | undefined;
+        addressId: string | null;
         method: "cod" | "pypl" | "card";
         token: Token;
       }
@@ -231,6 +240,45 @@ export const shoperzApi = createApi({
           authorization: token,
         },
         body: { address: addressId, method },
+      }),
+      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+        const { data } = await queryFulfilled;
+        if (data.error === null && data.data) {
+          dispatch(shoperzApi.endpoints.clearCart.initiate(arg.token));
+        }
+        return;
+      },
+    }),
+    getOrders: builder.query<
+      any,
+      { limit: number; page: number; token: Token }
+    >({
+      query: ({ limit, page, token }) => ({
+        url: ENDPOINTS.order,
+        headers: {
+          authorization: token,
+        },
+        params: {
+          limit,
+          page,
+        },
+      }),
+    }),
+    getOrderById: builder.query<any, { id: Id; token: Token }>({
+      query: ({ id, token }) => ({
+        url: `${ENDPOINTS.order}/${id}`,
+        headers: {
+          authorization: token,
+        },
+      }),
+    }),
+    getStripePublishableKey: builder.query<
+      PublishableKeyResponse,
+      { token: Token }
+    >({
+      query: ({ token }) => ({
+        url: ENDPOINTS.payments.pk,
+        headers: { authorization: token },
       }),
     }),
     createPaymentIntent: builder.mutation({
@@ -253,36 +301,17 @@ export const shoperzApi = createApi({
           authorization: token,
         },
       }),
-      // async onQueryStarted(arg, { dispatch, queryFulfilled }) {
-      //   const addressResponse = await queryFulfilled;
-      //   const addressId = addressResponse.data.data.userAddresses.find(
-      //     (adrs) => adrs.default === true
-      //   )?._id;
-
-      //   const orderResponse = await dispatch(
-      //     shoperzApi.endpoints.createOrder.initiate({
-      //       addressId,
-      //       method: "card",
-      //       token: arg.token,
-      //     })
-      //   ).unwrap();
-
-      //   if (orderResponse.data !== null) {
-      //     dispatch(setOrder({ order: orderResponse.data.order }));
-      //     dispatch(
-      //       setClientSecret({ clientSecret: orderResponse.data.clientSecret })
-      //     );
-      //   }
-      // },
       providesTags: ["Address"],
     }),
-    getStripePublishableKey: builder.query<
-      PublishableKeyResponse,
-      { token: Token }
+    getUserAddressById: builder.query<
+      ShippingAddressByIdResponse,
+      { id: Id; token: Token }
     >({
-      query: ({ token }) => ({
-        url: ENDPOINTS.payments.pk,
-        headers: { authorization: token },
+      query: ({ id, token }) => ({
+        url: `${ENDPOINTS.address}/${id}`,
+        headers: {
+          authorization: token,
+        },
       }),
     }),
     addUserAddress: builder.mutation<
@@ -359,11 +388,15 @@ export const {
   useRemoveFromCartMutation,
   useGetCartItemsQuery,
   useGetCartByIdQuery,
+  useClearCartQuery,
   useUpdateCartQuantityMutation,
   useCreateOrderMutation,
+  useGetOrdersQuery,
+  useGetOrderByIdQuery,
   useGetStripePublishableKeyQuery,
   useCreatePaymentIntentMutation,
   useGetUserAddressListQuery,
+  useGetUserAddressByIdQuery,
   useAddUserAddressMutation,
   useRemoveAddressMutation,
   useUpdateAddressDataMutation,

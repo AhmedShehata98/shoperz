@@ -10,6 +10,7 @@ export const ENDPOINTS = {
     megaOfferProduct: "/products/mega-offers",
   },
   cart: "cart",
+
   categories: {
     category: "categories",
   },

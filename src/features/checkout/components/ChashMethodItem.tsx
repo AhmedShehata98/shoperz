@@ -1,12 +1,19 @@
 import { useState } from "react";
 import cashLogo from "@/assets/icons/cash-on-delivery.png";
 import { useDispatch } from "react-redux";
+import { CgSpinnerTwo } from "react-icons/cg";
 
 type ChashMethodProps = {
   onSelectPaymentMethod: React.ChangeEventHandler;
   value: boolean;
+  isSendingOrder: boolean;
+  isOrderWasSentSuccess: boolean;
 };
-function ChashMethodItem({ value, onSelectPaymentMethod }: ChashMethodProps) {
+function ChashMethodItem({
+  value,
+  onSelectPaymentMethod,
+  isSendingOrder,
+}: ChashMethodProps) {
   const [feedAmount, setFeedAmount] = useState(15);
 
   return (
@@ -33,6 +40,11 @@ function ChashMethodItem({ value, onSelectPaymentMethod }: ChashMethodProps) {
                 }).format(feedAmount)}
               </small>
             </figcaption>
+            <span className="flex items-center justify-center w-10 h-10 me-auto ms-4">
+              {isSendingOrder && (
+                <CgSpinnerTwo className="inline-block text-3xl animate-spin text-Primary-800" />
+              )}
+            </span>
             <figure className="flex items-center justify-center gap-6">
               <img src={cashLogo.src} alt="cash.svg" />
             </figure>

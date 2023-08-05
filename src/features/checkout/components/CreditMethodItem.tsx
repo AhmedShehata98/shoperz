@@ -1,11 +1,19 @@
 import mastercardLogo from "@/assets/icons/mastercard.svg";
 import visaLogo from "@/assets/icons/visa.png";
+import { CgSpinnerTwo } from "react-icons/cg";
 
 type CreditMethodProps = {
   onSelectPaymentMethod: React.ChangeEventHandler;
   value: boolean;
+  isSendingOrder: boolean;
+  isOrderWasSentSuccess: boolean;
 };
-function CreditMethodItem({ value, onSelectPaymentMethod }: CreditMethodProps) {
+function CreditMethodItem({
+  value,
+  onSelectPaymentMethod,
+  isSendingOrder,
+  isOrderWasSentSuccess,
+}: CreditMethodProps) {
   return (
     <li className="flex flex-col items-center rounded-md shadow border bg-white p-3">
       <div className="w-full flex">
@@ -20,6 +28,11 @@ function CreditMethodItem({ value, onSelectPaymentMethod }: CreditMethodProps) {
         <label htmlFor="credit-card" className="basis-full flex flex-col p-3">
           <span className="flex items-center justify-between">
             <b className="capitalize"> Debit / credit card </b>
+            <span className="flex items-center justify-center w-10 h-10 me-auto ms-4">
+              {isSendingOrder && (
+                <CgSpinnerTwo className="inline-block text-3xl animate-spin text-Primary-800" />
+              )}
+            </span>
             <figure className="flex items-center justify-center gap-6">
               <img src={visaLogo.src} alt="visa.svg" />
               <img src={mastercardLogo.src} alt="mastercard.svg" />

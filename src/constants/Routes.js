@@ -20,5 +20,5 @@ export const routes = {
   trackOrder: "/track-order",
   logout: "/logout",
   wishList: "/wishlist",
-  orderCompleted: "/order-completed",
+  orderCompleted: "/order-completion",
 };

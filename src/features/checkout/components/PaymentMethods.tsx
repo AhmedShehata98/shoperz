@@ -18,7 +18,10 @@ export default function PaymentMethods() {
   const [paymetnMethod, setPaymentMethod] = useState<"cod" | "card" | "none">(
     "none"
   );
-  const [createOrderResquest] = useCreateOrderMutation();
+  const [
+    createOrderResquest,
+    { isLoading: isSendingOrder, isSuccess: isOrderWasSentSuccess },
+  ] = useCreateOrderMutation();
 
   async function handleCreateOrder(method: "cod" | "card") {
     const orderResponse = await createOrderResquest({
@@ -46,10 +49,18 @@ export default function PaymentMethods() {
         <ChashMethodItem
           onSelectPaymentMethod={() => handleCreateOrder("cod")}
           value={paymetnMethod === "cod" ? true : false}
+          isSendingOrder={isSendingOrder && paymetnMethod === "cod"}
+          isOrderWasSentSuccess={
+            isOrderWasSentSuccess && paymetnMethod === "cod"
+          }
         />
         <CreditMethodItem
           onSelectPaymentMethod={() => handleCreateOrder("card")}
           value={paymetnMethod === "card" ? true : false}
+          isSendingOrder={isSendingOrder && paymetnMethod === "card"}
+          isOrderWasSentSuccess={
+            isOrderWasSentSuccess && paymetnMethod === "card"
+          }
         />
       </ul>
     </div>

@@ -155,6 +155,11 @@ interface ShippingAddressResponse extends ApiResponse {
     userAddresses: Array<UserAddress>;
   };
 }
+interface ShippingAddressByIdResponse extends ApiResponse {
+  data: {
+    userAddresses: UserAddress;
+  };
+}
 
 type UserAddress = {
   _id: string;
@@ -307,7 +312,13 @@ type Order = {
   discountedTotal: number;
   payment: { method: string; status: string; _id: string };
   products: { productId: string; quantity: number; _id: string }[];
-  status: string;
+  status:
+    | "pending"
+    | "awaiting_fulfillment"
+    | "awaiting_shipment"
+    | "shipped"
+    | "completed"
+    | "cancelled";
   totalPrice: number;
   updatedAt: string;
   userId: string;

@@ -6,13 +6,13 @@ import { ICreditCard } from "@/models/shopperz.model";
 interface AppStateProps {
   paymentStatusbarState: "shopping-cart" | "checkout" | "order-complete";
   showCartDrawer: boolean;
-  selectedAddressId: string | undefined;
+  selectedAddressId: string | null;
   creditCardsList: ICreditCard[];
   cartLength: number;
   isLoggedIn: boolean;
   shoppingCart: { _id: string }[] | [];
-  order: Order | undefined;
-  clientSecret: string | undefined;
+  order: Order | null;
+  clientSecret: string | null;
 }
 
 const initialState: AppStateProps = {
@@ -20,11 +20,11 @@ const initialState: AppStateProps = {
   cartLength: 0,
   showCartDrawer: false,
   isLoggedIn: false,
-  selectedAddressId: undefined,
+  selectedAddressId: null,
   creditCardsList: [],
   shoppingCart: [],
-  order: undefined,
-  clientSecret: undefined,
+  order: null,
+  clientSecret: null,
 };
 
 export const appSlice = createSlice({
