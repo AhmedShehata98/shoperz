@@ -313,22 +313,23 @@ type Order = {
   addressId: string;
   createdAt: string;
   discountedTotal: number;
-  payment: { method: string; status: string; _id: string };
+  payment: { method: string; status: OrderStatus; _id: string };
   products: { productId: Partial<Products>; quantity: number; _id: string }[];
-  status:
-    | "pending"
-    | "awaiting_fulfillment"
-    | "awaiting_shipment"
-    | "shipped"
-    | "completed"
-    | "cancelled";
+  status: OrderStatus;
   totalPrice: number;
   updatedAt: string;
   userId: string;
   __v: number;
   _id: string;
 };
-
+type OrderStatus =
+  | "pending"
+  | "awaiting_fulfillment"
+  | "awaiting_shipment"
+  | "shipped"
+  | "completed"
+  | "unknown"
+  | "cancelled";
 /**
  *
  * Others Types

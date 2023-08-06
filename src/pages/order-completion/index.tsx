@@ -6,14 +6,9 @@ import PaymentStatusbar from "@/components/PaymentStatusbar";
 import { useRouter } from "next/router";
 import OrderState from "@/features/order-completion/components/OrderState";
 import OrderAddress from "@/features/order-completion/components/OrderAddress";
-import {
-  useGetOrderByIdQuery,
-  useGetOrdersQuery,
-} from "@/services/shoperzApi.service";
 import useGetToken from "@/hooks/useGetToken";
 import OrderInvoice from "@/features/order-completion/components/OrderInvoice";
 import PaymentInformations from "@/features/order-completion/components/PaymentInformations";
-import CustomButton from "@/components/CustomButton";
 import Link from "next/link";
 import { routes } from "@/constants/Routes";
 import { useSelector } from "react-redux";
@@ -47,7 +42,7 @@ const Order = () => {
           </h6>
           <article className="w-full flex max-md:flex-col items-center justify-between gap-4 my-6">
             <div className="basis-full md:basis-1/2 flex flex-col">
-              <PaymentInformations payment={{ payment: order?.payment }} />
+              <PaymentInformations payment={order?.payment} />
               <OrderAddress addressId={order?.addressId ?? undefined} />
             </div>
             <OrderInvoice
