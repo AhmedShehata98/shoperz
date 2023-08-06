@@ -306,12 +306,15 @@ type sortMethods = "-createdAt" | "price" | "-price" | "reviews" | "discount";
 interface CreateOrderResponse extends ApiResponse {
   data: { order: Order; clientSecret: string };
 }
+interface OrdersResponse extends ApiResponse {
+  data: Order[];
+}
 type Order = {
   addressId: string;
   createdAt: string;
   discountedTotal: number;
   payment: { method: string; status: string; _id: string };
-  products: { productId: string; quantity: number; _id: string }[];
+  products: { productId: Partial<Products>; quantity: number; _id: string }[];
   status:
     | "pending"
     | "awaiting_fulfillment"

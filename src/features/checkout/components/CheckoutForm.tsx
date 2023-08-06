@@ -9,8 +9,8 @@ import { toast } from "react-toastify";
 import { StripePaymentElementOptions } from "@stripe/stripe-js";
 import { routes } from "@/constants/Routes";
 import { ImSpinner8 } from "react-icons/im";
-import { useSelector } from "react-redux";
-import { selectAppState } from "@/redux/slices/app.slice";
+import { useDispatch, useSelector } from "react-redux";
+import { selectAppState, setClientSecret } from "@/redux/slices/app.slice";
 import CustomButton from "@/components/CustomButton";
 import { useRouter } from "next/router";
 
@@ -21,17 +21,19 @@ function CheckoutForm() {
   const stripe = useStripe();
   const elements = useElements();
   const [email, setEmail] = useState("");
-  const [originName, setOriginName] = useState("");
   const [isLoading, setIsLoading] = React.useState(false);
   const router = useRouter();
+  const dispatch = useDispatch();
   const paymentElementOptions: StripePaymentElementOptions = {
     layout: "accordion",
   };
-  console.log(router);
-  useEffect(() => {
-    const origin = window.location.origin;
-    setOriginName(origin);
-  }, []);
+
+  const handleSuccessPayment = () => {
+    router.push({ hostname: routes.orderCompleted });
+    toast.success("payment successed .");
+    dispatch(setClientSecret({ clientSecret: null }));
+  };
+
   useEffect(() => {
     if (!stripe) return;
     if (!clientSecret) return;
@@ -39,7 +41,7 @@ function CheckoutForm() {
     stripe.retrievePaymentIntent(clientSecret).then(({ paymentIntent }) => {
       switch (paymentIntent?.status) {
         case "succeeded":
-          toast.success("payment succeeded .");
+          toast.success("payment successed .");
           break;
         case "processing":
           toast.info("payment is under processing now ...");
@@ -63,23 +65,28 @@ function CheckoutForm() {
 
     setIsLoading(true);
 
-    const { error } = await stripe.confirmPayment({
+    const { error, paymentIntent } = await stripe.confirmPayment({
       elements,
       confirmParams: {
         // Make sure to change this to your payment completion page
-        return_url: `${originName}/${routes.orderCompleted}`,
+        // return_url: `${originName}/${routes.orderCompleted}`,
       },
+      redirect: "if_required",
     });
+    if (paymentIntent?.status === "succeeded") {
+      handleSuccessPayment();
+    }
 
     // This point will only be reached if there is an immediate error when
     // confirming the payment. Otherwise, your customer will be redirected to
     // your `return_url`. For some payment methods like iDEAL, your customer will
     // be redirected to an intermediate site first to authorize the payment, then
     // redirected to the `return_url`.
-    if (error.type === "card_error" || error.type === "validation_error") {
-      toast.error(error.message);
+    if (error?.type === "card_error" || error?.type === "validation_error") {
+      toast.error(error?.message);
     } else {
-      toast.error("An unexpected error occurred.");
+      // toast.error("An unexpected error occurred.");
+      // console.log(error);
     }
     setIsLoading(false);
   };
@@ -91,17 +98,15 @@ function CheckoutForm() {
         onChange={(e) => setEmail(e.value.email)}
       />
       <PaymentElement id="payment-element" options={paymentElementOptions} />
-
       <CustomButton
         extraClassName="w-full mt-2"
         disabled={isLoading || !stripe}
         id="submit"
       >
         {!isLoading && stripe && <p>pay now</p>}
-        {isLoading ||
-          (!stripe && (
-            <ImSpinner8 className="inline-block text-xl animate-spin" />
-          ))}
+        {isLoading && (
+          <ImSpinner8 className="inline-block text-xl animate-spin" />
+        )}
       </CustomButton>
     </form>
   );

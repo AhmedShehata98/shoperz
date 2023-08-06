@@ -17,6 +17,7 @@ const MyAccount = () => {
   //   );
   const {
     query: { section },
+    pathname,
   } = useRouter();
   const { profile, myOrders, myAddress } = routes.myAccount;
 
@@ -28,7 +29,6 @@ const MyAccount = () => {
     );
     target.classList.add("account-sidebar-item-active");
   };
-
   return (
     <>
       <Head>
@@ -47,30 +47,32 @@ const MyAccount = () => {
             <AccountSidebarItem
               Icon={<FaRegUserCircle />}
               title="profile settings"
-              isActive={true}
-              herf={{
+              isActive={pathname.startsWith(routes.myAccount.profile)}
+              href={{
                 pathname: routes.myAccount.account,
                 query: { section: routes.myAccount.profile },
               }}
-              onClick={(ev) => handleChangeRenderedComponent(ev)}
+              // onClick={(ev) => handleChangeRenderedComponent(ev)}
             />
             <AccountSidebarItem
               Icon={<AiOutlineShopping />}
               title="my orders"
-              herf={{
+              href={{
                 pathname: routes.myAccount.account,
                 query: { section: routes.myAccount.myOrders },
               }}
-              onClick={(ev) => handleChangeRenderedComponent(ev)}
+              // onClick={(ev) => handleChangeRenderedComponent(ev)}
+              isActive={pathname.startsWith(routes.myAccount.myOrders)}
             />
             <AccountSidebarItem
               Icon={<BiMap />}
               title="my address"
-              herf={{
+              href={{
                 pathname: routes.myAccount.account,
                 query: { section: routes.myAccount.myAddress },
               }}
-              onClick={(ev) => handleChangeRenderedComponent(ev)}
+              // onClick={(ev) => handleChangeRenderedComponent(ev)}
+              isActive={pathname.startsWith(routes.myAccount.myOrders)}
             />
           </ul>
           {section === profile ? (

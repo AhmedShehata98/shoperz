@@ -1,26 +1,29 @@
 import { Url } from "next/dist/shared/lib/router/router";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import React from "react";
 
 type Props = {
   Icon: React.ReactNode;
   title: string;
   isActive?: boolean;
-  herf: any;
+  href: any;
   onClick?: React.MouseEventHandler;
 };
 export default function AccountSidebarItem({
   Icon,
   isActive,
   onClick,
-  herf,
+  href,
   title,
 }: Props) {
+  const { asPath } = useRouter();
+
   return (
     <Link
-      href={...herf}
+      href={...href}
       className={
-        isActive
+        asPath.endsWith(href?.query.section) || isActive
           ? "account-sidebar-item account-sidebar-item-active"
           : "account-sidebar-item"
       }

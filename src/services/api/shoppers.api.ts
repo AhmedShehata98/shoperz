@@ -29,7 +29,7 @@ export const ENDPOINTS = {
   checkout: {
     "create-payment-intent": "/create-payment-intent",
   },
-  order: "/orders",
+  order: { orders: "/orders", userOrders: "orders/user" },
   payments: { pk: "payments/pk", payments: "payments" },
 };
 

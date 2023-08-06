@@ -20,7 +20,7 @@ function PaymentWrapper(props: any) {
     theme: "stripe",
   };
   const stripeOptions: StripeElementsOptionsClientSecret = {
-    clientSecret,
+    clientSecret: clientSecret!,
     appearance,
   };
 

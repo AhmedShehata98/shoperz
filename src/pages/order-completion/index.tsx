@@ -32,11 +32,7 @@ const Order = () => {
   const { pathname } = useRouter();
   const { token } = useGetToken();
   const { order } = useSelector(selectAppState);
-  // const { data } = useGetOrderByIdQuery(
-  //   { token, id: "64ca14d3efd16bff66897b63" },
-  //   { skip: token ? false : true }
-  // );
-  console.log(order);
+
   return (
     <>
       <Head>

@@ -109,7 +109,7 @@ function CartDrawer() {
               <div className="w-full grid grid-cols-2 items-center justify-between gap-2">
                 <Link
                   href={{
-                    pathname: routes.shoppingCart,
+                    pathname: routes.shop,
                   }}
                   className="custom-button mb-4 text-xs"
                   onClick={handleHideCart}

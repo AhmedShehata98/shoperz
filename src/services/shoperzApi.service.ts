@@ -235,7 +235,7 @@ export const shoperzApi = createApi({
     >({
       query: ({ addressId, method, token }) => ({
         method: "POST",
-        url: ENDPOINTS.order,
+        url: ENDPOINTS.order.orders,
         headers: {
           authorization: token,
         },
@@ -249,12 +249,12 @@ export const shoperzApi = createApi({
         return;
       },
     }),
-    getOrders: builder.query<
-      any,
+    getUserOrders: builder.query<
+      OrdersResponse,
       { limit: number; page: number; token: Token }
     >({
       query: ({ limit, page, token }) => ({
-        url: ENDPOINTS.order,
+        url: ENDPOINTS.order.userOrders,
         headers: {
           authorization: token,
         },
@@ -266,7 +266,7 @@ export const shoperzApi = createApi({
     }),
     getOrderById: builder.query<any, { id: Id; token: Token }>({
       query: ({ id, token }) => ({
-        url: `${ENDPOINTS.order}/${id}`,
+        url: `${ENDPOINTS.order.orders}/${id}`,
         headers: {
           authorization: token,
         },
@@ -391,7 +391,7 @@ export const {
   useClearCartQuery,
   useUpdateCartQuantityMutation,
   useCreateOrderMutation,
-  useGetOrdersQuery,
+  useGetUserOrdersQuery,
   useGetOrderByIdQuery,
   useGetStripePublishableKeyQuery,
   useCreatePaymentIntentMutation,
