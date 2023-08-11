@@ -30,7 +30,7 @@ const ColumnProduct = ({ product }: Props) => {
     }
   };
   const { name, thumbnail, rating, discount, price } = product;
-  console.log(product);
+
   return (
     <li className="relative flex items-center justify-between gap-3 bg-white transition-all duration-500 shadow p-3 mb-3 hover:shadow-lg hover:scale-105">
       {!discount && discount > 0 ? (
@@ -43,7 +43,7 @@ const ColumnProduct = ({ product }: Props) => {
           <MdDiscount />
         </span>
       ) : null}
-      <figure className="w-28 h-28 grid place-content-center place-items-center aspect-square">
+      <figure className="w-28 h-28 grid place-content-start place-items-center aspect-square overflow-hidden">
         <Image
           src={
             typeof thumbnail === "string" ? thumbnail : (thumbnail as any)?.url
@@ -51,11 +51,13 @@ const ColumnProduct = ({ product }: Props) => {
           alt={"product-thumbnail"}
           width={140}
           height={140}
-          className="max-w-full object-cover"
+          className="grid min-w-full object-top object-cover"
         />
       </figure>
       <div className="w-2/3 h-full flex flex-col items-start justify-center gap-2">
-        <b className="text-sm text-Primary-700 capitalize">{name}</b>
+        <b className="inline-block leading-4 h-8 overflow-hidden text-sm text-Primary-700 capitalize">
+          {name}
+        </b>
         <span className="flex items-center justify-center gap-1 text-orange-400">
           <AiFillStar />
           <AiFillStar />

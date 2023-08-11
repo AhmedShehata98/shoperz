@@ -6,21 +6,13 @@ interface Props {
 }
 function Breadcrumb({ name }: Props) {
   const { pathname, asPath } = useRouter();
-  const [bredcrumbData, setBredcrumbData] = useState([
-    "shop",
-    ...pathname.split("/"),
-  ]);
 
   return (
     <nav className="flex items-center justify-start pt-10 pb-4 px-3">
       <ol className="flex gap-2 items-center justify-start text-gray-400 font-medium">
-        {bredcrumbData.map((data) =>
-          data !== "" ? (
-            <li key={data}>{data.toLocaleUpperCase()}</li>
-          ) : (
-            <b key={data}> / </b>
-          )
-        )}
+        <li>{pathname.split("/")[0]}</li>
+        <li>/</li>
+        <li>{name}</li>
       </ol>
     </nav>
   );

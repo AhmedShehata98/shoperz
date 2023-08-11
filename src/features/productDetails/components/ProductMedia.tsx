@@ -12,7 +12,9 @@ function ProductMedia({ images, thumbnail }: Props) {
       <div>
         <figure className="w-full min-h-full rounded-lg overflow-hidden m-0">
           <Image
-            src={thumbnail}
+            src={
+              typeof thumbnail === "string" ? thumbnail : (thumbnail as any).url
+            }
             alt="product-preview-image.webp"
             width={300}
             height={365}
@@ -27,7 +29,7 @@ function ProductMedia({ images, thumbnail }: Props) {
             >
               <Image
                 className="grid max-w-full object-cover object-center"
-                src={img}
+                src={typeof img === "string" ? img : (img as any).url}
                 width={70}
                 height={70}
                 alt="thumbnail-1.webp"
