@@ -8,6 +8,7 @@ import signupImg from "../../assets/img/signup.webp";
 import loginImg from "../../assets/img/login.webp";
 import Image from "next/image";
 import ResetPassword from "./registerComponents/ResetPassword";
+import Signup from "./registerComponents/Signup";
 
 const Logo = dynamic(() => import("../../components/Logo"), {
   loading: () => <QuickLoadingModul />,
@@ -15,9 +16,9 @@ const Logo = dynamic(() => import("../../components/Logo"), {
 const Login = dynamic(() => import("./registerComponents/Login"), {
   loading: () => <QuickLoadingModul />,
 });
-const Signup = dynamic(() => import("./registerComponents/Signup"), {
-  loading: () => <QuickLoadingModul />,
-});
+// const Signup = dynamic(() => import("./registerComponents/Signup"), {
+//   loading: () => <QuickLoadingModul />,
+// });
 
 function Register() {
   const {

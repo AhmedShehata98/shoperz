@@ -39,6 +39,9 @@
     @apply w-full px-5 py-2 lg:py-3 rounded-full shadow-sm border border-sky-700 focus:outline-none focus:shadow-blue-400
      px-5 py-3 rounded-full shadow-sm border border-sky-700 focus:outline-none focus:shadow-blue-400;
   }
+  .form-validaton-error-message {
+    @apply text-xs text-red-700 capitalize;
+  }
   .shopping-cart-wrapper {
     @apply w-full flex flex-col items-center justify-center gap-7;
   }
