@@ -42,8 +42,8 @@ const ProductDetails: NextPage<Props> = ({ product }) => {
         <section className="container px-3 max-w-5xl mx-auto">
           <div className="w-full flex items-start justify-between gap-6 lg:gap-4 flex-wrap">
             <ProductMedia
-              thumbnail={product.thumbnail}
-              images={product.images}
+              thumbnail={product?.thumbnail}
+              images={product?.images}
             />
             <ProductDescribtion
               description={product.description}

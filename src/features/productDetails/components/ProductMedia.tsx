@@ -2,8 +2,8 @@ import Image from "next/image";
 import React from "react";
 
 type Props = {
-  thumbnail: string;
-  images: string[];
+  thumbnail: string | undefined;
+  images: string[] | undefined;
 };
 
 function ProductMedia({ images, thumbnail }: Props) {
@@ -13,7 +13,9 @@ function ProductMedia({ images, thumbnail }: Props) {
         <figure className="w-full min-h-full rounded-lg overflow-hidden m-0">
           <Image
             src={
-              typeof thumbnail === "string" ? thumbnail : (thumbnail as any).url
+              typeof thumbnail === "string"
+                ? thumbnail
+                : (thumbnail as any)?.url
             }
             alt="product-preview-image.webp"
             width={300}
@@ -29,7 +31,7 @@ function ProductMedia({ images, thumbnail }: Props) {
             >
               <Image
                 className="grid max-w-full object-cover object-center"
-                src={typeof img === "string" ? img : (img as any).url}
+                src={typeof img === "string" ? img : (img as any)?.url}
                 width={70}
                 height={70}
                 alt="thumbnail-1.webp"
