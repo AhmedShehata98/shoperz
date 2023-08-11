@@ -4,21 +4,24 @@ import { useRouter } from "next/router";
 import { routes } from "@/constants/Routes";
 import dynamic from "next/dynamic";
 import QuickLoadingModul from "@/layout/QuickLoadingModul";
-import signupImg from "../../assets/img/signup.webp";
-import loginImg from "../../assets/img/login.webp";
+import signupImg from "@/assets/img/signup.webp";
+import loginImg from "@/assets/img/login.webp";
 import Image from "next/image";
 import ResetPassword from "./registerComponents/ResetPassword";
-import Signup from "./registerComponents/Signup";
+import LoginFormSkeleton from "@/features/login/components/LoginFormSkeleton";
+import SignupFormSkeleton from "@/features/signup/components/SignupFormSkeleton";
 
-const Logo = dynamic(() => import("../../components/Logo"), {
-  loading: () => <QuickLoadingModul />,
+const Logo = dynamic(() => import("@/components/Logo"), {
+  loading: () => (
+    <div className="w-32 h-12 rounded-md bg-gray-500 animate-pulse"></div>
+  ),
 });
-const Login = dynamic(() => import("./registerComponents/Login"), {
-  loading: () => <QuickLoadingModul />,
+const Login = dynamic(() => import("@/features/login/components/Login"), {
+  loading: () => <LoginFormSkeleton />,
 });
-// const Signup = dynamic(() => import("./registerComponents/Signup"), {
-//   loading: () => <QuickLoadingModul />,
-// });
+const Signup = dynamic(() => import("@/features/signup/components/Signup"), {
+  loading: () => <SignupFormSkeleton />,
+});
 
 function Register() {
   const {

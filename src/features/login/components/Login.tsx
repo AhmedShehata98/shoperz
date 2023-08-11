@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
 import { toast } from "react-toastify";
-import SubmitButton from "./SubmitButton";
+import SubmitButton from "../../../pages/register/registerComponents/SubmitButton";
 import FormInputWrapper from "@/components/FormInputWrapper";
 import { useDispatch } from "react-redux";
 import { routes } from "@/constants/Routes";

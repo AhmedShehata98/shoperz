@@ -2,7 +2,7 @@ import React from "react";
 import { useSignupUserMutation } from "@/services/shoperzApi.service";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
-import SubmitButton from "./SubmitButton";
+import SubmitButton from "../../../pages/register/registerComponents/SubmitButton";
 import InputField from "@/components/InputField";
 import FormInputWrapper from "@/components/FormInputWrapper";
 import {
