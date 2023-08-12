@@ -1,7 +1,6 @@
 import CustomButton from "@/components/CustomButton";
 import OrderCard from "@/features/account/components/orders/OrderCard";
 import OrdersListWrapper from "@/features/account/components/orders/OrdersListWrapper";
-import PagginitionButtons from "@/features/shop/components/PagginitionButtons";
 import useGetToken from "@/hooks/useGetToken";
 import { useGetUserOrdersQuery } from "@/services/shoperzApi.service";
 import React, { useState } from "react";
