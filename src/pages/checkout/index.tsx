@@ -37,8 +37,8 @@ const Checkout = () => {
     isSuccess: isSuccessUserCart,
   } = useGetCartItemsQuery(token!, { skip: !token ? true : false });
 
-  const showAddressFormModel = React.useCallback(
-    (state: boolean) => setShowAddressForm(state),
+  const handleShowUserAddressForm = React.useCallback(
+    () => setShowAddressForm((p) => !p),
     []
   );
 
@@ -53,7 +53,12 @@ const Checkout = () => {
           <div className="w-4/6 flex flex-col h-full">
             <AddressWrapper>
               <AddressCardItem />
-              <CustomButton extraClassName="w-full">add address</CustomButton>
+              <CustomButton
+                extraClassName="w-full"
+                onClick={handleShowUserAddressForm}
+              >
+                add address
+              </CustomButton>
               {showAddressForm && (
                 <Portal>
                   <UserAddressForm setIsShowing={setShowAddressForm} />
@@ -66,7 +71,7 @@ const Checkout = () => {
 
               {showAddressForm && (
                 <Portal>
-                  <UserAddressForm setIsShowing={showAddressFormModel} />
+                  <UserAddressForm setIsShowing={handleShowUserAddressForm} />
                 </Portal>
               )}
             </PaymentWrapper>

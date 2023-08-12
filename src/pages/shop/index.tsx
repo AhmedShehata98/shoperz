@@ -4,7 +4,6 @@ import ShopUpperbar from "@/features/shop/components/ShopUpperbar";
 import ProductCardColumn from "@/features/shop/components/ProductCardColumn";
 import ButtonFilter from "@/features/shop/components/ButtonFilter";
 import FiltersSidebar from "@/features/shop/components/FiltersSidebar";
-import PagginitionButtons from "@/features/shop/components/PagginitionButtons";
 import ProductsListWrapper from "@/features/shop/components/ProductsListWrapper";
 import {
   getRunningQueriesThunk,
