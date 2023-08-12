@@ -7,6 +7,7 @@ import {
   removeFromShoppingCart,
   setOrder,
   setClientSecret,
+  setAddressId,
 } from "@/redux/slices/app.slice";
 import { HYDRATE } from "next-redux-wrapper";
 import { isInCartMiddleware } from "@/utils/isInCartMiddleware";
@@ -302,6 +303,13 @@ export const shoperzApi = createApi({
         },
       }),
       providesTags: ["Address"],
+      async onQueryStarted(_, { dispatch, queryFulfilled }) {
+        const address = await queryFulfilled;
+        const addressId = address.data.data.userAddresses.find(
+          (adrs) => adrs.default === true
+        )?._id;
+        dispatch(setAddressId({ addressId }));
+      },
     }),
     getUserAddressById: builder.query<
       ShippingAddressByIdResponse,

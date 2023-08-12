@@ -24,11 +24,12 @@ import { useSelector } from "react-redux";
 import AddressWrapper from "@/features/checkout/components/AddressWrapper";
 import AddressCardItem from "@/features/checkout/components/AddressCardItem";
 import CustomButton from "@/components/CustomButton";
+import { routes } from "@/constants/Routes";
 
 const Checkout = () => {
   const { token } = useGetToken();
-  const { pathname } = useRouter();
-  const { clientSecret } = useSelector(selectAppState);
+  const { pathname, push } = useRouter();
+  const { isLoggedIn } = useSelector(selectAppState);
   const [showAddressForm, setShowAddressForm] = React.useState(false);
   const shippingCost = 50;
   const {
@@ -41,6 +42,15 @@ const Checkout = () => {
     () => setShowAddressForm((p) => !p),
     []
   );
+
+  React.useEffect(() => {
+    if (!isLoggedIn) {
+      push({
+        pathname: routes.register.register,
+        query: { target: routes.register.login },
+      });
+    }
+  }, [isLoggedIn]);
 
   return (
     <>
@@ -68,12 +78,6 @@ const Checkout = () => {
             <PaymentWrapper>
               <PaymentMethods />
               <CheckoutForm />
-
-              {showAddressForm && (
-                <Portal>
-                  <UserAddressForm setIsShowing={handleShowUserAddressForm} />
-                </Portal>
-              )}
             </PaymentWrapper>
           </div>
           <Invoices>

@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
-import { useSelector } from "react-redux";
-import { selectAppState } from "@/redux/slices/app.slice";
+import { useDispatch, useSelector } from "react-redux";
+import { selectAppState, setIsLoggedIn } from "@/redux/slices/app.slice";
 import dynamic from "next/dynamic";
 import { AnimatePresence } from "framer-motion";
 import QuickLoadingModul from "./QuickLoadingModul";
@@ -9,6 +9,7 @@ import { useDebounce } from "use-debounce";
 import CartDrawer from "@/layout/CartDrawer";
 import HeaderControlsActions from "@/features/header/components/HeaderControlsActions";
 import SearchResultList from "@/features/header/components/SearchResultList";
+import useGetToken from "@/hooks/useGetToken";
 
 const MobileSearchbar = dynamic(
   () => import("@/features/header/components/MobileSearchbar"),
@@ -32,6 +33,8 @@ const HeaderCategorybar = dynamic(
 
 const Headerbar = () => {
   const { showCartDrawer } = useSelector(selectAppState);
+  const dispatch = useDispatch();
+  const { token } = useGetToken();
   const headerbarRef = useRef<HTMLDivElement | null>(null);
   const [showMenu, setShowMenu] = useState(false);
   const [searchQuery, setSearchQuery] = useState<undefined | string>(undefined);
@@ -72,9 +75,16 @@ const Headerbar = () => {
     }
   }, [debounceSearchQuery]);
 
+  React.useEffect(() => {
+    if (token) {
+      dispatch(setIsLoggedIn(true));
+    }
+  }, [token]);
+
   const setSearchQueryCallback = React.useCallback((value: string) => {
     setSearchQuery(value);
   }, []);
+
   return (
     <header
       ref={headerbarRef}

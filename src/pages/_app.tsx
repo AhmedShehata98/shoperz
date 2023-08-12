@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { makeStore, wrapper } from "@/redux/store";
+import { wrapper } from "@/redux/store";
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 import { useRouter } from "next/router";
