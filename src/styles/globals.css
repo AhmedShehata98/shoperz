@@ -180,8 +180,8 @@
   .paggination-buttons-group {
     @apply grid grid-flow-col items-center justify-center gap-2 mb-6;
   }
-  .paggination-btn {
-    @apply bg-Primary-600 text-white font-medium capitalize w-16 h-10 rounded-md transition-colors hover:bg-Primary-700 disabled:opacity-70 disabled:bg-Grey-400 disabled:text-Grey-700;
+  .pagginition-btn {
+    @apply px-4 py-2 bg-Grey-400 shadow-md rounded hover:bg-Grey-500 disabled:bg-Primary-700 disabled:text-white;
   }
   .paggination-index {
     @apply flex items-center justify-center w-10 h-10 bg-gray-300 rounded-md shadow hover:bg-Grey-200 cursor-pointer;

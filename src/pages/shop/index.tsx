@@ -1,10 +1,4 @@
-import React, {
-  useRef,
-  useState,
-  MouseEvent,
-  useEffect,
-  useLayoutEffect,
-} from "react";
+import React, { useRef, useState, MouseEvent, useLayoutEffect } from "react";
 import Head from "next/head";
 import ShopUpperbar from "@/features/shop/components/ShopUpperbar";
 import ProductCardColumn from "@/features/shop/components/ProductCardColumn";
@@ -27,6 +21,8 @@ import dynamic from "next/dynamic";
 import QuickLoadingModul from "@/layout/QuickLoadingModul";
 import useResize from "@/hooks/useResize";
 import { useRouter } from "next/router";
+import PagginitionWrapper from "@/components/pagginitionButtons/PagginitionWrapper";
+import PagginitionBtn from "@/components/pagginitionButtons/PagginitionBtn";
 
 const ProductCardGrid = dynamic(() => import("@/components/ProductCardGrid"), {
   loading: () => <QuickLoadingModul />,
@@ -37,7 +33,7 @@ type Props = {};
 const Shop = (props: Props) => {
   const { isLoggedIn } = useSelector(selectAppState);
   const { screenWidth } = useResize();
-  const { query } = useRouter();
+  const { pathname, query, push } = useRouter();
   const { token } = useGetToken();
   const [fetchAddToCart, addToCartResponse] = useAddToCartMutation();
   const filterRef = useRef<HTMLElement | undefined>(undefined);
@@ -47,6 +43,14 @@ const Shop = (props: Props) => {
   const [productsView, setProductsView] = useState<"list" | "grid">(
     screenWidth <= 768 ? "grid" : "list"
   );
+
+  const handleFilterQuery = () => {
+    if (Object.entries(query).length >= 1) {
+      return JSON.parse(JSON.stringify(query));
+    } else {
+      undefined;
+    }
+  };
 
   const {
     isError: isProductsError,
@@ -58,13 +62,11 @@ const Shop = (props: Props) => {
       limit: productsLimitSelect,
       page,
       parts: "pagination,filter",
-      filters:
-        Object.entries(query).length >= 1
-          ? JSON.parse(JSON.stringify(query))
-          : undefined,
+      filters: handleFilterQuery(),
     },
     {
       refetchOnFocus: true,
+      refetchOnMountOrArgChange: true,
     }
   );
 
@@ -74,8 +76,10 @@ const Shop = (props: Props) => {
   };
   const handleSortProducts = React.useCallback(
     (event: React.ChangeEvent<HTMLSelectElement>) => {
-      const sortSelectedMethod = event.target.value as sortMethods;
-      setSortMethod(sortSelectedMethod);
+      const selectedSortMethod = event.target.value as sortMethods;
+      const searchParams = new URLSearchParams();
+      searchParams.append("sort", selectedSortMethod);
+      push({ pathname, search: searchParams.toString() });
     },
     []
   );
@@ -112,12 +116,9 @@ const Shop = (props: Props) => {
   };
   const handleChangePage = (event: MouseEvent) => {
     const target = event.target as HTMLLIElement | HTMLButtonElement;
-    if (target.dataset.button === "prev") {
-      setPage((page) => page - 1);
-    } else if (target.dataset.button === "next") {
-      setPage((page) => page + 1);
-    } else {
-      setPage(+target.dataset.pagenumber!);
+    const pageNo = target.dataset.pageno;
+    if (pageNo) {
+      setPage(parseInt(pageNo));
     }
   };
 
@@ -180,14 +181,17 @@ const Shop = (props: Props) => {
               )
             )}
           </ProductsListWrapper>
-          <PagginitionButtons
+          <PagginitionWrapper
+            onClickPrevBtn={() => setPage((p) => (p -= 1))}
+            onClickNextBtn={() => setPage((p) => (p += 1))}
             actualProductsLength={
               products?.data.pagination.actualProductsLength ?? 0
             }
             remainingPages={products?.data.pagination.remainingPages ?? 0}
             currentPage={page}
-            onChangePage={(event) => handleChangePage(event)}
-          />
+          >
+            <PagginitionBtn onChangePageNo={handleChangePage} />
+          </PagginitionWrapper>
         </section>
         <ButtonFilter onClick={() => handleShowFilterbar()} />
       </main>
@@ -200,16 +204,19 @@ export default Shop;
 export const getStaticProps = wrapper.getStaticProps(
   ({ dispatch }) =>
     async (context) => {
-      dispatch(
+      const { data: productsResponse } = await dispatch(
         shoperzApi.endpoints.getAllProducts.initiate({
           limit: 20,
           parts: "pagination,filter",
         })
       );
-      const [{ data }] = await Promise.all(dispatch(getRunningQueriesThunk()));
+      await Promise.all(dispatch(getRunningQueriesThunk()));
 
       return {
-        props: { data },
+        props: {
+          products: productsResponse?.data.products,
+          pagination: productsResponse?.data.pagination,
+        },
       };
     }
 );

@@ -27,7 +27,6 @@ const FiltersSidebar = forwardRef(({ handleClose }: Props, ref: any) => {
     };
     const colors = fd.get("color")?.toString();
 
-    // const queries = ['category',category, 'brands',brands.join(","),"pmin", price.pmin,"pmax", price.pmax, 'color',colors];
     const searchParams = new URLSearchParams();
     if (category !== "none") searchParams.append("category", category!);
     if (brands.length >= 1) searchParams.append("brands", brands.join(",")!);
@@ -45,6 +44,20 @@ const FiltersSidebar = forwardRef(({ handleClose }: Props, ref: any) => {
     );
   };
 
+  const handleSelectFilterQuery = (
+    filterName: string,
+    value: string,
+    condition: () => boolean
+  ) => {
+    const searchParams = new URLSearchParams();
+    if (condition()) {
+      searchParams.append(filterName, value);
+    }
+    push({ pathname, search: searchParams.toString() }, undefined, {
+      shallow: true,
+    });
+  };
+
   return (
     <form
       action={""}
@@ -52,10 +65,22 @@ const FiltersSidebar = forwardRef(({ handleClose }: Props, ref: any) => {
       className="filter-sidebar"
       onSubmit={submitHandler}
     >
-      <SidebarCategories />
-      <Brands />
+      <SidebarCategories
+        onSelectCategory={({ target: { name, value } }) =>
+          handleSelectFilterQuery(name, value, () => value !== "none")
+        }
+      />
+      <Brands
+        OnSelectBrand={({ target: { name, value } }) =>
+          handleSelectFilterQuery(name, value, () => value !== "none")
+        }
+      />
       <Price />
-      <Colors />
+      <Colors
+        onSelectColor={({ target: { name, value } }) =>
+          handleSelectFilterQuery(name, value, () => value !== "none")
+        }
+      />
       <div className="w-full grid max-lg:grid-cols-2 grid-cols-1 items-center justify-center gap-3 py-4 px-4">
         <CustomButton type="submit" extraClassName="rounded-full py-3">
           <p>apply</p>

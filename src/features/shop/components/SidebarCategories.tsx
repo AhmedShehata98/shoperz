@@ -3,7 +3,10 @@ import Link from "next/link";
 import React from "react";
 import { ImSpinner8 } from "react-icons/im";
 
-export default function SidebarCategories() {
+type Props = {
+  onSelectCategory: React.ChangeEventHandler<HTMLInputElement>;
+};
+export default function SidebarCategories({ onSelectCategory }: Props) {
   const {
     data: categoriesResponse,
     isLoading,
@@ -17,11 +20,6 @@ export default function SidebarCategories() {
     image: "",
     description: "",
     slug: "none",
-  };
-
-  const handleCheckValue = (ev: React.ChangeEvent) => {
-    const parents = ev.target.closest("li");
-    console.log(parents);
   };
 
   return (
@@ -42,7 +40,7 @@ export default function SidebarCategories() {
                   name="category"
                   id={category._id}
                   value={category._id}
-                  onChange={handleCheckValue}
+                  onChange={onSelectCategory}
                   className="accent-Primary-700"
                 />
                 <label

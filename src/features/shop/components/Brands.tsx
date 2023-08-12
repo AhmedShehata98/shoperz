@@ -3,7 +3,10 @@ import React from "react";
 import { ImSpinner8 } from "react-icons/im";
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 
-export default function Brands() {
+type Props = {
+  OnSelectBrand: React.ChangeEventHandler<HTMLInputElement>;
+};
+export default function Brands({ OnSelectBrand }: Props) {
   const [brands, setBrands] = React.useState<string[]>([]);
   const {
     data: ProductsResponse,
@@ -44,6 +47,7 @@ export default function Brands() {
                 id={brand}
                 value={brand}
                 className="accent-Primary-700 w-4 cursor-pointer"
+                onChange={OnSelectBrand}
               />
             </li>
           ))}
