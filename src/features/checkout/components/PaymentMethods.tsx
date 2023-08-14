@@ -7,6 +7,7 @@ import {
   selectAppState,
   setClientSecret,
   setOrder,
+  setPaymentMethod,
 } from "@/redux/slices/app.slice";
 import { useCreateOrderMutation } from "@/services/shoperzApi.service";
 import useGetToken from "@/hooks/useGetToken";
@@ -14,10 +15,8 @@ import useGetToken from "@/hooks/useGetToken";
 export default function PaymentMethods() {
   const { token } = useGetToken();
   const dispatch = useDispatch();
-  const { selectedAddressId } = useSelector(selectAppState);
-  const [paymetnMethod, setPaymentMethod] = useState<"cod" | "card" | "none">(
-    "none"
-  );
+  const { selectedAddressId, paymentMethod } = useSelector(selectAppState);
+
   const [
     createOrderResquest,
     { isLoading: isSendingOrder, isSuccess: isOrderWasSentSuccess },
@@ -34,8 +33,13 @@ export default function PaymentMethods() {
         setClientSecret({ clientSecret: orderResponse.data.clientSecret })
       );
     }
-    dispatch(setOrder({ order: orderResponse.data.order }));
-    setPaymentMethod(method);
+    dispatch(
+      setOrder({
+        order:
+          method === "card" ? orderResponse.data.order : orderResponse.data,
+      })
+    );
+    dispatch(setPaymentMethod({ paymentMethod: method }));
   }
 
   // create payment method
@@ -48,18 +52,18 @@ export default function PaymentMethods() {
       <ul className="grid grid-flow-row gap-2 divide-y border border-Grey-200 bg-Grey-100 shadow-md p-2">
         <ChashMethodItem
           onSelectPaymentMethod={() => handleCreateOrder("cod")}
-          value={paymetnMethod === "cod" ? true : false}
-          isSendingOrder={isSendingOrder && paymetnMethod === "cod"}
+          value={paymentMethod === "cod" ? true : false}
+          isSendingOrder={isSendingOrder && paymentMethod === "cod"}
           isOrderWasSentSuccess={
-            isOrderWasSentSuccess && paymetnMethod === "cod"
+            isOrderWasSentSuccess && paymentMethod === "cod"
           }
         />
         <CreditMethodItem
           onSelectPaymentMethod={() => handleCreateOrder("card")}
-          value={paymetnMethod === "card" ? true : false}
-          isSendingOrder={isSendingOrder && paymetnMethod === "card"}
+          value={paymentMethod === "card" ? true : false}
+          isSendingOrder={isSendingOrder && paymentMethod === "card"}
           isOrderWasSentSuccess={
-            isOrderWasSentSuccess && paymetnMethod === "card"
+            isOrderWasSentSuccess && paymentMethod === "card"
           }
         />
       </ul>

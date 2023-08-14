@@ -13,6 +13,9 @@ import Link from "next/link";
 import { routes } from "@/constants/Routes";
 import { useSelector } from "react-redux";
 import { selectAppState } from "@/redux/slices/app.slice";
+import OrderProductsList from "@/features/order-completion/components/OrderProductsList";
+import OrderProductItem from "@/features/order-completion/components/OrderProductItem";
+import { BsFillBagCheckFill } from "react-icons/bs";
 
 const ProductCard = dynamic(
   () => import("../../components/orderComponents/ProductCard"),
@@ -40,6 +43,12 @@ const Order = () => {
           <h6 className="mb-4 font-bold">
             {new Date(order?.createdAt!).toDateString()}
           </h6>
+          <article className="w-full flex flex-col items-center justify-center gap-3 my-12">
+            <BsFillBagCheckFill className="text-emerald-600 text-9xl" />
+            <p className="text-gray-500 uppercase text-lg mt-2">
+              your order is requested successfully .
+            </p>
+          </article>
           <article className="w-full flex max-md:flex-col items-center justify-between gap-4 my-6">
             <div className="basis-full md:basis-1/2 flex flex-col">
               <PaymentInformations payment={order?.payment} />
@@ -50,7 +59,11 @@ const Order = () => {
               totalPrice={order?.totalPrice ?? 0}
             />
           </article>
-          <article></article>
+          <article>
+            <OrderProductsList productsList={{ products: order?.products! }}>
+              <OrderProductItem />
+            </OrderProductsList>
+          </article>
           <article className="w-full my-3">
             <Link
               href={routes.shop}

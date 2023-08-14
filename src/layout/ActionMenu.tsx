@@ -6,26 +6,25 @@ import { FiUser } from "react-icons/fi";
 import Link from "next/link";
 import { routes } from "@/constants/Routes";
 import { BsLink45Deg } from "react-icons/bs";
-import { useSelector } from "react-redux";
-import { selectAppState } from "@/redux/slices/app.slice";
+import { useDispatch, useSelector } from "react-redux";
+import { selectAppState, setToggleActionMenu } from "@/redux/slices/app.slice";
 import { useUserDataQuery } from "@/services/shoperzApi.service";
 import useGetToken from "@/hooks/useGetToken";
 import dynamic from "next/dynamic";
 import QuickLoadingModul from "./QuickLoadingModul";
-type Props = {
-  setShowMenu: React.Dispatch<React.SetStateAction<boolean>>;
-};
+type Props = {};
 
 const ActionMenuListItems = dynamic(
   () => import("@/features/header/components/ActionMenuListItems"),
   { loading: () => <QuickLoadingModul /> }
 );
 
-const ActionMenu = ({ setShowMenu }: Props) => {
+const ActionMenu = ({}: Props) => {
   const slideMenuVariant = {
     hidden: { opacity: 0, translateY: "50px" },
     visible: { opacity: 1, translateY: "0px" },
   };
+  const dispatch = useDispatch();
   const { token } = useGetToken();
   const { isLoggedIn } = useSelector(selectAppState);
   const { data: userData, isLoading: loadUserData } = useUserDataQuery(token, {
@@ -33,18 +32,16 @@ const ActionMenu = ({ setShowMenu }: Props) => {
   });
 
   React.useEffect(() => {
-    document.addEventListener("click", (ev: MouseEvent) => {
+    const toggleActionMenu = (ev: MouseEvent) => {
       const target = ev.target as HTMLElement;
       if (target.id !== "action-menu" && target.id !== "action-menu-btn") {
-        setShowMenu(false);
+        dispatch(setToggleActionMenu(false));
       }
-    });
+    };
+
+    document.addEventListener("click", toggleActionMenu);
     return () => {
-      document.removeEventListener("click", (ev: MouseEvent) => {
-        if ((ev.target as HTMLElement).id !== "action-menu") {
-          setShowMenu(false);
-        }
-      });
+      document.removeEventListener("click", toggleActionMenu);
     };
   }, []);
 
@@ -54,7 +51,7 @@ const ActionMenu = ({ setShowMenu }: Props) => {
         <button
           className="flex items-center justify-center w-12 h-12 bg-red-600 p-3 rounded-full shadow-lg text-lg"
           title="go back"
-          onClick={() => setShowMenu(false)}
+          onClick={() => dispatch(setToggleActionMenu(false))}
         >
           <IoCloseSharp className="block text-5xl text-white" />
         </button>

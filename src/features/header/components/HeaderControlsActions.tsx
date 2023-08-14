@@ -14,6 +14,7 @@ import {
   setCartLength,
   setIsLoggedIn,
   setShowCartDrawer,
+  setToggleActionMenu,
 } from "@/redux/slices/app.slice";
 import Link from "next/link";
 import { routes } from "@/constants/Routes";
@@ -26,6 +27,7 @@ import dynamic from "next/dynamic";
 import useGetToken from "@/hooks/useGetToken";
 
 import QuickLoadingModul from "@/layout/QuickLoadingModul";
+import { useRouter } from "next/router";
 
 const Logo = dynamic(() => import("@/components/Logo"), {
   loading: () => <QuickLoadingModul />,
@@ -38,18 +40,16 @@ const UserDropMenu = dynamic(() => import("./UserDropMenu"), {
 });
 
 type Props = {
-  setShowMenu: Dispatch<SetStateAction<boolean>>;
   setSearchQuery: (value: string) => void;
   searchQuery: string | undefined;
 };
-function HeaderControlsActions({
-  setShowMenu,
-  searchQuery,
-  setSearchQuery,
-}: Props) {
-  const { cartLength, isLoggedIn } = useSelector(selectAppState);
+function HeaderControlsActions({ searchQuery, setSearchQuery }: Props) {
+  const { checkout, shoppingCart, orderCompleted } = routes;
+  const { cartLength, isLoggedIn, showActionMenu } =
+    useSelector(selectAppState);
   const dispacth = useDispatch();
   const { token } = useGetToken();
+  const { pathname } = useRouter();
   const {
     data: userData,
     isSuccess: isSuccessUserData,
@@ -94,14 +94,21 @@ function HeaderControlsActions({
   }, [cartItems, dispacth]);
 
   const hanleShowCartDrower = () => {
-    dispacth(setShowCartDrawer(true));
+    if (
+      isLoggedIn &&
+      !pathname.includes(checkout) &&
+      !pathname.includes(shoppingCart) &&
+      !pathname.includes(orderCompleted)
+    ) {
+      dispacth(setShowCartDrawer(true));
+    }
   };
 
   return (
     <div className="header-control-actions">
       <span className="flex items-center justify-center max-md:gap-4 gap-8">
         <button
-          onClick={() => setShowMenu((e: boolean) => !e)}
+          onClick={() => dispacth(setToggleActionMenu(!showActionMenu))}
           className="text-2xl text-gray-600 lg:hidden"
           id="action-menu-btn"
         >
@@ -125,13 +132,16 @@ function HeaderControlsActions({
             {showUserMenu ? <UserDropMenu /> : null}
           </>
         )}
-        <Link href={{ pathname: wishList }} className="flex items-center gap-2">
+        <Link
+          href={{ pathname: wishList }}
+          className={`flex items-center gap-2 ${!isLoggedIn ? "hidden" : ""}`}
+        >
           <BsFillHeartFill />
           <ItemsCountingLength length={0} />
         </Link>
         <button
           type="button"
-          className="flex items-center gap-2"
+          className={`flex items-center gap-2 ${!isLoggedIn ? "hidden" : ""}`}
           onClick={hanleShowCartDrower}
         >
           <FaShoppingCart />

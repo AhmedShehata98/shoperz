@@ -27,9 +27,11 @@ import CustomButton from "@/components/CustomButton";
 import { routes } from "@/constants/Routes";
 
 const Checkout = () => {
+  const { register, login } = routes.register;
+  const { orderCompleted } = routes;
   const { token } = useGetToken();
   const { pathname, push } = useRouter();
-  const { isLoggedIn } = useSelector(selectAppState);
+  const { isLoggedIn, paymentMethod } = useSelector(selectAppState);
   const [showAddressForm, setShowAddressForm] = React.useState(false);
   const shippingCost = 50;
   const {
@@ -43,11 +45,15 @@ const Checkout = () => {
     []
   );
 
+  const handleCodMethod = () => {
+    push({ pathname: orderCompleted });
+  };
+
   React.useEffect(() => {
     if (!isLoggedIn) {
       push({
-        pathname: routes.register.register,
-        query: { target: routes.register.login },
+        pathname: register,
+        query: { target: login },
       });
     }
   }, [isLoggedIn]);
@@ -71,13 +77,22 @@ const Checkout = () => {
               </CustomButton>
               {showAddressForm && (
                 <Portal>
-                  <UserAddressForm setIsShowing={setShowAddressForm} />
+                  <UserAddressForm setIsShowing={handleShowUserAddressForm} />
                 </Portal>
               )}
             </AddressWrapper>
             <PaymentWrapper>
-              <PaymentMethods />
-              <CheckoutForm />
+              <PaymentMethods key={"payment-methods"} />
+              {paymentMethod === "cod" ? (
+                <CustomButton
+                  key={"cod-btn"}
+                  onClick={handleCodMethod}
+                  extraClassName="mt-3"
+                >
+                  pay now
+                </CustomButton>
+              ) : null}
+              <CheckoutForm key={"checkout-form"} />
             </PaymentWrapper>
           </div>
           <Invoices>

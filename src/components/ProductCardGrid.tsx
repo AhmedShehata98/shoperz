@@ -8,7 +8,7 @@ import { useRouter } from "next/router";
 import useInShoppingCart from "@/hooks/useInShoppingCart";
 type Props = {
   productData: Products;
-  onAddToCart: React.MouseEventHandler;
+  onAddToCart?: React.MouseEventHandler;
 };
 const ProductCardGrid = ({ onAddToCart, productData }: Props) => {
   const { push } = useRouter();

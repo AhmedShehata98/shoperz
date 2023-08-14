@@ -31,6 +31,7 @@ export const shoperzApi = createApi({
           "Content-Type": "application/json ;charset=UTF-8",
         },
       }),
+      invalidatesTags: ["Users"],
     }),
     loginUser: builder.mutation<LoginResponse, Login>({
       query: (payload) => ({
@@ -44,9 +45,9 @@ export const shoperzApi = createApi({
       invalidatesTags: ["Users"],
       onQueryStarted: async (response, { dispatch, queryFulfilled }) => {
         try {
-          const res = await queryFulfilled;
-          const hostname = window.location.hostname;
-          document.cookie = `${hostname}=${res.data.data.token}`;
+          const { data: LoginResponse } = await queryFulfilled;
+          const origin = window.location.origin;
+          document.cookie = `${origin}=${LoginResponse.data.token}`;
           dispatch(setIsLoggedIn(true));
         } catch (error) {
           dispatch(setIsLoggedIn(false));

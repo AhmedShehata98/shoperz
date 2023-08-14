@@ -1,6 +1,11 @@
-import React, { useRef, useState } from "react";
+import React, { useCallback, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { selectAppState, setIsLoggedIn } from "@/redux/slices/app.slice";
+import {
+  selectAppState,
+  setIsLoggedIn,
+  setShowCartDrawer,
+  setToggleActionMenu,
+} from "@/redux/slices/app.slice";
 import dynamic from "next/dynamic";
 import { AnimatePresence } from "framer-motion";
 import QuickLoadingModul from "./QuickLoadingModul";
@@ -32,11 +37,10 @@ const HeaderCategorybar = dynamic(
 );
 
 const Headerbar = () => {
-  const { showCartDrawer } = useSelector(selectAppState);
+  const { showCartDrawer, showActionMenu } = useSelector(selectAppState);
   const dispatch = useDispatch();
   const { token } = useGetToken();
   const headerbarRef = useRef<HTMLDivElement | null>(null);
-  const [showMenu, setShowMenu] = useState(false);
   const [searchQuery, setSearchQuery] = useState<undefined | string>(undefined);
   const [debounceSearchQuery] = useDebounce(searchQuery, 400);
   const [showSearchResult, setShowSearchResult] = useState(false);
@@ -49,6 +53,10 @@ const Headerbar = () => {
     { limit: 8, q: debounceSearchQuery, parts: "filter" },
     { skip: !Boolean(searchQuery) }
   );
+
+  const handleToggleCartDrower = (isToggled: boolean) => {
+    dispatch(setToggleActionMenu(isToggled));
+  };
 
   React.useEffect(() => {
     const handleCloseSearchResult = (ev: MouseEvent) => {
@@ -92,12 +100,11 @@ const Headerbar = () => {
     >
       <AnimatePresence mode="wait">
         {showCartDrawer ? <CartDrawer /> : null}
-        {showMenu && <ActionMenu setShowMenu={setShowMenu} />}
+        {showActionMenu ? <ActionMenu /> : null}
       </AnimatePresence>
       <section className="container max-w-5xl mx-auto flex flex-col justify-between items-center gap-3">
         <HeaderUpperbar />
         <HeaderControlsActions
-          setShowMenu={setShowMenu}
           setSearchQuery={setSearchQueryCallback}
           searchQuery={searchQuery}
         />

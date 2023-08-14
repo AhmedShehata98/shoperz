@@ -7,10 +7,13 @@ type Props = {
 };
 function OrderAddress({ addressId }: Props) {
   const { token } = useGetToken();
-  const { data, isSuccess } = useGetUserAddressByIdQuery({
-    id: addressId,
-    token,
-  });
+  const { data, isSuccess } = useGetUserAddressByIdQuery(
+    {
+      id: addressId,
+      token,
+    },
+    { skip: !addressId || !token }
+  );
   console.log(data);
   return (
     <div>

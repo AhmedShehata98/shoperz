@@ -4,10 +4,10 @@ function useGetToken() {
   const [token, setTokenState] = useState<string | undefined>(undefined);
   useEffect(() => {
     const cookies = document.cookie.split(" ");
-    const hostname = document.location.hostname;
+    const origin = document.location.origin;
     const token = cookies
-      .find((cookie) => cookie.startsWith(hostname))
-      ?.split(`${hostname}=`)
+      .find((cookie) => cookie.startsWith(origin))
+      ?.split(`${origin}=`)
       .at(1);
 
     if (token) {

@@ -6,6 +6,7 @@ import { ICreditCard } from "@/models/shopperz.model";
 interface AppStateProps {
   paymentStatusbarState: "shopping-cart" | "checkout" | "order-complete";
   showCartDrawer: boolean;
+  showActionMenu: boolean;
   selectedAddressId: string | null;
   creditCardsList: ICreditCard[];
   cartLength: number;
@@ -13,18 +14,21 @@ interface AppStateProps {
   shoppingCart: { _id: string }[] | [];
   order: Order | null;
   clientSecret: string | null;
+  paymentMethod: "cod" | "card" | null;
 }
 
 const initialState: AppStateProps = {
   paymentStatusbarState: "shopping-cart",
   cartLength: 0,
   showCartDrawer: false,
+  showActionMenu: false,
   isLoggedIn: false,
   selectedAddressId: null,
   creditCardsList: [],
   shoppingCart: [],
   order: null,
   clientSecret: null,
+  paymentMethod: null,
 };
 
 export const appSlice = createSlice({
@@ -53,6 +57,9 @@ export const appSlice = createSlice({
     },
     setShowCartDrawer: (state, action) => {
       state.showCartDrawer = action.payload;
+    },
+    setToggleActionMenu: (state, action) => {
+      state.showActionMenu = action.payload;
     },
     setCartLength: (state, action) => {
       state.cartLength = action.payload;
@@ -84,6 +91,9 @@ export const appSlice = createSlice({
     setAddressId: (state, action) => {
       state.selectedAddressId = action.payload.addressId;
     },
+    setPaymentMethod: (state, action) => {
+      state.paymentMethod = action.payload.paymentMethod;
+    },
   },
 });
 
@@ -94,10 +104,12 @@ export const {
   addToCreditCardsList,
   removeFromCreditCardsList,
   setShowCartDrawer,
+  setToggleActionMenu,
   setCartLength,
   setShoppingCart,
   removeFromShoppingCart,
   setPaymentStatusbarState,
   setClientSecret,
   setOrder,
+  setPaymentMethod,
 } = appSlice.actions;
